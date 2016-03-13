@@ -1,0 +1,2 @@
+git config --global http.proxy http://proxy.univ-lyon1.fr:3128
+git config --global https.proxy https://proxy.univ-lyon1.fr:3128
