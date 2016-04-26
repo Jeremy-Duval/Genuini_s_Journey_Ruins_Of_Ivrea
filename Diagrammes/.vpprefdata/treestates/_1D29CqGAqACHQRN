@@ -3,7 +3,7 @@
 	<TreeState name="ModelRepository" viewX="0" viewY="0">
 		<ExpandedPath>ModelRepository</ExpandedPath>
 	</TreeState>
-	<TreeState name="DiagramNavigator" viewX="0" viewY="22">
+	<TreeState name="DiagramNavigator" viewX="0" viewY="0">
 		<ExpandedPath>DiagramNavigator</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,UML Diagrams</ExpandedPath>
 		<ExpandedPath>StateDiagram</ExpandedPath>

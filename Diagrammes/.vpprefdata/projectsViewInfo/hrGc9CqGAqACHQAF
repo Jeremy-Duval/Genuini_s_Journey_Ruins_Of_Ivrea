@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ProjectsViewInfo>
-	<DiagramOpenInfos activeDiagramId="aPminCqGAqACHQUe">
-		<Info bounds="Re:576.0,0.0,576.0,510.0" diagramId="I5Mq9CqGAqACHQMd" maximized="false" offsetX="165" offsetY="0"/>
-		<Info bounds="Re:0.0,0.0,1364.0,651.0" diagramId="aPminCqGAqACHQUe" maximized="true" offsetX="0" offsetY="0"/>
-		<Info bounds="Re:0.0,0.0,1152.0,510.0" diagramId="oLdSnCqGAqACHQWa" maximized="false" offsetX="0" offsetY="109"/>
-		<Info bounds="Re:0.0,0.0,1152.0,510.0" diagramId="GZ3MfCqGAqACHQbP" maximized="false" offsetX="139" offsetY="219"/>
+	<DiagramOpenInfos activeDiagramId="jWO7iiqGAqHQzQ5o">
+		<Info bounds="Re:0.0,0.0,1255.0,807.0" diagramId="I5Mq9CqGAqACHQMd" maximized="false" offsetX="0" offsetY="0"/>
+		<Info bounds="Re:0.0,0.0,1152.0,510.0" diagramId="aPminCqGAqACHQUe" maximized="false" offsetX="0" offsetY="80"/>
+		<Info bounds="Re:0.0,0.0,1152.0,510.0" diagramId="oLdSnCqGAqACHQWa" maximized="false" offsetX="0" offsetY="0"/>
+		<Info bounds="Re:0.0,0.0,1255.0,807.0" diagramId="GZ3MfCqGAqACHQbP" maximized="false" offsetX="0" offsetY="0"/>
+		<Info bounds="Re:0.0,0.0,1255.0,807.0" diagramId="jWO7iiqGAqHQzQ5o" maximized="true" offsetX="0" offsetY="0"/>
+		<Info bounds="Re:0.0,0.0,1255.0,807.0" diagramId="ZPTniiqGAqHQzRBb" maximized="false" offsetX="0" offsetY="0"/>
 	</DiagramOpenInfos>
 </ProjectsViewInfo>
