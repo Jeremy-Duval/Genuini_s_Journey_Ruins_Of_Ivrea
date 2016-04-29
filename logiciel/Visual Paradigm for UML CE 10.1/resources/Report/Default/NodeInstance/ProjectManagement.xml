@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Template>
-	<TemplateInformationHeader name="Project Management" description="/" type="table" default="false"/>
-	<ElementBaseInitiationBlock>
-		<Include template="ProjectManagement.xml"/>
-	</ElementBaseInitiationBlock>
-</Template>

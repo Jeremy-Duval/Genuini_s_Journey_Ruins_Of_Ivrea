@@ -1,9 +1,0 @@
-#if ($association.isFromNavigable())
-	${tab}relationship $association.getFromDisplayType() $association.getFromDisplayName()$association.getFromDisplayMultiplicity()##
-	#if (!$association.isToNavigable())
-		;##
-	#else
-
-		${tab}${tab}inverse $association.getToDisplayType()::$association.getToDisplayName();
-	#end
-#end

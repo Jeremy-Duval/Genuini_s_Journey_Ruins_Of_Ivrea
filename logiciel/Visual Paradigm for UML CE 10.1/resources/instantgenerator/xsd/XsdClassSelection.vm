@@ -1,9 +1,0 @@
-#if( $package.isExport($class) )
-	#if( $class.isSimpleType() )
-		#parse("$template-dir/XsdSimpleType.vm")
-	#elseif ( $class.isElement() && $class.getReferenceType() )
-		#parse("$template-dir/XsdEmptyClass.vm")
-	#else
-		#parse("$template-dir/XsdClass.vm")
-	#end
-#end

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CombinedTemplate name="Sequence Diagram Details" type="imageWithLoop" default="false">
-	<Include template="SequenceDiagramDetails/DiagramImage.xml"/>
-	<Loop modelTypes="InteractionActor,InteractionLifeLine">
-		<Include template="SequenceDiagramDetails/Messages.xml"/>
-	</Loop>
-</CombinedTemplate>

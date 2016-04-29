@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Template>
-	<TemplateInformationHeader name="Model Transitor" description="/" type="table" default="false"/>
-	<ElementBaseInitiationBlock>
-		<Include template="ModelTransitor.xml"/>
-	</ElementBaseInitiationBlock>
-</Template>

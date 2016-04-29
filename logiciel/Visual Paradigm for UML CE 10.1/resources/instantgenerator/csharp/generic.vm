@@ -1,8 +1,0 @@
-#if ($class.isEnum())
-	#parse("$template-path/enum.vm")
-#elseif ($class.isDelegate())
-	#set($operation=$class.getDelegateOperation())
-	#parse("$template-path/operation.vm")
-#else
-	#parse("$template-path/class.vm")
-#end

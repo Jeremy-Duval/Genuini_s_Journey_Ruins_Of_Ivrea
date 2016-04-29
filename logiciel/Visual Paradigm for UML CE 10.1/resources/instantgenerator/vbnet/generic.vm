@@ -1,5 +1,0 @@
-#if ($class.isEnum())
-	#parse("$template-path/enum.vm")
-#else
-	#parse("$template-path/class.vm")
-#end

@@ -1,3 +1,0 @@
-A student can enroll into a course using the online enrollment system. 
-
-He/she must be a student of the school in order to enroll a course. After that, he/she can browse through the list of available courses of the department that he/she is belong to. The basic information of each course including course title, prerequisites, teacher and duration of each course are listed so that student can choose the one that he/she wants to enroll into.

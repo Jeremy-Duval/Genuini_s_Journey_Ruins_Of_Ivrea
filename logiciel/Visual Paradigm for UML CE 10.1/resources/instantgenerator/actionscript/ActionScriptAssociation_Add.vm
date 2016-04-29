@@ -1,5 +1,0 @@
-$operation.getReference().prepare($args.get("property"))##
-## ===== Output =====
-#set( $tmpPush = '.push(' )
-${baseIndentation}${indentation}${indentation}this.$operation.getReference().getAttributeName()$tmpPush$operation.getReference().getParameterName());
-

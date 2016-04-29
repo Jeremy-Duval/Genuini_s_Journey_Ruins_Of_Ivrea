@@ -1,3 +1,0 @@
-$parameter.t_prepare($args.get("property"))##
-## ===== Output =====
-$space:($parameter.t_getTypeName()$parameter.t_getTypeModifier()) $parameter.t_getParameterName()

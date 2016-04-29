@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CombinedTemplate name="Business Process Flow" type="imageWithLoop" default="false">
-	<Include template="BusinessProcessFlow/DiagramImage.xml"/>
-	<Loop type="BusinessProcessFlowLoop">
-		<Include template="BusinessProcessFlow/ActivityInformation.xml"/>
-	</Loop>
-</CombinedTemplate>

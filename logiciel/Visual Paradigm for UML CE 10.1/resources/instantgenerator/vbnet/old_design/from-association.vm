@@ -1,9 +1,0 @@
-#if ($association.isToNavigable())
-#if ($association.associationClassCount()==0)
-$indent	#if($association.getToVisibility()!="")$association.getToVisibility() #end$association.getToDisplayName() As $association.getToDisplayType()
-#else
-#foreach ($associationClass in $association.associationClassIterator())
-$indent	#if($association.getToVisibility()!="")$association.getToVisibility() #end$associationClass.getToDisplayName() As $associationClass.getToDisplayType()
-#end
-#end
-#end

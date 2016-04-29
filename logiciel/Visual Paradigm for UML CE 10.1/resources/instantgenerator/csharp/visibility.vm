@@ -1,3 +1,0 @@
-#if($current.getVisibility() && $current.getVisibility()!="" && !$class.isInterface())
-	$current.getVisibility() ##
-#end

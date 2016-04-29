@@ -1,3 +1,0 @@
-$parameter.t_prepare($args.get("property"))##
-## ===== Output =====
-$parameter.t_getPrefix()$parameter.t_getParameterName()$parameter.t_getTypeNamePrefix()$parameter.t_getTypeName()$parameter.t_getDefaultValue()

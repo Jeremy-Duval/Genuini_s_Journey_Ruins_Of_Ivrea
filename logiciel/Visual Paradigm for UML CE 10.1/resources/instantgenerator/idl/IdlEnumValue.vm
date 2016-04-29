@@ -1,3 +1,0 @@
-$attribute.t_prepare($args.get("property"))##
-## ===== Output =====
-$attribute.t_getSimpleName()

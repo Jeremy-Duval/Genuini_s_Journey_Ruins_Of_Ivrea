@@ -1,3 +1,0 @@
-## ===== Output =====
-${indent}${tab}Me.$operation.getReference().getAttributeName() = $operation.getReference().getParameterName()
-

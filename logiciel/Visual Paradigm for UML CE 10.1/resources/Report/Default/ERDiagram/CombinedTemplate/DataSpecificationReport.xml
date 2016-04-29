@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CombinedTemplate name="Data Specification Report" type="imageWithLoop" default="false">
-	<Include template="DataSpecificationReport/DiagramImage.xml"/>
-	<Loop modelType="DBTable">
-		<Include template="DataSpecificationReport/Entity.xml"/>
-	</Loop>
-</CombinedTemplate>

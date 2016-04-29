@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Template>
-	<TemplateInformationHeader name="References" description="/" type="table" default="false"/>
-	<DiagramBaseInitiationBlock>
-		<Include template="References.xml"/>
-	</DiagramBaseInitiationBlock>
-</Template>

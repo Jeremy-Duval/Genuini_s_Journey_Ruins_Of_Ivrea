@@ -1,4 +1,0 @@
-$attribute.t_prepare($args.get("property"))##
-## ===== Output =====
-
-@property $attribute.t_getPropertyParameters()$attribute.t_getTypeName()$attribute.t_getTypeModifier() $attribute.t_getAttributeName();
