@@ -1,0 +1,3 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+${baseIndentation}${indentation}${indentation}return self.$operation.getReference().getAttributeName()

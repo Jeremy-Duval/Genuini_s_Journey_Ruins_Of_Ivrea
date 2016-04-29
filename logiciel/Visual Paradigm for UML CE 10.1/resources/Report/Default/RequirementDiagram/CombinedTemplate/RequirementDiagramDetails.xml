@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CombinedTemplate name="Requirement Diagram Details" type="imageWithLoop" default="false">
+	<Include template="RequirementDiagramDetails/DiagramImage.xml"/>
+	<Loop modelType="Requirement">
+		<Include template="RequirementDiagramDetails/Requirement.xml"/>
+	</Loop>
+</CombinedTemplate>

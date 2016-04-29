@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Template Parameters" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Template Parameters" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasMetaModelPropertyChecker property = "templateParameters" flag= "true">
+			<TableBlock colWidths = "2700,1200,3300,1800" tableWidth = "15420">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Name" isBold = "true" fontSize = "10" isItalic = "true" alignment = "center"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Type" isBold = "true" fontSize = "10" isItalic = "true" alignment = "center"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Default Value" isBold = "true" fontSize = "10" isItalic = "true" alignment = "center"/>
+					</TableCell>
+				</TableRow>
+				<ForEach property = "templateParameters">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "type" style = "Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "defaultValue" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ForEach>
+			</TableBlock>
+		</HasMetaModelPropertyChecker>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

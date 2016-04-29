@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Basic Information" description="/" type="table" default="true"/>
+	<ElementBaseInitiationBlock>
+		
+		<StaticText content="View Node : " style="Heading 1 (VP)"/>
+		<StringPropertyText property="name" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<HasDiagramElementPropertyChecker property="analysisViewId">
+			<TableBlock colWidths = "20, 80" tableWidth="15500" alignment="right">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" colspan="2">
+						<StaticText content="Analysis View" style="Row caption 1"/>
+					</TableCell>
+				</TableRow>
+				
+				<DiagramElementProperty property="analysisViewId">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Name :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="name" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Type :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="modelType" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Diagram :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<OwnerDiagram>
+								<StringPropertyText property="name" style="Table Contents"/>
+								<StaticText content=" : " style="Table Contents"/>
+								<StringPropertyText property="type" style="Table Contents"/>
+							</OwnerDiagram>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Doc :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</DiagramElementProperty>
+			</TableBlock>
+		</HasDiagramElementPropertyChecker>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

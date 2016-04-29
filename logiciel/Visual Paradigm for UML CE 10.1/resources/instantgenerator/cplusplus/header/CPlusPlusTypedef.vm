@@ -1,0 +1,148 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $indentationLevel == "0" )
+	#set( $indentationLevel = 0 )
+#end
+#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+## ===== Output =====
+#if( $class.t_importPackagesCount() > 0 )
+	#foreach( $clsImportPackage in $class.t_getImportPackages() )
+		$clsImportPackage.t_prepare($args.get("property"))##
+		#if( $clsImportPackage.hasStereotype("modelLibrary") )
+			\#include <$clsImportPackage.t_getFullPackage()>
+		#end
+	#end
+#end
+#if( $class.t_stardardImportsCount() > 0 )
+	#foreach( $standardImport in $class.t_getStandardImports() )
+		\#include <$standardImport>
+	#end
+	using namespace std;
+#end
+#if( $class.t_importPackagesCount() > 0 )
+	#foreach( $clsImportPackage in $class.t_getImportPackages() )
+		$clsImportPackage.t_prepare($args.get("property"))##
+		#if( !$clsImportPackage.hasStereotype("modelLibrary") )
+			using namespace $clsImportPackage.t_getFullPackage();
+		#end
+	#end
+#end
+
+#ifndef $class.t_getDefinitionName()
+#define $class.t_getDefinitionName()
+
+#if( $class.t_importClassesCount() > 0 )
+	#set( $requiredImportClasses = $class.t_getRequiredImportClasses() )
+	#foreach( $clsImportClass in $class.t_getImportClasses() )
+		$clsImportClass.t_prepare($args.get("property"))##
+		#if( !$utilities.contains($requiredImportClasses, $clsImportClass) )
+			// ##
+		#end
+		\#include "$clsImportClass.t_getFileFullName()#**#$headerFileExtension"
+	#end
+
+#end
+#set( $clsPossiblePackage = "" )
+#set( $clsPreviousPossiblePackage = "" )
+#foreach( $clsImportClass in $class.t_getImportClasses($clsPossiblePackage) )
+	$clsImportClass.t_prepare($args.get("property"))##
+	$baseIndentation##
+	#if( $clsImportClass.t_isEnum() || $clsImportClass.isTypedef() || $utilities.hasParentChildClassRelationship($class, $clsImportClass) )
+		// ##
+	#end
+	$clsImportClass.t_getGeneric("template", true)##
+	$clsImportClass.t_getInterface()$clsImportClass.getName();
+#end
+#if( $clsPossiblePackage == $class.t_getFullPackage() )
+	$baseIndentation##
+	#if( $class.t_isEnum() || $class.isTypedef() )
+		// ##
+	#end
+	$class.t_getGeneric("template", true)##
+	$class.t_getInterface()$class.getName();
+#end
+#foreach( $clsPossiblePackage in $class.t_getPossiblePackages() )
+	#set( $clsCurrentPackageLevel = $utilities.getPackageLevel($clsPossiblePackage) )
+	#set( $clsPreviousPackageLevel = $utilities.getPackageLevel($clsPreviousPossiblePackage) )
+	#set( $clsSamePackage = $utilities.getSamePackage($clsPreviousPossiblePackage, $clsPossiblePackage) )
+	#set( $clsSamePackageLevel = $utilities.getPackageLevel($clsSamePackage) )
+	#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel, $clsCurrentPackageLevel, -1) )
+	## Close previous package
+	#if ( $clsPreviousPackageLevel > $clsSamePackageLevel )
+		#set( $clsPreviousPackageLevel = $clsPreviousPackageLevel - 1 )
+		#foreach( $clsClosingPreviousPackageLevel in [$clsPreviousPackageLevel..$clsSamePackageLevel] )
+			#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel, $clsClosingPreviousPackageLevel) )
+			$baseIndentation}
+		#end
+	#end
+	## Open working package
+	#if( $clsPossiblePackage.startsWith( $clsPreviousPossiblePackage ) )
+		## Working package inside previous working package
+		${baseIndentation}namespace $utilities.getLastPackage($clsPossiblePackage)
+		$baseIndentation{
+	#else
+		## Working package outside previous working package
+		#set( $clsPossiblePackagePart = $utilities.toPackagePart($clsPossiblePackage) )
+		#foreach( $clsOpeningPackageLevel in [$clsSamePackageLevel..$clsCurrentPackageLevel] )
+			#if( $clsOpeningPackageLevel < $clsCurrentPackageLevel )
+				#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel, $clsOpeningPackageLevel) )
+				${baseIndentation}namespace $clsPossiblePackagePart.get($clsOpeningPackageLevel)
+				$baseIndentation{
+			#end
+		#end
+	#end
+	## Predefine import classes
+	#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel, $clsCurrentPackageLevel) )
+	#foreach( $clsImportClass in $class.t_getImportClasses($clsPossiblePackage) )
+		$baseIndentation##
+		#if( $clsImportClass.t_isEnum() || $clsImportClass.isTypedef() || $utilities.hasParentChildClassRelationship($class, $clsImportClass) )
+			// ##
+		#end
+		$clsImportClass.t_getGeneric("template", true)##
+		$clsImportClass.t_getInterface()$clsImportClass.getName();
+	#end
+	## Predefine self
+	#if( $clsPossiblePackage == $class.t_getFullPackage() )
+		$baseIndentation##
+		#if( $class.t_isEnum() || $class.isTypedef() )
+			// ##
+		#end
+		$class.t_getGeneric("template", true)##
+		$class.t_getInterface()$class.getName();
+	#end
+	#set( $clsPreviousPossiblePackage = $clsPossiblePackage )
+#end
+## Close previous package
+#set( $clsPreviousPackageLevel = $utilities.getPackageLevel($clsPreviousPossiblePackage) )
+#if ( $clsPreviousPackageLevel > 0 )
+	#foreach( $clsClosingPreviousPackageLevel in [$clsPreviousPackageLevel..1] )
+		#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel, $clsClosingPreviousPackageLevel, -1) )
+		$baseIndentation}
+	#end
+#end
+
+#set( $originalIndentationLevel = $indentationLevel )
+#foreach( $clsPackagePart in $utilities.toPackagePart($class.t_getFullPackage()) )
+	#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+	${baseIndentation}namespace $clsPackagePart
+	$baseIndentation{
+	#set( $indentationLevel = $indentationLevel + 1 )
+#end
+#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+${baseIndentation}$class.t_getInterface()##
+$class.t_getTypedefTypeName()$class.t_getTypedefGeneric()$class.t_getTypedefTypePreModifier()##
+#if ( !$class.t_isTypedefTypeDefiningFunction() )
+	$class.getName()##
+#end
+$class.t_getTypedefTypePostModifier();
+#if( $indentationLevel > $originalIndentationLevel )
+	#set( $indentationLevel = $indentationLevel - 1 )
+	#foreach( $packageLevel in [$indentationLevel..$originalIndentationLevel] )
+		#set( $indentationLevel = $indentationLevel - 1 )
+		#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel, 1) )
+		$baseIndentation}
+	#end
+#end
+
+#endif
+

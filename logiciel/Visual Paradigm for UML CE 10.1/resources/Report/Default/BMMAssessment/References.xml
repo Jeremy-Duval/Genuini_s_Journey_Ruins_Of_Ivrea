@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="References" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+		<Include template="References.xml"/>
+	</ElementBaseInitiationBlock>
+</Template>

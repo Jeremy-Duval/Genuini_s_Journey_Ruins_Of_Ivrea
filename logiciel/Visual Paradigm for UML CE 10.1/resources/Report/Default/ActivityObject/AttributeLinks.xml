@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Internal Transition" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Internal Transition" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasMetaModelPropertyChecker property = "baseClassifier" flag = "true">
+			<TableBlock colWidths = "3333,3333,3333" tableWidth = "14500" alignment = "right">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Name" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Type" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Initial Value" style = "Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<MetaModelElement modelProperty = "baseClassifier">
+					<HasChildElementChecker type = "Attribute" flag = "true">
+						<IterationBlock elementType = "Attribute">
+							<TableRow>
+								<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+									<StringPropertyText propertyText = "name" style = "Table Contents"/>
+								</TableCell>
+								<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+									<StringPropertyText propertyText = "type" style = "Table Contents"/>
+								</TableCell>
+								<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+									<StringPropertyText propertyText = "initialValue" style = "Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</HasChildElementChecker>
+				</MetaModelElement>
+			</TableBlock>
+		</HasMetaModelPropertyChecker>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

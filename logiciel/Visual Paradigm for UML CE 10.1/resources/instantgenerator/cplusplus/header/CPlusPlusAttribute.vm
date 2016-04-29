@@ -1,0 +1,13 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$attribute.t_getDocumentation("${baseIndentation}${indentation}")##
+$attribute.t_getDeclarativeAttribute("${baseIndentation}${indentation}")##
+${baseIndentation}${indentation}##
+#if ( $groupByVisibility )
+	$indentation##
+#else
+	$attribute.t_getVisibility()##
+#end
+$attribute.t_getVolatile()$attribute.t_getScope()$attribute.t_getConst()$attribute.t_getMutable()##
+$attribute.t_getTypeName()$attribute.t_getGeneric()$attribute.t_getTypePreModifier()##
+$attribute.t_getAttributeName()$attribute.t_getTypePostModifier()$attribute.t_getInitialValue();

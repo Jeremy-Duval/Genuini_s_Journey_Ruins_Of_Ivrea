@@ -1,0 +1,3 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$attribute.t_getTypeName()$attribute.t_getTypeNamePostfix()$attribute.t_getAttributeName();

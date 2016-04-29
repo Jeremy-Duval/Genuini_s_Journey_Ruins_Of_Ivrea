@@ -1,0 +1,13 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if( $associationImplementation == "0" )
+	${indentation}return $operation.getReference().getAttributeName();
+#else
+	#set( $tmpSizeOf = 'sizeof(' )
+	${indentation}$operation.t_getReturnTypeName()** $operation.getReference().getRefObject().t_getLocalName()_Temp[[$operation.getReference().getAttributeName() count]];
+	${indentation}for(int i = 0; i < [$operation.getReference().getAttributeName() count]; i++) {
+  ${indentation}${indentation}*$operation.getReference().getRefObject().t_getLocalName()_Temp[i] = [$operation.getReference().getAttributeName() objectAtIndex:i];
+	${indentation}}
+	${indentation}return *$operation.getReference().getRefObject().t_getLocalName()_Temp;
+#end
+

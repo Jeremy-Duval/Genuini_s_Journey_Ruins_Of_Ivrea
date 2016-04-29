@@ -1,0 +1,15 @@
+#if ($class.usingCount()>0)
+	#foreach ($using in $class.usingIterator())
+		using $using;
+	#end
+#end
+#if ($class.getNamespace() && $class.getNamespace()!="")
+	#set($indent="	")
+	namespace $class.getNamespace() {
+	#parse("$template-path/generic.vm")
+
+	}
+#else
+	#set($indent="")
+	#parse("$template-path/generic.vm")
+#end

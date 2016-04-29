@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Primary Actors" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+		<StaticText content="Primary Actors" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasMetaModelPropertyChecker property="primaryActors" flag="true">
+			<TableBlock colWidths="100" tableWidth="14500" alignment="right">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Name" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<ForEach property="primaryActors" ignoreParagraphBreakForLastModel="false">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ForEach>
+			</TableBlock>
+		</HasMetaModelPropertyChecker>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

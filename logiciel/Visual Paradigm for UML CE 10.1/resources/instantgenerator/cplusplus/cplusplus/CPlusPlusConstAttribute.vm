@@ -1,0 +1,3 @@
+$constAttribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$constAttribute.t_getAttributeName()($constAttribute.t_getConstInitialValue())

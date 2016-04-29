@@ -1,0 +1,2 @@
+${indent}type $type.getName() is access all $type.getReference();
+

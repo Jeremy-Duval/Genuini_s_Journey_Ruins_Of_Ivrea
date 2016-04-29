@@ -1,0 +1,54 @@
+<Subtemplate>
+	<StaticText content="References" style="Heading 2 (VP)"/>
+	<ParagraphBreak/>
+	<HasMetaModelPropertyChecker property="references" flag="true">
+		<TableBlock colWidths="25, 25, 25, 25" tableWidth="14500" alignment="right">
+			<TableRow>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Name" style="Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Path" style="Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Description" style="Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Type" style="Column header 1"/>
+				</TableCell>
+			</TableRow>
+			<ForEach property="references" ignoreParagraphBreakForLastModel="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="name" style="Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<!-- URL -->
+						<ValueConditionChecker property="type" operator="equals" value="URL">
+							<StringPropertyText propertyText="path" hyperlink="true" style="Table Contents"/>
+						</ValueConditionChecker>
+						
+						<!-- A3 Resource -->
+						<ValueConditionChecker property="type" operator="equals" value="A3 Resource">
+							<StringPropertyText propertyText="path" hyperlink="true" style="Table Contents"/>
+						</ValueConditionChecker>
+						
+						<!-- Others -->
+						<ValueConditionChecker property="type" operator="not equals" value="URL">
+						<ValueConditionChecker property="type" operator="not equals" value="A3 Resource">
+							<StringPropertyText propertyText="path" style="Table Contents"/>
+						</ValueConditionChecker>
+						</ValueConditionChecker>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="description" style="Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="type" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ForEach>
+		</TableBlock>
+	</HasMetaModelPropertyChecker>
+	<StaticText content="" style="Default"/>
+</Subtemplate>

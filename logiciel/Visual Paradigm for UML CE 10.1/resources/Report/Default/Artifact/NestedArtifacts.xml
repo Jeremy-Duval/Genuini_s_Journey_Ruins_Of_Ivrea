@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Nested Artifacts" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content="Nested Artifacts" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker type="Artifact" flag="true">
+			<TableBlock colWidths="10000, 5000, 5000, 20000" tableWidth="10000" alignment="left">
+				<TableRow>
+					<TableCell leftBorderEnable="true" rightBorderEnable="true" color="230, 230, 230">
+						<StaticText content="Name" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="true" rightBorderEnable="true" color="230, 230, 230">
+						<StaticText content="Visibility" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="true" rightBorderEnable="true" color="230, 230, 230">
+						<StaticText content="File Name" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock elementType="Artifact">
+					<TableRow> 
+						<TableCell leftBorderEnable="true" rightBorderEnable="true">
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="true" rightBorderEnable="true">
+							<StringPropertyText propertyText="visibility" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="true" rightBorderEnable="true">
+							<StringPropertyText propertyText="fileName" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Basic Information" description = "/" type = "table" default = "true"/>
+	<ElementBaseInitiationBlock>
+	
+		<StringPropertyText propertyText = "modelType" style = "Heading 1 (VP)"/>
+		<StaticText content = " : " style = "Heading 1 (VP)"/>
+		<StringPropertyText propertyText = "name" style = "Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<TableBlock colWidths = "20, 80" tableWidth = "15500" alignment = "right">
+			
+			<!-- model -->
+			<HasMetaModelPropertyChecker property = "model" flag = "true">
+				<MetaModelElement modelProperty = "model">
+					<!-- number -->
+					<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "UISpinnerNumberModel">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Step size :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="stepSize" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Minimum :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="minimum" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Maximum :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="maximum" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Value :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<!-- Date -->
+					<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "UISpinnerDateModel">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Calendar Field :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="calendarField" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Start :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="start" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "End :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="end" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Value :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<!-- List -->
+					<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "UISpinnerListModel">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Value :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Values :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<ForEach property="list" ignoreParagraphBreakForLastModel="true">
+									<HasMetaModelPropertyChecker property="value" flag="true">
+										<MetaModelElement modelProperty="value">
+											<StringPropertyText propertyText="name" style="Table Contents"/>
+										</MetaModelElement>
+									</HasMetaModelPropertyChecker>
+									<HasMetaModelPropertyChecker property="value" flag="false">
+										<StringPropertyText propertyText="value" style="Table Contents"/>
+									</HasMetaModelPropertyChecker>
+									<StaticText content="\n" style="Table Contents"/>
+								</ForEach>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+				</MetaModelElement>
+			</HasMetaModelPropertyChecker>
+			
+			<!-- documentation -->
+			<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+				<ReportOptionChecker option = "basicInformationShowsDocumentation" equalFlag = "true">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Doc :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ReportOptionChecker>
+			</ValueConditionChecker>
+			
+		</TableBlock>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

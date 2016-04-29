@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="//org.omg/UML/1.4">
+	<XMI.header>
+		<XMI.documentation>
+			<XMI.exporter>Visual Paradigm for UML</XMI.exporter>
+			<XMI.exporterVersion>5.0</XMI.exporterVersion>
+		</XMI.documentation>
+		<XMI.metamodel xmi.name="UML" xmi.version="1.4"/>
+	</XMI.header>
+	<XMI.content>
+		<UML:Model name="Project" xmi.id="uq31RSCGAqAKZmuD">
+			<UML:Namespace.ownedElement>
+				<UML:Package isAbstract="false" isLeaf="false" isRoot="false" name="vehicle" xmi.id="Nic0Y18FYExCwAWJ">
+					<UML:Namespace.ownedElement>
+						<UML:Class isAbstract="false" isActive="false" isLeaf="false" isRoot="false" name="Door" visibility="public" xmi.id="qla0Y18FYExCwAWY">
+							<UML:Classifier.feature>
+								<UML:Operation isAbstract="false" isQuery="false" name="doorColor" ownerScope="instance" visibility="public" xmi.id="NMG0Y18FYExCwAWp">
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" type="uq31RSCGAqAKZmuF" xmi.id="uq31RSCGAqAKZmuE"/>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+								<UML:Operation isAbstract="false" isQuery="false" name="getColor" ownerScope="instance" visibility="public" xmi.id="TS30Y18FYExCwAZ9">
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" type="uq31RSCGAqAKZmuF" xmi.id="uq31RSCGAqAKZmuG"/>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class isAbstract="false" isActive="false" isLeaf="false" isRoot="false" name="Truck" visibility="public" xmi.id="IbO0Y18FYExCwAW9"/>
+						<UML:Class isAbstract="false" isActive="false" isLeaf="false" isRoot="false" name="GearBox" visibility="public" xmi.id="NGe0Y18FYExCwAXQ">
+							<UML:Classifier.feature>
+								<UML:Attribute name="gearType" ownerScope="instance" type="uq31RSCGAqAKZmuH" visibility="private" xmi.id="ezd0Y18FYExCwAYt"/>
+								<UML:Operation isAbstract="false" isQuery="false" name="getGearType" ownerScope="instance" visibility="public" xmi.id="O5D0Y18FYExCwAZD">
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" type="uq31RSCGAqAKZmuH" xmi.id="uq31RSCGAqAKZmuI"/>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class isAbstract="false" isActive="false" isLeaf="false" isRoot="false" name="PrivateCar" visibility="public" xmi.id="ZX.0Y18FYExCwAXj"/>
+						<UML:Class isAbstract="false" isActive="false" isLeaf="false" isRoot="false" name="Vehicle" visibility="public" xmi.id="Jdh0Y18FYExCwAX2">
+							<UML:Classifier.feature>
+								<UML:Attribute name="vehicleID" ownerScope="instance" type="uq31RSCGAqAKZmuJ" visibility="private" xmi.id="EOAMY18FYExCwAaP"/>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class isAbstract="false" isActive="false" isLeaf="false" isRoot="false" name="Wheel" visibility="public" xmi.id="CN10Y18FYExCwAYJ">
+							<UML:Classifier.feature>
+								<UML:Attribute name="radius" ownerScope="instance" type="uq31RSCGAqAKZmuK" visibility="private" xmi.id="Vmz0Y18FYExCwAZV"/>
+								<UML:Operation isAbstract="false" isQuery="false" name="getWheelType" ownerScope="instance" visibility="public" xmi.id="NLr0Y18FYExCwAZr">
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" type="uq31RSCGAqAKZmuH" xmi.id="uq31RSCGAqAKZmuL"/>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class isAbstract="false" isActive="false" isLeaf="false" isRoot="false" name="MotorCycle" visibility="public" xmi.id="2st0Y18FYExCwAYc"/>
+					</UML:Namespace.ownedElement>
+				</UML:Package>
+				<UML:Generalization child="ZX.0Y18FYExCwAXj" name="" parent="Jdh0Y18FYExCwAX2" xmi.id=".TUMY18FYExCwAan"/>
+				<UML:Generalization child="IbO0Y18FYExCwAW9" name="" parent="Jdh0Y18FYExCwAX2" xmi.id="_8MMY18FYExCwAa0"/>
+				<UML:Generalization child="2st0Y18FYExCwAYc" name="" parent="Jdh0Y18FYExCwAX2" xmi.id="_csMY18FYExCwAbB"/>
+				<UML:Association name="" xmi.id="EY8MY18FYExCwAbO">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="1" name="" participant="NGe0Y18FYExCwAXQ" xmi.id="YdcVhSCGAqAKZhcw"/>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="2st0Y18FYExCwAYc" xmi.id="YdcVhSCGAqAKZhdP"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:Association name="" xmi.id="dA6MY18FYExCwAcN">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="2" name="" participant="CN10Y18FYExCwAYJ" xmi.id="qdcVhSCGAqAKZhd8"/>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="2st0Y18FYExCwAYc" xmi.id="qdcVhSCGAqAKZheb"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:Association name="" xmi.id="rzMsY18FYExCwAdM">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="*" name="" participant="qla0Y18FYExCwAWY" xmi.id="qdcVhSCGAqAKZhfI"/>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="IbO0Y18FYExCwAW9" xmi.id="qdcVhSCGAqAKZhfn"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:Association name="" xmi.id="hzqsY18FYExCwAeM">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="ZX.0Y18FYExCwAXj" xmi.id="qdcVhSCGAqAKZhgU"/>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="4" name="" participant="qla0Y18FYExCwAWY" xmi.id="qdcVhSCGAqAKZhgz"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:Association name="" xmi.id="SZJsY18FYExCwAfL">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="ZX.0Y18FYExCwAXj" xmi.id="qdcVhSCGAqAKZhhg"/>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="4" name="" participant="CN10Y18FYExCwAYJ" xmi.id="qdcVhSCGAqAKZhh_"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:Association name="" xmi.id="n5dsY18FYExCwAgK">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="IbO0Y18FYExCwAW9" xmi.id="qdcVhSCGAqAKZhis"/>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="Unspecified" name="" participant="NGe0Y18FYExCwAXQ" xmi.id="qdcVhSCGAqAKZhjL"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:Association name="" xmi.id="zvDsY18FYExCwAhJ">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="IbO0Y18FYExCwAW9" xmi.id="qdcVhSCGAqAKZhj4"/>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="Unspecified" name="" participant="CN10Y18FYExCwAYJ" xmi.id="qdcVhSCGAqAKZhkX"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:Association name="" xmi.id="hsPsY18FYExCwAiI">
+					<UML:Association.connection>
+						<UML:AssociationEnd aggregation="none" multiplicity="Unspecified" name="" participant="ZX.0Y18FYExCwAXj" xmi.id="qdcVhSCGAqAKZhlE"/>
+						<UML:AssociationEnd aggregation="none" isNavigable="true" multiplicity="1" name="" participant="NGe0Y18FYExCwAXQ" xmi.id="qdcVhSCGAqAKZhlj"/>
+					</UML:Association.connection>
+				</UML:Association>
+				<UML:DataType name="Color" visibility="public" xmi.id="uq31RSCGAqAKZmuF"/>
+				<UML:DataType name="float" visibility="public" xmi.id="uq31RSCGAqAKZmuK"/>
+				<UML:DataType name="int" visibility="public" xmi.id="uq31RSCGAqAKZmuH"/>
+				<UML:DataType name="id" visibility="public" xmi.id="uq31RSCGAqAKZmuJ"/>
+			</UML:Namespace.ownedElement>
+		</UML:Model>
+		<UML:Diagram diagramType="ClassDiagram" documentation="" name="Vehicle Structure" toolName="Visual Paradigm for UML" xmi.id="I0E0Y18FYExCwAWE">
+			<UML:Diagram.element>
+				<UML:DiagramElement connectionPointType="1" fitSize="false" geometry="20,20,660,380" headerLength="40" lineLength="10" subject="Nic0Y18FYExCwAWJ" xmi.id="Oic0Y18FYExCwAWI" zorder="13">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="0,20,660,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:139,193,205,255" color2="Cr:240,247,249,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectionPointType="0" fitSize="false" geometry="550,310,102,52" headerLength="40" lineLength="10" subject="qla0Y18FYExCwAWY" xmi.id="qla0Y18FYExCwAWX" zorder="0">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="550,310,102,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:90,78,177,255" color2="Cr:192,192,255,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectionPointType="0" fitSize="false" geometry="320,70,80,40" headerLength="40" lineLength="10" subject="IbO0Y18FYExCwAW9" xmi.id="IbO0Y18FYExCwAW8" zorder="4">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="320,70,80,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:90,78,177,255" color2="Cr:192,192,255,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectionPointType="0" fitSize="false" geometry="190,290,102,60" headerLength="40" lineLength="10" subject="NGe0Y18FYExCwAXQ" xmi.id="NGe0Y18FYExCwAXP" zorder="8">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="190,290,102,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:90,78,177,255" color2="Cr:192,192,255,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectionPointType="0" fitSize="false" geometry="410,320,80,40" headerLength="40" lineLength="10" subject="ZX.0Y18FYExCwAXj" xmi.id="ZX.0Y18FYExCwAXi" zorder="2">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="410,320,80,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:90,78,177,255" color2="Cr:192,192,255,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectionPointType="0" fitSize="false" geometry="410,160,80,40" headerLength="40" lineLength="10" subject="Jdh0Y18FYExCwAX2" xmi.id="Jdh0Y18FYExCwAX1" zorder="10">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="410,160,80,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:90,78,177,255" color2="Cr:192,192,255,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectionPointType="0" fitSize="false" geometry="40,150,110,60" headerLength="40" lineLength="10" subject="CN10Y18FYExCwAYJ" xmi.id="CN10Y18FYExCwAYI" zorder="12">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="40,150,110,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:90,78,177,255" color2="Cr:192,192,255,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectionPointType="0" fitSize="false" geometry="200,150,82,40" headerLength="40" lineLength="10" subject="2st0Y18FYExCwAYc" xmi.id="2st0Y18FYExCwAYb" zorder="6">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="200,150,82,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementLine color="Cr:0,0,0,255" style="1" transparency="0" weight="1.0"/>
+					<elementFill color1="Cr:90,78,177,255" color2="Cr:192,192,255,255" style="1" transparency="0" type="2"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="440,200;440,319;" subject=".TUMY18FYExCwAan" xmi.id=".TUMY18FYExCwAam">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="420,252,20,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="440,159;440,100;400,100;" subject="_8MMY18FYExCwAa0" xmi.id="_8MMY18FYExCwAaz">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="400,122,20,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="409,170;282,170;" subject="_csMY18FYExCwAbB" xmi.id="_csMY18FYExCwAbA">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="328,163,20,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="250,289;250,190;" subject="EY8MY18FYExCwAbO" xmi.id="xfcMY18FYExCwAbN">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="230,232,20,15"/>
+						<role multiplicity="260,250,40,20"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="150,170;199,170;" subject="dA6MY18FYExCwAcN" xmi.id="dA6MY18FYExCwAcM">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="157,153,20,15"/>
+						<role multiplicity="150,170,40,20"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="600,309;600,80;400,80;" subject="rzMsY18FYExCwAdM" xmi.id="rzMsY18FYExCwAdL">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="544,187,20,15"/>
+						<role multiplicity="600,280,40,20"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="490,340;549,340;" subject="hzqsY18FYExCwAeM" xmi.id="hzqsY18FYExCwAeL">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="502,333,20,15"/>
+						<role multiplicity="490,340,40,20"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="440,360;440,370;80,370;80,210;" subject="SZJsY18FYExCwAfL" xmi.id="SZJsY18FYExCwAfK">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="250,366,20,15"/>
+						<role multiplicity="70,240,40,20"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="360,110;360,310;292,310;" subject="n5dsY18FYExCwAgK" xmi.id="n5dsY18FYExCwAgJ">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="316,53,20,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="319,80;80,80;80,149;" subject="zvDsY18FYExCwAhJ" xmi.id="zvDsY18FYExCwAhI">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="182,37,20,15"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+				<UML:DiagramElement connectorStyle="0" geometry="409,330;292,330;" subject="hsPsY18FYExCwAiI" xmi.id="hsPsY18FYExCwAiH">
+					<XMI.extension xmi.extender="Visual Paradigm for UML">
+						<captionBounds xmi.value="333,323,20,15"/>
+						<role multiplicity="310,310,40,20"/>
+					</XMI.extension>
+					<elementFont bold="false" color="Cr:0,0,0,255" italic="false" name="Dialog" size="11" style="0"/>
+					<elementColor color1="Cr:0,0,0,255" color2="Cr:255,255,255,255"/>
+				</UML:DiagramElement>
+			</UML:Diagram.element>
+		</UML:Diagram>
+	</XMI.content>
+</XMI>

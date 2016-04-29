@@ -1,0 +1,28 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if( $associationImplementation == "1" )
+	${baseIndentation}${indentation}$operation.getReference().getRefObject().t_getCollectionElementName() $operation.getReference().getRefObject().t_getLocalName()_Temp;
+	${baseIndentation}${indentation}unsigned int $operation.getReference().getRefObject().t_getLocalName()_Size = 0;
+	${baseIndentation}${indentation}try
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}while (true)
+	${baseIndentation}${indentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}${indentation}this->$operation.getReference().getAttributeName()[$operation.getReference().getRefObject().t_getLocalName()_Size] = this->$operation.getReference().getAttributeName()[$operation.getReference().getRefObject().t_getLocalName()_Size];
+	${baseIndentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Size++;
+	${baseIndentation}${indentation}${indentation}}
+	${baseIndentation}${indentation}}
+	${baseIndentation}${indentation}catch (...)
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}}
+	${baseIndentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Size++;
+	${baseIndentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp = new $operation.getReference().getRefObject().t_getElementName()*[$operation.getReference().getRefObject().t_getLocalName()_Size];
+	${baseIndentation}${indentation}for (unsigned int i = 0; i < $operation.getReference().getRefObject().t_getLocalName()_Size - 1; i++)
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[i] = this->$operation.getReference().getAttributeName()[i];
+	${baseIndentation}${indentation}}
+	${baseIndentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[$operation.getReference().getRefObject().t_getLocalName()_Size - 1] = $operation.getReference().getParameterName();
+	${baseIndentation}${indentation}this->$operation.getReference().getAttributeName() = $operation.getReference().getRefObject().t_getLocalName()_Temp;
+#elseif( $associationImplementation == "0" )
+	#set( $tmpPushBack = '.push_back(' )
+	${baseIndentation}${indentation}this->$operation.getReference().getAttributeName()$tmpPushBack$operation.getReference().getParameterName());
+#end

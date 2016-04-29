@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Children Without Hidden" description="/" type="table" default="false"/>
+	<DiagramBaseInitiationBlock>
+		<Include template="ChildrenWithoutHidden.xml"/>
+	</DiagramBaseInitiationBlock>
+</Template>

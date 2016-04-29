@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<model>
+		<copymodel from="bin/vp_windows" to="sde/vp_windows"></copymodel>
+		<copymodel from="shapes" to="sde/shapes"></copymodel>
+		<copymodel from="bundled" to="sde/bundled"></copymodel>
+		<copymodel from="lib/startsde.jar" to="sde/startsdeec.jar"></copymodel>
+		<copymodel from="sde/sdeec" to=""></copymodel>
+		<copymodel from="resources/ignorefonts.txt" to="sde/ignorefonts.txt"></copymodel>
+		<copymodel from="resources/instantgenerator" to="sde/instantgenerator"></copymodel>
+		<copymodel from="resources/Report" to="sde/Report"></copymodel>
+		<copymodel from="resources/dict" to="sde/dict"></copymodel>
+		<copymodel from="resources/appConfig.properties" to="sde/appConfig.properties"></copymodel>
+		<copymodel from="resources/appConfig_sample.properties" to="sde/appConfig_sample.properties"></copymodel>
+		<copymodel from="resources/community.txt" to="sde/community.txt"></copymodel>
+		<copymodel from="UserLanguage" to="sde/UserLanguage"></copymodel>
+		<copymodel from="ormlib" to="sde/ormlib"></copymodel>
+		<copymodel from="ormlib" to="plugins/com.vp.sde.eclipse_10.0.0.0/ormlib"></copymodel>
+		<copymodel from="lib/jh.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/jh.jar"></copymodel>
+		<copymodel from="lib/vpuml-help.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/vpuml-help.jar"></copymodel>
+		<copymodel from="lib/jniwrap.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/jniwrap.jar"></copymodel>
+		<copymodel from="lib/winpack.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/winpack.jar"></copymodel>
+		<copymodel from="lib/xalan.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/xalan.jar"></copymodel>
+		<copymodel from="lib/vpplatform.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/vpplatform.jar"></copymodel>
+		<copymodel from="lib/lib01.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib01.jar"></copymodel>
+		<copymodel from="lib/lib02.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib02.jar"></copymodel>
+		<copymodel from="lib/lib03.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib03.jar"></copymodel>
+		<copymodel from="lib/lib04.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib04.jar"></copymodel>
+		<copymodel from="lib/lib05.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib05.jar"></copymodel>
+		<copymodel from="lib/lib06.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib06.jar"></copymodel>
+		<copymodel from="lib/lib07.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib07.jar"></copymodel>
+		<copymodel from="lib/lib08.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib08.jar"></copymodel>
+		<copymodel from="lib/lib09.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib09.jar"></copymodel>
+		<copymodel from="lib/lib10.jar" to="plugins/com.vp.sde.eclipse_10.0.0.0/lib10.jar"></copymodel>
+	</model>
+</config>

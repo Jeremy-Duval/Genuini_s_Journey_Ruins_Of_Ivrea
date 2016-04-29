@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Features edition="Analyst" version="10-1-0">
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/bpmodeling.jsp#businessprocessmodeling" name="Draw business process diagram">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/bpmodeling.jsp" name="Draw all BPMN diagrams">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/bpmodeling.jsp#definebpproc" name="Write operation procedure">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/teamwork.jsp" name="Team collaboration">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/glossary.jsp" name="Manage glossary">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/docgen.jsp" name="Generate Process Report">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/businessmodeling.jsp#dataflowdiagram" name="Draw Data Flow Diagram">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/dbmodeling.jsp" name="Data Modeling">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/businessmodeling.jsp#racichart" name="RACI Chart">
+		<Edition name="Simulacian"/>
+		<Edition name="Analyst"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/simulation.jsp#animacian" name="Animate Business Process">
+		<Edition name="Simulacian"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/simulation.jsp#simulatebp" name="Simulate Business Process">
+		<Edition name="Simulacian"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/impactanalysis.jsp#analysis" name="Precise impact analysis \u2013 Analysis Diagram">
+		<Edition name="Simulacian"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/impactanalysis.jsp#matrix" name="Macro impact analysis \u2013 Matrix">
+		<Edition name="Simulacian"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/businessrule.jsp#decisiontable" name="Decision table">
+		<Edition name="Simulacian"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/lz/features/impactanalysis.jsp#customchart" name="Customizable Chart">
+		<Edition name="Simulacian"/>
+	</Feature>
+</Features>

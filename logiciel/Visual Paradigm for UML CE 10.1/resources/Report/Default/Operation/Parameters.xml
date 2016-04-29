@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Parameters" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Parameters" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker type = "Parameter" flag = "true">
+			<TableBlock colWidths = "5000,5000" tableWidth = "14500" alignment = "right">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Name" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Type" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Direction" style = "Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock elementType = "Parameter">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "type" style = "Table Contents"/>
+							<ValueConditionChecker property="typeModifier" operator="not equals" value="">
+								<StringPropertyText property="typeModifier" style="Table Contents"/>
+							</ValueConditionChecker>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "direction" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

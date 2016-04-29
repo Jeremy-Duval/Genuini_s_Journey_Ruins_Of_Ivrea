@@ -1,0 +1,27 @@
+<Subtemplate>
+	<StaticText content="Parent" style="Heading 2 (VP)"/>
+	<ParagraphBreak/>
+	<HasParentModelChecker flag="true">
+		<TableBlock colWidths="5000,5000" tableWidth="14500" alignment="right">
+			<TableRow>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Name" style="Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Type" style="Column header 1"/>
+				</TableCell>
+			</TableRow>
+			<ParentModel>
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="fullName" style="Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="modelType" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ParentModel>
+		</TableBlock>
+	</HasParentModelChecker>
+	<StaticText content="" style="Default"/>
+</Subtemplate>

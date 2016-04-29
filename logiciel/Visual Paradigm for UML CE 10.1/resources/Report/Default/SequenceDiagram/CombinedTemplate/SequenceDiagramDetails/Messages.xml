@@ -1,0 +1,37 @@
+<Template>
+	<TemplateInformationHeader name = "Messages" description = "/" type = "text" default = "false"/>
+	<ElementBaseInitiationBlock>
+		
+		<StringPropertyText propertyText="name" style = "Heading 1"/>
+		
+		
+		<HasRelationshipChecker flag="true" modelType="Message" direction="from">
+			<TableBlock firstColumnWidth="20">	
+				<ForEachEndRelationship type = "Message" direction = "from" ignoreParagraphBreakForLastModel = "true">
+					<TableRow>
+						<TableCell topBorderEnable="false" bottomBorderEnable="false" leftBorderEnable="false" rightBorderEnable="false"/>
+						<TableCell topBorderEnable="false" bottomBorderEnable="false" leftBorderEnable="false" rightBorderEnable="false">
+							<ElementImage imageType="icon"/>
+							
+							<ValueConditionChecker property="sequenceNumber" operator="not equals" value="">
+								<StringPropertyText propertyText="sequenceNumber"/>
+								<StaticText content = ":" />
+							</ValueConditionChecker>
+							<StringPropertyText propertyText="name" />
+							<StaticText content = ">" />
+							<StringPropertyText propertyText="endRelationshipToMetaModelElement" />
+							<ParagraphBreak/>
+						</TableCell>
+					</TableRow>
+				</ForEachEndRelationship>
+			</TableBlock>
+		</HasRelationshipChecker>
+		
+		
+		<ValueConditionChecker property="documentation" operator="not equals" value="">
+			<StringPropertyText propertyText="documentation"/>
+			<ParagraphBreak/>
+		</ValueConditionChecker>
+	
+	</ElementBaseInitiationBlock>	
+</Template>

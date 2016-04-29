@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CombinedTemplate name="Decision Model" type="imageWithLoop" default="false">
+    <Include template="DecisionModel/DiagramImage.xml"/>
+    <Loop modelType="DMRuleFamily">
+        <Include template="DecisionModel/RuleFamilyTable.xml"/>
+    </Loop>
+</CombinedTemplate>

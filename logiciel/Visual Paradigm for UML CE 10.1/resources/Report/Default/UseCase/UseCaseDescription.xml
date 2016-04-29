@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Use Case Description" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Use Case Descriptions" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<StaticText content = "" style = "Default"/>
+		<ParagraphBreak/>
+
+		<HasMetaModelPropertyChecker property = "UseCaseDescription" flag = "true">
+			<StaticText content = "Use Case Description : " style = "Heading 3 (VP)"/>
+			<StringPropertyText propertyText = "name" style = "Heading 3 (VP)"/>
+			<TableBlock colWidths = "2300,11320" tableWidth = "14500" alignment = "right">
+				<MetaModelElement modelProperty = "UseCaseDescription">
+					<IterationBlock>
+						<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "FlowOfEventItemContainer">
+							<TableRow>
+								<TableCell leftBorderEnable = "true" rightBorderEnable = "true">
+									<StringPropertyText propertyText = "name" style = "Row caption 1"/>
+									<StaticText content = " :" style = "Row caption 1"/>
+								</TableCell>
+								<HasChildElementChecker type = "FlowOfEventItem" flag = "true">
+									<TableCell splitted = "true">
+										<TableRow>
+											<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+												<StaticText content = "##*@" style = "Column header 1"/>
+												<StaticText content = "" style = "Column header 1"/>
+												<StringPropertyText propertyText = "inputHeader" style = "Column header 1"/>
+											</TableCell>
+											<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+												<StringPropertyText propertyText = "responseHeader" style = "Column header 1"/>
+											</TableCell>
+										</TableRow>
+										<IterationBlock>
+											<TableRow>
+												<ValueConditionChecker property = "eventType" propertyType = "int" operator = "EQUAL" value = "1">
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StaticText content = "##*@" style = "Flow Of Event Input"/>
+														<StringPropertyText propertyText = "sequenceNumber" style = "Flow Of Event Input"/>
+														<StringPropertyText propertyText = "value" style = "Flow Of Event Input" isHTML="true"/>
+													</TableCell>
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StaticText content = "" style = "Flow Of Event Input"/>
+													</TableCell>
+												</ValueConditionChecker>
+												<ValueConditionChecker property = "eventType" propertyType = "int" operator = "EQUAL" value = "2">
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StaticText content = "##*@" style = "Table Contents"/>
+														<StringPropertyText propertyText = "sequenceNumber" style = "Flow Of Event Response"/>
+														<StaticText content = "" style = "Flow Of Event Response"/>
+													</TableCell>
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StringPropertyText propertyText = "value" style = "Flow Of Event Response" isHTML="true"/>
+													</TableCell>
+												</ValueConditionChecker>
+											</TableRow>									
+										</IterationBlock>
+									</TableCell>
+								</HasChildElementChecker>
+								<HasChildElementChecker type = "FlowOfEventItem" flag = "false">
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "n/a" style = "Table Contents"/>
+									</TableCell>
+								</HasChildElementChecker>
+							</TableRow>
+						</ValueConditionChecker>
+						<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "UseCaseDescriptionItem">
+							<TableRow>
+								<ValueConditionChecker property = "name" operator = "EQUAL" value = "Name">
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "false" color = "230, 230, 230">
+										<StringPropertyText propertyText = "name" style = "Row caption 1"/>
+										<StaticText content = " :" style = "Row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "true" color = "230, 230, 230">
+										<StringPropertyText propertyText = "value" isHTML="true" style = "Table Contents"/>
+									</TableCell>							
+								</ValueConditionChecker>
+								<ValueConditionChecker property = "name" operator = "NOT EQUAL" value = "Name">
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "false">
+										<StringPropertyText propertyText = "name" style = "Row caption 1"/>
+										<StaticText content = " :" style = "Row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "true">
+										<StringPropertyText propertyText = "value" isHTML="true" style = "Table Contents"/>
+									</TableCell>
+								</ValueConditionChecker>
+							</TableRow>
+						</ValueConditionChecker>
+					</IterationBlock>
+				</MetaModelElement>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content = "" style = "Default"/>
+		</HasMetaModelPropertyChecker>
+		<HasMetaModelPropertyChecker property = "alternativeUseCaseDescriptions" flag= "true">
+			<ForEach property = "alternativeUseCaseDescriptions">
+				<StaticText content = "Use Case Description : " style = "Heading 2 (VP)"/>
+				<StringPropertyText propertyText = "name" style = "Heading 2 (VP)"/>
+				<TableBlock colWidths = "2300,11320" tableWidth = "14500" alignment = "right">
+					<IterationBlock>
+						<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "FlowOfEventItemContainer">
+							<TableRow>
+								<TableCell leftBorderEnable = "true" rightBorderEnable = "true">
+									<StaticText content = "Flow of events :" style = "Row caption 1"/>
+								</TableCell>
+								<HasChildElementChecker type = "FlowOfEventItem" flag = "true">
+									<TableCell splitted = "true">
+										<TableRow>
+											<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+												<StaticText content = "##*@" style = "Column header 1"/>
+												<StaticText content = "" style = "Column header 1"/>
+												<StringPropertyText propertyText = "inputHeader" style = "Column header 1"/>
+											</TableCell>
+											<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+												<StringPropertyText propertyText = "responseHeader" style = "Column header 1"/>
+											</TableCell>
+										</TableRow>
+										<IterationBlock>
+											<TableRow>
+												<ValueConditionChecker property = "eventType" propertyType = "int" operator = "EQUAL" value = "1">
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StaticText content = "##*@" style = "Flow Of Event Input"/>
+														<StringPropertyText propertyText = "sequenceNumber" style = "Flow Of Event Input"/>
+														<StringPropertyText propertyText = "value" style = "Flow Of Event Input" isHTML="true"/>
+													</TableCell>
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StaticText content = "" style = "Flow Of Event Input"/>
+													</TableCell>
+												</ValueConditionChecker>
+												<ValueConditionChecker property = "eventType" propertyType = "int" operator = "EQUAL" value = "2">
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StaticText content = "##*@" style = "Table Contents"/>
+														<StringPropertyText propertyText = "sequenceNumber" style = "Flow Of Event Response"/>
+														<StaticText content = "" style = "Flow Of Event Response"/>
+													</TableCell>
+													<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+														<StringPropertyText propertyText = "value" style = "Flow Of Event Response" isHTML="true"/>
+													</TableCell>
+												</ValueConditionChecker>
+											</TableRow>									
+										</IterationBlock>
+									</TableCell>
+								</HasChildElementChecker>
+								<HasChildElementChecker type = "FlowOfEventItem" flag = "false">
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "n/a" style = "Table Contents"/>
+									</TableCell>
+								</HasChildElementChecker>
+							</TableRow>
+						</ValueConditionChecker>
+						<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "UseCaseDescriptionItem">
+							<TableRow>
+								<ValueConditionChecker property = "name" operator = "EQUAL" value = "Name">
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "false" color = "230, 230, 230">
+										<StringPropertyText propertyText = "name" style = "Row caption 1"/>
+										<StaticText content = " :" style = "Row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "true" color = "230, 230, 230">
+										<StringPropertyText propertyText = "value" style = "Table Contents"/>
+									</TableCell>							
+								</ValueConditionChecker>
+								<ValueConditionChecker property = "name" operator = "NOT EQUAL" value = "Name">
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "false">
+										<StringPropertyText propertyText = "name" style = "Row caption 1"/>
+										<StaticText content = " :" style = "Row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "true" rightBorderEnable = "true">
+										<StringPropertyText propertyText = "value" style = "Table Contents"/>
+									</TableCell>
+								</ValueConditionChecker>
+							</TableRow>
+						</ValueConditionChecker>
+					</IterationBlock>
+				</TableBlock>
+				<ParagraphBreak/>
+				<StaticText content = "" style = "Default"/>
+			</ForEach>
+		</HasMetaModelPropertyChecker>
+		
+	</ElementBaseInitiationBlock>
+</Template>

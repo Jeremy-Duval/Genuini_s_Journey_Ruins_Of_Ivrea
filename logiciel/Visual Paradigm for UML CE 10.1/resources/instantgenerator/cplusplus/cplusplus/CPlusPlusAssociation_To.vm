@@ -1,0 +1,13 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if( $associationImplementation == "1" )
+	${baseIndentation}${indentation}return this->$operation.getReference().getAttributeName();
+#elseif( $associationImplementation == "0" )
+	#set( $tmpSize = '.size(' )
+	${baseIndentation}${indentation}$operation.getReference().getRefObject().t_getElementName()** $operation.getReference().getRefObject().t_getLocalName()_Temp = new $operation.getReference().getRefObject().t_getElementName()*[this->$operation.getReference().getAttributeName()$tmpSize)];
+	${baseIndentation}${indentation}for (unsigned int i = 0; i < this->$operation.getReference().getAttributeName()$tmpSize); i++)
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[i] = this->$operation.getReference().getAttributeName()[i];
+	${baseIndentation}${indentation}}
+	${baseIndentation}${indentation}return $operation.getReference().getRefObject().t_getLocalName()_Temp;
+#end

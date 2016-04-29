@@ -1,0 +1,15 @@
+$package.t_prepare($args.get("property"))##
+## ===== Output =====
+<?xml version="1.0" encoding="$utilities.getEncoding($args)" ?>
+<xs:schema 
+${indentation}targetNamespace="$package.t_getNamespace()" 
+${indentation}xmlns="$package.t_getNamespace()" 
+${indentation}xmlns:xs="http://www.w3.org/2001/XMLSchema"$package.t_getNamespaceImport($indentation)>##
+$package.t_getImport($indentation)
+$indenter.push($indentation)##
+#foreach( $class in $package.classIterator() )
+	#if( $package.isExport($class) && !$class.isComposite() )
+		#parse("$template-dir/XsdClassSelection.vm")
+	#end
+#end
+</xs:schema>

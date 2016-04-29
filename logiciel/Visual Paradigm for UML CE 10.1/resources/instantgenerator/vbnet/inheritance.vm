@@ -1,0 +1,30 @@
+#if($class.inheritsCount()>0)
+
+	#set($first-inherit-class=$class.inhertsAt(0))
+	${indent}${tab}Inherits ##
+	#foreach($inheritClass in $class.inheritsIterator())
+		#set($bindInfo=$class.getBaseClassBindInfo($inheritClass))
+		#if($inheritClass!=$first-inherit-class)
+			, ##
+		#end
+		$class.getTypeRepresentation($inheritClass)##
+		#if($bindInfo)
+			#parse("$template-path/bindInfo.vm")
+		#end
+	#end
+#end
+#if($class.implementsCount()>0)
+
+	#set($first-implement-class=$class.implementsAt(0))
+	${indent}${tab}Implements ##
+	#foreach($implementClass in $class.implementsIterator())
+		#set($bindInfo=$class.getBaseClassBindInfo($implementClass))
+		#if($implementClass!=$first-implement-class)
+			, ##
+		#end
+		$class.getTypeRepresentation($implementClass)##
+		#if($bindInfo)
+			#parse("$template-path/bindInfo.vm")
+		#end
+	#end
+#end

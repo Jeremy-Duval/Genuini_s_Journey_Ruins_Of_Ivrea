@@ -1,0 +1,14 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#set( $tmpSetLength = 'SetLength(' )
+#set( $tmpLength = 'Length(' )
+${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp:Array Of $operation.getReference().getRefObject().t_getElementName();
+${baseIndentation}${indentation}${indentation}${tmpSetLength}$operation.getReference().getRefObject().t_getLocalName()_Temp, ${tmpLength}Self.$operation.getReference().getAttributeName()) + 1);
+${baseIndentation}${indentation}${indentation}i:Integer;
+${baseIndentation}${indentation}${indentation}For i := 0 To (${tmpLength}Self.$operation.getReference().getAttributeName()) - 1) Do
+${baseIndentation}${indentation}${indentation}Begin
+${baseIndentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[i] := Self.$operation.getReference().getAttributeName()[i];
+${baseIndentation}${indentation}${indentation}End;
+${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[${tmpLength}Self.$operation.getReference().getAttributeName()) + 1] := $operation.getReference().getParameterName();
+${baseIndentation}${indentation}${indentation}Self.$operation.getReference().getAttributeName() := $operation.getReference().getRefObject().t_getLocalName()_Temp;
+

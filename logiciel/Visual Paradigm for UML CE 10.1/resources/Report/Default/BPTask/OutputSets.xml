@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Output Sets" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Output Sets" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasMetaModelPropertyChecker property = "outputSets" flag= "true">
+			<ForEach property = "outputSets">
+				<TableBlock colWidths = "2100,13320" tableWidth = "14500" alignment = "right">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StaticText content = "Name :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+					<HasMetaModelPropertyChecker property = "outputs" flag = "true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Outputs :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell splitted = "true">
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+										<StaticText content = "Name" style = "Sub-column header 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+										<StaticText content = "Type" style = "Sub-column header 1"/>
+									</TableCell>
+								</TableRow>
+								<ForEach property = "outputs">
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StringPropertyText propertyText = "name" style = "Table Contents"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "BPDataObject">
+												<StaticText content = "Data Object" style = "Table Contents"/>
+											</ValueConditionChecker>
+											<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "BPTextAnnotation">
+												<StaticText content = "Text Annotation" style = "Table Contents"/>
+											</ValueConditionChecker>
+											<ValueConditionChecker property = "modelType" operator = "EQUAL" value = "BPGroup">
+												<StaticText content = "Gruop" style = "Table Contents"/>
+											</ValueConditionChecker>
+										</TableCell>
+									</TableRow>
+								</ForEach>
+							</TableCell>
+						</TableRow>
+					</HasMetaModelPropertyChecker>
+					<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Documentation :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+				</TableBlock>			
+				<ParagraphBreak/>
+				<StaticText content = "" style = "Default"/>
+				<ParagraphBreak/>
+			</ForEach>
+		</HasMetaModelPropertyChecker>
+		<StaticText content = "" style = "Default"/>	
+	</ElementBaseInitiationBlock>
+</Template>

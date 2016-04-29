@@ -1,0 +1,3 @@
+#foreach($comment in $current.getComments())
+	${indent}--$comment
+#end

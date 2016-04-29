@@ -1,0 +1,10 @@
+$parameter.t_prepare($args.get("property"))##
+## ===== Output =====
+#if( $parameter.annotationCount() > 0 )
+	#foreach( $annotation in $parameter.annotationIterator() )
+		#parse("$template-dir/JavaParameter_Annotation.vm")
+	#end
+#end
+$parameter.t_getFinal()##
+$parameter.t_getTypeName($rootClass)$parameter.t_getGeneric($rootClass)$parameter.t_getTypeModifier()##
+$parameter.t_getParameterName()

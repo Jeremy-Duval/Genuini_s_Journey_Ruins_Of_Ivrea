@@ -1,0 +1,14 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#set( $tmpWhile = 'while (' )
+#set( $tmpList = 'list(' )
+#set( $tmpEach = 'each(' )
+#set( $tmpIf = 'if (' )
+#set( $tmpUnset = 'unset(' )
+${indentation}${indentation}${tmpWhile}${tmpList}$key, $value) = ${tmpEach}$this->$operation.getReference().getAttributeName())) {
+${indentation}${indentation}${indentation}${tmpIf}$value == $$operation.getReference().getParameterName()) {
+${indentation}${indentation}${indentation}${indentation}${tmpUnset}$this->$operation.getReference().getAttributeName()[$key]);
+${indentation}${indentation}${indentation}${indentation}break;
+${indentation}${indentation}${indentation}}
+${indentation}${indentation}}
+

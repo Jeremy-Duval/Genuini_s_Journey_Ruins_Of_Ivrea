@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Entity Relationship Diagrams" description="/" type="table" default="false"/>
+	<ProjectBaseInitiationBlock>
+		
+		<StaticText content="Entity Relationship Diagrams" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<HasDiagramChecker type="ERDiagram">
+			<ForEachDiagram diagramType="ERDiagram">
+				<StringPropertyText propertyText="name" style="Heading 2 (VP)"/>
+				<ParagraphBreak/>
+				
+				<StaticText content="" style="Default"/>
+				<ElementImage imageType="diagram" alignment="center" maxHeight="10000" maxWidth="10000" keepWithPreviousInPDF="true"/>
+				<ParagraphBreak/>
+				
+			</ForEachDiagram>
+		</HasDiagramChecker>
+		
+		<StaticText content="" style="Default"/>
+	</ProjectBaseInitiationBlock>
+</Template>

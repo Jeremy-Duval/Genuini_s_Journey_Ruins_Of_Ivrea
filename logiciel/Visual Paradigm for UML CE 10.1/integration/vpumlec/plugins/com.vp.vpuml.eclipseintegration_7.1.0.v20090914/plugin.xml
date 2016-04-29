@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+	id="VPUMLEclipseIntegrationPlugIn"
+   name="VP-UML Eclipse Integration"
+	version="8.2.1"
+   provider-name="Visual Paradigm"
+	class="com.vp.vpuml.eclipseintegration.EclipseIntegrationPlugin">
+
+	<runtime>
+			<library name="ormlib/orm.jar"/>
+			<library name="vpplatform.jar"/>
+      <library name="lib01.jar"/>
+      <library name="lib02.jar"/>
+      <library name="lib03.jar"/>
+      <library name="lib04.jar"/>
+      <library name="lib05.jar"/>
+      <library name="lib06.jar"/>
+      <library name="lib07.jar"/>
+      <library name="lib08.jar"/>
+      <library name="lib09.jar"/>
+      <library name="lib10.jar"/>
+      <library name="jh.jar"/>
+  		<library name="jniwrap.jar"/>
+	  	<library name="winpack.jar"/>
+      <library name="vpuml-help.jar"/>
+			<library name="ormlib/antlr.jar"/>
+			<library name="ormlib/asm.jar"/>
+			<library name="ormlib/asm-attrs.jar"/>
+			<library name="ormlib/c3p0.jar"/>
+			<library name="ormlib/cglib.jar"/>
+			<library name="ormlib/commons-collections.jar"/>
+			<library name="ormlib/jdbc2_0-stdext.jar"/>
+			<library name="ormlib/jta.jar"/>
+			<library name="ormlib/log4j.jar"/>
+			<library name="ormlib/orm-core.jar"/>
+	</runtime>
+	
+	<requires>
+		<import plugin="org.eclipse.core.resources"/>
+		<import plugin="org.eclipse.ui"/>
+		<import plugin="org.eclipse.jdt"/>
+		<import plugin="org.eclipse.jdt.core"/>
+		<import plugin="org.eclipse.jdt.ui"/>
+		<import plugin="org.eclipse.jdt.launching"/>
+		<import plugin="org.eclipse.jdt.core.manipulation"/>
+		<import plugin="org.eclipse.ltk.core.refactoring"/>
+		<import plugin="org.eclipse.jface.text"/>
+	</requires>
+
+
+	<extension point="org.eclipse.ui.popupMenus">
+		<!-- editor -->
+		<viewerContribution
+			id="eclipseIntegration.contributionpopup"
+	 		targetID="#CompilationUnitEditorContext">
+	 		
+			<action
+				id="EclipseIntegration.action1"
+				label="%GoToVPUMLAction.text"
+				hoverIcon="%GoToVPUMLAction.icon"
+				tooltip="%GoToVPUMLAction.tooltip"
+				class="com.vp.vpuml.eclipseintegration.toolbar.action.GoToUMLAction"
+				menubarPath="VPSDEEC">
+			</action>
+			
+			<action
+				id="EclipseIntegration.actionNewSelectIn"
+				label="%SelectInVPUMLAction.text"
+				tootip="%SelectInVPUMLAction.tooltip"
+				icon="%SelectInVPUMLAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.EEditorSelectInModelAction"
+				menubarPath="VPSDEEC">
+			</action>
+			
+			<action
+				id="EclipseIntegration.action3"
+				label="%UpdateVPUMLModelAction.text"
+				tooltip="%UpdateVPUMLModelAction.tooltip"
+				icon="%UpdateVPUMLModelAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.EEditorUpdateModelAction"
+				menubarPath="VPSDEEC">
+			</action>
+		</viewerContribution>
+		
+		<!-- ICompilationUnit -->
+		<objectContribution
+			id="eclipseIntegration.contribution1"
+			objectClass="org.eclipse.jdt.core.ICompilationUnit"
+			adaptable="false">
+			
+			<action
+				id="EclipseIntegration.UpdateActionForCompilationUnit"
+				label="%UpdateVPUMLModelAction.text"
+				tooltip="%UpdateVPUMLModelAction.tooltip"
+				icon="%UpdateVPUMLModelAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.EUpdateClassAndPackageAction"
+				menubarPath="EclipseIntegration">
+			</action>
+			<action
+				id="EclipseIntegration.SelectActionForCompilationUnit"
+				label="%SelectInVPUMLAction.text"
+				tooltip="%SelectInVPUMLAction.tooltip"
+				icon="%SelectInVPUMLAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.ESelectInAction"
+				menubarPath="EclipseIntegration.UpdateActionForCompilationUnit">
+			</action>
+		</objectContribution>
+		
+		<!-- IJavaProject -->
+		<objectContribution
+			objectClass="org.eclipse.jdt.core.IJavaProject"
+			id="EclipseIntegration.objectContribution1">
+			
+			<menu
+				id="EclipseIntegration.ProjectMenu"
+				label="%ProjectMenu.text"
+				path="EclipseIntegration">
+				
+				<separator name="main"/>
+				<separator name="importexport"/>
+				<separator name="teamwork"/>
+			</menu>
+			
+			<action
+				id="EclipseIntegration.OpenAction"
+				label="%OpenVPUMLProjectAction.text"
+				tooltip="%OpenVPUMLProjectAction.tooltip"
+				icon="%OpenVPUMLProjectAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.EOpenUmlProjectAction"
+				menubarPath="EclipseIntegration">
+			</action>
+			<action
+				id="EclipseIntegration.UpdateActionForJavaProject"
+				label="%UpdateVPUMLModelAction.text"
+				icon="%UpdateVPUMLModelAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.EUpdateModelAction"
+				menubarPath="EclipseIntegration.OpenAction">
+			</action>
+			
+			<action
+				id="EclipseIntegration.NewProjectAction"
+				label="%NewVPUMLProjectAction.text"
+				icon="%NewVPUMLProjectAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.MNewProject"
+				menubarPath="EclipseIntegration.ProjectMenu/main">
+			</action>
+			<action
+				id="EclipseIntegration.ExportAction"
+				label="%ExportProjectAction.text"
+				icon="%ExportProjectAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.MExport"
+				menubarPath="EclipseIntegration.ProjectMenu/importexport">
+			</action>
+			<action
+				id="EclipseIntegration.ImportAction"
+				label="%ImportProjectAction.text"
+				icon="%ImportProjectAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.MImport"
+				menubarPath="EclipseIntegration.ProjectMenu/EclipseIntegration.ExportAction">
+			</action>
+			<!-- deprecated
+			<action
+				label="%OpenVPUMLProjectAction.text"
+				icon="%OpenVPUMLProjectAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.MOpenProject"
+				menubarPath="EclipseIntegration.menu2/EclipseIntegration.group2"
+				id="EclipseIntegration.action3">
+			</action>
+			-->
+			<action
+				id="EclipseIntegration.OpenTeamworkClientAction"
+				label="%OpenTeamworkClientAction.text"
+				icon="%OpenTeamworkClientAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.MOpenTeamWorkClientProject"
+				menubarPath="EclipseIntegration.ProjectMenu/teamwork">
+			</action>
+			<action
+				id="EclipseIntegration.CommitAction"
+				label="%CommitProjectAction.text"
+				icon="%CommitProjectAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.MCommitProjectAction"
+				menubarPath="EclipseIntegration.ProjectMenu/EclipseIntegration.OpenTeamworkClientAction">			
+			</action>
+			<action
+				id="EclipseIntegration.UpdateProjectAction"
+				label="%UpdateProjectAction.text"
+				icon="%UpdateProjectAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.MUpdateProjectAction"
+				menubarPath="EclipseIntegration.ProjectMenu/EclipseIntegration.CommitAction">
+			</action>
+		</objectContribution>
+		
+		<!-- IPackageFragment -->
+		<objectContribution
+			objectClass="org.eclipse.jdt.core.IPackageFragment"
+			id="EclipseIntegration.objectContribution1">
+			
+			<action
+				id="EclipseIntegration.UpdateActionForPackageFragment"
+				label="%UpdateVPUMLModelAction.text"
+				icon="%UpdateVPUMLModelAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.EUpdateClassAndPackageAction"
+				menubarPath="EclipseIntegration">
+			</action>
+			<action
+				id="EclipseIntegration.SelectActionForPackageFragment"
+				label="%SelectInVPUMLAction.text"
+				icon="%SelectInVPUMLAction.icon"
+				class="com.vp.vpuml.eclipseintegration.popup.action.ESelectInAction"
+				menubarPath="EclipseIntegration.UpdateActionForPackageFragment">
+			</action>
+		</objectContribution>
+	</extension>
+
+<!--	
+	<extension point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+			<actionSet id="eclipseIntegration.actionSet"/>
+		</perspectiveExtension>
+	</extension>
+-->
+	
+	<extension point="org.eclipse.ui.editorActions">
+		<editorContribution
+			targetID="org.eclipse.jdt.ui.CompilationUnitEditor"
+			id="vpuml.integrations.eclipse.actionsforcompilationuniteditor1">
+			<!-- deprecated 
+			<menu
+				label="VP-UML"
+				id="vpumlMenu">
+				<separator name="group1"/>
+			</menu>
+			<action
+				label="Update VP-UML Model"
+				icon="icons/eclipse/UpdateModel.gif"
+				class="com.vp.vpuml.eclipseintegration.menus.action.EUpdateUMLModel"
+				menubarPath="vpumlMenu/group1"
+				id="vpuml.integrations.eclipse.actions.updatemodelaction6">
+			</action>
+			<action
+				label="Select in VP-UML"
+				style="push"
+				icon="icons/eclipse/SelectInVPUML.gif"
+				state="false"
+				class="com.vp.vpuml.eclipseintegration.menus.action.ESelectInUML"
+				menubarPath="vpumlMenu/group1"
+				id="EclipseIntegration.action2">
+			</action>
+			-->
+			<action
+				id="EclipseIntegration.GoToVPUMLAction"
+				label="%GoToVPUMLAction.text"
+				hoverIcon="%GoToVPUMLAction.icon"
+				tooltip="%GoToVPUMLAction.tooltip"
+				toolbarPath="vpuml"
+				class="com.vp.vpuml.eclipseintegration.toolbar.action.GoToUMLAction">
+			</action>
+			<action
+				id="vpuml.integrations.eclipse.actions.updatemodelaction6ToolBar"
+				label="%UpdateVPUMLModelAction.text"
+				tooltip="%UpdateVPUMLModelAction.tooltip"
+				icon="%UpdateVPUMLModelAction.icon"
+				toolbarPath="EclipseIntegration.GoToVPUMLAction"
+				class="com.vp.vpuml.eclipseintegration.menus.action.EUpdateUMLModel">
+			</action>
+			<action
+				id="vpuml.integrations.eclipse.actions.updatemodelaction6ToolBar"
+				label="%SelectInVPUMLAction.text"
+				tooltip="%SelectInVPUMLAction.tooltip"
+				icon="%SelectInVPUMLAction.icon"
+				toolbarPath="vpuml.integrations.eclipse.actions.updatemodelaction6ToolBar"
+				class="com.vp.vpuml.eclipseintegration.menus.action.ESelectInUMLModel">
+			</action>
+		</editorContribution>
+	</extension>
+
+	<extension
+		id="VPUMLStartup"
+		name="VPUMLStartup"
+		point="org.eclipse.ui.startup">
+	</extension>
+</plugin>

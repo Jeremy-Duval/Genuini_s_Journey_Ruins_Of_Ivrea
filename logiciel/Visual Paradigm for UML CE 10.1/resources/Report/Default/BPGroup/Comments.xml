@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Comments" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+		<Include template="Comments.xml"/>
+	</ElementBaseInitiationBlock>
+</Template>

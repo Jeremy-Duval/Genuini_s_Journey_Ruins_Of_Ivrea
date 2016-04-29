@@ -1,0 +1,16 @@
+$class.t_prepare($args.get("property"))##
+## ===== Output =====
+#if( $class.isElement() )
+	$indenter.getIndentation()<xs:element name="$class.getName()" type="$class.getReferenceType()">##
+#end
+$indenter.push($indentation)##
+$class.t_getDocumentation($indenter.getIndentation())
+$indenter.pop()##
+#if( $class.isElement() )
+	$indenter.push($indentation)##
+	#set($node = $class.getTaggedValueContent() )
+	#parse("$template-dir/XsdXmlNode.vm")
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:element>
+#end
+

@@ -1,0 +1,15 @@
+#if ($class.getDocumentation() && $class.getDocumentation()!="")
+/// <summary>
+/// $innerEnum.getDocumentation()
+/// </summary>
+#end
+#set($oldIndent=$indent)
+#set($indent="${indent}	")
+$indent#if ($innerEnum.getVisibilityDisplay()!="")$innerEnum.getVisibilityDisplay() #end
+enum $innerEnum.getName()
+$indent{
+#foreach ($field in $innerEnum.enumFieldIterator())
+$indent	$field.getName()#if($field.getInitialValue() && $field.getInitialValue()!="") = $field.getInitialValue()#end,
+#end
+$indent}
+#set($indent=$oldIndent)

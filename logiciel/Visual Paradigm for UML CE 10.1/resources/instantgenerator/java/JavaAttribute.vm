@@ -1,0 +1,12 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$attribute.t_getDocumentation("${baseIndentation}${indentation}")##
+#if( $attribute.annotationCount() > 0 )
+	#set( $annotationBaseIndentation = "${baseIndentation}${indentation}" )
+	#foreach( $annotation in $attribute.annotationIterator() )
+		#parse("$template-dir/JavaAnnotation.vm")
+	#end
+#end
+${baseIndentation}${indentation}$attribute.t_getVisibility()$attribute.t_getTransient()$attribute.t_getVolatile()$attribute.t_getScope($rootClass)$attribute.t_getFinal()##
+$attribute.t_getTypeName($rootClass)$attribute.t_getGeneric($rootClass)$attribute.t_getTypeModifier()##
+$attribute.t_getAttributeName()$attribute.t_getInitialValue();

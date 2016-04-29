@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Collaboration Links" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Collaboration Links" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<ForEachRelationshipEnd type = "CollaborationLinkEnd" endPointer = "self" ignoreParagraphBreakForLastModel = "true">
+			<TableBlock colWidths = "2100,13320" tableWidth = "14500" alignment = "right">
+				<RelationshipEndEndRelationship>
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StaticText content = "Name :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Begin :" style = "Row caption 1"/>
+						</TableCell>
+						<FromEnd>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "element" style = "Table Contents"/>
+							</TableCell>
+						</FromEnd>
+					</TableRow>
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "End :" style = "Row caption 1"/>
+						</TableCell>
+						<ToEnd>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "element" style = "Table Contents"/>
+							</TableCell>
+						</ToEnd>
+					</TableRow>
+					<HasChildElementChecker flag = "true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Messages :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell splitted = "true">
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+										<StaticText content = "Name" style = "Sub-column header 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+										<StaticText content = "Action Type" style = "Sub-column header 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+										<StaticText content = "Begin" style = "Sub-column header 1"/>
+									</TableCell>
+								</TableRow>
+								<IterationBlock>
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StringPropertyText propertyText = "name" style = "Table Contents"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StringPropertyText propertyText = "actionType" style = "Table Contents"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<ParentModel>
+												<MetaModelElement modelProperty = "EndModelElement">
+													<StringPropertyText propertyText = "element" style = "Table Contents"/>
+												</MetaModelElement>
+											</ParentModel>
+										</TableCell>
+									</TableRow>
+								</IterationBlock>
+							</TableCell>
+						</TableRow>
+					</HasChildElementChecker>
+					<HasMetaModelPropertyChecker property = "stereotypes" flag = "true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Stereotypes :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<ForEach property = "stereotypes" ignoreParagraphBreakForLastModel = "true">
+									<StaticText content = "&lt;&lt;" style = "Table Contents"/>
+									<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									<StaticText content = ">>" style = "Table Contents"/>
+									<StaticText content = "\n" style = "Table Contents"/>
+								</ForEach>
+							</TableCell>
+						</TableRow>
+					</HasMetaModelPropertyChecker>
+					<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Documentation :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+				</RelationshipEndEndRelationship>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content = "" style = "Default"/>
+			<ParagraphBreak/>
+		</ForEachRelationshipEnd>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

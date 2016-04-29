@@ -1,0 +1,178 @@
+<Subtemplate>
+	<HasMetaModelPropertyChecker property = "effect" flag= "true">
+		<MetaModelElement modelProperty = "effect">
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false" bottomBorderEnable = "false">
+					<StaticText content = "Effect :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell splitted = "true">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StaticText content = "Name :" style = "Sub-row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>	
+					</TableRow>
+					<ValueConditionChecker property = "language" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Language :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "language" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<ValueConditionChecker property = "precondition" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Precondition :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "precondition" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<ValueConditionChecker property = "postcondition" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Postcondition :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "postcondition" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<ValueConditionChecker property = "body" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Body :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "body" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<HasMetaModelPropertyChecker property = "stereotypes" flag = "true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Stereotypes :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<IterationBlock elementType = "stereotypes" ignoreParagraphBreakForLastModel = "true">
+									<StaticText content = "&lt;&lt;" style = "Table Contents"/>
+									<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									<StaticText content = ">>" style = "Table Contents"/>
+									<StaticText content = "\n" style = "Table Contents"/>
+								</IterationBlock>
+							</TableCell>
+						</TableRow>
+					</HasMetaModelPropertyChecker>
+					<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Documentation :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<HasChildElementChecker type = "Parameter" flag = "true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Parameters :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<IterationBlock elementType = "Parameter">
+									<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									<StaticText content = " : " style = "Table Contents"/>
+									<StringPropertyText propertyText = "type" style = "Table Contents"/>
+									<StaticText content = "\n" style = "Table Contents"/>
+								</IterationBlock>
+							</TableCell>
+						</TableRow>
+					</HasChildElementChecker>
+					<DefaultConditionChecker property = "singleExecution" propertyType = "boolean" equalFlag = "false">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Single execution :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<BooleanPropertyText propertyText = "singleExecution" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</DefaultConditionChecker>
+					<DefaultConditionChecker property = "readOnly" propertyType = "boolean" equalFlag = "false">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Read only :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<BooleanPropertyText propertyText = "readOnly" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</DefaultConditionChecker>
+					<DefaultConditionChecker property = "reentrant" propertyType = "boolean" equalFlag = "false">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Re-entrant :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<BooleanPropertyText propertyText = "reentrant" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</DefaultConditionChecker>
+				</TableCell>
+			</TableRow>
+			
+			<HasMetaModelPropertyChecker property = "variables" flag = "true">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" topBorderEnable = "false" bottomBorderEnable = "false">
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Variables :" style = "Row caption 1"/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" topBorderEnable = "false">
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" splitted="true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+								<StaticText content = "Name" style = "Column header 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+								<StaticText content = "Type" style = "Column header 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+								<StaticText content = "Multiplicity" style = "Column header 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+								<StaticText content = "Visibility" style = "Column header 1"/>
+							</TableCell>
+						</TableRow>
+						<ForEach property = "variables">
+							<TableRow>
+								<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+									<StringPropertyText propertyText = "name" style = "Table Contents"/>
+								</TableCell>
+								<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+									<StringPropertyText propertyText = "type" style = "Table Contents"/>
+								</TableCell>
+								<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+									<StringPropertyText propertyText = "multiplicity" style = "Table Contents"/>
+								</TableCell>
+								<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+									<StringPropertyText propertyText = "visibility" style = "Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</ForEach>
+					</TableCell>
+				</TableRow>
+			</HasMetaModelPropertyChecker>
+			
+		</MetaModelElement>
+	</HasMetaModelPropertyChecker>
+</Subtemplate>

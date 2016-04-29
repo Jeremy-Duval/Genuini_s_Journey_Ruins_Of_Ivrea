@@ -1,0 +1,30 @@
+$arrayType.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $generateAssociationOperations == "true" )
+	#set( $generateAssociationOperations = true )
+#end
+## ===== Output =====
+#foreach( $arrTypDefinitionName in $arrayType.t_getDefinitionNames() )
+	#ifndef $arrTypDefinitionName
+	#define $arrTypDefinitionName
+#end
+module org {
+module omg {
+module boxedRMI {
+#foreach( $package in $arrayType.t_packageIterator() )
+	module $package {
+#end
+#set( $valueTypeCount = 0 )
+#foreach( $valueType in $arrayType.t_getValueTypeNames() )
+	${indentation}valuetype $valueType sequence<$arrayType.t_getValueTypeType($valueTypeCount)>;
+	#set( $valueTypeCount = $valueTypeCount + 1 )
+#end
+#foreach( $package in $arrayType.t_packageIterator() )
+	};
+#end
+};
+};
+};
+#foreach( $arrTypDefinitionName in $arrayType.t_getDefinitionNames() )
+	#endif
+#end

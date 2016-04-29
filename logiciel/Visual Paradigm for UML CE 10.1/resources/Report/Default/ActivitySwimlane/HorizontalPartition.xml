@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Horizontal Partitions" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Horizontal Partitions" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<TableBlock colWidths = "5, 70, 25" tableWidth = "14500" alignment = "right">
+			<ForEach property="horizontalPartitions">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230" mergeColumns="2">
+						<StringPropertyText propertyText = "name" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+				
+				<!--models in partitions -->
+				<HasMetaModelPropertyChecker property="containedElements">
+					<!-- don't need show headers -->
+					<!--
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StaticText content = "Name" style = "Column header 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StaticText content = "Type" style = "Column header 1"/>
+						</TableCell> 
+					</TableRow>
+					-->
+					<ForEach property="containedElements">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "name" style = "Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "modelType" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ForEach>
+				</HasMetaModelPropertyChecker>
+			</ForEach>
+		</TableBlock>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

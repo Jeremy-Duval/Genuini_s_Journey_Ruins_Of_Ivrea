@@ -1,0 +1,12 @@
+Imports System
+
+#if ($class.getNamespace() && $class.getNamespace()!="")
+	#set($indent="	")
+	Namespace $class.getNamespace()
+	#parse("$template-path/generic.vm")
+
+	End Namespace
+#else
+	#set($indent="")
+	#parse("$template-path/generic.vm")
+#end

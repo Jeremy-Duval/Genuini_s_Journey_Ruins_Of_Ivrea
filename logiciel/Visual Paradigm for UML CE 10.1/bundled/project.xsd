@@ -1,0 +1,1448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"
+		xmlns="http://www.visual-paradigm.com/product/vpuml/modelexporter" 
+		targetNamespace="http://www.visual-paradigm.com/product/vpuml/modelexporter">
+
+	<xs:element name="Project">
+		<xs:annotation>
+			<xs:documentation>VP-UML Project</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ProjectInfo" minOccurs="0"/>
+				<xs:element ref="Models" minOccurs="0"/>
+				<xs:element ref="Diagrams" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="umlVersion" type="xs:string"/>
+			<xs:attribute name="exporterVersion" type="xs:string"/>
+			<xs:attribute name="author" type="xs:string"/>
+			<xs:attribute name="company" type="xs:string"/>
+			<xs:attribute name="description" type="xs:string"/>
+			<xs:attribute name="textualAnalysisHighlightCaseSensitive" type="xs:boolean"/>
+			<xs:attribute name="documentationType" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="html"/>
+						<xs:enumeration value="plainText"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="commentTableSortColumn" type="xs:string" use="optional"/>
+			<xs:attribute name="commentTableSortAscending" type="xs:boolean" use="optional"/>
+			<xs:attribute name="containsUseCase" type="xs:boolean" use="optional"/>
+			<xs:attribute name="containsStereotype" type="xs:boolean" use="optional"/>
+			<xs:attribute name="projectPublisherBasePath" type="xs:string" use="optional"/>
+			<xs:attribute name="exportedFromDifferentName" type="xs:boolean" use="optional"/>
+			<xs:attribute name="nickname" type="xs:string" use="optional"/>
+			
+		</xs:complexType>
+	</xs:element>
+	<!-- project info -->
+	<xs:element name="ProjectInfo">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="ORMInfo" minOccurs="0"/>
+				<xs:element ref="RequirementEnumerationInfo" minOccurs="0"/>
+				<xs:element ref="LogicalView" minOccurs="0"/>
+				<xs:element ref="ProjectOptions" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<!-- orm info -->
+	<xs:element name="ORMInfo">
+		<xs:complexType>
+			<xs:choice maxOccurs="2">
+				<xs:element name="DefaultClassDiagram" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DiagramRef"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DefaultERD" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DiagramRef"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="defaultDatabase" type="xs:integer"/>
+			<xs:attribute name="supportDatabases" type="xs:integer"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- requirement enumeration info -->
+	<xs:element name="RequirementEnumerationInfo">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="RequirementEnumeration" minOccurs="0">
+					<xs:complexType>
+						<xs:choice maxOccurs="2">
+							<xs:element name="Items" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="Item" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DeletedItems" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="Item" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="id" type="xs:string"/>
+						<xs:attribute name="name" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<!-- logical view -->
+	<xs:element name="LogicalView">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="LogicalViewElement" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LogicalViewElement">
+		<xs:complexType>
+			<xs:choice maxOccurs="1">
+				<xs:element ref="DiagramRef"/>
+				<xs:element ref="ChildLogicalViewElement" minOccurs="0"/>
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string"/>
+			<xs:attribute name="type" type="xs:string"/>
+			<xs:attribute name="name" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Only available for LogicalViewContainer (Folder)</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="logicalViewNickName" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Only available for LogicalViewContainer (Folder)</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChildLogicalViewElement">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="LogicalViewElement" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- project options -->
+	<xs:element name="ProjectOptions">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element name="DiagramOptions" type="diagramOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="GeneralOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="InstantReverseOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="ModelQualityOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="OfficeExchangeOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="ORMOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="RequirementDiagramOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="StateCodeEngineOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="WarningOptions" type="projectOptions" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="projectOptions">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="BooleanProperty" minOccurs="0"/>
+			<xs:element ref="IntegerProperty" minOccurs="0"/>
+			<xs:element ref="StringProperty" minOccurs="0"/>
+			<xs:element ref="ColorProperty" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="diagramOptions">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="BooleanProperty" minOccurs="0"/>
+			<xs:element ref="IntegerProperty" minOccurs="0"/>
+			<xs:element ref="StringProperty" minOccurs="0"/>
+			<xs:element ref="ColorProperty" minOccurs="0"/>
+			<xs:element name="defaultHtmlDocFont" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="family" type="xs:string"/>
+					<xs:attribute name="size" type="xs:integer"/>
+					<xs:attribute name="style" type="xs:integer"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	
+	<!-- model -->
+	<xs:element name="Models">
+		<xs:annotation>
+			<xs:documentation>Collection of models</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="Model" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Model">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="ModelProperties" minOccurs="0"/>
+				<xs:element ref="ChildModels" minOccurs="0"/>
+				<xs:element ref="FromSimpleRelationships" minOccurs="0"/>
+				<xs:element ref="ToSimpleRelationships" minOccurs="0"/>
+				<xs:element ref="FromEndRelationships" minOccurs="0"/>
+				<xs:element ref="ToEndRelationships" minOccurs="0"/>
+				<xs:element ref="FromEnd" minOccurs="0"/>
+				<xs:element ref="ToEnd" minOccurs="0"/>
+				<xs:element ref="SubDiagrams" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="modelId" use="required"/>
+			<xs:attribute name="modelType" type="modelType" use="required"/>
+			<xs:attribute name="displayModelType" type="modelType"/>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="composite" type="xs:boolean" default="false"/>
+			<xs:attribute name="considerDefaultProperties" type="xs:boolean" default="false"/>
+			
+			<xs:attribute name="taskTypeModelType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of task.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="subprocessTypeModelType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the sub-process.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="triggerModelType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the event's trigger.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="resultModelType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the event's result.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="gatewayTypeModelType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the gateway.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="graphicShapeType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated. For Basic Diagram model only, showing what is the type of the shape.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+		</xs:complexType>
+	</xs:element>
+	<!-- model's properties -->
+	<xs:element name="ModelProperties">
+		<xs:annotation>
+			<xs:documentation>Collection of model's properties</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="StringProperty" maxOccurs="unbounded"/>
+				<xs:element ref="IntegerProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DoubleProperty" maxOccurs="unbounded"/>
+				<xs:element ref="BooleanProperty" maxOccurs="unbounded"/>
+				<xs:element ref="HTMLProperty" maxOccurs="unbounded"/>
+				<xs:element ref="ModelProperty" maxOccurs="unbounded"/>
+				<xs:element ref="ModelsProperty" maxOccurs="unbounded"/>
+				<xs:element ref="ModelRefProperty" maxOccurs="unbounded"/>
+				<xs:element ref="ModelRefsProperty" maxOccurs="unbounded"/>
+				<xs:element ref="TextModelProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DiagramRefProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DiagramElementRefProperty" maxOccurs="unbounded"/>
+				<xs:element ref="StringArrayProperty" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<!-- property -->
+	<xs:complexType name="property" abstract="true">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="displayName" type="xs:string"/>
+		<xs:attribute name="isDefault" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:element name="StringProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="xs:string"/>
+					<!-- @internalValue for DBColumn's Type only, because the type in VP-UML is Integer, but the Integer is meaningless in XML, so change to show in String in xml -->
+					<xs:attribute name="internalValue" type="xs:integer"/>
+					<xs:attribute name="pathName" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Only for Reference.url that show the file name of the url.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="fileName" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Deprecated. Internal Used in Reference.url.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="fileValue" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Deprecated. Internal Used in Reference.url.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="diagramName" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Only for Reference.url that show the diagram name of the referenced diagram.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="diagramType" type="modelType" use="optional">
+						<xs:annotation>
+							<xs:documentation>Only for Reference.url that show the diagram type of the referenced diagram.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="displayDiagramType" type="modelType">
+						<xs:annotation>
+							<xs:documentation>Deprecated.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="imageValue" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Only for Stereotype.iconPath that show the path of the icon.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="rtfValue" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Only for DiagramComment.content that show the RTF content.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StringArrayProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element name="Values" minOccurs="0" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation>
+									For Diagram and DiagramElement only.
+									"Values" contains "Value".
+									
+									For ModelElement, "Values" is useless.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence maxOccurs="unbounded" minOccurs="0">
+									<xs:element name="Value" maxOccurs="unbounded" minOccurs="0">
+										<xs:complexType>
+											<xs:attribute name="value" type="xs:string"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Value" maxOccurs="unbounded" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="value" type="xs:string"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IntArrayProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element name="Values" minOccurs="0" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Value">
+										<xs:complexType>
+											<xs:attribute name="value" type="xs:integer"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="HTMLProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="xs:string"/>
+					<xs:attribute name="plainTextValue" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>HTML Property's value contains the HTML tags. If you want to get the ignore the HTML tags, can get this plainTextValue.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BooleanProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IntegerProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="xs:integer" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DoubleProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="xs:double" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LongProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="xs:long" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PointProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="point" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RectangleProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="rectangle" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DimensionProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="dimension" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ColorProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:attribute name="value" type="color" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ModelProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element ref="Model" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ModelsProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element ref="Model" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ModelRefProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element ref="ModelRef" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ModelRefsProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element ref="ModelRef" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TextModelProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:choice>
+						<xs:element ref="ModelRef" minOccurs="0"/>
+						<xs:element name="StringValue" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="value" type="xs:string"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DiagramRefProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element ref="DiagramRef" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DiagramElementRefsProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element ref="DiagramElementRef" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DiagramElementRefProperty">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="property">
+					<xs:sequence>
+						<xs:element ref="DiagramElementRef" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- model reference -->
+	<xs:complexType name="modelRef">
+		<xs:attribute name="id" type="modelId" use="required"/>
+		<!-- @modelType changed to "not required" -->
+		<xs:attribute name="modelType" type="modelType"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="displayModelType" type="modelType"/>
+		<!-- @iconPath for stereotype only -->
+		<xs:attribute name="iconPath" type="xs:string"/>
+		
+		<xs:attribute name="parentId" type="modelId"/>
+		<xs:attribute name="parentModelType" type="modelType"/>
+		<xs:attribute name="parentDisplayModelType" type="xs:string"/>
+		<xs:attribute name="parentName" type="xs:string"/>
+		
+		<xs:attribute name="taskTypeModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the task type of the referenced model.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="subprocessTypeModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the sub-process.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="triggerModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the trigger type of the referenced model.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="resultModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the result type of the referenced model.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="gatewayTypeModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the gateway.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="graphicShapeType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Basic Diagram model only, showing what is the type of the shape.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		
+		<xs:attribute name="triggerType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the trigger type (catching/throwing) of the referenced model.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		
+	</xs:complexType>
+	<xs:complexType name="relationshipRef">
+		<xs:complexContent>
+			<xs:extension base="modelRef">
+				<xs:attribute name="from" type="modelId">
+					<xs:annotation>
+						<xs:documentation>It is not use="required" because some relationship really can has 'from' model (e.g. SequenceDiagram's Found Message)</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="to" type="modelId">
+					<xs:annotation>
+						<xs:documentation>It is not use="required" because some relationship really can has 'to' model (e.g. SequenceDiagram's Lost Message)</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ModelRef" type="modelRef">
+		<xs:annotation>
+			<xs:documentation>
+				A model id used to refer to another model in the xml.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="RelationshipRef" type="relationshipRef"/>
+	<!-- child models -->
+	<xs:element name="ChildModels">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Model" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- relationships (From/To SimpleRelationships or EndRelationships)-->
+	<xs:element name="FromSimpleRelationships">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="RelationshipRef" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ToSimpleRelationships">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="RelationshipRef" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FromEndRelationships">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="RelationshipRef" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ToEndRelationships">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="RelationshipRef" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FromEnd">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="Model" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ToEnd">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="Model"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<!-- sub diagrams -->
+	<xs:element name="SubDiagrams">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="DiagramRef" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- diagram -->
+	<xs:element name="Diagrams">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Diagram" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Diagram">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="DiagramProperties" minOccurs="0"/>
+				<xs:element name="HiddenDiagramElements" type="modelsRefs" minOccurs="0"/>
+				
+				<xs:element ref="Scenarios" minOccurs="0"/>
+				<!-- Implementation Diagram only -->
+				<xs:element name="ShowAsIconComponents" type="modelsRefs" minOccurs="0"/>
+				<xs:element name="ShowAsKeywordComponents" type="modelsRefs" minOccurs="0"/>
+				<xs:element name="ShowAsKeywordAndIconComponents" type="modelsRefs" minOccurs="0"/>
+				<xs:element name="ShowAsNoneComponents" type="modelsRefs" minOccurs="0"/>
+				<xs:element name="ShowAsIconArtifacts" type="modelsRefs" minOccurs="0"/>
+				<xs:element name="ShowAsKeywordArtifacts" type="modelsRefs" minOccurs="0"/>
+				<xs:element name="ShowAsKeywordAndIconArtifacts" type="modelsRefs" minOccurs="0"/>
+				<xs:element name="ShowAsNoneArtifacts" type="modelsRefs" minOccurs="0"/>
+				<xs:element ref="GridColumns" minOccurs="0"/>
+				<xs:element ref="TempFiles" minOccurs="0"/>
+				
+				<xs:element ref="DiagramComments" minOccurs="0"/>
+				<xs:element ref="ShapeGroups" minOccurs="0"/>
+				<xs:element ref="LayersModel" minOccurs="0"/>
+				
+				<xs:element ref="Shapes" minOccurs="0"/>
+				<xs:element ref="Connectors" minOccurs="0"/>
+			</xs:choice>
+			<xs:attribute name="id" type="modelId" use="required"/>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="diagramType" type="modelType" use="required"/>
+			<xs:attribute name="displayDiagramType" type="xs:string"/>
+			<xs:attribute name="documentation" type="xs:string"/>
+			<xs:attribute name="rtfDocumentation" type="xs:string"/>
+			<xs:attribute name="imageFileName" type="xs:normalizedString"/>
+			<xs:attribute name="imageWidth" type="xs:nonNegativeInteger"/>
+			<xs:attribute name="imageHeight" type="xs:nonNegativeInteger"/>
+			<xs:attribute name="trimmedWidth" type="xs:nonNegativeInteger"/>
+			<xs:attribute name="trimmedHeight" type="xs:nonNegativeInteger"/>
+			<xs:attribute name="imageScale" type="xs:double"/>
+			<xs:attribute name="connectorStyle" type="connectorStyle"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- diagrams' details -->
+	<xs:element name="Scenarios">
+		<xs:annotation>
+			<xs:documentation>For Activity Diagram only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Scenario" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element ref="DiagramProperties" maxOccurs="unbounded" minOccurs="0"/>
+							<xs:element name="ScenarioActions" maxOccurs="1" minOccurs="0">
+								<xs:complexType>
+									<xs:choice maxOccurs="unbounded">
+										<xs:element name="ScenarioAction" maxOccurs="1" minOccurs="0">
+											<xs:complexType>
+												<xs:choice maxOccurs="unbounded">
+													<xs:element ref="DiagramProperties" maxOccurs="unbounded" minOccurs="0"/>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GridColumns">
+		<xs:annotation>
+			<xs:documentation>For Grid Diagram only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="Model" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TempFiles">
+		<xs:annotation>
+			<xs:documentation>For UseCaseDetails Diagram only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="TempFile" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType mixed="true">
+						<xs:attribute name="path" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DiagramComments">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="Model" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element name="DiagramComment" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:choice minOccurs="0">
+							<xs:element name="DiagramCommentProperties">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element ref="StringProperty"/>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="id" type="xs:string"/>
+						<xs:attribute name="summary" type="xs:string"/>
+						<xs:attribute name="author" type="xs:string"/>
+						<xs:attribute name="dateTime" type="xs:string"/>
+						<xs:attribute name="content" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ShapeGroups">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="ShapeGroup" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string"/>
+						<xs:attribute name="parentId" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LayersModel">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Layer" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string"/>
+						<xs:attribute name="name" type="xs:string"/>
+						<xs:attribute name="visible" type="xs:string"/>
+						<xs:attribute name="locked" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="defaultLayerId" type="xs:string"/>
+			<xs:attribute name="activeLayerId" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- diagram's properties -->
+	<xs:element name="DiagramProperties">
+		<xs:annotation>
+			<xs:documentation>Collection of diagram's properties</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="StringProperty" maxOccurs="unbounded"/>
+				<xs:element ref="IntegerProperty" maxOccurs="unbounded"/>
+				<xs:element ref="BooleanProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DoubleProperty" maxOccurs="unbounded"/>
+				<xs:element ref="ColorProperty" maxOccurs="unbounded"/>
+				<xs:element ref="ModelRefProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DiagramRefProperty" maxOccurs="unbounded"/>
+				<xs:element ref="StringArrayProperty" maxOccurs="unbounded"/>
+				<xs:element ref="IntArrayProperty" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<!-- diagram reference -->
+	<xs:element name="DiagramRef">
+		<xs:complexType>
+			<xs:attribute name="id" type="modelId" use="required"/>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="diagramType" type="modelType" use="required"/>
+			<xs:attribute name="displayDiagramType" type="modelType">
+				<xs:annotation>
+					<xs:documentation>Deprecated.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<!-- diagram element -->
+	<xs:element name="Shapes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Shape" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Connectors">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Connector" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="diagramElement" abstract="true">
+		<xs:sequence>
+			<xs:element ref="DiagramElementProperties" minOccurs="0"/>
+			
+			<xs:element ref="ClauseRegions" minOccurs="0"/>
+			<xs:element ref="ElseRegion" minOccurs="0"/>
+			<xs:element ref="Lifelines" minOccurs="0"/>
+			<xs:element ref="TimeUnits" minOccurs="0"/>
+			<xs:element ref="ColumnWidthInfos" minOccurs="0"/>
+			<xs:element ref="ColumnFilterInfos" minOccurs="0"/>
+			<xs:element name="BeginArrowHead" type="arrowHead" minOccurs="0"/>
+			<xs:element name="EndArrowHead" type="arrowHead" minOccurs="0"/>
+			
+			<xs:element ref="DurationConstraints" minOccurs="0"/>
+			<xs:element ref="FreehandPoints" minOccurs="0"/>
+			<xs:element ref="ElementFont" minOccurs="0"/>
+			<xs:element ref="Line" minOccurs="0"/>
+			<xs:element ref="Caption" minOccurs="0"/>
+			
+			<xs:element ref="Icons" minOccurs="0"/>
+			<xs:element ref="Rows" minOccurs="0"/>
+			<xs:element ref="MessageUIModelFlowInfo" minOccurs="0"/>
+			
+			<xs:element ref="ChildShapes" minOccurs="0"/>
+			<xs:element ref="FillColor" minOccurs="0"/>
+			<xs:element ref="ShapeGroup" minOccurs="0"/>
+			<xs:element ref="CompartmentColorModels" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="modelId" use="required"/>
+		<xs:attribute name="shapeType" type="modelType" use="required"/>
+		<xs:attribute name="model" type="modelId" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="x" type="xs:integer"/>
+		<xs:attribute name="y" type="xs:integer"/>
+		<xs:attribute name="width" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="height" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="zorder" type="xs:integer"/>
+		<xs:attribute name="isGroupedChild" type="xs:boolean"/>
+		<xs:attribute name="layerId" type="xs:string"/>
+		<xs:attribute name="modelType" type="modelType"/>
+		<xs:attribute name="displayModelType" type="modelType"/>
+		
+		<xs:attribute name="classifier" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Interaction Lifeline only. The Classifier of Lifeline.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		
+		<xs:attribute name="documentaiton_plainText" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated. Documentation in plain text.</xs:documentation>
+				</xs:annotation>
+		</xs:attribute>
+		
+		<xs:attribute name="taskTypeModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of task.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="subprocessTypeModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the sub-process.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="triggerModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the event's trigger.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="resultModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the event's result.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="gatewayTypeModelType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Business Process Diagram model only, showing what is the type of the gateway.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="graphicShapeType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Deprecated. For Basic Diagram model only, showing what is the type of the shape.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		
+	</xs:complexType>
+	<xs:element name="Shape">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="diagramElement">
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Connector">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="diagramElement">
+					<xs:sequence>
+						<xs:element name="RoleA" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="NameCaption" minOccurs="0" maxOccurs="1"/>
+									<xs:element ref="MultiplicityCaption" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="RoleB" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="NameCaption" minOccurs="0" maxOccurs="1"/>
+									<xs:element ref="MultiplicityCaption" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Points">
+							<xs:annotation>
+								<xs:documentation>If it is a ConnectorUIModel</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice maxOccurs="unbounded">
+									<xs:element name="Point" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:attribute name="x" type="xs:integer" use="required"/>
+											<xs:attribute name="y" type="xs:integer" use="required"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="from" type="modelId" use="required"/>
+					<xs:attribute name="to" type="modelId" use="required"/>
+					<xs:attribute name="connectorStyle" type="connectorStyle"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- diagram elements' details -->
+	<xs:element name="ClauseRegions">
+		<xs:annotation>
+			<xs:documentation>For Conditional Node With Regions only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element ref="ClauseRegion" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ElseRegion">
+		<xs:annotation>
+			<xs:documentation>For Conditional Node With Regions only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="1" minOccurs="0">
+				<xs:element ref="ClauseRegion" maxOccurs="1" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ClauseRegion">
+		<xs:annotation>
+			<xs:documentation>For Conditional Node With Regions only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="DiagramElementProperties" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Lifelines">
+		<xs:annotation>
+			<xs:documentation>For TimingFrame only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="Lifeline" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:choice maxOccurs="1" minOccurs="0">
+							<xs:element name="StateConditions" maxOccurs="1" minOccurs="0">
+								<xs:complexType>
+									<xs:choice maxOccurs="unbounded" minOccurs="0">
+										<xs:element name="StateCondition" maxOccurs="unbounded" minOccurs="0">
+											<xs:complexType>
+												<xs:attribute name="id" type="xs:string"/>
+												<xs:attribute name="height" type="xs:integer"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="id" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TimeUnits">
+		<xs:annotation>
+			<xs:documentation>For TimingFrame only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="TimeUnit" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string"/>
+						<xs:attribute name="width" type="xs:integer"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ColumnWidthInfos">
+		<xs:annotation>
+			<xs:documentation>For DecisionModel's' FamilyRule only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="ColumnWidthInfo" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string"/>
+						<xs:attribute name="value" type="xs:integer"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ColumnFilterInfos">
+		<xs:annotation>
+			<xs:documentation>For DecisionModel's' FamilyRule only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="ColumnFilterInfo" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string"/>
+						<xs:attribute name="value" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Icons">
+		<xs:annotation>
+			<xs:documentation>For MindMappingNode only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Value" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="value" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Rows">
+		<xs:annotation>
+			<xs:documentation>For CRCCard only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Row" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="value" type="xs:string"/>
+						<xs:attribute name="height" type="xs:int"/>
+						<xs:attribute name="visible" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MessageUIModelFlowInfo">
+		<xs:annotation>
+			<xs:documentation>For Message only.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="DiagramElementProperties" minOccurs="0"/>
+				<xs:element name="ShapeHeightInfos" minOccurs="0">
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded" minOccurs="0">
+							<xs:element name="ShapeHeightInfo">
+								<xs:complexType>
+									<xs:choice minOccurs="0">
+										<xs:element ref="DiagramElementProperties" minOccurs="0"/>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="arrowHead">
+		<xs:annotation>
+			<xs:documentation>For GenericConnector/MindConnector/MindLink's arrow head.</xs:documentation>
+		</xs:annotation>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="DiagramElementProperties" minOccurs="0"/>
+			<xs:element name="ShapeHeightInfos" minOccurs="0">
+				<xs:complexType>
+					<xs:choice maxOccurs="unbounded" minOccurs="0">
+						<xs:element name="ShapeHeightInfo">
+							<xs:complexType>
+								<xs:choice minOccurs="0">
+									<xs:element ref="DiagramElementProperties" minOccurs="0"/>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<!-- diagram element's properties -->
+	<xs:element name="DiagramElementProperties">
+		<xs:annotation>
+			<xs:documentation>Collection of diagram element's properties</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="ModelRefProperty" maxOccurs="unbounded"/>
+				<xs:element ref="StringProperty" maxOccurs="unbounded"/>
+				<xs:element ref="BooleanProperty" maxOccurs="unbounded"/>
+				<xs:element ref="IntegerProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DoubleProperty" maxOccurs="unbounded"/>
+				<xs:element ref="LongProperty" maxOccurs="unbounded"/>
+				<xs:element ref="PointProperty" maxOccurs="unbounded"/>
+				<xs:element ref="RectangleProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DimensionProperty" maxOccurs="unbounded"/>
+				<xs:element ref="ColorProperty" maxOccurs="unbounded"/>
+				<xs:element ref="StringArrayProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DiagramRefProperty" maxOccurs="unbounded"/>
+				<xs:element ref="DiagramElementRefsProperty" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DurationConstraints">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="DiagramElementProperties" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FreehandPoints">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Point" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DiagramElementProperties" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ElementFont">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="color" type="color"/>
+			<xs:attribute name="size" type="xs:integer"/>
+			<xs:attribute name="style" type="xs:integer"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FillColor">
+		<xs:complexType>
+			<xs:attribute name="type" type="xs:integer"/>
+			<xs:attribute name="color" type="color"/>
+			<xs:attribute name="color2" type="color"/>
+			<xs:attribute name="transparency" type="xs:integer"/>
+			<xs:attribute name="style" type="xs:integer"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Line">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="Stroke" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="Dashes" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Dash" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:float"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="cap" type="xs:integer"/>
+			<xs:attribute name="color" type="color"/>
+			<xs:attribute name="transparency" type="xs:integer"/>
+			<xs:attribute name="weight" type="xs:double"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- shape group -->
+	<xs:element name="ShapeGroup">
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- compartment colors -->
+	<xs:element name="CompartmentColorModels">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="CompartmentColorModel">
+					<xs:complexType>
+						<xs:attribute name="proxy" type="xs:string"/>
+						<xs:attribute name="foreground" type="color" use="optional"/>
+						<xs:attribute name="background" type="color" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="id" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- caption ui model -->
+	<xs:complexType name="caption">
+		<xs:attribute name="x" type="xs:integer" use="required"/>
+		<xs:attribute name="y" type="xs:integer" use="required"/>
+		<xs:attribute name="width" type="xs:nonNegativeInteger" use="required"/>
+		<xs:attribute name="height" type="xs:nonNegativeInteger" use="required"/>
+		<xs:attribute name="internalWidth" type="xs:integer" use="optional"/>
+		<xs:attribute name="internalHeight" type="xs:integer" use="optional"/>
+	</xs:complexType>
+	<xs:element name="Caption">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="caption">
+					<xs:attribute name="visible" type="xs:boolean" use="required"/>
+					<xs:attribute name="side" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="None"/>
+								<xs:enumeration value="North"/>
+								<xs:enumeration value="East"/>
+								<xs:enumeration value="South"/>
+								<xs:enumeration value="West"/>
+								<xs:enumeration value="Center"/>
+								<xs:enumeration value="Invisible"/>
+								<xs:enumeration value="InsideNorth"/>
+								<xs:enumeration value="InsideEast"/>
+								<xs:enumeration value="InsideSouth"/>
+								<xs:enumeration value="InsideWest"/>
+								<xs:enumeration value="FreeMove"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NameCaption" type="caption"/>
+	<xs:element name="MultiplicityCaption" type="caption"/>
+	<!-- diagram element reference -->
+	<xs:element name="DiagramElementRef">
+		<xs:complexType>
+			<xs:attribute name="id" type="modelId" use="required"/>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="shapeType" type="modelType" use="required"/>
+			<xs:attribute name="displayShapeType" type="modelType" use="optional"/>
+			<xs:attribute name="model" type="modelId" use="optional"/>
+			<xs:attribute name="modelType" type="modelType" use="optional"/>
+			<xs:attribute name="displayModelType" type="modelType" use="optional"/>
+			<xs:attribute name="documentaiton_plainText" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- child shapes -->
+	<xs:element name="ChildShapes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Shape" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- models refs -->
+	<xs:complexType name="modelsRefs">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="ModelRef" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<!-- modelId : attribute -->
+	<xs:simpleType name="modelId">
+		<xs:restriction base="xs:normalizedString">
+			<xs:minLength value="16"/>
+			<xs:maxLength value="16"/>
+			<xs:pattern value="[\w\d_.]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="modelType">
+		<xs:restriction base="xs:normalizedString">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="connectorStyle">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Rectlinear"/>
+			<xs:enumeration value="Oblique"/>
+			<xs:enumeration value="Curve"/>
+			<xs:enumeration value="Round Oblique"/>
+			<xs:enumeration value="Round Rectlinear"/>
+			<xs:enumeration value="Follow Diagram">
+				<xs:annotation>
+					<xs:documentation>"Follow Diagram" should not be set to a diagram, it is for connector only</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="point">
+		<xs:restriction base="xs:string">
+			<!-- format: "Pt:X,Y" X/Y is double value -->
+			<xs:pattern value="(Pt:\d+.\d+,\d+.\d+)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="rectangle">
+		<xs:restriction base="xs:string">
+			<!-- format: "Re:X,Y.WIDTH,HEIGHT" X/Y/WIDTH/HEIGHT is double value -->
+			<xs:pattern value="(Re:\d+.\d+,\d+.\d+,\d+.\d+,\d+.\d+)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dimension">
+		<xs:restriction base="xs:string">
+			<!-- format: "Dm:WIDTH,HEIGHT" WIDTH/HEIGHT is double value -->
+			<xs:pattern value="(Dm:\d+.\d+,\d+.\d+)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="color">
+		<xs:restriction base="xs:string">
+			<!-- format: "Cr:RED,GREEN,BLUE,ALPHA" RED/GREEN/BLUE/ALPHA(transparent) is integer value in range 0 to 255 -->
+			<xs:pattern value="(Cr:\d\d?\d?,\d\d?\d?,\d\d?\d?,\d\d?\d?)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

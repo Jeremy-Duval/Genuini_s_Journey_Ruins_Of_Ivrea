@@ -1,0 +1,32 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+$operation.t_getAnnotation("${baseIndentation}${indentation}")##
+${baseIndentation}${indentation}def $operation.t_getName()(self##
+#set( $parameterIndex = 0 )
+#foreach($parameter in $operation.parameterIterator())
+	, ##
+	#parse("$template-dir/PythonParameter.vm")
+	#set( $parameterIndex = $parameterIndex + 1 )
+#end
+):##
+$operation.t_getDocumentation("${baseIndentation}${indentation}${indentation}")
+#if( $operation.hasReference() == true )
+	#parse("$template-dir/$operation.getReference().getRefTemplate()")
+
+#elseif( $operation.isDefaultConstructor() == true )
+	#if( $class.t_attributeCount(false) > 0 )
+		#foreach( $attribute in $class.t_attributeIterator(false) )
+			#parse("$template-dir/PythonAttribute.vm")
+	
+		#end
+	#elseif( $operation.t_hasCode() == true )
+		$operation.t_getCode("${baseIndentation}${indentation}${indentation}")##
+	#else
+		${baseIndentation}${indentation}${indentation}pass
+	#end
+#elseif( $operation.t_hasCode() == true )
+	$operation.t_getCode("${baseIndentation}${indentation}${indentation}")##
+#else
+	${baseIndentation}${indentation}${indentation}pass
+#end
+

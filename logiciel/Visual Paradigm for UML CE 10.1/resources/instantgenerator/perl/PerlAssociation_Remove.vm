@@ -1,0 +1,14 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#set( $tmpWhile = 'while (' )
+#set( $tmpIf = 'if (' )
+#set( $tmpSplice = 'splice(' )
+$indentation$$operation.getReference().getRefObject().t_getLocalName()_Size = @$operation.getReference().getAttributeName();
+$indentation$$operation.getReference().getRefObject().t_getLocalName()_Size--;
+${indentation}${tmpWhile}$$operation.getReference().getRefObject().t_getLocalName()_Size >= 0) {
+${indentation}${indentation}${tmpIf}$$operation.getReference().getAttributeName()[$$operation.getReference().getRefObject().t_getLocalName()_Size] == $_[1]) {
+${indentation}${indentation}${indentation}${tmpSplice}@$operation.getReference().getAttributeName(), $$operation.getReference().getRefObject().t_getLocalName()_Size, 1);
+${indentation}${indentation}}
+${indentation}${indentation}$$operation.getReference().getRefObject().t_getLocalName()_Size--;
+$indentation}
+

@@ -1,0 +1,10 @@
+#set($count=$operation.parameterCount())
+#if($count>0)
+	#set($first-parameter=$operation.parameterAt(0))
+	#foreach ($parameter in $operation.parameterIterator())
+		#if($parameter!=$first-parameter)
+			, ##
+		#end
+		#parse("$template-path/parameter.vm")
+	#end
+#end

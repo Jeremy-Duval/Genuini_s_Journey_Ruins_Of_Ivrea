@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Analysis Parent" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content="Analysis Parent" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		
+		<!-- Parent -->
+		<ForEachSimpleRelationship modelType="AnalysisParentChild" direction="to" ignoreParagraphBreakForLastModel="true">
+			<TableBlock colWidths="25, 75" tableWidth="14500" alignment="right">
+				<TableRow>
+					<FromEnd>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Parent :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<MetaModelElement property="analysisModelAddress">
+								<StringPropertyText property="name" style="Table Contents"/>
+								<StaticText content=" : " style="Table Contents"/>
+								<StringPropertyText property="modelType" style="Table Contents"/>
+							</MetaModelElement>
+						</TableCell>
+					</FromEnd>
+				</TableRow>
+				<ValueConditionChecker property="documentation" operator="not equals" value="">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Documentation :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ValueConditionChecker>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content="" style="Default"/>
+			<ParagraphBreak/>
+		</ForEachSimpleRelationship>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

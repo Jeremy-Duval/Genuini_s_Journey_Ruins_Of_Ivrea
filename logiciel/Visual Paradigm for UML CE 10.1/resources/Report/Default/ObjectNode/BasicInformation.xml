@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Basic Information" description = "/" type = "table" default = "true"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Object Node : " style = "Heading 1 (VP)"/>
+		<StringPropertyText propertyText = "name" style = "Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<TableBlock colWidths = "20, 80" tableWidth = "15500" alignment = "right">
+			<HasMetaModelPropertyChecker property = "parameter" flag= "true">
+				<MetaModelElement modelProperty = "parameter">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Parameter :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>				
+				</MetaModelElement>
+			</HasMetaModelPropertyChecker>
+			<ValueConditionChecker property = "upperBound" operator = "NOT EQUAL" value = "">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Upper bound :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "upperBound" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StaticText content = "Ordering kind :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<ValueConditionChecker property = "orderingKind" propertyType = "int" operator = "EQUAL" value = "0">
+						<StaticText content = "FIFO" style = "Table Contents"/>
+					</ValueConditionChecker>
+					<ValueConditionChecker property = "orderingKind" propertyType = "int" operator = "EQUAL" value = "1">
+						<StaticText content = "unordered" style = "Table Contents"/>
+					</ValueConditionChecker>
+					<ValueConditionChecker property = "orderingKind" propertyType = "int" operator = "EQUAL" value = "2">
+						<StaticText content = "ordered" style = "Table Contents"/>
+					</ValueConditionChecker>
+					<ValueConditionChecker property = "orderingKind" propertyType = "int" operator = "EQUAL" value = "3">
+						<StaticText content = "LIFO" style = "Table Contents"/>
+					</ValueConditionChecker>
+				</TableCell>	
+			</TableRow>
+			<HasMetaModelPropertyChecker property = "stereotypes" flag = "true">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Stereotypes :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<ForEach property = "stereotypes" ignoreParagraphBreakForLastModel = "true">
+							<StaticText content = "&lt;&lt;" style = "Table Contents"/>
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+							<StaticText content = ">>" style = "Table Contents"/>
+							<StaticText content = "\n" style = "Table Contents"/>
+						</ForEach>
+					</TableCell>
+				</TableRow>
+			</HasMetaModelPropertyChecker>
+			<DefaultConditionChecker property = "visibility" propertyType = "StringSelection" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Visibility :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "visibility" style = "Table Contents"/>
+					</TableCell>	
+				</TableRow>
+			</DefaultConditionChecker>
+			<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+				<ReportOptionChecker option = "basicInformationShowsDocumentation" equalFlag = "true">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Doc :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ReportOptionChecker>
+			</ValueConditionChecker>
+			<DefaultConditionChecker property = "controlType" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Control Type :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<BooleanPropertyText propertyText = "controlType" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			<DefaultConditionChecker property = "mustIsolate" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Must isolate :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<BooleanPropertyText propertyText = "mustIsolate" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			<DefaultConditionChecker property = "leaf" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Leaf :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<BooleanPropertyText propertyText = "leaf" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+		</TableBlock>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

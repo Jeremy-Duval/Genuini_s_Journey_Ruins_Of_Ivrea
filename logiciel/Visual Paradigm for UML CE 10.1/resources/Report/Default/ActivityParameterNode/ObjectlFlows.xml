@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Object Flows" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Object Flows" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<ForEachSimpleRelationship type = "ActivityObjectFlow" direction = "all" ignoreParagraphBreakForLastModel = "true">
+			<TableBlock colWidths = "2100,13320" tableWidth = "14500" alignment = "right">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Name :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StringPropertyText propertyText = "name" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Target :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<ToEnd>
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</ToEnd>
+					</TableCell>
+				</TableRow>
+				<ValueConditionChecker property = "guard" operator = "NOT EQUAL" value = "">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Guard :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "guard" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ValueConditionChecker>
+				<HasMetaModelPropertyChecker property = "stereotypes" flag = "true">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Stereotypes :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<ForEach property = "stereotypes" ignoreParagraphBreakForLastModel = "true">
+								<StaticText content = "&lt;&lt;" style = "Table Contents"/>
+								<StringPropertyText propertyText = "name" style = "Table Contents"/>
+								<StaticText content = ">>" style = "Table Contents"/>
+								<StaticText content = "\n" style = "Table Contents"/>
+							</ForEach>
+						</TableCell>
+					</TableRow>
+				</HasMetaModelPropertyChecker>
+				<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Documentation :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ValueConditionChecker>
+				<DefaultConditionChecker property = "multicast" propertyType = "boolean" equalFlag = "false">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Multicast :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<BooleanPropertyText propertyText = "multicast" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</DefaultConditionChecker>
+				<DefaultConditionChecker property = "multireceive" propertyType = "boolean" equalFlag = "false">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Multireceive :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<BooleanPropertyText propertyText = "multireceive" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</DefaultConditionChecker>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content = "" style = "Default"/>
+			<ParagraphBreak/>
+		</ForEachSimpleRelationship>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

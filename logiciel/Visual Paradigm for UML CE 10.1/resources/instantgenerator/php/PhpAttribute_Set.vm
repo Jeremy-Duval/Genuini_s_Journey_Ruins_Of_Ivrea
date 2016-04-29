@@ -1,0 +1,9 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if ($operation.getReference().getRefObject().t_getScope() == "")
+	#set( $attributeScope = "$this->" )
+#else
+	#set( $attributeScope = "self::$" )
+#end
+${indentation}${indentation}$attributeScope$operation.getReference().getAttributeName() = $$operation.getReference().getParameterName();
+

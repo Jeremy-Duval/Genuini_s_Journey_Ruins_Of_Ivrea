@@ -1,0 +1,31 @@
+#set($indent="")
+#set($current=$class)
+-- The Declaration of class $class.getClassName()
+#if($class.importCount()>0)
+	#foreach($import in $class.importIterator())
+		#parse("$template-path/import.vm")
+	#end
+
+#end
+#parse("$template-path/comments.vm")
+package $class.getPackageName() is
+#set($indent="$indent	")
+#if($class.accessingTypeCount()>0)
+	#foreach($type in $class.accessingTypeIterator())
+		#parse("$template-path/type.vm")
+	#end
+
+#end
+#set($type=$class.getPrivateComponentTypeDeclaraction())
+#parse("$template-path/type.vm")
+#set($type=$class.getInternalType())
+#parse("$template-path/type.vm")
+#foreach($operation in $class.operationIterator())
+	#parse("$template-path/operation-declaration.vm")
+#end
+	
+private
+#set($type=$class.getPrivateComponentType())
+#parse("$template-path/type.vm")
+
+end $class.getPackageName();

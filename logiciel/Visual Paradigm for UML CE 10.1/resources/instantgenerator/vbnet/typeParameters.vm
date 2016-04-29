@@ -1,0 +1,14 @@
+#if($current.templateParameterCount()>0)
+	#set($first=true)
+	(##
+	#foreach($typeParameter in $current.templateParameterIterator())
+		#if($first)
+			#set($first=false)
+			Of ##
+		#else
+			, ##
+		#end
+		#parse("$template-path/typeParameter.vm")
+	#end
+	)##
+#end

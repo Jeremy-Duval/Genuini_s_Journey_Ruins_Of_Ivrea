@@ -1,0 +1,14 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#set( $tmpFor = 'for (' )
+#set( $tmpLength = '.length' )
+#set( $tmpIf = 'if (' )
+#set( $tmpSplice = '.splice(' )
+${baseIndentation}${indentation}${indentation}${tmpFor}var i:Number = 0; i < this.$operation.getReference().getAttributeName()$tmpLength; i++)
+${baseIndentation}${indentation}${indentation}{
+${baseIndentation}${indentation}${indentation}${indentation}${tmpIf}this.$operation.getReference().getAttributeName()[i] == $operation.getReference().getParameterName())
+${baseIndentation}${indentation}${indentation}${indentation}{
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}this.$operation.getReference().getAttributeName()${tmpSplice}i, 1);
+${baseIndentation}${indentation}${indentation}${indentation}}
+${baseIndentation}${indentation}${indentation}}
+

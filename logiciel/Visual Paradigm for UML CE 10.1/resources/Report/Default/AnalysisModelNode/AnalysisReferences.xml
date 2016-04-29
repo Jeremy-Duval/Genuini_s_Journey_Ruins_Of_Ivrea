@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Analysis References" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content="Analysis References" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<ForEachSimpleRelationship modelType="AnalysisReference" direction="from" ignoreParagraphBreakForLastModel="true">
+			<TableBlock colWidths="25, 75" tableWidth="14500" alignment="right">
+				<TableRow>
+					<ToEnd>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisDiagramGroupNode">
+								<StaticText content="Referenced Diagrams :" style="Row caption 1"/>
+							</ValueConditionChecker>
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisDiagramNode">
+								<StaticText content="Referenced Diagram :" style="Row caption 1"/>
+							</ValueConditionChecker>
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisViewGroupNode">
+								<StaticText content="Referenced Views :" style="Row caption 1"/>
+							</ValueConditionChecker>
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisViewNode">
+								<StaticText content="Referenced View :" style="Row caption 1"/>
+							</ValueConditionChecker>
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisModelGroupNode">
+								<StaticText content="Referenced Models :" style="Row caption 1"/>
+							</ValueConditionChecker>
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisModelNode">
+								<StaticText content="Referenced Model :" style="Row caption 1"/>
+							</ValueConditionChecker>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<!-- diagrams ? -->
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisDiagramGroupNode">
+								<ForEach property="analysisDiagramIds" ignoreParagraphBreakForLastModel="true">
+									<DiagramProperty property="value">
+										<StringPropertyText property="name" style="Table Contents"/>
+										<StaticText content=" : " style="Table Contents"/>
+										<StringPropertyText property="type" style="Table Contents"/>
+										<StaticText content="\n" style="Table Contents"/>
+									</DiagramProperty>
+								</ForEach>
+							</ValueConditionChecker>
+							
+							<!-- diagram ? -->
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisDiagramNode">
+								<DiagramProperty property="analysisDiagramId">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content=" : " style="Table Contents"/>
+									<StringPropertyText property="type" style="Table Contents"/>
+								</DiagramProperty>
+							</ValueConditionChecker>
+							
+							<!-- views ? -->
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisViewGroupNode">
+								<ForEach property="analysisViewIds" ignoreParagraphBreakForLastModel="true">
+									<DiagramElementProperty property="value">
+										<StringPropertyText property="name" style="Table Contents"/>
+										<StaticText content=" : " style="Table Contents"/>
+										<StringPropertyText property="modelType" style="Table Contents"/>
+										<StaticText content="\n" style="Table Contents"/>
+									</DiagramElementProperty>
+								</ForEach>
+							</ValueConditionChecker>
+							
+							<!-- view ? -->
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisViewNode">
+								<DiagramElementProperty property="analysisViewId">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content=" : " style="Table Contents"/>
+									<StringPropertyText property="modelType" style="Table Contents"/>
+								</DiagramElementProperty>
+							</ValueConditionChecker>
+							
+							<!-- models ? -->
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisModelGroupNode">
+								<ForEach property="analysisModelAddresses" ignoreParagraphBreakForLastModel="true">
+									<MetaModelElement property="value">
+										<StringPropertyText property="name" style="Table Contents"/>
+										<StaticText content=" : " style="Table Contents"/>
+										<StringPropertyText property="modelType" style="Table Contents"/>
+										<StaticText content="\n" style="Table Contents"/>
+									</MetaModelElement>
+								</ForEach>
+							</ValueConditionChecker>
+							
+							<!-- model ? -->
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisModelNode">
+								<MetaModelElement property="analysisModelAddress">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content=" : " style="Table Contents"/>
+									<StringPropertyText property="modelType" style="Table Contents"/>
+								</MetaModelElement>
+							</ValueConditionChecker>
+						</TableCell>
+					</ToEnd>
+				</TableRow>
+				<ValueConditionChecker property="documentation" operator="not equals" value="">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Documentation :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ValueConditionChecker>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content="" style="Default"/>
+			<ParagraphBreak/>
+		</ForEachSimpleRelationship>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

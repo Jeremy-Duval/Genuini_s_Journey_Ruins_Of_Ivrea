@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autoUpdate build="20140101" canDelete="true" complete="true" isInternalUpdateServer="false" newInstallerJar="C:\Program Files\Visual Paradigm for UML CE 10.1\bin\..\autoupdate2\platforminstaller.jar" serverAddress="http://eu5.visual-paradigm.com/archives/vpuml10.1/20140405/Update" serverXml="C:\Program Files\Visual Paradigm for UML CE 10.1\bin\..\autoupdate2\autoupdate_productupdate.xml" serversUrl="" tempDir="C:\Program Files\Visual Paradigm for UML CE 10.1\bin\..\autoupdate2">
+	<updates>
+		<update date="1398526013000" downloaded="C:\Program Files\Visual Paradigm for UML CE 10.1\bin\..\autoupdate2\0.tmp" excluded="false" hash="44e5277974fe90daabdd7cb4ce1f0844" name="lib01.jar" oldHash="5e60a8229ccfb68923db5b77e195bc13" path="lib/lib01.jar" size="41429551" target="C:\Program Files\Visual Paradigm for UML CE 10.1\bin\..\lib\lib01.jar"/>
+		<update date="1398526006000" downloaded="C:\Program Files\Visual Paradigm for UML CE 10.1\bin\..\autoupdate2\1.tmp" excluded="false" hash="9121d2586418f14c4ff4d562ed4ffedf" name="vpplatform.jar" oldHash="9b31e29a097b7ee802b1dff5e496ece1" path="lib/vpplatform.jar" size="72826551" target="C:\Program Files\Visual Paradigm for UML CE 10.1\bin\..\lib\vpplatform.jar"/>
+	</updates>
+</autoUpdate>

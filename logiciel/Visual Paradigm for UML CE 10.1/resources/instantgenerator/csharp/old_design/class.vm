@@ -1,0 +1,81 @@
+#set ($indent = "")
+using System;
+
+#if ($class.getNamespace()!="")
+namespace $class.getNamespace()
+{
+#set ($indent = "	")
+#end
+#if ($class.getDocumentation() && $class.getDocumentation()!="")
+/// <summary>
+#foreach ($line in $class.getDocumentationLine())
+/// $line
+#end
+/// </summary>
+#end
+$indent$class.getClassDefinition()	
+$indent{
+#if ($class.inheritedFromAssociationCount()>0)
+#foreach ($association in $class.inheritedFromAssociationIterator())
+#parse("$template-path/from-association.vm")
+#end
+
+#end
+#if ($class.inheritedToAssociationCount()>0)
+#foreach ($association in $class.inheritedToAssociationIterator())
+#parse("$template-path/to-association.vm")
+#end
+
+#end
+#if ($class.fromAssociationCount()>0)
+#foreach ($association in $class.fromAssociationIterator())
+#parse("$template-path/from-association.vm")
+#end
+
+#end
+#if ($class.toAssociationCount()>0)
+#foreach ($association in $class.toAssociationIterator())
+#parse("$template-path/to-association.vm")
+#end
+
+#end
+#if ($class.attributeCount()>0)
+#foreach ($attribute in $class.attributeIterator())
+#parse("$template-path/attribute.vm")
+#end
+
+#end
+#if ($class.inheritedAttributeCount()>0)
+#foreach ($attribute in $class.inheritedAttributeIterator())
+#parse("$template-path/attribute.vm")
+#end
+
+#end
+#if ($class.operationCount()>0)
+#foreach ($operation in $class.operationIterator())
+#parse("$template-path/operation.vm")
+#end
+
+#end
+#if ($class.inheritedOperationCount()>0)
+#foreach ($operation in $class.inheritedOperationIterator())
+#parse("$template-path/operation.vm")
+#end
+
+#end
+#if ($class.innerClassCount()>0)
+#foreach ($innerClass in $class.innerClassIterator())
+#parse("$template-path/inner-class.vm")
+#end
+
+#end
+#if ($class.innerEnumCount()>0)
+#foreach ($innerEnum in $class.innerEnumIterator())
+#parse("$template-path/inner-enum.vm")
+#end
+
+#end
+$indent}
+#if ($class.getNamespace()!="")
+}
+#end

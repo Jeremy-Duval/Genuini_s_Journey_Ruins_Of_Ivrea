@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Mind Mapping Diagram" description="" icon="diagram" type="image" default="true"/>
+	<DiagramBaseInitiationBlock>
+		<!-- diagram -->
+		<StaticText content="Mind Mapping Diagram : " style="Heading 1 (VP)"/>
+		<StringPropertyText propertyText="name" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<StaticText content="" style="Default"/>
+
+		<ElementImage imageType="diagram" alignment="center" keepWithPreviousInPDF="true"/>
+		<ParagraphBreak/>
+
+		<StaticText content="" style="Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

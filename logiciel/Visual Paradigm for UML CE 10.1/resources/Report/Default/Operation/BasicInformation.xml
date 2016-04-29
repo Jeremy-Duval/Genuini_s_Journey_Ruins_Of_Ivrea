@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Basic Information" description="/" type="table" default="true"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content="Operation : " style="Heading 1 (VP)"/>
+		<StringPropertyText propertyText="name" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<TableBlock colWidths = "20, 80" tableWidth="15500" alignment="right">
+			<HasMetaModelPropertyChecker property="stereotypes" flag="true">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Stereotypes :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<ForEach property="stereotypes" ignoreParagraphBreakForLastModel="true">
+							<StaticText content="&lt;&lt;" style="Table Contents"/>
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+							<StaticText content=">>" style="Table Contents"/>
+							<StaticText content="\n" style="Table Contents"/>
+						</ForEach>
+					</TableCell>
+				</TableRow>
+			</HasMetaModelPropertyChecker>		
+			<ValueConditionChecker property="documentation" operator="NOT EQUAL" value="">
+				<ReportOptionChecker option="basicInformationShowsDocumentation" equalFlag="true">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Doc :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ReportOptionChecker>
+			</ValueConditionChecker>
+			<HasMetaModelPropertyChecker property="classifier" flag="true">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Classifier :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<MetaModelElement modelProperty="classifier">
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</MetaModelElement>
+					</TableCell>
+				</TableRow>
+			</HasMetaModelPropertyChecker>			
+			<ValueConditionChecker property="returnType" operator="NOT EQUAL" value="">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Return type :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="returnType" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			<DefaultConditionChecker property="typeModifier" propertyType="StringSelection" equalFlag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Type modifier :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="typeModifier" style="Table Contents"/>
+					</TableCell>	
+				</TableRow>
+			</DefaultConditionChecker>
+			<DefaultConditionChecker property="visibility" propertyType="StringSelection" equalFlag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Visibility :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="visibility" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			<TableRow>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="Scope :" style="Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StringPropertyText propertyText="scope" style="Table Contents"/>
+				</TableCell>	
+			</TableRow>
+			<ValueConditionChecker property="bodyCondition" operator="NOT EQUAL" value="">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Body Condition:" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText propertyText="bodyCondition" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			<DefaultConditionChecker property="visible" propertyType="boolean" equalFlag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Visible :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<BooleanPropertyText propertyText="visible" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			<DefaultConditionChecker property="abstract" propertyType="boolean" equalFlag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Abstract :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<BooleanPropertyText propertyText="abstract" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			<DefaultConditionChecker property="query" propertyType="boolean" equalFlag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Query :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<BooleanPropertyText propertyText="query" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+		</TableBlock>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

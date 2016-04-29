@@ -1,0 +1,35 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+#if( $attribute.getType().isComposite() )
+	$stacks.getStack("composite").push($class)##
+	#set($class = $attribute.getType())
+	#if ( !$referenceAttribute )
+		#set($referenceAttribute = false)
+	#end
+	$stacks.getStack("referenceAttribute").push($referenceAttribute)##
+	#set($referenceAttribute = $attribute)
+	#parse("$template-dir/XsdClassSelection.vm")
+	#set($referenceAttribute = $stacks.getStack("referenceAttribute").pop())##
+	#set($class = $stacks.getStack("composite").pop())##
+#else
+	$indenter.getIndentation()<xs:element ##
+	#if( $attribute.getType().isElement() )
+		ref##
+	#else
+		name="$attribute.getName()" type##
+	#end
+	="$attribute.t_getTypePrefix()$attribute.t_getTypePrefixPostfix()$attribute.t_getTypeName()" minOccurs="$attribute.t_getMinOccurs()" maxOccurs="$attribute.t_getMaxOccurs()"##
+	#if( $attribute.hasDefaultValue() )
+		${space}default="$attribute.getDefaultValue()"##
+	#end
+	>##
+	$indenter.push($indentation)##
+	#if( $attribute.isElement() && $attribute.t_hasTaggedValueContent() )
+	  $indenter.getIndentation()
+	  #set($node = $attribute.t_getTaggedValueContent() )
+	  #parse("$template-dir/XsdXmlNode.vm")
+	#end
+	$attribute.t_getDocumentation($indenter.getIndentation())
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:element>
+#end

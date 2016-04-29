@@ -1,0 +1,9 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+#if( $attribute.t_isClassifierScope() == true )
+	${baseIndentation}${indentation}$attribute.t_getAttributeName()$attribute.t_getInitialValue()##
+	$attribute.t_getDocumentation("${baseIndentation}${indentation}")##
+#else
+	${baseIndentation}${indentation}${indentation}self.$attribute.t_getAttributeName()$attribute.t_getInitialValue()##
+	$attribute.t_getDocumentation("${baseIndentation}${indentation}${indentation}")##
+#end

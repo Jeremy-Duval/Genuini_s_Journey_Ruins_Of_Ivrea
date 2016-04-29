@@ -1,0 +1,47 @@
+#if($class.isInterface() && $operation.getInheritedFrom())
+	${indent}// method $operation.getName() is inherited from base class
+	
+#else
+	#set($orginal=$current)
+	#set($current=$operation)
+	###################### Comment Start ######################
+	#parse("$template-path/comment.vm")
+	##parse("$template-path/parameters-comment.vm")
+	###################### Comment End ######################
+	#if($current.getDeclarativeAttribute() && $current.getDeclarativeAttribute()!="")
+		${indent}#parse("$template-path/declarationType.vm")
+		
+	#end
+	${indent}#parse("$template-path/visibility.vm")
+	#parse("$template-path/member.vm")
+	#if($operation.getMethodReturnType() && $operation.getMethodReturnType()!="")
+		$operation.getMethodReturnType()##
+		#if($operation.getTemplateTypeBindInfo())
+			#set($bindInfo=$operation.getTemplateTypeBindInfo())
+			#parse("$template-path/bindInfo.vm")
+		#end
+		$space##
+	#end
+	$operation.getMethodName()##
+	#parse("$template-path/typeParameterDeclaration.vm")
+	(##
+	#parse("$template-path/parameters.vm")
+	)##
+	#parse("$template-path/typeParameterInheritance.vm")
+	#if($operation.isAbstract() || $operation.isDelegate())
+		;
+	#else
+		$space{
+		#if($operation.hasReference() == true)
+			#parse("$template-path/$operation.getReference().getRefTemplate()")
+		#elseif($operation.getImplementations())
+			#foreach ($line in $formatter.getDocumentationLineIterator($operation.getImplementations()))
+				${indent}${tab}$line
+			#end
+		#else
+			${indent}${tab}throw new System.Exception("Not implemented");
+		#end
+		$indent}
+	#end
+	#set($current=$orginal)
+#end

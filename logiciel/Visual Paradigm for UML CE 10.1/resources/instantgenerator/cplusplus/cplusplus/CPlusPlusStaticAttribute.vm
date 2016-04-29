@@ -1,0 +1,4 @@
+$staticAttribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$staticAttribute.t_getTypeName()$staticAttribute.t_getGeneric()$staticAttribute.t_getTypePreModifier()##
+$class.getName()::$staticAttribute.t_getTypePostModifier()$staticAttribute.t_getStaticInitialValue();

@@ -1,0 +1,3 @@
+$parameter.t_prepare($args.get("property"))##
+## ===== Output =====
+$parameter.t_getDirection()$parameter.t_getTypeName()$parameter.t_getParameterName()

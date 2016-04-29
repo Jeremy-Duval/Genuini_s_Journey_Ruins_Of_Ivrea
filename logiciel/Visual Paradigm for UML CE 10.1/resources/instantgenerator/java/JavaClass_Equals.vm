@@ -1,0 +1,25 @@
+#set( $bodyBase = "${baseIndentation}${indentation}${indentation}" )
+## ===== Output =====
+#set( $parameterName = $operation.parameterAt(0).t_getParameterName() )
+#set( $className = $class.getName() )
+#set( $object = $utilities.getLocalVariableName("${className}Object", $args.get("property")) )
+#set( $equals = $utilities.getLocalVariableName("equals", $args.get("property")) )
+${bodyBase}if (this == $parameterName) {
+${bodyBase}${indentation}return true;
+${bodyBase}} else if ($parameterName instanceof $className) {
+${bodyBase}${indentation}${className} $object = (${className}) $parameterName;
+${bodyBase}${indentation}boolean $equals = true;
+#if( $class.attributeCount() > 0 )
+	#foreach( $attribute in $class.attributeIterator() )
+		#if( $utilities.isObject($attribute.t_getTypeName($class)) )
+			${bodyBase}${indentation}$equals &= ((this.$attribute.t_getAttributeName() == ${object}.$attribute.t_getAttributeName())
+			${bodyBase}${indentation}${indentation}|| (this.$attribute.t_getAttributeName() != null && this.${attribute.t_getAttributeName()}.equals(${object}.$attribute.t_getAttributeName())));
+		#else
+			${bodyBase}${indentation}$equals &= this.$attribute.t_getAttributeName() == ${object}.$attribute.t_getAttributeName();
+		#end
+	#end
+#end
+${bodyBase}${indentation}return $equals;
+${bodyBase}}
+${bodyBase}return false;
+

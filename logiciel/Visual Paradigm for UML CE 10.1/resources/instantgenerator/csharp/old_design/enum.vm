@@ -1,0 +1,21 @@
+#set ($indent = "")
+#if ($class.getNamespace()!="")
+namespace $class.getNamespace()
+{
+#set ($indent = "	")
+#end
+#if ($class.getDocumentation() && $class.getDocumentation()!="")
+/// <summary>
+/// $class.getDocumentation()
+/// </summary>
+#end
+$indent#if ($class.getVisibilityDisplay()!="")$class.getVisibilityDisplay() #end
+enum $class.getName()
+$indent{
+#foreach ($field in $class.enumFieldIterator())
+$indent	$field.getName()#if($field.getInitialValue() && $field.getInitialValue()!="") = $field.getInitialValue()#end,
+#end
+$indent}
+#if ($class.getNamespace()!="")
+}
+#end

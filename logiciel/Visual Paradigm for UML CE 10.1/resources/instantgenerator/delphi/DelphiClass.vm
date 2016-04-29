@@ -1,0 +1,50 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $indentationLevel == "0" )
+	#set( $indentationLevel = 0 )
+#end
+#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+## ===== Output =====
+#if( $clsMode == "INTERFACE" )
+	$class.t_getDocumentation($baseIndentation)##
+	${baseIndentation}$class.getName() = $class.t_getInterface()##
+	#if (!$class.isInterface())
+		($class.t_getGeneralizationRealization())
+	#end
+	#if( $class.containmentClassCount() > 0 )
+		${baseIndentation}${indentation}Type
+		#foreach( $class in $class.containmentClassIterator() )
+			#set( $indentationLevel = $indentationLevel + 2 )
+			#parse("$template-dir/DelphiClass.vm")
+
+			#set( $indentationLevel = $indentationLevel - 2 )
+		#end
+	#end
+	#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+	#if( $class.attributeCount() > 0 )
+		#foreach( $attribute in $class.attributeIterator() )
+			#if( $class.isInterface() == false || $attribute.t_getScope().equals("static ") )
+				#parse("$template-dir/DelphiAttribute.vm")
+
+			#end
+		#end
+	#end
+#else
+	#set( $baseIndentation = "$indentation" )
+	#if( $class.containmentClassCount() > 0 )
+		#foreach( $class in $class.containmentClassIterator() )
+			#parse("$template-dir/DelphiClass.vm")
+
+		#end
+	#end
+#end
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#if( $clsMode == "INTERFACE" || !$operation.isAbstract() )
+			#parse("$template-dir/DelphiOperation.vm")
+		#end
+	#end
+#end
+#if( $clsMode == "INTERFACE" )
+	${baseIndentation}End;
+#end

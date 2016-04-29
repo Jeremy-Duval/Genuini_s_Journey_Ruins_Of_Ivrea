@@ -1,0 +1,5 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$attribute.t_getDocumentation("${baseIndentation}${indentation}")##
+${baseIndentation}${indentation}$attribute.t_getVisibility("${baseIndentation}${indentation}")##
+$attribute.t_getAttributeNamePrefix()$attribute.t_getAttributeName()$attribute.t_getInitialValue()

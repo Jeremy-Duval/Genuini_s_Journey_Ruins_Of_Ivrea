@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Stereotypes" description="/" type="table" default="false"/>
+	<ProjectBaseInitiationBlock>
+	
+		<StaticText content="Stereotypes" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<HasChildElementChecker type="Stereotype" allLevel="true">
+			<TableBlock colWidths="5000,5000" tableWidth="15500" alignment="right" rowBackgroundColors="#F0F0FF, #FFFFFF">
+				<TableRow backgroundColor="#E6E6E6">
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Name" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Attribute(s)" style="Row caption 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock elementType="Stereotype" allLevel="true">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<HasMetaModelPropertyChecker property="taggedValueDefinitions" flag="true">
+								<MetaModelElement modelProperty="taggedValueDefinitions">
+									<IterationBlock ignoreParagraphBreakForLastModel="true">
+										<StringPropertyText propertyText="name" style="Table Contents"/>
+										<StaticText content=", " style="Table Contents"/>
+									</IterationBlock>
+								</MetaModelElement>
+							</HasMetaModelPropertyChecker>
+						</TableCell>
+					</TableRow>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		
+		<StaticText content="" style="Default"/>
+	</ProjectBaseInitiationBlock>
+</Template>

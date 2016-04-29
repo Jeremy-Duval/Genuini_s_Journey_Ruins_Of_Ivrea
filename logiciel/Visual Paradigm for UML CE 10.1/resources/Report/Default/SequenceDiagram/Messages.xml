@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Messages" description="/" type="table" default="false"/>
+	<DiagramBaseInitiationBlock>
+
+		<StaticText content="Messages" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker modelType="Message">
+			<TableBlock colWidths="15, 10, 25, 10, 15, 15,  10" tableWidth="14500" alignment="right">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="From" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="No." style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Name" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Type" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Action Type" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="To" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Async." style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock modelType="Message" sortBy="property" sortProperty="y">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<FromEnd>
+								<MetaModelElement property="EndModelElement">
+									<ElementImage imageType="icon" style="Table Contents"/>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</MetaModelElement>
+							</FromEnd>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="sequenceNumber" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="name" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ElementImage imageType="icon" style="Table Contents"/>
+							<!-- shows text of the type, since cannot show tooltip on the image -->
+							<!--
+							<StringPropertyText property="type" style="Table Contents"/>
+							-->
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<HasMetaModelPropertyChecker property="actionType">
+								<MetaModelElement property="actionType">
+									<StringPropertyText property="modelType" style="Table Contents"/>
+								</MetaModelElement>
+							</HasMetaModelPropertyChecker>
+							<HasMetaModelPropertyChecker property="actionType" flag="false">
+								<StaticText content="Unspecified" style="Table Contents"/>
+							</HasMetaModelPropertyChecker>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ToEnd>
+								<MetaModelElement property="EndModelElement">
+									<ElementImage imageType="icon" style="Table Contents"/>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</MetaModelElement>
+							</ToEnd>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ValueConditionChecker property="asynchronous" operator="equals" value="true">
+								<StaticText content="Yes" style="Table Contents"/>
+							</ValueConditionChecker>
+						</TableCell>
+					</TableRow>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content="" style="Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

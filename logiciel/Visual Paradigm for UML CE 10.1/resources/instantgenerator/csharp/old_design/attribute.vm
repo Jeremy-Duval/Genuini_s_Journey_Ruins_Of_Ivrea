@@ -1,0 +1,27 @@
+#if ($attribute.getDocumentation() && $attribute.getDocumentation()!="")
+$indent	/// <summary>
+#foreach ($line in $attribute.getDocumentationLine())
+	$indent /// $line
+#end
+$indent	/// </summary>
+#end
+#if (!$attribute.isAbstract()||$attribute.isOverride())
+$indent	#if($attribute.getModifier()!="")$attribute.getModifier() #end$attribute.getDisplayType() $attribute.getDisplayName()#if($attribute.getInitialValue() && $attribute.getInitialValue()!="") = $attribute.getInitialValue()#end;
+#end
+#if ($attribute.hasSetter() || $attribute.hasGetter())
+$indent	public #if($attribute.getPropertyModifier()!="")$attribute.getPropertyModifier() #end$attribute.getDisplayType() $attribute.getPropertyDisplayName() {
+#if ($attribute.hasGetter())
+$indent		get #if($attribute.isAbstract()&&($class.isAbstract()||!$attribute.isOverride()));#else{
+$indent			return $attribute.getDisplayName();
+$indent		}
+#end
+
+#end
+#if ($attribute.hasSetter())
+$indent		set #if($attribute.isAbstract()&&($class.isAbstract()||!$attribute.isOverride()));#else{
+$indent			$attribute.getDisplayName() = value;
+$indent		}#end
+
+#end
+$indent	}
+#end

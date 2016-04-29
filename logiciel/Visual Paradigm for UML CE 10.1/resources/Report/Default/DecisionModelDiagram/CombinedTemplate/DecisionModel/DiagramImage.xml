@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+    <TemplateInformationHeader name="Decison Model - Diagram Image" type="image" default="false"/>
+    <DiagramBaseInitiationBlock>
+        <ElementImage imageType="diagram" alignment="center"/>
+        <ParagraphBreak/>
+        <StringPropertyText property="name" alignment="center"/>
+        <ParagraphBreak/>
+        <StaticText content="" style="Default"/>
+    </DiagramBaseInitiationBlock>
+</Template>

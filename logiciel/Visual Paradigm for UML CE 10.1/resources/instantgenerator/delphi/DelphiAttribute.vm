@@ -1,0 +1,4 @@
+$attribute.t_prepare($clsMode, $args.get("property"))##
+## ===== Output =====
+$attribute.t_getDocumentation("${baseIndentation}${indentation}")##
+${baseIndentation}${indentation}$attribute.t_getVisibility()$attribute.t_getConst()$attribute.t_getAttributeName()$attribute.t_getTypeNamePrefix()$attribute.t_getTypeName()$attribute.t_getInitialValue();

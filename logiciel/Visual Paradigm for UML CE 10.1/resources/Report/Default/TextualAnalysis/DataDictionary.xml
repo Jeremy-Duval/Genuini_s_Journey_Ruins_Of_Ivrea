@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Data Dictionary" description = "/" type = "table" default = "false"/>
+	<DiagramBaseInitiationBlock>
+		<StaticText content = "Data Dictionary" style = "Heading 2 (VP)"/>
+		<TableBlock colWidths = "5000,5000" tableWidth = "14500" alignment = "right">
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+					<StaticText content = "Candidate Class" style = "Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+					<StaticText content = "Extracted Text" style = "Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+					<StaticText content = "Type" style = "Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+					<StaticText content = "Class Description" style = "Column header 1"/>
+				</TableCell>
+			</TableRow>
+			<IterationBlock elementType = "CandidateItem">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "name" style = "Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "candidateItemText" style = "Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "candidateItemType" style = "Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "candidateItemDescription" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</IterationBlock>
+		</TableBlock>
+		<ParagraphBreak/>
+		<StaticText content = "" style = "Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

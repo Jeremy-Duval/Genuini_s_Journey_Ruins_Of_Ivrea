@@ -1,0 +1,20 @@
+${indent}type $type.getName() is ##
+#if($type.isAbstract())
+	abstract ##
+#end
+$type.getType()##
+#if ($type.isPrivate())
+	${space}private;
+#elseif ($type.recordCount()==0)
+	${space}null record;
+#else
+
+	${indent}${tab}record
+	#set($oldIndent=$indent)
+	#set($indent="$indent		")
+	#foreach ($record in $type.recordIterator())
+		#parse("$template-path/record.vm")
+	#end
+	#set($indent=$oldIndent)
+	${indent}${tab}end record;
+#end

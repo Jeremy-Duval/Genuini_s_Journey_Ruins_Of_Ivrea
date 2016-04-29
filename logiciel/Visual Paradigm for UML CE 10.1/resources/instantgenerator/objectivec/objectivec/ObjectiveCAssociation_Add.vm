@@ -1,0 +1,18 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if( $associationImplementation == "0" )
+	#set( $tmpSizeOf = 'sizeof(' )
+	${indentation}int $operation.getReference().getRefObject().t_getLocalName()_Size = (${tmpSizeOf}$operation.getReference().getAttributeName()) / ${tmpSizeOf}$operation.getReference().getParameterName()));
+	${indentation}$operation.getReference().getRefObject().t_getLocalName()_Size++;
+	${indentation}id* $operation.getReference().getRefObject().t_getLocalName()_Temp[$operation.getReference().getRefObject().t_getLocalName()_Size];
+	${indentation}int i;
+	${indentation}for (i = 0; i < $operation.getReference().getRefObject().t_getLocalName()_Size - 1; i++) {
+	${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[i] = $operation.getReference().getAttributeName()[i];
+	$indentation}
+	${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[$operation.getReference().getRefObject().t_getLocalName()_Size - 1] = $operation.getReference().getParameterName();
+	$indentation*$operation.getReference().getAttributeName() = (id*) $operation.getReference().getRefObject().t_getLocalName()_Temp;
+#else
+	#set( $tmpAddObject = 'addObject' )
+	$indentation[$operation.getReference().getAttributeName() $tmpAddObject:$operation.getReference().getParameterName()];
+#end
+

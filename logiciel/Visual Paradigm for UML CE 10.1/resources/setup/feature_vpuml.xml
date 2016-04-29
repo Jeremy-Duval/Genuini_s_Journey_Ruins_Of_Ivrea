@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Features edition="Professional" version="10-1-0">
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/structuralmodeling.jsp" name="Draw all UML 2.4 diagrams">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/sysml.jsp" name="Draw all SysML 1.2 diagrams">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/teamwork.jsp" name="Collaborate to design system">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/glossary.jsp#grid" name="Manage Glossary">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+		<Edition name="Modeler"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/docgen.jsp" name="Generate system reports">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/roundtripcodeengine.jsp" name="Generate Java and C++">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/dbengine.jsp" name="Generate Database">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/dbobjectpersistence.jsp" name="Generate Hibernate ORM">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+		<Edition name="Standard"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/usecasedetails.jsp" name="Capture Use Case flow">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/impactanalysis.jsp#analysis" name="Percise Impact Analysis">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/impactanalysis.jsp#matrix" name="Macro Impact Analysis">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/impactanalysis.jsp#customchart" name="Customize your charts">
+		<Edition name="Enterprise"/>
+		<Edition name="Professional"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/bpmodeling.jsp" name="Capture business process">
+		<Edition name="Enterprise"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/enterprisearchitecture.jsp" name="Enterprise Architecture">
+		<Edition name="Enterprise"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/simulation.jsp#simulatebp" name="Simulate business process">
+		<Edition name="Enterprise"/>
+	</Feature>
+	<Feature link="http://www.visual-paradigm.com/product/vpuml/features/bpmodeling.jsp#decisiontable" name="Decision table">
+		<Edition name="Enterprise"/>
+	</Feature>
+</Features>

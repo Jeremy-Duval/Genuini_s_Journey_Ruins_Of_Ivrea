@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<model>
+		<copymodel from="bin/vp_windows" to="bin/sde/vp_windows"></copymodel>
+		<copymodel from="shapes" to="bin/sde/shapes"></copymodel>
+		<copymodel from="bundled" to="bin/sde/bundled"></copymodel>
+		<copymodel from="sde/sdenb50" to=""></copymodel>
+		<copymodel from="resources/ignorefonts.txt" to="bin/sde/ignorefonts.txt"></copymodel>
+		<copymodel from="resources/instantgenerator" to="bin/sde/instantgenerator"></copymodel>
+		<copymodel from="resources/Report" to="bin/sde/Report"></copymodel>
+		<copymodel from="resources/dict" to="bin/sde/dict"></copymodel>
+		<copymodel from="resources/appConfig.properties" to="bin/sde/appConfig.properties"></copymodel>
+		<copymodel from="resources/appConfig_sample.properties" to="bin/sde/appConfig_sample.properties"></copymodel>
+		<copymodel from="resources/community.txt" to="bin/sde/community.txt"></copymodel>
+		<copymodel from="UserLanguage" to="bin/sde/UserLanguage"></copymodel>
+		<copymodel from="ormlib" to="bin/sde/ormlib"></copymodel>
+		<copymodel from="ormlib" to="ide6/lib/vpsdenb"></copymodel>
+		<copymodel from="lib/jh.jar" to="ide6/lib/vpsdenb/jh.jar"></copymodel>
+		<copymodel from="lib/vpuml-help.jar" to="ide6/lib/vpsdenb/vpuml-help.jar"></copymodel>
+		<copymodel from="lib/jniwrap.jar" to="ide6/lib/vpsdenb/jniwrap.jar"></copymodel>
+		<copymodel from="lib/winpack.jar" to="ide6/lib/vpsdenb/winpack.jar"></copymodel>
+		<copymodel from="lib/startsde.jar" to="bin/sde/startsdenb.jar"></copymodel>
+		<copymodel from="lib/vpplatform.jar" to="ide6/lib/vpsdenb/vpplatform.jar"></copymodel>
+		<copymodel from="lib/lib01.jar" to="ide6/lib/vpsdenb/lib01.jar"></copymodel>
+		<copymodel from="lib/lib02.jar" to="ide6/lib/vpsdenb/lib02.jar"></copymodel>
+		<copymodel from="lib/lib03.jar" to="ide6/lib/vpsdenb/lib03.jar"></copymodel>
+		<copymodel from="lib/lib04.jar" to="ide6/lib/vpsdenb/lib04.jar"></copymodel>
+		<copymodel from="lib/lib05.jar" to="ide6/lib/vpsdenb/lib05.jar"></copymodel>
+		<copymodel from="lib/lib06.jar" to="ide6/lib/vpsdenb/lib06.jar"></copymodel>
+		<copymodel from="lib/lib07.jar" to="ide6/lib/vpsdenb/lib07.jar"></copymodel>
+		<copymodel from="lib/lib08.jar" to="ide6/lib/vpsdenb/lib08.jar"></copymodel>
+		<copymodel from="lib/lib09.jar" to="ide6/lib/vpsdenb/lib09.jar"></copymodel>
+		<copymodel from="lib/lib10.jar" to="ide6/lib/vpsdenb/lib10.jar"></copymodel>
+	</model>
+</config>

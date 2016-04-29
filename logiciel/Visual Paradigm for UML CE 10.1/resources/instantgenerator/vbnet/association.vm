@@ -1,0 +1,27 @@
+#if($associationEnd.isNavigable() && !$associationEnd.getReferencedAttribute())
+	#set($orginal=$current)
+	#set($current=$associationEnd)
+	###################### Comment Start ######################
+	#parse("$template-path/comment.vm")
+	###################### Comment End ######################
+	${indent}#parse("$template-path/visibility.vm")
+	#parse("$template-path/member.vm")
+	Dim $formatter.quoteIdentifier($associationEnd.getVariableName()) As $associationEnd.getVariableType()
+	#if($associationEnd.isProvideGetterMethod() || $associationEnd.isProvideSetterMethod())
+		${indent}Public Property $associationEnd.getPropertyName() As $associationEnd.getVariableType()
+		###################### Getter Start ######################
+		#if($associationEnd.isProvideGetterMethod())
+			${indent}${tab}Get
+			${indent}${tab}${tab}Return $associationEnd.getVariableName()
+			${indent}${tab}End Get
+		#end
+		###################### Setter Start ######################
+		#if($associationEnd.isProvideSetterMethod())
+			${indent}${tab}Set
+			${indent}${tab}${tab}$associationEnd.getVariableName() = Value
+			${indent}${tab}End Set
+		#end		
+		${indent}End Property
+	#end	
+	#set($current=$orginal)
+#end

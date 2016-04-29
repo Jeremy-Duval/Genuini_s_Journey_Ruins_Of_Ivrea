@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Attributes Summary" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content="Attributes Summary" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker type="Attribute" flag="true">
+			<TableBlock colWidths="2100,13320" tableWidth="14500" alignment="right">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Name" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Documentation" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock elementType="Attribute">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

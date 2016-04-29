@@ -1,0 +1,4 @@
+$constructorAttribute.t_prepare($args.get("property"))##
+## ===== Output =====
+${indentation}$constructorAttribute.t_getConstructorInitialValue();
+

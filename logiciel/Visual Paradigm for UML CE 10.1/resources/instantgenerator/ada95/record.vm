@@ -1,0 +1,5 @@
+#set($oldCurrent=$current)
+#set($current=$record)
+#parse("$template-path/comments.vm")
+${indent}$record.getVariableName() : $record.getVariableType();
+#set($current=$oldCurrent)

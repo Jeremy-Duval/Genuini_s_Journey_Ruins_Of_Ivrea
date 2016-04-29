@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== --><!--                                                                       --><!--  JBoss Server Configuration                                           --><!--                                                                       --><!-- ===================================================================== --><!-- ==================================================================== --><!--  Datasource config &#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;                   --><!-- ==================================================================== --><datasources>
+	<local-tx-datasource>
+		<jndi-name>shop</jndi-name>
+		<connection-url>jdbc:hsqldb:file:C:\samples\EJB\db</connection-url>
+		<driver-class>org.hsqldb.jdbcDriver</driver-class>
+		<user-name>sa</user-name>
+		<password/>
+	</local-tx-datasource>
+</datasources>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Project Management" description="/" type="table" default="true"/>
+	<ProjectBaseInitiationBlock>
+		
+		<StaticText content="Project Management" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<!-- Status -->
+		<HasChildElementChecker modelType="PMStatusContainer">
+			<IterationBlock modelType="PMStatusContainer">
+				<HasChildElementChecker modelType="PMStatus">
+					<StaticText content="Status" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="PMStatus">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<!-- Difficulty -->
+		<HasChildElementChecker modelType="PMDifficultyContainer">
+			<IterationBlock modelType="PMDifficultyContainer">
+				<HasChildElementChecker modelType="PMDifficulty">
+					<StaticText content="Difficulty" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="PMDifficulty">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<!-- Priority -->
+		<HasChildElementChecker modelType="PMPriorityContainer">
+			<IterationBlock modelType="PMPriorityContainer">
+				<HasChildElementChecker modelType="PMPriority">
+					<StaticText content="Priority" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="PMPriority">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<!-- Author -->
+		<HasChildElementChecker modelType="PMAuthorContainer">
+			<IterationBlock modelType="PMAuthorContainer">
+				<HasChildElementChecker modelType="ValueSpecification">
+					<StaticText content="Author" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="ValueSpecification">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<!-- Version -->
+		<HasChildElementChecker modelType="PMVersionContainer">
+			<IterationBlock modelType="PMVersionContainer">
+				<HasChildElementChecker modelType="PMVersion">
+					<StaticText content="Version" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="PMVersion">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<!-- Iteration -->
+		<HasChildElementChecker modelType="PMIterationContainer">
+			<IterationBlock modelType="PMIterationContainer">
+				<HasChildElementChecker modelType="PMIteration">
+					<StaticText content="Iteration" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="PMIteration">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<!-- Phase -->
+		<HasChildElementChecker modelType="PMPhaseContainer">
+			<IterationBlock modelType="PMPhaseContainer">
+				<HasChildElementChecker modelType="PMPhase">
+					<StaticText content="Phase" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="PMPhase">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<!-- Discipline -->
+		<HasChildElementChecker modelType="PMDisciplineContainer">
+			<IterationBlock modelType="PMDisciplineContainer">
+				<HasChildElementChecker modelType="PMDiscipline">
+					<StaticText content="Discipline" style="Heading 2 (VP)"/>
+					<TableBlock tableWidth="12500" alignment="center" rowBackgroundColors="#FFFFFF, #F0F0FF">
+						<IterationBlock modelType="PMDiscipline">
+							<TableRow>
+								<TableCell>
+									<StringPropertyText property="name" style="Table Contents"/>
+								</TableCell>
+							</TableRow>
+						</IterationBlock>
+					</TableBlock>
+					<ParagraphBreak/>
+				</HasChildElementChecker>
+			</IterationBlock>
+		</HasChildElementChecker>
+		
+		<StaticText content="" style="Default"/>
+	</ProjectBaseInitiationBlock>
+</Template>

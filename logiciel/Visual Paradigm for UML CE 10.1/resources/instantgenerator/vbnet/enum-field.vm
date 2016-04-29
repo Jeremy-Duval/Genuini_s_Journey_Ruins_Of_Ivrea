@@ -1,0 +1,4 @@
+${indent}$formatter.quoteIdentifier($field.getVariableName())##
+#if($field.getVariableInitialValue() && $field.getVariableInitialValue()!="")
+	$space= $field.getVariableInitialValue()##
+#end

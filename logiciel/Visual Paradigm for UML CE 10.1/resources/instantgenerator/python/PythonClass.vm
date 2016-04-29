@@ -1,0 +1,45 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $indentationLevel == "0" )
+	#set( $indentationLevel = 0 )
+#end
+#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+## ===== Output =====
+$class.t_getInstallationPath()##
+$class.t_getEncoding()##
+$class.t_getImport()##
+${baseIndentation}class $class.getName()($class.t_getGeneralizationRealization()):##
+$class.t_getDocumentation("${baseIndentation}${indentation}")
+$class.t_getMetaClass("${baseIndentation}${indentation}")##
+#if( $class.t_attributeCount(true) > 0 )
+	#foreach( $attribute in $class.t_attributeIterator(true) )
+		#parse("$template-dir/PythonAttribute.vm")
+
+	#end
+
+#end
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/PythonOperation.vm")
+
+	#end
+#end
+#if( $class.attributeCount() > 0 )
+	#foreach( $attribute in $class.attributeIterator() )
+		#if ( $attribute.hasStereotypeIgnoreCase("Property") && $attribute.hasGetter() == true && $attribute.hasSetter() == true )
+			${baseIndentation}${indentation}$attribute.getName() = property($attribute.t_getGetterName(), $attribute.t_getSetterName())
+
+		#end
+	#end
+#end
+#if( $class.attributeCount() + $class.operationCount() == 0 )
+	${baseIndentation}${indentation}pass
+#end
+#if( $class.containmentClassCount() > 0 )
+	#foreach( $class in $class.containmentClassIterator() )
+		#set( $indentationLevel = $indentationLevel + 1 )
+		#parse("$template-dir/PythonClass.vm")
+
+		#set( $indentationLevel = $indentationLevel - 1 )
+	#end
+#end

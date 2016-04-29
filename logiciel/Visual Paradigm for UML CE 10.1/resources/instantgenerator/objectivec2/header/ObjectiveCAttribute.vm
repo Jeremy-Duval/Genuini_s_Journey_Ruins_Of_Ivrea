@@ -1,0 +1,4 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$attribute.t_getDocumentation($indentation)##
+${indentation}$attribute.t_getVisibility()$attribute.t_getTypeName()$attribute.t_getTypeModifier() $attribute.t_getAttributeName();$attribute.t_getInitialValue()

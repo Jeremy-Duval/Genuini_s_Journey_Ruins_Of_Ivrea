@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Matrix Diagram" description="" icon="matrix diagram" type="table" default="true"/>
+	<DiagramBaseInitiationBlock>
+		<StaticText content="Matrix Diagram : " style="Heading 1 (VP)"/>
+		<StringPropertyText propertyText="name" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<StaticText content="" style="Default"/>
+
+		<MatrixDiagram/>
+		<ParagraphBreak/>
+
+		<StaticText content="" style="Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

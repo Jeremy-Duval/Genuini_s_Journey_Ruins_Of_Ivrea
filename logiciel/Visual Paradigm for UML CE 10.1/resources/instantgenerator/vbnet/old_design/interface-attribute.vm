@@ -1,0 +1,9 @@
+#if ($attribute.getDocumentation() && $attribute.getDocumentation()!="")
+$indent	''' <summary>
+#foreach ($line in $attribute.getDocumentationLine())
+	$indent ''' $line
+#end
+$indent	''' </summary>
+#end
+#if($attribute.isProperty())$indent	$attribute.getPropertyContent()
+#end

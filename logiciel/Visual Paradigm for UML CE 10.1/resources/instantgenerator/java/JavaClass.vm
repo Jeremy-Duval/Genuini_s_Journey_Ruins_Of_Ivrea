@@ -1,0 +1,48 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $indentationLevel == "0" )
+	#set( $indentationLevel = 0 )
+#end
+#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+## ===== Output =====
+$class.t_getPackage()##
+$class.t_getImport()##
+$class.t_getDocumentation($baseIndentation)##
+#if( $class.annotationCount() > 0 )
+	#set( $annotationBaseIndentation = $baseIndentation )
+	#foreach( $annotation in $class.annotationIterator() )
+		#parse("$template-dir/JavaAnnotation.vm")
+	#end
+#end
+${baseIndentation}$class.t_getVisibility()$class.t_getAbstract()$class.t_getStatic()$class.t_getFinal()##
+$class.t_getInterface()$class.getName()$class.t_getGeneric()##
+${space}$class.t_getGeneralization()$class.t_getRealization(){
+#if( $class.attributeCount() > 0 )
+	#foreach( $attribute in $class.attributeIterator() )
+		#parse("$template-dir/JavaAttribute.vm")
+
+	#end
+#end
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/JavaOperation.vm")
+
+	#end
+#end
+#if( $class.containmentClassCount() > 0 )
+	#foreach( $class in $class.containmentClassIterator() )
+		#set( $indentationLevel = $indentationLevel + 1 )
+		#parse("$template-dir/JavaClass.vm")
+
+		#set( $indentationLevel = $indentationLevel - 1 )
+	#end
+#end
+#if( $class.enumCount() > 0 )
+	#foreach( $class in $class.enumIterator() )
+		#set( $indentationLevel = $indentationLevel + 1 )
+		#parse("$template-dir/JavaEnum.vm")
+
+		#set( $indentationLevel = $indentationLevel - 1 )
+	#end
+#end
+$utilities.getIndentation($indentation, $indentationLevel)}

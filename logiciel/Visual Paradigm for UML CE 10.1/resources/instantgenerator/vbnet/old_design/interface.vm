@@ -1,0 +1,29 @@
+#set($indent="")
+#if($class.getNamespace()!="")
+Namespace $class.getNamespace()
+#set($indent="	")
+#end
+#if ($class.getDocumentation() && $class.getDocumentation()!="")
+''' <summary>
+#foreach ($line in $class.getDocumentationLine())
+	$indent ''' $line
+#end
+''' </summary>
+#end
+${indent}$class.getClassDefinition()
+#if ($class.attributeCount()>0)
+#foreach ($attribute in $class.attributeIterator())
+#parse("$template-path/interface-attribute.vm")
+#end
+
+#end
+#if ($class.operationCount()>0)
+#foreach ($operation in $class.operationIterator())
+#parse("$template-path/interface-operation.vm")
+#end
+
+#end
+${indent}End Interface
+#if($class.getNamespace()!="")
+End Namespace
+#end

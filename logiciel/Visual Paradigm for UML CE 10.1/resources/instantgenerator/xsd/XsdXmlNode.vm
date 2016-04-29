@@ -1,0 +1,30 @@
+#if( $node )
+	#if( $node.getName() )
+		$indenter.getIndentation()<$node.getName()##
+		#if( $node.attributeCount() > 0 )
+			#foreach ($attributeName in $node.attributeNameIterator())
+				${space}$attributeName="$node.getAttribute($attributeName)"##
+			#end
+		#end
+		>
+		$indenter.push($indentation)##
+	#end
+	#if( $node.childCount() > 0 )
+		#foreach ($child in $node.childIterator())
+			$stacks.getStack("xsdNode").push($node)##
+			#set( $node = $child )
+			#parse("$template-dir/XsdXmlNode.vm")
+			#set( $node = $stacks.getStack("xsdNode").pop() )
+		#end
+	#end
+	#if( $node.getDocumentation() )
+		$node.getDocumentation($indenter.getIndentation())
+	#end
+	#if( $node.getValue() )
+		$indenter.getIndentation()$node.getValue()
+	#end
+	#if( $node.getName() )
+		$indenter.pop()##
+		$indenter.getIndentation()</$node.getName()>
+	#end	
+#end

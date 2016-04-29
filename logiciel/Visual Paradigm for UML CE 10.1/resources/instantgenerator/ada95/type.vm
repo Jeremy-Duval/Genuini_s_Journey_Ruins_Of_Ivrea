@@ -1,0 +1,9 @@
+#set($oldCurrent=$current)
+#set($current=$type)
+#parse("$template-path/comments.vm")
+#set($current=$oldCurrent)
+#if($type && $type.isRecordType())
+	#parse("$template-path/recordType.vm")
+#elseif ($type && $type.isAccessType())
+	#parse("$template-path/accessType.vm")
+#end

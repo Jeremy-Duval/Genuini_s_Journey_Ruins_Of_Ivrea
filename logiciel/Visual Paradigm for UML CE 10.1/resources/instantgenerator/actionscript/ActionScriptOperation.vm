@@ -1,0 +1,30 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+
+$operation.t_getDocumentation("${baseIndentation}${indentation}")##
+$operation.t_getMetadataTag("${baseIndentation}${indentation}")##
+${baseIndentation}${indentation}$operation.t_getVisibility()$operation.t_getScope()$operation.t_getFinal()$operation.t_getOverride()$operation.t_getNative()function $operation.getName()(##
+#set( $parameterIndex = 0 )
+#foreach($parameter in $operation.parameterIterator())
+	#if ( $parameterIndex > 0 )
+		, ##
+	#end
+	#parse("$template-dir/ActionScriptParameter.vm")
+	#set( $parameterIndex = $parameterIndex + 1 )
+#end
+)$operation.t_getReturnTypeNamePrefix()$operation.t_getReturnTypeName()##
+#if ( $operation.t_isParentInterface() )
+	;##
+#else
+
+	${baseIndentation}${indentation}{
+	#if( $operation.hasReference() == true )
+		#parse("$template-dir/$operation.getReference().getRefTemplate()")
+	#elseif( $operation.t_hasCode() == true )
+		$operation.t_getCode("${baseIndentation}${indentation}${indentation}")##
+	#else
+		${baseIndentation}${indentation}${indentation}// Not yet implemented$operation.t_getReturn("${indentation}${indentation}")
+	#end
+	${baseIndentation}${indentation}}##
+#end
+

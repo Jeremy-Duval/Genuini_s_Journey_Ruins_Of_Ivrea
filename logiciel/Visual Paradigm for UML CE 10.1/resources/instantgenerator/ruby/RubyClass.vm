@@ -1,0 +1,43 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $generateAssociationOperations == "true" )
+	#set( $generateAssociationOperations = true )
+#end
+## ===== Output =====
+$class.t_getImport()##
+#set( $baseIndentation = "" )
+#set( $clsPossiblePackage = "" )
+#foreach( $clsPackagePart in $utilities.toPackagePart($class.t_getFullPackage()) )
+	${baseIndentation}module $clsPackagePart
+	#set( $baseIndentation = "${baseIndentation}${indentation}" )
+#end
+${baseIndentation}$class.t_getDocumentation($baseIndentation)##
+$class.t_getVisibility($baseIndentation)##
+class $class.getName()$class.t_getGeneralizationRealization()
+#if($class.attributeCount() > 0)
+	#foreach($attribute in $class.attributeIterator())
+		#if( $attribute.t_getAttributeNamePrefix().length() != 1 )
+			#parse("$template-dir/RubyAttribute.vm")
+
+		#end
+	#end
+#end
+#if($class.operationCount() > 0)
+	#foreach($operation in $class.operationIterator())
+		#parse("$template-dir/RubyOperation.vm")
+
+	#end
+#end
+${baseIndentation}end
+#set( $clsPackageLevel = $utilities.getPackageLevel($class.t_getFullPackage()) )
+#if( $clsPackageLevel >= 1 )
+	#foreach( $packageLevel in [$clsPackageLevel..1] )
+		#set( $baseIndentation = "" )
+		#foreach( $packageSubLevel in [0..$packageLevel] )
+			#if( $packageSubLevel > 1 )
+				#set( $baseIndentation = "${baseIndentation}${indentation}" )
+			#end
+		#end
+		${baseIndentation}end
+	#end
+#end

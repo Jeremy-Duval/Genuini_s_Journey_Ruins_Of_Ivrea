@@ -1,0 +1,21 @@
+#set($orginal=$current)
+#set($current=$class)
+###################### Comment Start ######################
+#parse("$template-path/comment.vm")
+###################### Comment End ######################
+${indent}#parse("$template-path/visibility.vm")
+#parse("$template-path/member.vm")
+Enum $formatter.quoteIdentifier($class.getClassName())
+#set($indent=$formatter.increaseIndent($indent))
+###################### Enum Field Start ######################
+#if ($class.attributeCount()>0)
+	#foreach ($field in $class.attributeIterator())
+		#parse("$template-path/enum-field.vm")
+
+	#end
+
+#end
+###################### Enum Field End ######################
+#set($indent=$formatter.decreaseIndent($indent))
+${indent}End Enum
+#set($current=$orginal)

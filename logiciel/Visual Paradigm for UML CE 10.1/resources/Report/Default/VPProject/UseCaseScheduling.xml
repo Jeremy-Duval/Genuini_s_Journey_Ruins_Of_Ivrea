@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Use Case Scheduling" description="/" type="table" default="false"/>
+	<ProjectBaseInitiationBlock>
+	
+		<StaticText content="Use Case Scheduling" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<TableBlock colWidths="1500,4000,4000" tableWidth="15500" alignment="right" rowBackgroundColors="#F0F0FF, #FFFFFF">
+			<TableRow backgroundColor="#E6E6E6">
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="Rank" style="Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="Use Case Name" style="Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="Justification" style="Row caption 1"/>
+				</TableCell>
+			</TableRow>
+			
+			<HasChildElementChecker type="UseCase" allLevel="true">
+				<IterationBlock elementType="UseCase" allLevel="true" sortBy="property" sortProperty="rank" defaultPropertyValue="Unspecified" sortValues="High, Medium, Low, Unspecified">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="rank" style="Table Contents" defaultValue="Unspecified"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="justification" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</IterationBlock>
+			</HasChildElementChecker>
+		</TableBlock>
+		<ParagraphBreak/>
+		
+		<StaticText content="" style="Default"/>
+	</ProjectBaseInitiationBlock>
+</Template>

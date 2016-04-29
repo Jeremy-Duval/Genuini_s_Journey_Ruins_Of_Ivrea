@@ -1,0 +1,56 @@
+<Subtemplate>
+	<HasMetaModelPropertyChecker property = "guard" flag= "true">
+		<TableRow>
+			<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+				<StaticText content = "Guard :" style = "Row caption 1"/>
+			</TableCell>
+			<TableCell splitted = "true">
+				<MetaModelElement modelProperty = "guard">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StaticText content = "Name :" style = "Sub-row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>	
+					</TableRow>
+					<ValueConditionChecker property = "expression" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Expression :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "expression" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+					<HasMetaModelPropertyChecker property = "stereotypes" flag = "true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Stereotypes :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<IterationBlock elementType = "stereotypes" ignoreParagraphBreakForLastModel = "true">
+									<StaticText content = "&lt;&lt;" style = "Table Contents"/>
+									<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									<StaticText content = ">>" style = "Table Contents"/>
+									<StaticText content = "\n" style = "Table Contents"/>
+								</IterationBlock>
+							</TableCell>
+						</TableRow>
+					</HasMetaModelPropertyChecker>
+					<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Documentation :" style = "Sub-row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</ValueConditionChecker>
+				</MetaModelElement>								
+			</TableCell>
+		</TableRow>
+	</HasMetaModelPropertyChecker>
+</Subtemplate>

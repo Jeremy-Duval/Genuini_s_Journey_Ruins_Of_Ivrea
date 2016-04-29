@@ -1,0 +1,28 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+
+$operation.t_getDocumentation("${baseIndentation}${indentation}")##
+${baseIndentation}${indentation}$operation.t_getVisibility("${baseIndentation}${indentation}")##
+def $operation.getName()$operation.t_getNamePostfix()(##
+#set( $parameterIndex = 0 )
+#foreach($parameter in $operation.parameterIterator())
+	#if ( $parameterIndex > 0 )
+		, ##
+	#end
+	#parse("$template-dir/RubyParameter.vm")
+	#set( $parameterIndex = $parameterIndex + 1 )
+#end
+)
+#if( $operation.getName() == "initialize" )
+	#parse("$template-dir/RubyInitialize.vm")
+
+#end
+#if( $operation.hasReference() == true )
+	#parse("$template-dir/$operation.getReference().getRefTemplate()")
+#elseif( $operation.t_hasCode() == true )
+	$operation.t_getCode("${baseIndentation}${indentation}${indentation}")##
+#else
+	${baseIndentation}${indentation}${indentation}# Not yet implemented
+#end
+${baseIndentation}${indentation}end##
+

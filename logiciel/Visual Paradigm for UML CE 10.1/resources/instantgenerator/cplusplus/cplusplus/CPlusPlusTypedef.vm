@@ -1,0 +1,13 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#set( $baseIndentation = "" )
+## ===== Output =====
+#if( $class.t_stardardImportsCount() > 0 )
+	#foreach( $standardImport in $class.t_getStandardImports() )
+		\#include <$standardImport>
+	#end
+	using namespace std;
+#end
+
+\#include "$class.t_getFileFullName()#**#$headerFileExtension"
+

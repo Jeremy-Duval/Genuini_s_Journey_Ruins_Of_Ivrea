@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Use Cases Grid (with diagram filter)" description="/" icon="grid diagram" type="table" default="true"/>
+	<DiagramBaseInitiationBlock>
+	
+		<StaticText content="Use Cases Grid" style="Heading 1 (VP)"/>
+		<StaticText content=" (in " style="Heading 1 (VP)"/>
+		<StringPropertyText property="name" style="Heading 1 (VP)"/>
+		<StaticText content=" )" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<TableBlock colWidths="10, 30, 30, 30" tableWidth="15500" alignment="right" rowBackgroundColors="#F0F0FF, #FFFFFF">
+			<TableRow backgroundColor="#E6E6E6">
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="ID" style="Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="Name" style="Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="Primary actors" style="Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false">
+					<StaticText content="Supporting actors" style="Row caption 1"/>
+				</TableCell>
+			</TableRow>
+			
+			<IterationBlock elementType="UseCase" allLevel="true" sortBy="property" sortProperty="useCaseID">
+				<ElementBaseInitiationBlock>
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="useCaseID" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="name" style="Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ForEach property="primaryActors" ignoreParagraphBreakForLastModel="true">
+								<StringPropertyText property="name" style="Table Contents"/>
+								<StaticText content="\n" style="Table Contents"/>
+							</ForEach>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ForEach property="supportingActors" ignoreParagraphBreakForLastModel="true">
+								<StringPropertyText property="name" style="Table Contents"/>
+								<StaticText content="\n" style="Table Contents"/>
+							</ForEach>
+						</TableCell>
+					</TableRow>
+				</ElementBaseInitiationBlock>
+			</IterationBlock>
+		</TableBlock>
+		<ParagraphBreak/>
+		
+		<StaticText content="" style="Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

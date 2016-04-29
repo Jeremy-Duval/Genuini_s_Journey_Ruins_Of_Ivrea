@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Use Case Details" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content="Use Case Details" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasMetaModelPropertyChecker property="taggedValues" flag="true">
+			<TableBlock colWidths="20, 80" tableWidth="14500" alignment="right">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Name" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Value" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<MetaModelElement modelProperty="taggedValues">
+					<IterationBlock name="Level">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+					<IterationBlock name="Complexity">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+					<IterationBlock name="Use Case Status">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+					<IterationBlock name="Implementation Status">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+					<IterationBlock name="Preconditions">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+					<IterationBlock name="Post-conditions">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+					<IterationBlock name="Author">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+					<IterationBlock name="Assumptions">
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText propertyText="value" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</IterationBlock>
+				</MetaModelElement>
+			</TableBlock>
+		</HasMetaModelPropertyChecker>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

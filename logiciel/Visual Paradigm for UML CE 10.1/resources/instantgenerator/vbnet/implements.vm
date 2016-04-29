@@ -1,0 +1,6 @@
+#if($current.getInheritedFrom() && $current.getInheritedFrom().getFrom().isInterface())
+	${space}Implements $class.getRelativeNamespace($current.getInheritedFrom().getFrom())$current.getInheritedFrom().getFrom().getClassName()##
+	#set($bindInfo=$currnet.getInheritedFrom().getBindInfo())
+	#parse("$template-path/bindInfo.vm")
+	.$current.getMethodName()##
+#end

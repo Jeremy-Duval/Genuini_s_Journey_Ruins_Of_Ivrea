@@ -1,0 +1,49 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+
+$operation.t_getDocumentation("${baseIndentation}${indentation}")##
+$operation.t_getPreCondition("${baseIndentation}${indentation}")##
+$operation.t_getPostCondition("${baseIndentation}${indentation}")##
+#if( $operation.annotationCount() > 0 )
+	#set( $annotationBaseIndentation = "${baseIndentation}${indentation}" )
+	#foreach( $annotation in $operation.annotationIterator() )
+		#parse("$template-dir/JavaAnnotation.vm")
+	#end
+#end
+${baseIndentation}${indentation}$operation.t_getVisibility()$operation.t_getNative()$operation.t_getSynchronized()$operation.t_getScope($rootClass)$operation.t_getFinal()$operation.t_getAbstract()##
+$operation.t_getTemplateParameters($rootClass)##
+$operation.t_getReturnTypeName($rootClass)$operation.t_getGeneric($rootClass)$operation.t_getReturnTypeModifier()##
+$operation.getName()(##
+#set( $parameterIndex = 0 )
+#foreach($parameter in $operation.parameterIterator())
+	#if ( $parameterIndex > 0 )
+		, ##
+	#end
+	#parse("$template-dir/JavaParameter.vm")
+	#set( $parameterIndex = $parameterIndex + 1 )
+#end
+)##
+#set( $exceptionIndex = 0 )
+#foreach($exception in $operation.raisedExceptionIterator())
+	#if ( $exceptionIndex == 0 )
+		${space}throws ##
+	#else
+		, ##
+	#end
+	#parse("$template-dir/JavaException.vm")
+	#set( $exceptionIndex = $exceptionIndex + 1 )
+#end
+#if ( $operation.isAbstract() || $operation.t_isParentInterface() || $operation.isNative() )
+	;##
+#else
+	$space{
+	#if( $operation.hasReference() == true )
+		#parse("$template-dir/$operation.getReference().getRefTemplate()")
+	#elseif( $operation.t_hasCode() == true )
+		$operation.t_getCode("${baseIndentation}${indentation}${indentation}")##
+	#else
+		${baseIndentation}${indentation}${indentation}throw new UnsupportedOperationException();
+	#end
+	${baseIndentation}${indentation}}##
+#end
+

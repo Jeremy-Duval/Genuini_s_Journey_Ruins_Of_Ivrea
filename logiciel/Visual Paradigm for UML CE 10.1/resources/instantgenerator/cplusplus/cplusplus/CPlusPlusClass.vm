@@ -1,0 +1,32 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#set( $baseIndentation = "" )
+## ===== Output =====
+#if( $class.t_stardardImportsCount() > 0 )
+	#foreach( $standardImport in $class.t_getStandardImports() )
+		\#include <$standardImport>
+	#end
+	using namespace std;
+#end
+
+\#include "$class.t_getFileFullName()#**#$headerFileExtension"
+#if( $class.t_importClassesCount() > 0 )
+	#foreach( $clsImportClass in $class.t_getImportClasses() )
+		\#include "$clsImportClass.t_getFileFullName()#**#$headerFileExtension"
+	#end
+
+#end
+#if( $class.staticAttributeCount() > 0 )
+	#foreach($staticAttribute in $class.staticAttributeIterator())
+		#parse("$template-dir/cplusplus/CPlusPlusStaticAttribute.vm")
+	
+	#end
+
+#end
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/cplusplus/CPlusPlusOperation.vm")
+
+	#end
+#end
+

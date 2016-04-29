@@ -1,0 +1,20 @@
+## ===== Output =====
+${annotationBaseIndentation}@$annotation.getName()##
+#if ( $annotation.propertyCount() == 0 )
+
+#elseif ( $annotation.propertyCount() == 1 )
+	#set( $property = $annotation.propertyAt(0) )
+	($property.t_getNameValue())
+#elseif ( $annotation.propertyCount() > 1 )
+	${space}(
+	#set( $propertyIndex = 0 )
+	#foreach($property in $annotation.propertyIterator())
+		#if ( $propertyIndex > 0 )
+			,
+		#end
+		${annotationBaseIndentation}${indentation}$property.t_getNameValue()##
+		#set( $propertyIndex = $propertyIndex + 1 )
+	#end
+	
+	${annotationBaseIndentation})
+#end

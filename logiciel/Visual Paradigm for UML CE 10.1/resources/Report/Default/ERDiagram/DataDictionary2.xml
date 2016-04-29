@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Data Dictionary 2" description="/" type="table" default="false"/>
+	<DiagramBaseInitiationBlock>
+
+		<StaticText content="Data Dictionary" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker modelType="DBTable">
+			<TableBlock colWidths="5, 15, 30, 10, 10, 10, 10, 10" tableWidth="14500" alignment="right">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230" colspan="2">
+						<StaticText content="Entity Name" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230" colspan="6">
+						<StaticText content="Entity Description" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" >
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Column Name" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Column Description" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Data Type" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Length" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Primary Key" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Nullable" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Unique" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock modelType="DBTable">
+					<ElementBaseInitiationBlock>
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="true" bottomBorderEnable="false" colspan="2">
+								<StringPropertyText property="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="true" bottomBorderEnable="false" colspan="6">
+								<StringPropertyText property="documentation" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+						<HasChildElementChecker modelType="DBColumn">
+							<IterationBlock modelType="DBColumn">
+								<TableRow>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="false" bottomBorderEnable="false">
+									</TableCell>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false">
+										<StringPropertyText property="name" style="Table Contents"/>
+									</TableCell>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false">
+										<StringPropertyText property="documentation" style="Table Contents"/>
+									</TableCell>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false">
+										<StringPropertyText property="type" style="Table Contents"/>
+									</TableCell>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false">
+										<StringPropertyText property="length" style="Table Contents"/>
+										<ValueConditionChecker property="scale" operator="not equals" value="0">
+											<StaticText content="." style="Table Contents"/>
+											<StringPropertyText property="scale" style="Table Contents"/>
+										</ValueConditionChecker>
+									</TableCell>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false">
+										<StringPropertyText property="primaryKey" style="Table Contents"/>
+									</TableCell>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false">
+										<StringPropertyText property="nullable" style="Table Contents"/>
+									</TableCell>
+									<TableCell leftBorderEnable="false" rightBorderEnable="false">
+										<StringPropertyText property="unique" style="Table Contents"/>
+									</TableCell>
+								</TableRow>
+							</IterationBlock>
+						</HasChildElementChecker>
+					</ElementBaseInitiationBlock>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content="" style="Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

@@ -1,0 +1,62 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+#if( $operation.t_getScope() == "" )
+	#if( ! ( ( $operation.isAbstract() && ! $operation.isVirtual() ) || $operation.t_isParentInterface() ) )
+		$class.t_getGeneric("template", false)##
+		$operation.t_getTemplateParameters("template")##
+		$operation.t_getReturnTypeConst()$operation.t_getReturnTypeName()$operation.t_getGeneric()$operation.t_getReturnTypeModifier()##
+		$class.t_getFullName()$class.t_getGeneric()##
+		::$operation.t_getMethodKind()$operation.t_getOperationName()(##
+		#set( $parameterIndex = 0 )
+		#foreach($parameter in $operation.parameterIterator())
+			#if ( $parameterIndex > 0 )
+				, ##
+			#end
+			#parse("$template-dir/cplusplus/CPlusPlusParameter.vm")
+			#set( $parameterIndex = $parameterIndex + 1 )
+		#end
+		)##
+		#if ( $operation.isConstructor() )
+			#if( $class.constAttributeCount() > 0 )
+				${space}: ##
+				#set( $constAttributeIndex = 0 )
+				#foreach($constAttribute in $class.constAttributeIterator())
+					#if ( $constAttributeIndex > 0 )
+						, ##
+					#end
+					#parse("$template-dir/cplusplus/CPlusPlusConstAttribute.vm")
+					#set( $constAttributeIndex = $constAttributeIndex + 1 )
+				#end
+			#end
+		#end
+		#set( $exceptionIndex = 0 )
+		#foreach($exception in $operation.raisedExceptionIterator())
+			#if ( $exceptionIndex == 0 )
+				${space}throw(##
+			#else
+				, ##
+			#end
+			#parse("$template-dir/cplusplus/CPlusPlusException.vm")
+			#set( $exceptionIndex = $exceptionIndex + 1 )
+			#if ( $exceptionIndex == $operation.raisedExceptionCount() )
+				)##
+			#end
+		#end
+		$operation.t_getConst() {
+		#if ( $operation.isConstructor() )
+			#foreach($constructorAttribute in $class.constructorAttributeIterator())
+				#parse("$template-dir/cplusplus/CPlusPlusConstructorAttribute.vm")
+			#end
+			#if( $operation.t_hasCode() == true )
+				$operation.t_getCode(${indentation})##
+			#end
+		#elseif( $operation.hasReference() == true )
+			#parse("$template-dir/cplusplus/$operation.getReference().getRefTemplate()")
+		#elseif( $operation.t_hasCode() == true )
+			$operation.t_getCode(${indentation})##
+		#else
+			${indentation}throw "Not yet implemented";
+		#end
+		}
+	#end
+#end

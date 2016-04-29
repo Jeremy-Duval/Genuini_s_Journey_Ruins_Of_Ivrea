@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Operations" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Operations" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker type = "Operation" flag = "true">
+			<TableBlock colWidths = "5500,1750,2750" tableWidth = "14500" alignment = "right">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Name" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Visibility" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Return Type" style = "Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock elementType = "Operation">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "visibility" style = "Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "returnType" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>				
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

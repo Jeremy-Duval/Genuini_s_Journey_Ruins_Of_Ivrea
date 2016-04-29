@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Decision Table" description="" icon="grid diagram" type="table" default="true"/>
+	<DiagramBaseInitiationBlock>
+		<StaticText content="Decision Table : " style="Heading 1 (VP)"/>
+		<StringPropertyText propertyText="name" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<StaticText content="" style="Default"/>
+
+		<DecisionTableDiagram tableWidth="15500"/>
+		<ParagraphBreak/>
+
+		<StaticText content="" style="Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

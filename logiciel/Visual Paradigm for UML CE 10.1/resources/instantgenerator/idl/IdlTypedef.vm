@@ -1,0 +1,13 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#set( $baseIndentation = "" )
+## ===== Output =====
+#foreach( $package in $class.t_packageIterator() )
+	#set( $baseIndentation = "$indentation" )
+	module $package {
+#end
+$class.t_getDocumentation($baseIndentation)##
+${baseIndentation}typedef $class.t_getTypeName() $class.getName();
+#foreach( $package in $class.t_packageIterator() )
+	};
+#end

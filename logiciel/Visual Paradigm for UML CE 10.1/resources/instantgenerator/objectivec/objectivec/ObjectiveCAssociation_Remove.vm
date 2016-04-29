@@ -1,0 +1,30 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if( $associationImplementation == "0" )
+	#set( $tmpSizeOf = 'sizeof(' )
+	${indentation}int $operation.getReference().getRefObject().t_getLocalName()_Size = (${tmpSizeOf}$operation.getReference().getAttributeName()) / ${tmpSizeOf}$operation.getReference().getParameterName()));
+	${indentation}int $operation.getReference().getRefObject().t_getLocalName()_Removed = 0;
+	${indentation}int $operation.getReference().getRefObject().t_getLocalName()_Index = $operation.getReference().getRefObject().t_getLocalName()_Size - 1;
+	${indentation}while ($operation.getReference().getRefObject().t_getLocalName()_Index >= 0) {
+	${indentation}${indentation}if ($operation.getReference().getAttributeName()[$operation.getReference().getRefObject().t_getLocalName()_Index] != $operation.getReference().getParameterName()) {
+	${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Removed++;
+	${indentation}${indentation}}
+	${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Index--;
+	$indentation}
+	${indentation}id* $operation.getReference().getRefObject().t_getLocalName()_Temp[$operation.getReference().getRefObject().t_getLocalName()_Size - $operation.getReference().getRefObject().t_getLocalName()_Removed];
+	${indentation}int i;
+	${indentation}for (i = $operation.getReference().getRefObject().t_getLocalName()_Size - 1; i >= 0; i--) {
+	${indentation}${indentation}if ($operation.getReference().getAttributeName()[i] == $operation.getReference().getParameterName()) {
+	${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Removed--;
+	${indentation}${indentation}} else {
+	${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[i - $operation.getReference().getRefObject().t_getLocalName()_Removed] = $operation.getReference().getAttributeName()[i];
+	${indentation}${indentation}}
+	$indentation}
+	$indentation*$operation.getReference().getAttributeName() = (id*) $operation.getReference().getRefObject().t_getLocalName()_Temp;
+#else
+	#set( $tmpIndexOfObject = 'indexOfObject' )
+	#set( $tmpRemoveObjectAtIndex = 'removeObjectAtIndex' )
+	${indentation}int $operation.getReference().getRefObject().t_getLocalName()_Index = [$operation.getReference().getAttributeName() $tmpIndexOfObject:$operation.getReference().getParameterName()];
+	$indentation[$operation.getReference().getAttributeName() $tmpRemoveObjectAtIndex:$operation.getReference().getRefObject().t_getLocalName()_Index];
+#end
+

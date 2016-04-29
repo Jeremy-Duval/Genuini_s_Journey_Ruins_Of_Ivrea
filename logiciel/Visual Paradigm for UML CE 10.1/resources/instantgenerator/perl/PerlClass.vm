@@ -1,0 +1,32 @@
+$class.t_prepare($args.get("property"))##
+## ===== Output =====
+$installationPath
+$class.t_getDocumentation('')##
+$class.t_getImport()##
+package $class.t_getFullName();
+$class.t_getGeneralizationRealization()
+#if( $class.attributeCount() > 0 )
+	#foreach( $attribute in $class.attributeIterator() )
+		#if( $class.isInterface() == false || $attribute.t_getScope().equals("static ") )
+			#parse("$template-dir/PerlAttribute.vm")
+
+		#end
+	#end
+#end
+#set( $clsMode = "INTERFACE" )
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/PerlOperation.vm")
+
+	#end
+#end
+#set( $clsMode = "IMPLEMENTATION" )
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/PerlOperation.vm")
+
+	#end
+#end
+
+l; # return true
+

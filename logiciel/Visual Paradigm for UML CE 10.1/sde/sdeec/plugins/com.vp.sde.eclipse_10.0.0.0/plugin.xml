@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+	id="com.vp.vpsde.ec"
+	name="%PluginName"
+	version="10.0.0"
+	provider-name="%ProviderName"
+	class="com.vp.vpsde.ec.VPSDEECPlugin">
+
+	<runtime>
+		<library name="ormlib/orm.jar"/>
+		<library name="vpplatform.jar"/>
+		<library name="lib01.jar"/>
+		<library name="lib02.jar"/>
+		<library name="lib03.jar"/>
+		<library name="lib04.jar"/>
+		<library name="lib05.jar"/>
+		<library name="lib06.jar"/>
+		<library name="lib07.jar"/>
+		<library name="lib08.jar"/>
+		<library name="lib09.jar"/>
+		<library name="lib10.jar"/>
+		<library name="jniwrap.jar"/>
+		<library name="winpack.jar"/>
+		<library name="jh.jar"/>
+		<library name="vpuml-help.jar"/>
+		<library name="xalan.jar"/>
+		<library name="ormlib/antlr.jar"/>
+		<library name="ormlib/asm.jar"/>
+		<library name="ormlib/asm-attrs.jar"/>
+		<library name="ormlib/c3p0.jar"/>
+		<library name="ormlib/cglib.jar"/>
+		<library name="ormlib/commons-collections.jar"/>
+		<library name="ormlib/jdbc2_0-stdext.jar"/>
+		<library name="ormlib/jta.jar"/>
+		<library name="ormlib/log4j.jar"/>
+		<library name="ormlib/orm-core.jar"/>
+	</runtime>
+	
+	<requires>
+		<import plugin="org.eclipse.core.resources"/>
+		<import plugin="org.eclipse.core.runtime"/>
+		<import plugin="org.eclipse.ui"/>
+		<import plugin="org.eclipse.ui.ide"/>
+		<import plugin="org.eclipse.ui.editors"/>
+		<import plugin="org.eclipse.jdt"/>
+		<import plugin="org.eclipse.jdt.core"/>
+		<import plugin="org.eclipse.jdt.ui"/>
+		<import plugin="org.eclipse.jdt.launching"/>
+		<import plugin="org.eclipse.ltk.core.refactoring"/>
+		<import plugin="org.eclipse.ui.workbench.texteditor"/>
+		<import plugin="org.eclipse.help"/>
+		<import plugin="org.eclipse.jface.text"/>
+	</requires>
+	
+	<extension point="org.eclipse.ui.startup">
+	</extension>
+	
+	
+	<extension point="org.eclipse.ui.editors">
+		<editor
+			id="com.vp.vpsde.ec.editors.UseCaseDiagramEditor"
+			name="%UseCaseDiagram.editorName"
+			icon="%UseCaseDiagram.icon"
+			class="com.vp.vpsde.ec.ui.editors.UseCaseDiagramEditor"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			extensions="%FileExtension.usecaseDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.UseCaseDescriptionEditor"
+			name="%UseCaseDescriptionDiagram.editorName"
+			icon="%UseCaseDescriptionDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.TextualDiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.UseCaseDescriptionEditor"
+			extensions="%FileExtension.usecaseDescription">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ClassDiagramEditor"
+			name="%ClassDiagram.editorName"
+			icon="%ClassDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ClassDiagramEditor"
+			extensions="%FileExtension.classDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.SequenceDiagramEditor"
+			name="%SequenceDiagram.editorName"
+			icon="%SequenceDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.SequenceDiagramEditor"
+			extensions="%FileExtension.sequenceDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.CollaborationDiagramEditor"
+			name="%CollaborationDiagram.editorName"
+			icon="%CollaborationDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.CollaborationDiagramEditor"
+			extensions="%FileExtension.collaborationDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.StateDiagramEditor"
+			name="%StateDiagram.editorName"
+			icon="%StateDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.StateDiagramEditor"
+			extensions="%FileExtension.stateDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ActivityDiagramEditor"
+			name="%ActivityDiagram.editorName"
+			icon="%ActivityDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ActivityDiagramEditor"
+			extensions="%FileExtension.activityDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ComponentDiagramEditor"
+			name="%ComponentDiagram.editorName"
+			icon="%ComponentDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ComponentDiagramEditor"
+			extensions="%FileExtension.componentDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.DeploymentDiagramEditor"
+			name="%DeploymentDiagram.editorName"
+			icon="%DeploymentDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.DeploymentDiagramEditor"
+			extensions="%FileExtension.deploymentDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.PackageDiagramEditor"
+			name="%PackageDiagram.editorName"
+			icon="%PackageDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.PackageDiagramEditor"
+			extensions="%FileExtension.packageDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ObjectDiagramEditor"
+			name="%ObjectDiagram.editorName"
+			icon="%ObjectDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ObjectDiagramEditor"
+			extensions="%FileExtension.objectDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.TextualAnalysisEditor"
+			name="%TextualAnalysis.editorName"
+			icon="%TextualAnalysis.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.TextualDiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.TextualAnalysisEditor"
+			extensions="%FileExtension.textureAnalysis">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.BusinessWorkflowDiagramEditor"
+			name="%BusinessWorkflowDiagram.editorName"
+			icon="%BusinessWorkflowDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.BusinessWorkflowDiagramEditor"
+			extensions="%FileExtension.businessWorkflowDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.CRCCardDiagramEditor"
+			name="%CRCCardDiagram.editorName"
+			icon="%CRCCardDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.CRCCardDiagramEditor"
+			extensions="%FileExtension.crcCardDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.CompositeStructureDiagramEditor"
+			name="%CompositeStructureDiagram.editorName"
+			icon="%CompositeStructureDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.CompositeStructureDiagramEditor"
+			extensions="%FileExtension.compositeStructureDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.TimingDiagramEditor"
+			name="%TimingDiagram.editorName"
+			icon="%TimingDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.TimingDiagramEditor"
+			extensions="%FileExtension.timingDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.InteractionOverviewDiagramEditor"
+			name="%InteractionOverviewDiagram.editorName"
+			icon="%InteractionOverviewDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.InteractionOverviewDiagramEditor"
+			extensions="%FileExtension.interactionOverviewDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.OverviewDiagramEditor"
+			name="%OverviewDiagram.editorName"
+			icon="%OverviewDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.OverviewDiagramEditor"
+			extensions="%FileExtension.overviewDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.EntityRelationshipDiagramEditor"
+			name="%EntityRelationshipDiagram.editorName"
+			icon="%EntityRelationshipDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.EntityRelationshipDiagramEditor"
+			extensions="%FileExtension.entityRelationshipDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ORMDiagramEditor"
+			name="%ORMDiagram.editorName"
+			icon="%ORMDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ORMDiagramEditor"
+			extensions="%FileExtension.ormDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.EJBDiagramEditor"
+			name="%EJBDiagram.editorName"
+			icon="%EJBDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.EJBDiagramEditor"
+			extensions="%FileExtension.ejbDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.BusinessProcessDiagramEditor"
+			name="%BusinessProcessDiagram.editorName"
+			icon="%BusinessProcessDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.BusinessProcessDiagramEditor"
+			extensions="%FileExtension.businessProcessDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.RequirementDiagramEditor"
+			name="%RequirementDiagram.editorName"
+			icon="%RequirementDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.RequirementDiagramEditor"
+			extensions="%FileExtension.requirementDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.DataFlowDiagramEditor"
+			name="%DataFlowDiagram.editorName"
+			icon="%DataFlowDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.DataFlowDiagramEditor"
+			extensions="%FileExtension.dataFlowDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.UserInterfaceDiagramEditor"
+			name="%UserInterfaceDiagram.editorName"
+			icon="%UserInterfaceDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.UserInterfaceDiagramEditor"
+			extensions="%FileExtension.userInterfaceDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.MindMapDiagramEditor"
+			name="%MindMapDiagram.editorName"
+			icon="%MindMapDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.MindMapDiagramEditor"
+			extensions="%FileExtension.mindMapDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.EPCDiagramEditor"
+			name="%EPCDiagram.editorName"
+			icon="%EPCDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.EPCDiagramEditor"
+			extensions="%FileExtension.epcDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ProcessMapDiagramEditor"
+			name="%ProcessMapDiagram.editorName"
+			icon="%ProcessMapDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ProcessMapDiagramEditor"
+			extensions="%FileExtension.processMapDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.OrganizationChartEditor"
+			name="%OrganizationChart.editorName"
+			icon="%OrganizationChart.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.OrganizationChartEditor"
+			extensions="%FileExtension.organizationChart">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.MatrixDiagramEditor"
+			name="%MatrixDiagram.editorName"
+			icon="%MatrixDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.TextualDiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.MatrixDiagramEditor"
+			extensions="%FileExtension.matrixDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.AnalysisDiagramEditor"
+			name="%AnalysisDiagram.editorName"
+			icon="%AnalysisDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.AnalysisDiagramEditor"
+			extensions="%FileExtension.analysisDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.WSDLDiagramEditor"
+			name="%WSDLDiagram.editorName"
+			icon="%WSDLDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.WSDLDiagramEditor"
+			extensions="%FileExtension.wsdlDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ProfileDiagramEditor"
+			name="%ProfileDiagram.editorName"
+			icon="%ProfileDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ProfileDiagramEditor"
+			extensions="%FileExtension.profileDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ConversationDiagramEditor"
+			name="%ConversationDiagram.editorName"
+			icon="%ConversationDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ConversationDiagramEditor"
+			extensions="%FileExtension.conversationDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ArchiMateDiagramEditor"
+			name="%ArchiMateDiagram.editorName"
+			icon="%ArchiMateDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ArchiMateDiagramEditor"
+			extensions="%FileExtension.archiMateDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.GridDiagramEditor"
+			name="%GridDiagram.editorName"
+			icon="%GridDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.TextualDiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.GridDiagramEditor"
+			extensions="%FileExtension.gridDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.FactDiagramEditor"
+			name="%FactDiagram.editorName"
+			icon="%FactDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.FactDiagramEditor"
+			extensions="%FileExtension.factDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.FactTypeEditorDiagramEditor"
+			name="%FactTypeEditorDiagram.editorName"
+			icon="%FactTypeEditorDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.FactTypeEditorDiagramEditor"
+			extensions="%FileExtension.factTypeEditorDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.BusinessRuleDiagramEditor"
+			name="%BusinessRuleDiagram.editorName"
+			icon="%BusinessRuleDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.BusinessRuleDiagramEditor"
+			extensions="%FileExtension.businessRuleDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.TermEditorDiagramEditor"
+			name="%TermEditorDiagram.editorName"
+			icon="%TermEditorDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.TermEditorDiagramEditor"
+			extensions="%FileExtension.termEditorDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ChartDiagramEditor"
+			name="%ChartDiagram.editorName"
+			icon="%ChartDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.TextualDiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ChartDiagramEditor"
+			extensions="%FileExtension.chartDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ReportDiagramEditor"
+			name="%ReportDiagram.editorName"
+			icon="%ReportDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.TextualDiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ReportDiagramEditor"
+			extensions="%FileExtension.reportDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ZachmanFrameworkEditor"
+			name="%ZachmanFramework.editorName"
+			icon="%ZachmanFramework.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ZachmanFrameworkEditor"
+			extensions="%FileExtension.zachmanFramework">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.BusinessMotivationModelDiagramEditor"
+			name="%BusinessMotivationModelDiagram.editorName"
+			icon="%BusinessMotivationModelDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.BusinessMotivationModelDiagramEditor"
+			extensions="%FileExtension.businessMotivationModelDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.BrainstormEditor"
+			name="%Brainstorm.editorName"
+			icon="%Brainstorm.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.BrainstormEditor"
+			extensions="%FileExtension.brainstorm">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.DecisionModelDiagramEditor"
+			name="%DecisionModelDiagram.editorName"
+			icon="%DecisionModelDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.DecisionModelDiagramEditor"
+			extensions="%FileExtension.decisionModelDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.BlockDefinitionDiagramEditor"
+			name="%BlockDefinitionDiagram.editorName"
+			icon="%BlockDefinitionDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.BlockDefinitionDiagramEditor"
+			extensions="%FileExtension.blockDefinitionDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.InternalBlockDiagramEditor"
+			name="%InternalBlockDiagram.editorName"
+			icon="%InternalBlockDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.InternalBlockDiagramEditor"
+			extensions="%FileExtension.internalBlockDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.ParametricDiagramEditor"
+			name="%ParametricDiagram.editorName"
+			icon="%ParametricDiagram.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.ParametricDiagramEditor"
+			extensions="%FileExtension.parametricDiagram">
+		</editor>
+		<editor
+			id="com.vp.vpsde.ec.editors.DecisionTableEditor"
+			name="%DecisionTable.editorName"
+			icon="%DecisionTable.icon"
+			contributorClass="com.vp.vpsde.ec.ui.editors.DiagramEditorActionContributor"
+			class="com.vp.vpsde.ec.ui.editors.DecisionTableEditor"
+			extensions="%FileExtension.decisionTable">
+		</editor>
+	</extension>
+	
+	<extension point="org.eclipse.ui.popupMenus">
+		<objectContribution
+        	id="com.vp.vpsde.ec.actions.ResourcePopupMenuActionSet"
+        	objectClass="org.eclipse.core.resources.IResource"
+        	adaptable="true">
+			
+			<action
+				id="com.vp.vpsde.ec.actions.OpenModelAction"
+				label="%OpenModelAction.text"
+				icon="%OpenModelAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.OpenModelPopupAction"
+				enablesFor="1"
+				menubarPath="VPSDEEC">			
+			</action>
+			
+			<!--
+			<action
+				id="com.vp.vpsde.ec.actions.CloseModelAction"
+				label="%CloseModelAction.text"
+				icon="%CloseModelAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.CloseModelPopupAction"
+				enablesFor="1"
+				menubarPath="com.vp.vpsde.ec.actions.OpenModelAction">				
+			</action>
+			 -->
+			
+		</objectContribution>
+		
+		<objectContribution
+			objectClass="org.eclipse.jdt.core.IJavaElement"
+			id="com.vp.vpsde.ec.actions.JavaElementPopupMenuActionSet" adaptable="true">
+			
+			<action
+				id="com.vp.vpsde.ec.actions.UpdateModelAction"
+				label="%UpdateModelAction.text"
+				icon="%UpdateModelAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.UpdateModelPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.OpenModelAction">
+			</action>
+			
+			<action
+				id="com.vp.vpsde.ec.actions.SelectInModelAction"
+				label="%SelectInModelAction.text"
+				icon="%SelectInModelAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.SelectInModelPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.UpdateModelAction">				
+			</action>
+			
+			<action
+				id="com.vp.vpsde.ec.actions.SelectInDiagramAction"
+				label="%SelectInDiagramAction.text"
+				icon="%SelectInDiagramAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.SelectInDiagramPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.SelectInModelAction">
+			</action>
+			
+		</objectContribution>
+		
+		<objectContribution
+			objectClass="org.eclipse.core.resources.IProject"
+			id="com.vp.vpsde.ec.actions.ProjectPopupMenuActionSet" adaptable="true">
+			<menu
+				id="com.vp.vpsde.ec.actions.ProjectMenu"
+				label="%ProjectMenu.text"
+				path="VPSDEEC">
+				<separator name="teamwork"/>
+				<separator name="importExport"/>
+			</menu>
+					
+			<action
+				id="com.vp.vpsde.ec.actions.OpenTeamworkClientAction"
+				label="%OpenTeamworkClientAction.text"
+				icon="%OpenTeamworkClientAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.OpenTeamworkClientPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.ProjectMenu/teamwork">
+			</action>
+			
+			<action
+				id="com.vp.vpsde.ec.actions.CommitTeamworkProjectAction"
+				label="%CommitTeamworkProjectAction.text"
+				icon="%CommitTeamworkProjectAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.CommitTeamworkProjectPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.ProjectMenu/com.vp.vpsde.ec.actions.OpenTeamworkClientAction">				
+			</action>
+			
+			<action
+				id="com.vp.vpsde.ec.actions.UpdateTeamworkProjectAction"
+				label="%UpdateTeamworkProjectAction.text"
+				icon="%UpdateTeamworkProjectAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.UpdateTeamworkProjectPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.ProjectMenu/com.vp.vpsde.ec.actions.CommitTeamworkProjectAction">				
+			</action>
+			
+			<action
+				id="com.vp.vpsde.ec.actions.ImportProjectAction"
+				label="%ImportProjectAction.text"
+				icon="%ImportProjectAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.ImportProjectPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.ProjectMenu/importExport">
+			</action>
+			
+			<action
+				id="com.vp.vpsde.ec.actions.ExportProjecAction"
+				label="%ExportProjectAction.text"
+				icon="%ExportProjectAction.icon"
+				class="com.vp.vpsde.ec.actions.popup.ExportProjectPopupAction"
+				menubarPath="com.vp.vpsde.ec.actions.ProjectMenu/com.vp.vpsde.ec.actions.ImportProjectAction">
+			</action>
+			
+		</objectContribution>
+			
+	</extension>
+	
+	<extension point="org.eclipse.ui.perspectives">
+		<perspective
+			id="com.vp.vpsde.ec.perspectives.ModelingPerspective"
+			name="%ModelingPerspective.text"
+			icon="%ModelingPerspective.icon"
+			class="com.vp.vpsde.ec.ui.ModelingPerspective">
+		</perspective>		
+	</extension>
+	
+	<extension point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+			<perspectiveShortcut id="com.vp.vpsde.ec.perspectives.ModelingPerspective"/>
+			<view
+				relative="org.eclipse.ui.views.ContentOutline"
+				relationship="stack"
+				visible="true"
+				id="com.vp.vpsde.ec.views.DiagramTreeView">
+			</view>
+			<view
+				id="com.vp.vpsde.ec.views.PropertyPaneView"
+				relationship="fast"
+				visible="true">
+			</view>
+			<view
+				id="com.vp.vpsde.ec.views.ModelTreeView"
+				relationship="fast"
+				visible="true">
+			</view>
+			<view
+				id="com.vp.vpsde.ec.views.PreviewPaneView"
+				relationship="fast"
+				visible="true">
+			</view>
+			<newWizardShortcut id="com.vp.vpsde.ec.wizards.NewDiagramWizard"/>
+		</perspectiveExtension>
+
+		<perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+			<perspectiveShortcut id="com.vp.vpsde.ec.perspectives.ModelingPerspective"/>
+			<view
+				relative="org.eclipse.jdt.ui.PackageExplorer"
+				relationship="bottom"
+				visible="true"
+				id="com.vp.vpsde.ec.views.DiagramTreeView">
+			</view>
+			<view
+				id="com.vp.vpsde.ec.views.PropertyPaneView"
+				relationship="fast"
+				visible="true">
+			</view>
+			<view
+				id="com.vp.vpsde.ec.views.ModelTreeView"
+				relationship="fast"
+				visible="true">
+			</view>
+			<view
+				id="com.vp.vpsde.ec.views.PreviewPaneView"
+				relationship="fast"
+				visible="true">
+			</view>
+			<newWizardShortcut id="com.vp.vpsde.ec.wizards.NewDiagramWizard"/>
+		</perspectiveExtension>
+		<perspectiveExtension targetID="com.vp.vpsde.ec.perspectives.ModelingPerspective">
+			<newWizardShortcut id="com.vp.vpsde.ec.wizards.NewDiagramWizard"/>
+		</perspectiveExtension>
+	</extension>
+	
+	
+	
+	<extension point="org.eclipse.ui.views">
+		<category
+			id="com.vp.vpsde.ec.views"
+			name="%Views.text">
+		</category>
+		<view
+			id="com.vp.vpsde.ec.views.DiagramTreeView"
+			name="%DiagramTreeView.text"
+			icon="%DiagramTreeView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.DiagramTreeView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.ModelTreeView"
+			name="%ModelTreeView.text"
+			icon="%ModelTreeView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.ModelTreeView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.ClassRepositoryTreeView"
+			name="%ClassRepositoryTreeView.text"
+			icon="%ClassRepositoryTreeView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.ClassRepositoryTreeView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.PropertyPaneView"
+			name="%PropertyPaneView.text"
+			icon="%PropertyPaneView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.PropertyPaneView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.PreviewPaneView"
+			name="%PreviewPaneView.text"
+			icon="%PreviewPaneView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.PreviewPaneView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.DocumentationPaneView"
+			name="%DocumentationPaneView.text"
+			icon="%DocumentationPaneView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.DocumentationPaneView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.MessagePaneView"
+			name="%MessagePaneView.text"
+			icon="%MessagePaneView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.MessagePaneView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.LogicalView"
+			name="%LogicalView.text"
+			icon="%LogicalView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.LogicalView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.StencilPaneView"
+			name="%StencilPaneView.text"
+			icon="%StencilPaneView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.StencilPaneView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.ORMPaneView"
+			name="%ORMPaneView.text"
+			icon="%ORMPaneView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.ORMPaneView">
+		</view>
+		<view
+			id="com.vp.vpsde.ec.views.TeamworkFilesView"
+			name="%TeamworkFilesView.text"
+			icon="%TeamworkFilesView.icon"
+			category="com.vp.vpsde.ec.views"
+			class="com.vp.vpsde.ec.ui.views.TeamworkFilesView">
+		</view>
+	</extension>
+	
+	<extension point="org.eclipse.help.contexts">
+		<contexts file="sdeec_help.xml"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.actionSets">
+		<actionSet
+			id="com.vp.vpsde.ec.actions.GeneralActionSet"
+			label="%ActionSet.text"
+			visible="true">
+			
+			<menu
+				id="com.vp.vpsde.ec.actions.ModelingMenu"
+				label="%ModelingMenu.text"
+				path="additions">
+			</menu>
+
+		</actionSet>
+
+	</extension>
+	
+	<extension point="org.eclipse.ui.newWizards">
+    	<category id="com.vp.vpsde.ec.wizards" name="%Wizards.text"/>
+    	<wizard
+           category="com.vp.vpsde.ec.wizards"
+           class="com.vp.vpsde.ec.ui.wizards.NewDiagramWizards"
+           finalPerspective="com.vp.vpsde.ec.perspectives.ModelingPerspective"
+           icon="%NewDiagramMenu.icon"
+           id="com.vp.vpsde.ec.wizards.NewDiagramWizard"
+           name="%NewDiagramWizard.text"
+           preferredPerspectives="com.vp.vpsde.ec.perspectives.ModelingPerspective,org.eclipse.ui.resourcePerspective,org.eclipse.jdt.ui.JavaPerspective">
+     	</wizard>
+	</extension>
+	
+	<extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
+		<renameParticipant class="com.vp.vpsde.ec.ProjectRenameParticipant" name="Rename modeling (.VPP) file" id="com.vp.vpsde.ec.ProjectRenameParticipant">
+			<enablement>
+				<instanceof value="org.eclipse.core.resources.IProject"/>
+			</enablement>
+		</renameParticipant>
+	</extension>
+	
+</plugin>

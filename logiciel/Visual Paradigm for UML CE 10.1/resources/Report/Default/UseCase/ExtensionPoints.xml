@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Extension Points" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Extension Points" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+
+		<ForEachSimpleRelationship type = "Extend" direction = "from">
+			<MetaModelElement modelProperty = "extensionPoint">
+				<!-- name -->
+				<StaticText content = "&#9;- " fontSize = "10" style = "Default"/>
+				<StringPropertyText propertyText = "name" style = "Default"/>
+			</MetaModelElement>		
+			<ParagraphBreak/>
+			<StaticText content = "" style = "Default"/>
+		</ForEachSimpleRelationship>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

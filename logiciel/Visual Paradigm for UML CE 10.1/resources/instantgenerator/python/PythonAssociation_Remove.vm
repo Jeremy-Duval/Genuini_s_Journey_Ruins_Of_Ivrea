@@ -1,0 +1,7 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#set( $tmpRemove = '.remove(' )
+${baseIndentation}${indentation}${indentation}try:
+${baseIndentation}${indentation}${indentation}${indentation}self.$operation.getReference().getAttributeName()${tmpRemove}$operation.getReference().getParameterName())
+${baseIndentation}${indentation}${indentation}except ValueError:
+${baseIndentation}${indentation}${indentation}${indentation}pass

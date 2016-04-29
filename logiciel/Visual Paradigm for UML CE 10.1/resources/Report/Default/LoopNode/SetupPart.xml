@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Setup Part" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Setup Part" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		
+		<HasMetaModelPropertyChecker property = "setupPart" flag = "true">
+			<TableBlock colWidths = "2700,1600,2600,1800" tableWidth = "14500" alignment = "right">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Name" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Model Type" style = "Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<ForEach property = "setupPart">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "modelType" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ForEach>
+			</TableBlock>
+		</HasMetaModelPropertyChecker>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

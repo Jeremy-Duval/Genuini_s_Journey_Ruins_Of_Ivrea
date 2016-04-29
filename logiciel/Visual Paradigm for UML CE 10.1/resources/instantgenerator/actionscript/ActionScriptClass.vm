@@ -1,0 +1,27 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $generateAssociationOperations == "true" )
+	#set( $generateAssociationOperations = true )
+#end
+#set( $baseIndentation = $class.t_getPackageIndent() )
+## ===== Output =====
+$class.t_getPackageStart()$class.t_getImport($baseIndentation)$class.t_getDocumentation($baseIndentation)##
+$class.t_getMetadataTag($baseIndentation)##
+${baseIndentation}$class.t_getVisibility()$class.t_getFinal()$class.t_getInterface()$class.t_getName() $class.t_getGeneralization()$class.t_getRealization()
+$baseIndentation{
+#if( $class.attributeCount() > 0 )
+	#foreach( $attribute in $class.attributeIterator() )
+		#if( $class.isInterface() == false || $attribute.t_getScope().equals("static ") )
+			#parse("$template-dir/ActionScriptAttribute.vm")
+
+		#end
+	#end
+#end
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/ActionScriptOperation.vm")
+
+	#end
+#end
+$baseIndentation}
+$class.t_getPackageEnd()

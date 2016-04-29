@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Analysis Views" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content="Analysis Views" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<ForEachSimpleRelationship modelType="AnalysisView" direction="from" ignoreParagraphBreakForLastModel="true">
+			<TableBlock colWidths="25, 75" tableWidth="14500" alignment="right">
+				<TableRow>
+					<ToEnd>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisViewGroupNode">
+								<StaticText content="Views :" style="Row caption 1"/>
+							</ValueConditionChecker>
+							<ValueConditionChecker property="modelType" operator="not equals" value="AnalysisViewGroupNode">
+								<StaticText content="View :" style="Row caption 1"/>
+							</ValueConditionChecker>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ValueConditionChecker property="modelType" operator="equals" value="AnalysisViewGroupNode">
+								<ForEach property="analysisViewIds" ignoreParagraphBreakForLastModel="true">
+									<DiagramElementProperty property="value">
+										<StringPropertyText property="name" style="Table Contents"/>
+										<StaticText content=" : " style="Table Contents"/>
+										<StringPropertyText property="modelType" style="Table Contents"/>
+										
+										<OwnerDiagram>
+											<StaticText content=" (" style="Table Contents"/>
+											<StringPropertyText property="name" style="Table Contents"/>
+											<StaticText content=" : " style="Table Contents"/>
+											<StringPropertyText property="type" style="Table Contents"/>
+											<StaticText content=")" style="Table Contents"/>
+										</OwnerDiagram>
+										
+										<StaticText content="\n" style="Table Contents"/>
+									</DiagramElementProperty>
+								</ForEach>
+							</ValueConditionChecker>
+							<ValueConditionChecker property="modelType" operator="not equals" value="AnalysisViewGroupNode">
+								<DiagramElementProperty property="analysisViewId">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content=" : " style="Table Contents"/>
+									<StringPropertyText property="modelType" style="Table Contents"/>
+									
+									<OwnerDiagram>
+										<StaticText content=" (" style="Table Contents"/>
+										<StringPropertyText property="name" style="Table Contents"/>
+										<StaticText content=" : " style="Table Contents"/>
+										<StringPropertyText property="type" style="Table Contents"/>
+										<StaticText content=")" style="Table Contents"/>
+									</OwnerDiagram>
+								</DiagramElementProperty>
+							</ValueConditionChecker>
+						</TableCell>
+					</ToEnd>
+				</TableRow>
+				<ValueConditionChecker property="documentation" operator="not equals" value="">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Documentation :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText property="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ValueConditionChecker>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content="" style="Default"/>
+			<ParagraphBreak/>
+		</ForEachSimpleRelationship>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

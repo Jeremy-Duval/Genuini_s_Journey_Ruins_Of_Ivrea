@@ -1,0 +1,28 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+
+$operation.t_getDocumentation($indentation)##
+$indentation$operation.t_getVisibility()$operation.t_getScope()$operation.t_getFinal()$operation.t_getAbstract()function $operation.t_getReturnTypeModifierPrefix()$operation.getName()(##
+#set( $parameterIndex = 0 )
+#foreach($parameter in $operation.parameterIterator())
+	#if ( $parameterIndex > 0 )
+		, ##
+	#end
+	#parse("$template-dir/PhpParameter.vm")
+	#set( $parameterIndex = $parameterIndex + 1 )
+#end
+)##
+#if ( $operation.isAbstract() || $operation.t_isParentInterface() )
+	;##
+#else
+	$space{
+	#if( $operation.hasReference() == true )
+		#parse("$template-dir/$operation.getReference().getRefTemplate()")
+	#elseif( $operation.t_hasCode() == true )
+		$operation.t_getCode("${indentation}${indentation}")##
+	#else
+		${indentation}${indentation}// Not yet implemented
+	#end
+	$indentation}##
+#end
+

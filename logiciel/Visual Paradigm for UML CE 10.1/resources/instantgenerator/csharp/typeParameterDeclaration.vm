@@ -1,0 +1,13 @@
+#if($current.templateParameterCount()>0)
+	#set($first=true)
+	<##
+	#foreach($typeParameter in $current.templateParameterIterator())
+		#if($first)
+			#set($first=false)
+		#else
+			, ##
+		#end
+		$typeParameter.getName()##
+	#end
+	>##
+#end

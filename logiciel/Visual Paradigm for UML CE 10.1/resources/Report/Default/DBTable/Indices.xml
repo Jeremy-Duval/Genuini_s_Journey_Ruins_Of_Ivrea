@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Indices" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Indices" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker type = "DBIndex" flag= "true">
+			<TableBlock colWidths = "2000,5000" tableWidth = "14500" alignment = "right">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Name" isBold = "true" fontSize = "10" isItalic = "true" alignment = "center"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Column" isBold = "true" fontSize = "10" isItalic = "true" alignment = "center"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock elementType = "DBIndex">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<HasMetaModelPropertyChecker property = "columns" flag = "true">
+								<ForEach property = "columns" ignoreParagraphBreakForLastModel = "true">
+									<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									<StaticText content = ", " style = "Table Contents"/>
+								</ForEach>
+							</HasMetaModelPropertyChecker>
+						</TableCell>
+					</TableRow>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

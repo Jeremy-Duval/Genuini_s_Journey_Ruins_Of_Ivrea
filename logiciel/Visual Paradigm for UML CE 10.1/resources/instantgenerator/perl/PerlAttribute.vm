@@ -1,0 +1,4 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$attribute.t_getDocumentation('')##
+$attribute.t_getVisibility()$attribute.t_getConst()$attribute.t_getTypeNamePrefix()$attribute.t_getAttributeName()$attribute.t_getInitialValue();

@@ -1,0 +1,36 @@
+$operation.t_prepare($clsMode, $args.get("property"))##
+## ===== Output =====
+#if ( ! ( $clsMode != "INTERFACE" && $operation.t_isParentInterface() ) )
+
+	$operation.t_getDocumentation("${baseIndentation}${indentation}")##
+	${baseIndentation}${indentation}$operation.t_getVisibility()$operation.t_getMethodKind() $operation.t_getName()(##
+	#set( $parameterIndex = 0 )
+	#foreach($parameter in $operation.parameterIterator())
+		#if ( $parameterIndex > 0 )
+			; ##
+		#end
+		#parse("$template-dir/DelphiParameter.vm")
+		#set( $parameterIndex = $parameterIndex + 1 )
+	#end
+	)$operation.t_getReturnTypeNamePrefix()$operation.t_getReturnTypeName(); ##
+	#if ( $clsMode == "INTERFACE" )
+		$operation.t_getOverride()$operation.t_getOverload()$operation.t_getVirtual()$operation.t_getAbstract()##
+	#end
+
+	#if ( !$operation.isAbstract() && $clsMode != "INTERFACE" && !$operation.t_isParentInterface() )
+		${baseIndentation}${indentation}Begin
+		#if ( $operation.isConstructor() )
+			#foreach($constructorAttribute in $class.constructorAttributeIterator())
+				#parse("$template-dir/DelphiConstructorAttribute.vm")
+			#end
+		#elseif( $operation.hasReference() == true )
+			#parse("$template-dir/$operation.getReference().getRefTemplate()")
+		#elseif( $operation.t_hasCode() == true )
+			$operation.t_getCode("${baseIndentation}${indentation}${indentation}")##
+		#else
+			$operation.t_getContent("${baseIndentation}${indentation}${indentation}")##
+			${baseIndentation}${indentation}${indentation}Raise Exception.Create('Not yet implemented');
+		#end
+		${baseIndentation}${indentation}End;
+	#end
+#end

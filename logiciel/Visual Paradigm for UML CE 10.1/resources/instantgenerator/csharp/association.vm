@@ -1,0 +1,42 @@
+#if($associationEnd.isNavigable() && !$associationEnd.getReferencedAttribute())
+	#set($orginal=$current)
+	#set($current=$associationEnd)
+	#set($needProperty=$associationEnd.isProvideGetterMethod() || $associationEnd.isProvideSetterMethod())
+	#if(!$needProperty || !$options.isAutoImplementedProperties())
+		###################### Comment Start ######################
+		#parse("$template-path/comment.vm")
+		###################### Comment End ######################
+		${indent}#parse("$template-path/visibility.vm")
+		#parse("$template-path/member.vm")	
+		$associationEnd.getVariableType() $associationEnd.getVariableName();
+	#end
+	#if($needProperty)
+		${indent}public $associationEnd.getVariableType() $associationEnd.getPropertyName() ##
+		#if($options.isAutoImplementedProperties())
+			{ ##
+			#if ($associationEnd.isProvideGetterMethod())
+				get; ##
+			#end
+			#if ($associationEnd.isProvideSetterMethod())
+				set; ##
+			#end
+			}
+		#else
+			{
+			###################### Getter Start ######################
+			#if($associationEnd.isProvideGetterMethod())
+				${indent}${tab}get{
+				${indent}${tab}${tab}return $associationEnd.getVariableName();
+				${indent}${tab}}
+			#end
+			###################### Setter Start ######################
+			#if($associationEnd.isProvideSetterMethod())
+				${indent}${tab}set{
+				${indent}${tab}${tab}$associationEnd.getVariableName() = value;
+				${indent}${tab}}
+			#end
+			${indent}}
+		#end
+	#end
+	#set($current=$orginal)
+#end

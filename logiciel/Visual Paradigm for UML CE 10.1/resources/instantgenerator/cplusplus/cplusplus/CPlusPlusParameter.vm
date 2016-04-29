@@ -1,0 +1,5 @@
+$parameter.t_prepare($args.get("property"))##
+## ===== Output =====
+$parameter.t_getConst()##
+$parameter.t_getTypeName()$parameter.t_getGeneric()$parameter.t_getTypePreModifier()##
+$parameter.t_getParameterName()$parameter.t_getTypePostModifier()

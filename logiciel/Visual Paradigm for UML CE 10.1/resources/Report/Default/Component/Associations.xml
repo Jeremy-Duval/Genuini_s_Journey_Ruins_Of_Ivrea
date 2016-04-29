@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Associations" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content = "Associations" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<ForEachRelationshipEnd type = "AssociationEnd" endPointer = "self" ignoreParagraphBreakForLastModel = "true">
+			<TableBlock colWidths = "2100,13320" tableWidth = "14500" alignment = "right">
+				<RelationshipEndEndRelationship>
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StaticText content = "Name :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "From :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell splitted = "true">
+							<FromEnd>
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "Role :" style = "Sub-row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									</TableCell>
+								</TableRow>
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "Element :" style = "Sub-row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StringPropertyText propertyText = "element" style = "Table Contents"/>
+									</TableCell>
+								</TableRow>
+								<DefaultConditionChecker property = "multiplicity" propertyType = "StringSelection" equalFlag = "false">
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StaticText content = "Multiplicity :" style = "Sub-row caption 1"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StringPropertyText propertyText = "multiplicity" style = "Table Contents"/>
+										</TableCell>
+									</TableRow>
+								</DefaultConditionChecker>
+								<ValueConditionChecker property = "navigable" propertyType = "int" operator = "NOT EQUAL" value = "0">
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StaticText content = "Navigable :" style = "Sub-row caption 1"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<ValueConditionChecker property = "navigable" propertyType = "int" operator = "EQUAL" value = "1">
+												<StaticText content = "Unspecified" style = "Table Contents"/>
+											</ValueConditionChecker>
+											<ValueConditionChecker property = "navigable" propertyType = "int" operator = "EQUAL" value = "2">
+												<StaticText content = "false" style = "Table Contents"/>
+											</ValueConditionChecker>
+										</TableCell>
+									</TableRow>								
+								</ValueConditionChecker>
+								<DefaultConditionChecker property = "aggregationKind" propertyType = "StringSelection" equalFlag = "false">
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StaticText content = "Aggregation Kind :" style = "Sub-row caption 1"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StringPropertyText propertyText = "aggregationKind" style = "Table Contents"/>
+										</TableCell>
+									</TableRow>
+								</DefaultConditionChecker>
+							</FromEnd>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "To :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell splitted = "true">
+							<ToEnd>
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "Role :" style = "Sub-row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									</TableCell>
+								</TableRow>
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "Element :" style = "Sub-row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StringPropertyText propertyText = "element" style = "Table Contents"/>
+									</TableCell>
+								</TableRow>
+								<DefaultConditionChecker property = "multiplicity" propertyType = "StringSelection" equalFlag = "false">
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StaticText content = "Multiplicity :" style = "Sub-row caption 1"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StringPropertyText propertyText = "multiplicity" style = "Table Contents"/>
+										</TableCell>
+									</TableRow>
+								</DefaultConditionChecker>
+								<ValueConditionChecker property = "navigable" propertyType = "int" operator = "NOT EQUAL" value = "0">
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StaticText content = "Navigable :" style = "Sub-row caption 1"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<ValueConditionChecker property = "navigable" propertyType = "int" operator = "EQUAL" value = "1">
+												<StaticText content = "Unspecified" style = "Table Contents"/>
+											</ValueConditionChecker>
+											<ValueConditionChecker property = "navigable" propertyType = "int" operator = "EQUAL" value = "2">
+												<StaticText content = "false" style = "Table Contents"/>
+											</ValueConditionChecker>
+										</TableCell>
+									</TableRow>								
+								</ValueConditionChecker>
+								<DefaultConditionChecker property = "aggregationKind" propertyType = "StringSelection" equalFlag = "false">
+									<TableRow>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StaticText content = "Aggregation Kind :" style = "Sub-row caption 1"/>
+										</TableCell>
+										<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+											<StringPropertyText propertyText = "aggregationKind" style = "Table Contents"/>
+										</TableCell>
+									</TableRow>
+								</DefaultConditionChecker>
+							</ToEnd>
+						</TableCell>
+					</TableRow>
+					<DefaultConditionChecker property = "abstract" propertyType = "boolean" equalFlag = "false">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Abstract :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "abstract" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</DefaultConditionChecker>
+					<DefaultConditionChecker property = "derived" propertyType = "boolean" equalFlag = "false">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Derived :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "derived" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</DefaultConditionChecker>
+					<DefaultConditionChecker property = "leaf" propertyType = "boolean" equalFlag = "false">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Leaf :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "leaf" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</DefaultConditionChecker>
+					<DefaultConditionChecker property = "visibility" propertyType = "StringSelection" equalFlag = "false">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StaticText content = "Visibility :" style = "Row caption 1"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "visibility" style = "Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</DefaultConditionChecker>
+				</RelationshipEndEndRelationship>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content = "" style = "Default"/>
+			<ParagraphBreak/>
+		</ForEachRelationshipEnd>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

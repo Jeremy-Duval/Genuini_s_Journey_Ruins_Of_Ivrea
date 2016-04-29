@@ -1,0 +1,19 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+
+$operation.t_getDocumentation('')##
+sub $operation.getName()##
+#if ( $clsMode == "INTERFACE" || $operation.isAbstract() || $operation.t_isParentInterface() )
+	;##
+#else
+	$space{
+	#if( $operation.hasReference() == true )
+		#parse("$template-dir/$operation.getReference().getRefTemplate()")
+	#elseif( $operation.t_hasCode() == true )
+		$operation.t_getCode("${indentation}")##
+	#else
+		${indentation}# Not yet implemented
+	#end
+	}##
+#end
+

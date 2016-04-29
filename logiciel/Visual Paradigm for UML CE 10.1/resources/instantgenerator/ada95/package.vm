@@ -1,0 +1,3 @@
+#parse("$template-path/comments.vm")
+package $package.getFullQualifier() is
+end $package.getFullQualifier();

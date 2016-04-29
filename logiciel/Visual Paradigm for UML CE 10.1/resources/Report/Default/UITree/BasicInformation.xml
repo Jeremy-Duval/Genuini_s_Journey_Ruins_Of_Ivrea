@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Basic Information" description = "/" type = "table" default = "true"/>
+	<ElementBaseInitiationBlock>
+	
+		<StringPropertyText propertyText = "modelType" style = "Heading 1 (VP)"/>
+		<StaticText content = " : " style = "Heading 1 (VP)"/>
+		<StringPropertyText propertyText = "name" style = "Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<TableBlock colWidths = "20, 80" tableWidth = "15500" alignment = "right">
+			
+			<!-- nodeIcon -->
+			<ValueConditionChecker property = "nodeIcon" operator = "NOT EQUAL" value = "">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Node Icon :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "nodeIcon" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			
+			<!-- collapsedNodeIcon -->
+			<ValueConditionChecker property = "collapsedNodeIcon" operator = "NOT EQUAL" value = "">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Collapsed Node Icon :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "collapsedNodeIcon" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			
+			<!-- expandedNodeIcon -->
+			<ValueConditionChecker property = "expandedNodeIcon" operator = "NOT EQUAL" value = "">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Expanded Node Icon :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "expandedNodeIcon" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			
+			<!-- horizontalScrollBarPolicy -->
+			<DefaultConditionChecker property = "horizontalScrollBarPolicy" propertyType = "int" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Horizontal Scroll Bar Policy :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "horizontalScrollBarPolicy" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- verticalScrollBarPolicy -->
+			<DefaultConditionChecker property = "verticalScrollBarPolicy" propertyType = "int" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Vertical Scroll Bar Policy :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "verticalScrollBarPolicy" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- rootVisible -->
+			<DefaultConditionChecker property = "rootVisible" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Root Visible :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "rootVisible" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- showsRootHandles -->
+			<DefaultConditionChecker property = "showsRootHandles" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Shows Root Handles :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "showsRootHandles" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- largeModel -->
+			<DefaultConditionChecker property = "largeModel" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Large Model :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "largeModel" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- rowHeight -->
+			<DefaultConditionChecker property = "rowHeight" propertyType = "int" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Row Height :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "rowHeight" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- visibleRowCount -->
+			<DefaultConditionChecker property = "visibleRowCount" propertyType = "int" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Visible Row Count :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "visibleRowCount" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- scrollsOnExpand -->
+			<DefaultConditionChecker property = "scrollsOnExpand" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Scrolls On Expand :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "scrollsOnExpand" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- toggleClickCount -->
+			<DefaultConditionChecker property = "toggleClickCount" propertyType = "int" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Toggle Click Count :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "toggleClickCount" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- expandsSelectionPaths -->
+			<DefaultConditionChecker property = "expandsSelectionPaths" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Expands Selection Paths :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "expandsSelectionPaths" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- documentation -->
+			<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+				<ReportOptionChecker option = "basicInformationShowsDocumentation" equalFlag = "true">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Doc :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ReportOptionChecker>
+			</ValueConditionChecker>
+			
+		</TableBlock>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

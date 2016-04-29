@@ -1,0 +1,22 @@
+$operation.t_prepare($args.get("property"))##
+## ===== Output =====
+
+$operation.t_getDocumentation('')##
+$operation.t_getScope()($operation.t_getReturnTypeName()$operation.t_getReturnTypeModifier()) $operation.getName()##
+#foreach($parameter in $operation.parameterIterator())
+	#parse("$template-dir/objectivec/ObjectiveCParameter.vm")
+#end
+#if ( $operation.isAbstract() || $operation.t_isParentInterface() )
+	;##
+#else
+	$space{
+	#if( $operation.hasReference() == true )
+		#parse("$template-dir/objectivec/$operation.getReference().getRefTemplate()")
+	#elseif( $operation.t_hasCode() == true )
+		$operation.t_getCode("${indentation}")##
+	#else
+		${indentation}raise("Not yet implemented");
+	#end
+}##
+#end
+

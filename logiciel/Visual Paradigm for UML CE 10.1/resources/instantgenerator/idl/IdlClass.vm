@@ -1,0 +1,40 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#if( $indentationLevel == "0" )
+	#set( $indentationLevel = 0 )
+#end
+#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+## ===== Output =====
+#if( $class.t_importClassesCount() > 0 )
+	#foreach( $clsImportClass in $class.t_getImportClasses() )
+		\#include "$clsImportClass.t_getFileFullName()#**#.idl"
+	#end
+	
+#end
+#foreach( $package in $class.t_packageIterator() )
+	${baseIndentation}module $package {
+	#set( $baseIndentation = "$baseIndentation$indentation" )
+	#set( $indentationLevel = $indentationLevel + 1 )
+#end
+$class.t_getDocumentation($baseIndentation)##
+${baseIndentation}$class.t_getAbstract()$class.t_getTypeName() $class.getName() $class.t_getGeneralizationRealization(){
+#if( $class.attributeCount() > 0 )
+	#foreach( $attribute in $class.attributeIterator() )
+		#if( $class.isInterface() == false || $attribute.t_getScope().equals("static ") )
+			#parse("$template-dir/IdlAttribute.vm")
+
+		#end
+	#end
+#end
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/IdlOperation.vm")
+
+	#end
+#end
+$baseIndentation};
+#foreach( $package in $class.t_packageIterator() )
+	#set( $indentationLevel = $indentationLevel - 1 )
+	#set( $baseIndentation = $utilities.getIndentation($indentation, $indentationLevel) )
+	$baseIndentation};
+#end

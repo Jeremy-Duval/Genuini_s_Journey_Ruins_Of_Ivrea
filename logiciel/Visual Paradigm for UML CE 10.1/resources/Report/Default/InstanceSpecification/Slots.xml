@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Slots" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+		
+		<StaticText content="Slots" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		
+		<TableBlock colWidths="2100,13320" tableWidth="15500" alignment="right">
+			<HasMetaModelPropertyChecker property="slots" flag="true">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Feature" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Values" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				
+				<ForEach property="slots">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<HasMetaModelPropertyChecker property="feature" flag= "true">
+								<MetaModelElement modelProperty = "feature">
+									<StringPropertyText propertyText="name" style="Table Contents"/>
+								</MetaModelElement>
+							</HasMetaModelPropertyChecker>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<HasMetaModelPropertyChecker property="values" flag= "true">
+								<ForEach property="values" ignoreParagraphBreakForLastModel="true">
+									<HasMetaModelPropertyChecker property="value" flag="true">
+										<MetaModelElement modelProperty="value">
+											<StringPropertyText propertyText="name" style="Table Contents"/>
+										</MetaModelElement>
+									</HasMetaModelPropertyChecker>
+									<HasMetaModelPropertyChecker property="value" flag="false">
+										<StringPropertyText propertyText="value" style="Table Contents"/>
+									</HasMetaModelPropertyChecker>
+									<StaticText content="\n" style="Table Contents"/>
+								</ForEach>
+							</HasMetaModelPropertyChecker>
+						</TableCell>
+					</TableRow>
+				</ForEach>
+			</HasMetaModelPropertyChecker>
+		</TableBlock>
+		
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

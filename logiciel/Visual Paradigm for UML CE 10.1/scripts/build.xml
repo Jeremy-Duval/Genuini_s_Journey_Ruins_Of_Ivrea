@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="default">
+	<property name="vpsuiteInstallationPath" value="C:/Program Files/VP Suite 4.0" />
+	<!-- VPPRODUCT: VP-UML, BP-VA, DB-VA, AG, SDE-EC, SDE-VS, SDE-IJ, SDE-NB -->
+	<property name="vpproduct" value="VP-UML" />
+	<property name="vpworkspace" value="${user.home}/vpworkspace" />
+	<property name="headless" value="false" />
+
+	<taskdef resource="com/vp/ant/taskdef.properties" classpath="${vpsuiteInstallationPath}/lib/ant.jar" />
+
+	<target name="default" >
+	</target>
+
+	<target name="exportXML">
+		<exportXML project="project.vpp" out="output/" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</exportXML>
+	</target>
+
+	<target name="exportXMI">
+		<exportXMI project="project.vpp" out="project.xmi" type="1.1" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</exportXMI>
+	</target>
+
+	<target name="exportExcel">
+		<exportExcel project="project.vpp" out="project.xls" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</exportExcel>
+	</target>
+
+	<target name="importXMI">
+		<importXMI project="project.vpp" file="project.xmi" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</importXMI>
+	</target>
+
+	<target name="importXML">
+		<importXML project="project.vpp" file="project.xml" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</importXML>
+	</target>
+	
+	<target name="importExcel">
+		<importExcel project="project.vpp" file="project.xls" detail="detail.xls" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</importExcel>
+	</target>
+	
+	<target name="exportDiagramImage">
+		<exportDiagramImage project="project.vpp" out="output/" type="png" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+			<diagram name="Class Diagram1"/>
+		</exportDiagramImage>
+	</target>
+
+	<target name="exportReportDiagram">
+		<exportReportDiagram project="project.vpp" out="output/" type="pdf" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+			<diagram name="Report1"/>
+		</exportReportDiagram>
+	</target>
+
+	<target name="generateORM">
+		<generateORM project="project.vpp" code="true" ddl="true" exportdb="true" dbmode="Create" out="src" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</generateORM>
+	</target>
+	
+	<target name="reverseHibernate">
+		<reverseHibernate project="project.vpp" path="src" mode="ConfigurationAndMapping" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</reverseHibernate>
+	</target>
+	
+	<target name="generateReport">
+		<generateReport project="project.vpp" out="project.pdf" type="pdf" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}" all="true">
+		</generateReport>
+	</target>
+
+	<target name="instantGenerator">
+		<instantGenerator project="project.vpp" out="src" lang="java" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}" template="${vpsuiteInstallationPath}/resources/instantgenerator/java">
+		</instantGenerator>
+	</target>
+	
+	<target name="instantReverse">
+		<instantReverse project="project.vpp" path="path/" lang="PHP 5.0 Source" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</instantReverse>
+	</target>
+	
+	<target name="instantReverseJava">
+		<instantReverse project="project.vpp" path="path/" lang="Java" pathtype="folder" sourcetype="source" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</instantReverse>
+	</target>
+
+	<target name="projectPublisher">
+		<projectPublisher project="project.vpp" out="project/" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</projectPublisher>
+	</target>
+
+	<target name="javaCodeSyncGenerate">
+		<javaCodeSync project="project.vpp" generate="true" src="src" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</javaCodeSync>
+	</target>
+
+	<target name="javaCodeSyncReverse">
+		<javaCodeSync project="project.vpp" reverse="true" src="src" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</javaCodeSync>
+	</target>
+	
+	<target name="updateTeamworkProject">
+		<updateTeamworkProject project="project.vpp" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+		</updateTeamworkProject>
+	</target>
+	
+	<target name="plugin">
+		<plugin project="project.vpp" pluginId="com.vp.plugin.Test1" workspace="${vpworkspace}" product="${vpproduct}" headless="${headless}">
+			<pluginArg name="arg1"/>
+			<pluginArg name="arg2"/>
+		</plugin>
+	</target>
+</project>

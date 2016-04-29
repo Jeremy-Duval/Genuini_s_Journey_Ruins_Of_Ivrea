@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader default="false" description="/" id="RelatedTerms" name="Related Terms" type="table"/>
+	<ElementBaseInitiationBlock>
+		<StaticText content="Related Terms" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		
+		<HasRelationshipChecker modelType="GlossaryFactTypeAssociation" direction="to">
+			<TableBlock colWidths="30, 70" tableWidth="15500" alignment="right" rowBackgroundColors="#F0F0FF, #FFFFFF">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Name" style="Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Documentation" style="Column header 1"/>
+					</TableCell>
+				</TableRow>
+				
+				<ForEachSimpleRelationship modelType="GlossaryFactTypeAssociation" direction="to">
+					<FromEnd>
+						<TableRow>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText property="name" style="Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable="false" rightBorderEnable="false">
+								<StringPropertyText property="documentation" style="Table Contents"/>
+							</TableCell>
+						</TableRow>
+					</FromEnd>
+				</ForEachSimpleRelationship>
+				
+			</TableBlock>
+		</HasRelationshipChecker>
+		
+		<StaticText content="" style="Default"/>
+		
+	</ElementBaseInitiationBlock>
+</Template>

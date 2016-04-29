@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Grid Diagram" description="" icon="grid diagram" type="table" default="true"/>
+	<DiagramBaseInitiationBlock>
+		<StaticText content="Grid Diagram : " style="Heading 1 (VP)"/>
+		<StringPropertyText propertyText="name" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<StaticText content="" style="Default"/>
+
+		<GridDiagram tableWidth="15500"/>
+		<ParagraphBreak/>
+
+		<StaticText content="" style="Default"/>
+	</DiagramBaseInitiationBlock>
+</Template>

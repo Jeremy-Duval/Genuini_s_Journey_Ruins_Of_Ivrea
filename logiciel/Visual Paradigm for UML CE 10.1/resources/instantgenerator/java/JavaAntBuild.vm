@@ -1,0 +1,25 @@
+## ===== Output =====
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build">
+$indentation<path id="build.classpath">
+${indentation}${indentation}<pathelement location="classes"/>
+$indentation</path>
+$indentation<target name="init">
+${indentation}${indentation}<mkdir dir="classes"/>
+$indentation</target>
+$indentation<target name="clean">
+${indentation}${indentation}<delete dir="classes"/>
+$indentation</target>
+$indentation<target depends="init" name="build">
+#if( $version == "1" )
+	${indentation}${indentation}<javac srcdir="." destdir="classes" source="1.5" target="1.5" fork="yes">
+#else
+	${indentation}${indentation}<javac srcdir="." destdir="classes" source="1.4">
+#end
+${indentation}${indentation}${indentation}<classpath refid="build.classpath"/>
+#foreach( $path in $ant.t_getFiles($args) )
+	${indentation}${indentation}${indentation}<include name="$path"/>
+#end
+${indentation}${indentation}</javac>
+$indentation</target>
+</project>

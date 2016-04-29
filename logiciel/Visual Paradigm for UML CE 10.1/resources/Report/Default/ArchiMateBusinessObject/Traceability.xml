@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Traceability" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+		<Include template="Traceability.xml"/>
+	</ElementBaseInitiationBlock>
+</Template>

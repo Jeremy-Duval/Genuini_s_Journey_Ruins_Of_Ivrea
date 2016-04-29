@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Attribute Mappings (ORM)" description = "/" type = "table" default = "false"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Attribute Mappings" style = "Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<HasChildElementChecker type = "Attribute" flag = "true">
+			<TableBlock colWidths = "5000,5000" tableWidth = "14500" alignment = "right">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Attribute Name" style = "Column header 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false" color = "230, 230, 230">
+						<StaticText content = "Column Name" style = "Column header 1"/>
+					</TableCell>
+				</TableRow>
+				<IterationBlock elementType = "Attribute">
+					<HasMetaModelPropertyChecker property = "ormDetail" flag = "true">
+						<TableRow>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<StringPropertyText propertyText = "name" style = "Table Contents"/>
+							</TableCell>
+							<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+								<MetaModelElement modelProperty = "ormDetail">
+									<MetaModelElement modelProperty = "columnModel">
+										<StringPropertyText propertyText = "name" style = "Table Contents"/>
+									</MetaModelElement>
+								</MetaModelElement>
+							</TableCell>
+						</TableRow>
+					</HasMetaModelPropertyChecker>
+				</IterationBlock>
+			</TableBlock>
+		</HasChildElementChecker>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

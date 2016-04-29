@@ -1,0 +1,97 @@
+$class.t_prepare($args.get("property"))##
+## ===== Output =====
+#if( $class.isElement() )
+	#if( $referenceAttribute )
+		$indenter.getIndentation()<xs:element name="$referenceAttribute.getName()"##
+	#else
+		$indenter.getIndentation()<xs:element name="$class.getName()"##
+	#end
+	#if( $class.isAbstract() )
+		${space}abstract="true"##
+	#end
+	#if( $referenceAttribute )
+		${space}minOccurs="$referenceAttribute.t_getMinOccurs()" maxOccurs="$referenceAttribute.t_getMaxOccurs()"##
+	#end
+	>##
+	$indenter.push($indentation)##
+	#if( $class.generalizationClassCount() + $class.xsdElementAttributeCount() + $class.xsdAttributeCount() > 0 )
+		
+		$indenter.getIndentation()<xs:complexType>##
+		$indenter.push($indentation)##
+	#end
+	$class.t_getDocumentation($indenter.getIndentation())
+#elseif( $class.isGroup() )
+	$indenter.getIndentation()<xs:group name="$class.getName()">##
+	$indenter.push($indentation)##
+	$class.t_getDocumentation($indenter.getIndentation())
+#elseif( $class.isAttributeGroup() )
+	$indenter.getIndentation()<xs:attributeGroup name="$class.getName()">##
+	$indenter.push($indentation)##
+	$class.t_getDocumentation($indenter.getIndentation())
+#else
+	$indenter.getIndentation()<xs:complexType name="$class.getName()"##
+	#if( $class.isAbstract() )
+		${space}abstract="true"##
+	#end	
+	>$indenter.push($indentation)##
+	$class.t_getDocumentation($indenter.getIndentation())
+#end
+#if( $class.generalizationClassCount() > 0 )
+	$indenter.getIndentation()<xs:$class.t_getContent()>
+	$indenter.push($indentation)##
+	$indenter.getIndentation()<xs:extension base="$class.t_getGeneralizationPrefix()$class.t_getGeneralizationPrefixPostfix()$class.t_getGeneralization()">
+	$indenter.push($indentation)##
+#end
+#if( $class.xsdElementAttributeCount() > 0 )
+	#if( $class.isSequence() )
+		$indenter.getIndentation()<xs:sequence>
+	#elseif( $class.isChoice() )
+		$indenter.getIndentation()<xs:choice>
+	#else
+		$indenter.getIndentation()<xs:all>
+	#end
+	$indenter.push($indentation)##
+	#foreach( $attribute in $class.xsdElementAttributeIterator() )
+		#parse("$template-dir/XsdElementAttribute.vm")
+	#end
+	$indenter.pop()##
+	#if( $class.isSequence() )
+		$indenter.getIndentation()</xs:sequence>
+	#elseif( $class.isChoice() )
+		$indenter.getIndentation()</xs:choice>
+	#else
+		$indenter.getIndentation()</xs:all>
+	#end
+#end
+#if( $class.xsdAttributeCount() > 0 )
+	#foreach( $attribute in $class.xsdAttributeIterator() )
+		#parse("$template-dir/XsdAttribute.vm")
+
+	#end
+#end
+#if( $class.generalizationClassCount() > 0 )
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:extension>
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:$class.t_getContent()>
+#end
+#if( $class.isElement() )
+	#if( $class.generalizationClassCount() + $class.xsdElementAttributeCount() + $class.xsdAttributeCount() > 0 )
+		$indenter.pop()##
+		$indenter.getIndentation()</xs:complexType>
+	#end
+	#set($node = $class.getTaggedValueContent() )
+	#parse("$template-dir/XsdXmlNode.vm")
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:element>
+#elseif ( $class.isGroup() )
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:group>
+#elseif( $class.isAttributeGroup() )
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:attributeGroup>
+#else
+	$indenter.pop()##
+	$indenter.getIndentation()</xs:complexType>
+#end
+

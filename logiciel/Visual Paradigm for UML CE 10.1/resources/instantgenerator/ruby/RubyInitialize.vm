@@ -1,0 +1,7 @@
+## ===== Output =====
+#foreach($attribute in $class.attributeIterator())
+	#if( $attribute.t_getAttributeNamePrefix().length() == 1 )
+		#parse("$template-dir/RubyInitializeAttribute.vm")
+
+	#end
+#end

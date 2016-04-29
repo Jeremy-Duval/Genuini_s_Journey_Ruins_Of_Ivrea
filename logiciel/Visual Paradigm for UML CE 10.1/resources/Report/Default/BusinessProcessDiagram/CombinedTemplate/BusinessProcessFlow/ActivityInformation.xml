@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Business Process Flow - Activity Information" icon="procedures" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+		<ElementImage type="icon"/>
+		<StringPropertyText property="name" style="BusinessProcessFlowHeader1"/>
+		<ParagraphBreak/>
+		<TableBlock firstColumnWidth="22" alignment="left">
+			<ValueConditionChecker property="documentation" operator="not equals" value="">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="false" bottomBorderEnable="false">
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="false" bottomBorderEnable="false">
+						<StringPropertyText property="documentation" style="Default"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			<ForEach property="bpProcedures">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="false" bottomBorderEnable="false">
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="false" bottomBorderEnable="false">
+						<StringPropertyText property="name" style="BusinessProcessFlowHeader2"/>
+					</TableCell>
+				</TableRow>
+				<BPProcedureStepIterationBlock>
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="false" bottomBorderEnable="false">
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false" topBorderEnable="false" bottomBorderEnable="false">
+							<BPProcedureStepIndent indentText="  "/>
+							<StringPropertyText property="index" style="Default"/>
+							<StaticText content=" " style="Default"/>
+							<StringPropertyText property="name" style="Default"/>
+						</TableCell>
+					</TableRow>
+				</BPProcedureStepIterationBlock>
+			</ForEach>
+		</TableBlock>
+	</ElementBaseInitiationBlock>
+</Template>

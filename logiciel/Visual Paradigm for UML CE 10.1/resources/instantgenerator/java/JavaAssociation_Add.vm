@@ -1,0 +1,16 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if( $associationImplementation == "1" )
+	#set( $tmpList = 'java.util.List' )
+	#set( $tmpAsList = 'java.util.Arrays.asList(' )
+	#set( $tmpAdd = '.add(' )
+	#set( $tmpSize = '.size(' )
+	#set( $tmpToArray = '.toArray(' )
+	${baseIndentation}${indentation}${indentation}${tmpList} $operation.getReference().getRefObject().t_getLocalName()_Temp = ${tmpAsList}this.$operation.getReference().getAttributeName());
+	${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp${tmpAdd}$operation.getReference().getParameterName());
+	${baseIndentation}${indentation}${indentation}this.$operation.getReference().getAttributeName() = new $operation.getReference().getRefObject().t_getElementName()[$operation.getReference().getRefObject().t_getLocalName()_Temp${tmpSize})];
+	${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp${tmpToArray}this.$operation.getReference().getAttributeName());
+#else
+	#set( $tmpAdd = '.add(' )
+	${baseIndentation}${indentation}${indentation}this.$operation.getReference().getAttributeName()$tmpAdd$operation.getReference().getParameterName());
+#end

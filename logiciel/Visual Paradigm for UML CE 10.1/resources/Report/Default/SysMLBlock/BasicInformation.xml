@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Basic Information" description="/" type="table" default="true"/>
+	<ElementBaseInitiationBlock>
+	
+		<StringPropertyText propertyText="modelType" style="Heading 1 (VP)"/>
+		<StaticText content=" : " style="Heading 1 (VP)"/>
+		<StringPropertyText propertyText="name" style="Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		
+		<TableBlock colWidths = "20, 80" tableWidth="15500" alignment="right">
+			
+			<!-- stereotypes -->
+			<HasMetaModelPropertyChecker property = "stereotypes" flag = "true">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Stereotypes :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<ForEach property = "stereotypes" ignoreParagraphBreakForLastModel = "true">
+							<StaticText content = "&lt;&lt;" style = "Table Contents"/>
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+							<StaticText content = ">>" style = "Table Contents"/>
+							<StaticText content = "\n" style = "Table Contents"/>
+						</ForEach>
+					</TableCell>
+				</TableRow>
+			</HasMetaModelPropertyChecker>
+			
+			<!-- visibility -->
+			<DefaultConditionChecker property = "visibility" propertyType = "StringSelection" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Visibility :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "visibility" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- documentation -->
+			<ValueConditionChecker property="documentation" operator="NOT EQUAL" value="">
+				<ReportOptionChecker option="basicInformationShowsDocumentation" equalFlag="true">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Doc :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ReportOptionChecker>
+			</ValueConditionChecker>
+			
+			<!-- abstract -->
+			<DefaultConditionChecker property="abstract" flag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Abstract :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText property="abstract" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- leaf -->
+			<DefaultConditionChecker property="leaf" flag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Leaf :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText property="leaf" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- root -->
+			<DefaultConditionChecker property="root" flag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Root :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText property="root" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- active -->
+			<DefaultConditionChecker property="active" flag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Active :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText property="active" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- encapsulated -->
+			<DefaultConditionChecker property="encapsulated" flag="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="Encapsulated :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText property="encapsulated" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			
+			<!-- properties -->
+			<ElementBaseInitiationBlock>
+				<HasChildElementChecker modelTypes="Attribute, SysMLFlowPort">
+					<!-- parts -->
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Parts :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<IterationBlock modelType="Attribute" ignoreParagraphBreakForLastModel="true">
+								<ValueConditionChecker property="sysMLPropertyType" value="Part">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content="\n" style="Table Contents"/>
+								</ValueConditionChecker>
+							</IterationBlock>
+						</TableCell>
+					</TableRow>
+					<!-- references -->
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="References :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<IterationBlock modelType="Attribute" ignoreParagraphBreakForLastModel="true">
+								<ValueConditionChecker property="sysMLPropertyType" value="Reference">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content="\n" style="Table Contents"/>
+								</ValueConditionChecker>
+							</IterationBlock>
+						</TableCell>
+					</TableRow>
+					<!-- values -->
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Values :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<IterationBlock modelType="Attribute" ignoreParagraphBreakForLastModel="true">
+								<ValueConditionChecker property="sysMLPropertyType" value="Value">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content="\n" style="Table Contents"/>
+								</ValueConditionChecker>
+							</IterationBlock>
+						</TableCell>
+					</TableRow>
+					<!-- flow ports -->
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Flow Ports :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<IterationBlock modelType="SysMLFlowPort" ignoreParagraphBreakForLastModel="true">
+								<StringPropertyText property="name" style="Table Contents"/>
+								<StaticText content="\n" style="Table Contents"/>
+							</IterationBlock>
+						</TableCell>
+					</TableRow>
+					<!-- properties -->
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Properties :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<IterationBlock modelType="Attribute" ignoreParagraphBreakForLastModel="true">
+								<ValueConditionChecker property="sysMLPropertyType" value="Property">
+									<StringPropertyText property="name" style="Table Contents"/>
+									<StaticText content="\n" style="Table Contents"/>
+								</ValueConditionChecker>
+							</IterationBlock>
+						</TableCell>
+					</TableRow>
+				</HasChildElementChecker>
+			</ElementBaseInitiationBlock>
+			
+		</TableBlock>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

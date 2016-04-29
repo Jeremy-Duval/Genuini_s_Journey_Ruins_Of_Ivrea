@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CombinedTemplate name="Use Case Diagram Details" type="imageWithLoop" default="false">
+	<Include template="UseCaseDiagramDetails/DiagramImage.xml"/>
+	<Loop modelType="UseCase">
+		<Include template="UseCaseDiagramDetails/UseCase.xml"/>
+	</Loop>
+	<Loop modelType="Actor">
+		<Include template="UseCaseDiagramDetails/Actor.xml"/>
+	</Loop>
+</CombinedTemplate>

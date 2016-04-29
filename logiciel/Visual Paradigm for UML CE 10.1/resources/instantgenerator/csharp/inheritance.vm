@@ -1,0 +1,17 @@
+#set($count=$class.baseClassCount())
+#if($count>0)
+	#set($first-base-class=$class.baseClassAt(0))
+	#foreach ($base-class in $class.baseClassIterator())
+		#set($bindInfo=$class.getBaseClassBindInfo($base-class))
+		#if($base-class==$first-base-class)
+			$space: ##
+		#else
+			, ##
+		#end
+		$class.getTypeRepresentation($base-class)##
+		#if($bindInfo)
+			#parse("$template-path/bindInfo.vm")
+		#end
+		$space##
+	#end
+#end

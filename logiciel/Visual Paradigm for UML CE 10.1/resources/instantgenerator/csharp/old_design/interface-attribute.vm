@@ -1,0 +1,17 @@
+#if ($attribute.getDocumentation() && $attribute.getDocumentation()!="")
+$indent	/// <summary>
+#foreach ($line in $attribute.getDocumentationLine())
+	$indent /// $line
+#end
+$indent	/// </summary>
+#end
+#if ($attribute.hasSetter() || $attribute.hasGetter())
+$indent	#if ($attribute.getType())$attribute.getType().getName()#else$default-attribute-type#end $attribute.getPropertyDisplayName() {
+#if ($attribute.hasGetter())
+$indent		get;
+#end
+#if ($attribute.hasSetter())
+$indent		set;
+#end
+$indent	}
+#end

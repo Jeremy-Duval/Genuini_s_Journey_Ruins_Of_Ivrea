@@ -1,0 +1,45 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#if( $associationImplementation == "1" )
+	${baseIndentation}${indentation}$operation.getReference().getRefObject().t_getCollectionElementName() $operation.getReference().getRefObject().t_getLocalName()_Temp;
+	${baseIndentation}${indentation}unsigned int $operation.getReference().getRefObject().t_getLocalName()_Size = 0;
+	${baseIndentation}${indentation}unsigned int $operation.getReference().getRefObject().t_getLocalName()_Removed = 0;
+	${baseIndentation}${indentation}try
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}while (true)
+	${baseIndentation}${indentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}${indentation}if (this->$operation.getReference().getAttributeName()[$operation.getReference().getRefObject().t_getLocalName()_Size] != $operation.getReference().getParameterName())
+	${baseIndentation}${indentation}${indentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Removed++;
+	${baseIndentation}${indentation}${indentation}${indentation}}
+	${baseIndentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Size++;
+	${baseIndentation}${indentation}${indentation}}
+	${baseIndentation}${indentation}}
+	${baseIndentation}${indentation}catch (...)
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}}
+	${baseIndentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp = new $operation.getReference().getRefObject().t_getElementName()*[$operation.getReference().getRefObject().t_getLocalName()_Size - $operation.getReference().getRefObject().t_getLocalName()_Removed];
+	${baseIndentation}${indentation}for (unsigned int i = $operation.getReference().getRefObject().t_getLocalName()_Size - 1; i >= 0; i--)
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}if (this->$operation.getReference().getAttributeName()[i] == $operation.getReference().getParameterName())
+	${baseIndentation}${indentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Removed--;
+	${baseIndentation}${indentation}${indentation}}
+	${baseIndentation}${indentation}${indentation}else
+	${baseIndentation}${indentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[i - $operation.getReference().getRefObject().t_getLocalName()_Removed] = this->$operation.getReference().getAttributeName()[i];
+	${baseIndentation}${indentation}${indentation}}
+	${baseIndentation}${indentation}}
+	${baseIndentation}${indentation}this->$operation.getReference().getAttributeName() = $operation.getReference().getRefObject().t_getLocalName()_Temp;
+#elseif( $associationImplementation == "0" )
+	#set( $tmpSize = '.size(' )
+	#set( $tmpErase = '.erase(' )
+	#set( $tmpBegin = '.begin(' )
+	${baseIndentation}${indentation}for (unsigned int i = this->$operation.getReference().getAttributeName()$tmpSize) - 1; i >= 0; i--)
+	${baseIndentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}if (this->$operation.getReference().getAttributeName()[i] == $operation.getReference().getParameterName())
+	${baseIndentation}${indentation}${indentation}{
+	${baseIndentation}${indentation}${indentation}${indentation}this->$operation.getReference().getAttributeName()${tmpErase}this->$operation.getReference().getAttributeName()$tmpBegin) + i);
+	${baseIndentation}${indentation}${indentation}}
+	${baseIndentation}${indentation}}
+#end

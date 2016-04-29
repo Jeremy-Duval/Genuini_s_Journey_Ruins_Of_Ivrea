@@ -1,0 +1,108 @@
+<Subtemplate>
+	<StaticText content="Project Management" style="Heading 2 (VP)"/>
+	<ParagraphBreak/>
+	
+	<TableBlock tableWidth="14500" colWidths="30, 70" alignment="right">
+		<!-- Status -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Status :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmStatus" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- Difficulty -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Difficulty :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmDifficulty" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- Priority -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Priority :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmPriority" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- Author -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Author :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmAuthor" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- CreateDateTime -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Create date time :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmCreateDateTime" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- LastModified -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Last modified :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmLastModified" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- Version -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Version :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmVersion" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- Iteration -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Iteration :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmIteration" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- Phase -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Phase :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmPhase" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+		<!-- Discipline -->
+		<TableRow>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StaticText content="Discipline :" style="Row caption 1"/>
+			</TableCell>
+			<TableCell  leftBorderEnable="false" rightBorderEnable="false">
+				<StringPropertyText property="pmDiscipline" defaultValue="&lt;Unspecified&gt;" style="Table Contents"/>
+			</TableCell>
+		</TableRow>
+		
+	</TableBlock>
+	<StaticText content="" style="Default"/>
+</Subtemplate>

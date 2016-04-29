@@ -1,0 +1,30 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#set( $tmpSetLength = 'SetLength(' )
+#set( $tmpLength = 'Length(' )
+${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp:Array Of $operation.getReference().getRefObject().t_getElementName();
+${baseIndentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Removed:Integer;
+${baseIndentation}${indentation}${indentation}i:Integer;
+${baseIndentation}${indentation}${indentation}For i := 0 To (${tmpLength}Self.$operation.getReference().getAttributeName()) - 1) Do
+${baseIndentation}${indentation}${indentation}Begin
+${baseIndentation}${indentation}${indentation}${indentation}If (Self.$operation.getReference().getAttributeName()[i] = $operation.getReference().getParameterName())
+${baseIndentation}${indentation}${indentation}${indentation}Then
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}Begin
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Removed := $operation.getReference().getRefObject().t_getLocalName()_Removed + 1;
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}End;
+${baseIndentation}${indentation}${indentation}End;
+${baseIndentation}${indentation}${indentation}${tmpSetLength}$operation.getReference().getRefObject().t_getLocalName()_Temp, ${tmpLength}Self.$operation.getReference().getAttributeName()) - $operation.getReference().getRefObject().t_getLocalName()_Removed);
+${baseIndentation}${indentation}${indentation}For i := (${tmpLength}Self.$operation.getReference().getAttributeName()) - 1) To 0 Do
+${baseIndentation}${indentation}${indentation}Begin
+${baseIndentation}${indentation}${indentation}${indentation}If (Self.$operation.getReference().getAttributeName()[i] = $operation.getReference().getParameterName())
+${baseIndentation}${indentation}${indentation}${indentation}Then
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}Begin
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Removed := $operation.getReference().getRefObject().t_getLocalName()_Removed - 1;
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}End
+${baseIndentation}${indentation}${indentation}${indentation}Else
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}Begin
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}${indentation}$operation.getReference().getRefObject().t_getLocalName()_Temp[i - $operation.getReference().getRefObject().t_getLocalName()_Removed] := Self.$operation.getReference().getAttributeName()[i];
+${baseIndentation}${indentation}${indentation}${indentation}${indentation}End;
+${baseIndentation}${indentation}${indentation}End;
+${baseIndentation}${indentation}${indentation}Self.$operation.getReference().getAttributeName() := $operation.getReference().getRefObject().t_getLocalName()_Temp;
+

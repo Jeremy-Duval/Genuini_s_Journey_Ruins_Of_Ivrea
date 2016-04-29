@@ -1,0 +1,4 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+${indentation}return $operation.getReference().getRefObject().t_getTypeNamePrefix()$operation.getReference().getAttributeName();
+

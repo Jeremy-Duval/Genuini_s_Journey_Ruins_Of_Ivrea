@@ -1,0 +1,4 @@
+$operation.getReference().prepare($args.get("property"))##
+## ===== Output =====
+#set( $tmpAppend = '.append(' )
+${baseIndentation}${indentation}${indentation}self.$operation.getReference().getAttributeName()${tmpAppend}$operation.getReference().getParameterName())

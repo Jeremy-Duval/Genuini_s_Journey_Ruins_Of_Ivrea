@@ -1,0 +1,35 @@
+$class.t_prepare($args.get("property"))##
+## ===== Output =====
+#if( $defaultClassTypeNsobject )
+	#import <Foundation/Foundation.h>
+#end
+#import <objc/Object.h>
+#import "stdio.h"
+$class.t_getImport()
+#if( $class.t_forwardDeclarationClassesCount() > 0 )
+	#foreach( $forwardDeclarationClass in $class.t_getForwardDeclarationClasses() )
+		$forwardDeclarationClass.t_prepare($args.get("property"))##
+		@class $forwardDeclarationClass.getName();
+	#end
+
+#end
+$class.t_getDocumentation('')##
+$class.t_getInterface()$class.getName() $class.t_getGeneralization()$class.t_getRealization()##
+#if( $class.isInterface() == false )
+	{
+	#if( $class.attributeCount() > 0 )
+		#foreach( $attribute in $class.attributeIterator() )
+			#parse("$template-dir/header/ObjectiveCAttribute.vm")
+
+		#end
+	#end
+	}
+#end
+#if( $class.operationCount() > 0 )
+	#foreach( $operation in $class.operationIterator() )
+		#parse("$template-dir/header/ObjectiveCOperation.vm")
+
+	#end
+#end
+@end
+

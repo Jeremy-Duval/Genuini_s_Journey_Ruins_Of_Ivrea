@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Basic Information" description = "/" type = "table" default = "true"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Column : " style = "Heading 1 (VP)"/>
+		<StringPropertyText propertyText = "name" style = "Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<TableBlock colWidths = "20, 80" tableWidth = "15500" alignment = "right">
+			<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+				<ReportOptionChecker option = "basicInformationShowsDocumentation" equalFlag = "true">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Doc :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ReportOptionChecker>
+			</ValueConditionChecker>
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StaticText content = "Type :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StringPropertyText propertyText = "type" style = "Table Contents"/>
+				</TableCell>	
+			</TableRow>
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StaticText content = "Length :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StringPropertyText propertyText = "length" style = "Table Contents"/>
+				</TableCell>	
+			</TableRow>
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StaticText content = "ID Generator :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StringPropertyText propertyText = "idGenerator" style = "Table Contents"/>
+				</TableCell>	
+			</TableRow>
+			<ValueConditionChecker property = "idGeneratorKey" operator = "NOT EQUAL" value = "">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Key :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "idGeneratorKey" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			<ValueConditionChecker property = "checkConstraint" operator = "NOT EQUAL" value = "">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Check Constraint :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "checkConstraint" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StaticText content = "Primary Key :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StringPropertyText propertyText = "primaryKey" style = "Table Contents"/>
+				</TableCell>
+			</TableRow>
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StaticText content = "Nullable :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StringPropertyText propertyText = "nullable" style = "Table Contents"/>
+				</TableCell>
+			</TableRow>
+			<TableRow>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StaticText content = "Unique :" style = "Row caption 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+					<StringPropertyText propertyText = "unique" style = "Table Contents"/>
+				</TableCell>
+			</TableRow>
+		</TableBlock>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

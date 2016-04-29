@@ -1,0 +1,20 @@
+#if($operation.parameterCount()>0)
+	(##
+	#set($first=true)
+	#foreach ($parameter in $operation.parameterIterator())
+		#if($first)
+			#set($first=false)
+		#else
+			$space; ##
+		#end
+		$parameter.getParameterName() :##
+		#if($parameter.isInDirection())
+			${space}in##
+		#end
+		#if($parameter.isOutDirection())
+			${space}out##			
+		#end
+		${space}$parameter.getParameterType()##
+	#end
+	)##
+#end

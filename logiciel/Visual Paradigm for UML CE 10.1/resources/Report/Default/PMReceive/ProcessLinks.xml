@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name="Process Links" description="/" type="table" default="false"/>
+	<ElementBaseInitiationBlock>
+
+		<StaticText content="Process Links" style="Heading 2 (VP)"/>
+		<ParagraphBreak/>
+		<ForEachSimpleRelationship type="PMProcessLink" direction="all" ignoreParagraphBreakForLastModel="true">
+			<TableBlock colWidths="2100,6900" tableWidth="14500" alignment="right">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StaticText content="Name :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+						<StringPropertyText propertyText="name" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="From :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<FromEnd>
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</FromEnd>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StaticText content="To :" style="Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<ToEnd>
+							<StringPropertyText propertyText="name" style="Table Contents"/>
+						</ToEnd>
+					</TableCell>
+				</TableRow>
+				<HasMetaModelPropertyChecker property="stereotypes" flag="true">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Stereotypes :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<ForEach property="stereotypes" ignoreParagraphBreakForLastModel="true">
+								<StaticText content="&lt;&lt;" style="Table Contents"/>
+								<StringPropertyText propertyText="name" style="Table Contents"/>
+								<StaticText content=">>" style="Table Contents"/>
+								<StaticText content="\n" style="Table Contents"/>
+							</ForEach>
+						</TableCell>
+					</TableRow>
+				</HasMetaModelPropertyChecker>
+				<ValueConditionChecker property="documentation" operator="NOT EQUAL" value="">
+					<TableRow>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StaticText content="Documentation :" style="Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable="false" rightBorderEnable="false">
+							<StringPropertyText propertyText="documentation" style="Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ValueConditionChecker>
+			</TableBlock>
+			<ParagraphBreak/>
+			<StaticText content="" style="Default"/>
+			<ParagraphBreak/>
+		</ForEachSimpleRelationship>
+		<StaticText content="" style="Default"/>
+	</ElementBaseInitiationBlock>
+</Template>

@@ -1,0 +1,7 @@
+#if($info)
+	$class.getTypeRepresentation($info.getArguments().getBindedType())##
+	#set($currentInfo=$bindInfo)
+	#set($bindInfo=$info.getArguments())
+	#parse("$template-path/bindInfo.vm")
+	#set($bindInfo=$currentInfo)
+#end

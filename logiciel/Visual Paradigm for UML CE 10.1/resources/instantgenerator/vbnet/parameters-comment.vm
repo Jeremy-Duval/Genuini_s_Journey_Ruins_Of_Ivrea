@@ -1,0 +1,9 @@
+#foreach ($parameter in $operation.parameterIterator())
+	#if ($parameter.getDocumentation() && $current.getDocumentation()!="")
+		$indent''' <param name="$parameter.getName()">
+		#foreach ($line in $formatter.getDocumentationLineIterator($parameter.getDocumentation()))
+			$indent''' $line
+		#end
+		$indent''' </param>
+	#end
+#end

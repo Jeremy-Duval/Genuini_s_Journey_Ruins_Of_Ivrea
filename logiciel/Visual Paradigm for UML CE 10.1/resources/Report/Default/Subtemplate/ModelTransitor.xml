@@ -1,0 +1,60 @@
+<Subtemplate>
+	<StaticText content="Model Transitor" style="Heading 2 (VP)"/>
+	<ParagraphBreak/>
+	<HasMetaModelPropertyChecker property="transitFrom" flag="true">
+		<StaticText content="Transit From" style="Heading 3 (VP)"/>
+		<TableBlock colWidths="70, 30" tableWidth="14500" alignment="right">
+			<TableRow>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Name" style="Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Type" style="Column header 1"/>
+				</TableCell>
+			</TableRow>
+			<ForEach property="transitFromModelShapes" ignoreParagraphBreakForLastModel="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<OwnerDiagram>
+							<StringPropertyText property="name" style="Table Contents"/>
+							<StaticText content="." style="Table Contents"/>
+						</OwnerDiagram>
+						<StringPropertyText property="name" style="Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText property="modelType" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ForEach>
+		</TableBlock>
+	</HasMetaModelPropertyChecker>
+	
+	<HasMetaModelPropertyChecker property="transitTo" flag="true">
+		<StaticText content="Transit To" style="Heading 3 (VP)"/>
+		<TableBlock colWidths="70, 30" tableWidth="14500" alignment="right">
+			<TableRow>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Name" style="Column header 1"/>
+				</TableCell>
+				<TableCell leftBorderEnable="false" rightBorderEnable="false" color="230, 230, 230">
+					<StaticText content="Type" style="Column header 1"/>
+				</TableCell>
+			</TableRow>
+			<ForEach property="transitToModelShapes" ignoreParagraphBreakForLastModel="false">
+				<TableRow>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<OwnerDiagram>
+							<StringPropertyText property="name" style="Table Contents"/>
+							<StaticText content="." style="Table Contents"/>
+						</OwnerDiagram>
+						<StringPropertyText property="name" style="Table Contents"/>
+					</TableCell>
+					<TableCell leftBorderEnable="false" rightBorderEnable="false">
+						<StringPropertyText property="modelType" style="Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ForEach>
+		</TableBlock>
+	</HasMetaModelPropertyChecker>
+	<StaticText content="" style="Default"/>
+</Subtemplate>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+    <TemplateInformationHeader name="Rule Family Table" description="/" type="table" default="false"/>
+    <DiagramElementBaseInitiationBlock>
+        <StaticText content="Rule Family Table" style="Heading 2 (VP)"/>
+        <ParagraphBreak/>
+        <StaticText content="" style="Default"/>
+        <RuleFamilyTable/>
+    </DiagramElementBaseInitiationBlock>
+</Template>

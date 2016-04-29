@@ -1,0 +1,20 @@
+$class.t_prepare($args.get("property"))##
+## ===== Global =====
+#set( $baseIndentation = "" )
+## ===== Output =====
+#foreach( $package in $class.t_packageIterator() )
+	#set( $baseIndentation = "$indentation" )
+	module $package {
+#end
+$class.t_getDocumentation($baseIndentation)##
+${baseIndentation}$class.t_getAbstract()$class.t_getTypeName() $class.getName() $class.t_getGeneralizationRealization(){
+#if( $class.structValueCount() > 0 )
+	#foreach($attribute in $class.structValueIterator())
+		${baseIndentation}${indentation}#parse("$template-dir/IdlStructValue.vm")
+
+	#end
+#end
+$baseIndentation};
+#foreach( $package in $class.t_packageIterator() )
+	};
+#end

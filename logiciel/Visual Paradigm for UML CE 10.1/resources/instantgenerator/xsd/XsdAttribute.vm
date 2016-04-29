@@ -1,0 +1,11 @@
+$attribute.t_prepare($args.get("property"))##
+## ===== Output =====
+$indenter.getIndentation()<xs:attribute name="$attribute.getName()" type="$attribute.t_getTypePrefix()$attribute.t_getTypePrefixPostfix()$attribute.t_getTypeName()" use="$attribute.t_getUse()"##
+#if( $attribute.hasDefaultValue() )
+	${space}default="$attribute.getDefaultValue()"##
+#end
+>##
+$indenter.push($indentation)##
+$attribute.t_getDocumentation($indenter.getIndentation())
+$indenter.pop()##
+$indenter.getIndentation()</xs:attribute>

@@ -1,0 +1,3 @@
+## ===== Output =====
+${indent}${tab}this.$operation.getReference().getAttributeName() = $operation.getReference().getParameterName();
+

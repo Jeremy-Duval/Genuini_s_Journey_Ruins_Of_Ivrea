@@ -1,0 +1,18 @@
+#set( $bodyBase = "${baseIndentation}${indentation}${indentation}" )
+## ===== Output =====
+#set( $hashCode = $utilities.getLocalVariableName("hashCode", $args.get("property")) )
+${baseIndentation}${indentation}${indentation}int $hashCode = 0;
+#if( $class.attributeCount() > 0 )
+	#foreach( $attribute in $class.attributeIterator() )
+		#if( $utilities.isObject($attribute.t_getTypeName($class)) )
+			${bodyBase}if ( this.$attribute.t_getAttributeName() != null ) {
+			${bodyBase}${indentation}$hashCode += this.${attribute.t_getAttributeName()}.hashCode();
+			${bodyBase}}
+		#end
+	#end
+#end
+${bodyBase}if ( $hashCode == 0 ) {
+${bodyBase}${indentation}$hashCode = super.hashCode();
+${bodyBase}}
+${bodyBase}return $hashCode;
+

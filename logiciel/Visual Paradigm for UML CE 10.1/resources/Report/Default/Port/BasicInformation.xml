@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateInformationHeader name = "Basic Information" description = "/" type = "table" default = "true"/>
+	<ElementBaseInitiationBlock>
+	
+		<StaticText content = "Port : " style = "Heading 1 (VP)"/>
+		<StringPropertyText propertyText = "name" style = "Heading 1 (VP)"/>
+		<ParagraphBreak/>
+		<TableBlock colWidths = "20, 80" tableWidth = "15500" alignment = "right">
+			<ValueConditionChecker property = "multiplicity" operator = "NOT EQUAL" value = "Unspecified">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Multiplicity :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "multiplicity" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</ValueConditionChecker>
+			<HasMetaModelPropertyChecker property = "multiplicityDetail" flag= "true">
+				<MetaModelElement modelProperty = "multiplicityDetail">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Multiplicity detail :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell splitted = "true">	
+							<DefaultConditionChecker property = "ordered" propertyType = "boolean" equalFlag = "false">
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "Ordered :" style = "Sub-row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<BooleanPropertyText propertyText = "ordered" style = "Table Contents"/>
+									</TableCell>
+								</TableRow>
+							</DefaultConditionChecker>
+							<DefaultConditionChecker property = "unique" propertyType = "boolean" equalFlag = "false">
+								<TableRow>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<StaticText content = "Unique :" style = "Sub-row caption 1"/>
+									</TableCell>
+									<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+										<BooleanPropertyText propertyText = "unique" style = "Table Contents"/>
+									</TableCell>
+								</TableRow>
+							</DefaultConditionChecker>							
+						</TableCell>
+					</TableRow>
+				</MetaModelElement>
+			</HasMetaModelPropertyChecker>
+			<DefaultConditionChecker property = "visibility" propertyType = "StringSelection" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Visibility :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StringPropertyText propertyText = "visibility" style = "Table Contents"/>
+					</TableCell>	
+				</TableRow>
+			</DefaultConditionChecker>
+			<HasMetaModelPropertyChecker property = "redefinedPort" flag = "true">
+				<MetaModelElement modelProperty = "redefinedPort">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Redefined Port :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</MetaModelElement>
+			</HasMetaModelPropertyChecker>
+			<HasMetaModelPropertyChecker property = "stereotypes" flag = "true">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Stereotypes :" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<ForEach property = "stereotypes" ignoreParagraphBreakForLastModel = "true">
+							<StaticText content = "&lt;&lt;" style = "Table Contents"/>
+							<StringPropertyText propertyText = "name" style = "Table Contents"/>
+							<StaticText content = ">>" style = "Table Contents"/>
+							<StaticText content = "\n" style = "Table Contents"/>
+						</ForEach>
+					</TableCell>
+				</TableRow>
+			</HasMetaModelPropertyChecker>
+			<ValueConditionChecker property = "documentation" operator = "NOT EQUAL" value = "">
+				<ReportOptionChecker option = "basicInformationShowsDocumentation" equalFlag = "true">
+					<TableRow>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StaticText content = "Doc :" style = "Row caption 1"/>
+						</TableCell>
+						<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+							<StringPropertyText propertyText = "documentation" style = "Table Contents"/>
+						</TableCell>
+					</TableRow>
+				</ReportOptionChecker>
+			</ValueConditionChecker>
+			<DefaultConditionChecker property = "service" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Service :" isBold = "true" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<BooleanPropertyText propertyText = "service" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			<DefaultConditionChecker property = "behavior" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Behavior :" isBold = "true" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<BooleanPropertyText propertyText = "behavior" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+			<DefaultConditionChecker property = "readOnly" propertyType = "boolean" equalFlag = "false">
+				<TableRow>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<StaticText content = "Read only :" isBold = "true" style = "Row caption 1"/>
+					</TableCell>
+					<TableCell leftBorderEnable = "false" rightBorderEnable = "false">
+						<BooleanPropertyText propertyText = "readOnly" style = "Table Contents"/>
+					</TableCell>
+				</TableRow>
+			</DefaultConditionChecker>
+		</TableBlock>
+		<StaticText content = "" style = "Default"/>
+	</ElementBaseInitiationBlock>
+</Template>
