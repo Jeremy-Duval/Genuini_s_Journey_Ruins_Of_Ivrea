@@ -1,0 +1,23 @@
+﻿
+LA PUISSANCE DU JAVA
+
+Pourquoi développer en java ?
+
+Si juvabien, c'est juvamine !
+Le Java est vraiment une technologie du turfu.  D'après le site d'Oracle : "La technologie Java est à la base de la plupart des applications en réseau et elle est exploitée dans le monde entier pour développer et fournir des applications mobiles et imbriquées, des jeux, du contenu Web et des logiciels d'entreprise. Utilisée par plus de 9 millions de développeurs dans le monde, la technologie Java permet de développer, de déployer et d'utiliser efficacement des applications et des services fascinants."
+
+Les caractéristiques distinctives de Java dans le cadre de notre projet :
+  Java permet d'écrire des logiciels sur une plate-forme et de les exécuter sur pratiquement toutes les autres plates-formes,
+              d'écrire des applications puissantes et efficaces pour les téléphones portables, les processeurs à distance, [les microcontrôleurs], les modules sans fil, les capteurs, les passerelles, les produits de consommation et tous les autres types de dispositif électronique ( = richesse de ressources de développement )
+
+(Java est un langage qui ne tient pas compte de l'OS ou du matériel, c'est à dire qu'un programme qui tourne sur un système A quelconque fonctionne également sur un système B. Ce qui change: la JVM (qui fait tourner le programme). Principe du pseudo code
+)
+
+I. Java et le jeu vidéo
+  cf carte heuristique
+
+II. Java et Arduino (en tant que micro contrôleur)
+
+[Java et l'internet des objets 
+Sources: http://www.oracle.com/technetwork/java/embedded/overview/index.html
+	http://www.oracle.com/technetwork/java/embedded/javame/index.html (possibilités to infinity and beyond)]
