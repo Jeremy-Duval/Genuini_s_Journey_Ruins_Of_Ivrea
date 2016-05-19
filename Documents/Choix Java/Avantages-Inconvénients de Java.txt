@@ -1,0 +1,14 @@
+Avantages :
+- Portabilité -> passe sous tout les OS
+- Multi-plateforme -> Pc, portables...
+- Javadoc -> très important pour communiquer dans un projet
+- Test unitaires simples et faciles -> permet de savoir où tout le monde en est, nottament avec le plugin JaCoCoverage
+- Orienté objet -> meilleur structuration dans ce type de projet 
+- Arduino est développé sous Java -> comaptibilité améliorée
+- Encapsulation -> évite les conflits dans un projet
+- UML permet de modéliser et généré des structures de classes Java
+
+
+Inconvénients :
+- l'encapsulation nécessite plus de méthodes et donc plus de temps
+- exécution plus lente -> il faut faire attention à la réactivité du jeu
