@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="1" width="800" height="600" text="ArduiGo" measuredWidth="800" measuredHeight="600"/>
+  <widgets xsi:type="model:Label" id="2" y="110" width="800" text="ArduiGo" measuredWidth="800" measuredHeight="67" textAlignment="Center">
+    <font size="43px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="3" y="176" width="801" text="Test des composants" measuredWidth="801" measuredHeight="36" textAlignment="Center">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="5" x="296" y="312" width="200" text="Tout les composants" measuredWidth="200" measuredHeight="25" link="TestToutComposants.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="6" x="296" y="392" width="200" text="Composant par composant" measuredWidth="200" measuredHeight="25" link="TestComposant.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="8" x="56" y="4" measuredWidth="16" measuredHeight="16" icon="assets/ardui-go48 (small)"/>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

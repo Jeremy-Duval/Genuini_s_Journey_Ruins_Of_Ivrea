@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="1" width="800" height="600" text="ArduiGo" measuredWidth="800" measuredHeight="600"/>
+  <widgets xsi:type="model:Label" id="2" y="110" width="800" text="ArduiGo" measuredWidth="800" measuredHeight="67" textAlignment="Center">
+    <font size="43px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="3" y="176" width="801" text="Test des composants" measuredWidth="801" measuredHeight="36" textAlignment="Center">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="8" y="232" width="799" text="Composant par composant" measuredWidth="799" measuredHeight="23" textAlignment="Center">
+    <font size="12px"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="9" x="56" y="4" measuredWidth="16" measuredHeight="16" icon="assets/ardui-go48 (small)"/>
+  <widgets xsi:type="model:Label" id="10" x="328" y="280" width="72" text="Broches" measuredWidth="72" measuredHeight="21" textAlignment="Center">
+    <font size="11px"/>
+  </widgets>
+  <widgets xsi:type="model:VButtonBar" id="11" x="344" y="312" text="3&#xA;4&#xA;5&#xA;6&#xA;7&#xA;8&#xA;9&#xA;10" measuredWidth="33" measuredHeight="218" selection="0">
+    <font/>
+    <items link="TestComposant2.screen" x="0" y="0" width="33" height="28" text="3"/>
+    <items x="0" y="28" width="33" height="27" text="4"/>
+    <items x="0" y="55" width="33" height="27" text="5"/>
+    <items x="0" y="82" width="33" height="27" text="6"/>
+    <items x="0" y="109" width="33" height="27" text="7"/>
+    <items x="0" y="136" width="33" height="27" text="8"/>
+    <items x="0" y="163" width="33" height="27" text="9"/>
+    <items x="0" y="190" width="33" height="28" text="10"/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

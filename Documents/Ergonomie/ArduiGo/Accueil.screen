@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="2" width="800" height="600" text="ArduiGo" measuredWidth="800" measuredHeight="600"/>
+  <widgets xsi:type="model:Label" id="3" y="110" width="800" text="ArduiGo" measuredWidth="800" measuredHeight="67" textAlignment="Center">
+    <font size="43px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" y="176" width="801" text="Bienvenue !" measuredWidth="801" measuredHeight="36" textAlignment="Center">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="8" x="56" y="4" measuredWidth="16" measuredHeight="16" icon="assets/ardui-go48 (small)"/>
+  <widgets xsi:type="model:Button" id="16" x="298" y="296" width="200" text="Continuer" measuredWidth="200" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="17" x="298" y="360" width="200" text="Niveaux" measuredWidth="200" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="18" x="298" y="488" width="200" text="Options" measuredWidth="200" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="19" x="298" y="424" width="200" text="Cours" measuredWidth="200" measuredHeight="25">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
