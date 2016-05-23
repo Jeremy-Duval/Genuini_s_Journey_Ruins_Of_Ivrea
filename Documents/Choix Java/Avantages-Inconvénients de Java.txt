@@ -4,9 +4,10 @@ Avantages :
 - Javadoc -> très important pour communiquer dans un projet
 - Test unitaires simples et faciles -> permet de savoir où tout le monde en est, nottament avec le plugin JaCoCoverage
 - Orienté objet -> meilleur structuration dans ce type de projet 
-- Arduino est développé sous Java -> comaptibilité améliorée
+- Arduino est développé sous Java -> comptabilité améliorée
 - Encapsulation -> évite les conflits dans un projet
 - UML permet de modéliser et généré des structures de classes Java
+- Projet organisé en différentes classes (facilité de compréhension entre équipe)
 
 
 Inconvénients :
