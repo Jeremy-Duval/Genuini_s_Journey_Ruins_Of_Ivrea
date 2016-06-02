@@ -1,0 +1,22 @@
+Voila j'ai trouvé ces deux solutions:
+
+
+ 1) solution à base de grove (facilité de branchement) et installation facile
+	--> voir photo "paniersemageek.jpg" | il y a écrit qu'il en reste qu'un sur le site mais il est beaucoup
+	demandé, toujours en production
+
+	site du producteur: http://www.seeedstudio.com/item_detail.html?p_id=1855
+	site de vente: http://boutique.semageek.com/fr/340-grove-starter-kit-v3.html
+
+	Ce pack peut être améliorer avec d'autres éléments grove présents sur le site: https://boutique.semageek.com/fr/recherche?controller=search&orderby=position&orderway=desc&search_query=grove
+
+	Une carte Genuino Uno est à rajouter à ce pack (voir photo panier).
+
+
+ 2) solution tout manuel (difficulté d'installation pour le joueur) mais moins chere ou plus de materiel
+pour le même prix --> voir photo "tableaumateriel.jpg"
+
+
+	Une carte Genuino 101 est à rajouter à cette installation.
+
+	
