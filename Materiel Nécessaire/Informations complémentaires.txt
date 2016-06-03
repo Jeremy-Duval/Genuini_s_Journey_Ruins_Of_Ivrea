@@ -17,6 +17,6 @@ Voila j'ai trouvé ces deux solutions:
 pour le même prix --> voir photo "tableaumateriel.jpg"
 
 
-	Une carte Genuino 101 est à rajouter à cette installation.
+	Une carte Genuino 101 est à rajouter à cette installation
 
 	
