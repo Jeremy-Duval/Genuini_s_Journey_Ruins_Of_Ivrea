@@ -47,7 +47,7 @@
             <depend id="24" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="24" name="Cours" color="#8cb6ce" meeting="false" start="2017-02-03" duration="20" complete="0" expand="true"/>
-        <task id="14" name="Scenario &amp; Script" color="#8cb6ce" meeting="false" start="2016-07-01" duration="10" complete="0" expand="true">
+        <task id="14" name="Scenario &amp; Script" color="#8cb6ce" meeting="false" start="2016-06-23" duration="20" complete="0" expand="true">
             <depend id="8" type="2" difference="0" hardness="Strong"/>
             <depend id="10" type="2" difference="0" hardness="Strong"/>
             <depend id="12" type="2" difference="0" hardness="Strong"/>
@@ -55,13 +55,13 @@
             <depend id="18" type="2" difference="0" hardness="Strong"/>
             <depend id="21" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="18" name="Design Niveaux &amp; Terrains" color="#8cb6ce" meeting="false" start="2016-07-15" duration="80" complete="0" expand="true">
+        <task id="18" name="Design Niveaux &amp; Terrains" color="#8cb6ce" meeting="false" start="2016-07-21" duration="80" complete="0" expand="true">
             <depend id="10" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="10" name="Carte" color="#8cb6ce" meeting="false" start="2016-11-04" duration="20" complete="0" expand="true"/>
-        <task id="12" name="PNJs" color="#8cb6ce" meeting="false" start="2016-07-15" duration="40" complete="0" expand="true"/>
-        <task id="16" name="Musiques" color="#8cb6ce" meeting="false" start="2016-07-15" duration="100" complete="0" expand="true"/>
-        <task id="21" name="PNJ Guide" color="#8cb6ce" meeting="false" start="2016-07-15" duration="20" complete="0" expand="true"/>
+        <task id="10" name="Carte" color="#8cb6ce" meeting="false" start="2016-11-10" duration="20" complete="0" expand="true"/>
+        <task id="12" name="PNJs" color="#8cb6ce" meeting="false" start="2016-07-21" duration="40" complete="0" expand="true"/>
+        <task id="16" name="Musiques" color="#8cb6ce" meeting="false" start="2016-07-21" duration="100" complete="0" expand="true"/>
+        <task id="21" name="PNJ Guide" color="#8cb6ce" meeting="false" start="2016-07-21" duration="20" complete="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Adrien Techer" function="Default:0" contacts="" phone=""/>
