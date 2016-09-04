@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-06-01" view-index="0" gantt-divider-location="373" resource-divider-location="300" version="2.7.2" locale="fr">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-05-01" view-index="0" gantt-divider-location="373" resource-divider-location="300" version="2.7.2" locale="fr">
     <description/>
     <view zooming-state="default:10" id="gantt-chart">
         <field id="tpd3" name="Nom" width="67" order="0"/>
@@ -8,7 +8,7 @@
     </view>
     <view id="resource-table">
         <field id="0" name="Nom" width="50" order="0"/>
-        <field id="1" name="Rôle par défaut" width="49" order="1"/>
+        <field id="1" name="Rôle par défaut" width="50" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -34,20 +34,20 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="2" name="Déplacement Joueur" color="#8cb6ce" meeting="false" start="2016-07-01" duration="5" complete="0" expand="true"/>
-        <task id="1" name="Menu d'accueil" color="#8cb6ce" meeting="false" start="2016-07-01" duration="20" complete="0" expand="true">
+        <task id="2" name="Déplacement Joueur" color="#8cb6ce" meeting="false" start="2016-09-01" duration="6" complete="0" expand="true"/>
+        <task id="1" name="Menu d'accueil" color="#8cb6ce" meeting="false" start="2016-09-01" duration="20" complete="0" expand="true">
             <depend id="6" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="4" name="Sorts du joueur" color="#8cb6ce" meeting="false" start="2016-11-04" duration="60" complete="0" expand="true"/>
-        <task id="6" name="Interface Tableau Joueur" color="#8cb6ce" meeting="false" start="2016-07-29" duration="70" complete="0" expand="true">
+        <task id="4" name="Sorts du joueur" color="#8cb6ce" meeting="false" start="2017-01-05" duration="60" complete="0" expand="true"/>
+        <task id="6" name="Interface Tableau Joueur" color="#8cb6ce" meeting="false" start="2016-09-29" duration="70" complete="0" expand="true">
             <depend id="4" type="2" difference="0" hardness="Strong"/>
             <depend id="8" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="8" name="Défis Arduino" color="#8cb6ce" meeting="false" start="2016-11-04" duration="65" complete="0" expand="true">
+        <task id="8" name="Défis Arduino" color="#8cb6ce" meeting="false" start="2017-01-05" duration="65" complete="0" expand="true">
             <depend id="24" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="24" name="Cours" color="#8cb6ce" meeting="false" start="2017-02-03" duration="20" complete="0" expand="true"/>
-        <task id="14" name="Scenario &amp; Script" color="#8cb6ce" meeting="false" start="2016-06-23" duration="20" complete="0" expand="true">
+        <task id="24" name="Cours" color="#8cb6ce" meeting="false" start="2017-04-06" duration="20" complete="0" expand="true"/>
+        <task id="14" name="Scenario &amp; Script" color="#8cb6ce" meeting="false" start="2016-08-22" duration="20" complete="0" expand="true">
             <depend id="8" type="2" difference="0" hardness="Strong"/>
             <depend id="10" type="2" difference="0" hardness="Strong"/>
             <depend id="12" type="2" difference="0" hardness="Strong"/>
@@ -55,13 +55,13 @@
             <depend id="18" type="2" difference="0" hardness="Strong"/>
             <depend id="21" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="18" name="Design Niveaux &amp; Terrains" color="#8cb6ce" meeting="false" start="2016-07-21" duration="80" complete="0" expand="true">
+        <task id="18" name="Design Niveaux &amp; Terrains" color="#8cb6ce" meeting="false" start="2016-09-19" duration="80" complete="0" expand="true">
             <depend id="10" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="10" name="Carte" color="#8cb6ce" meeting="false" start="2016-11-10" duration="20" complete="0" expand="true"/>
-        <task id="12" name="PNJs" color="#8cb6ce" meeting="false" start="2016-07-21" duration="40" complete="0" expand="true"/>
-        <task id="16" name="Musiques" color="#8cb6ce" meeting="false" start="2016-07-21" duration="100" complete="0" expand="true"/>
-        <task id="21" name="PNJ Guide" color="#8cb6ce" meeting="false" start="2016-07-21" duration="20" complete="0" expand="true"/>
+        <task id="10" name="Carte" color="#8cb6ce" meeting="false" start="2017-01-09" duration="20" complete="0" expand="true"/>
+        <task id="12" name="PNJs" color="#8cb6ce" meeting="false" start="2016-09-19" duration="40" complete="0" expand="true"/>
+        <task id="16" name="Musiques" color="#8cb6ce" meeting="false" start="2016-09-19" duration="100" complete="0" expand="true"/>
+        <task id="21" name="PNJ Guide" color="#8cb6ce" meeting="false" start="2016-09-19" duration="20" complete="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Adrien Techer" function="Default:0" contacts="" phone=""/>
