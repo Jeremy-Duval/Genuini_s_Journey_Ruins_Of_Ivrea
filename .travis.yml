@@ -4,17 +4,17 @@ language: java
 install: ant deps
 
 - os: linux
-	jdk:
-	  - oraclejdk8
-	  - oraclejdk7
+jdk:
+  - oraclejdk8
+  - oraclejdk7
 - os: osx
-	jdk:
-	  - oraclejdk8
-	  - oraclejdk7
+jdk:
+  - oraclejdk8
+  - oraclejdk7
 - os: windows
-	jdk:
-	  - oraclejdk8
-	  - oraclejdk7
+jdk:
+  - oraclejdk8
+  - oraclejdk7
  
 script:
   - jdk_switcher use oraclejdk8
