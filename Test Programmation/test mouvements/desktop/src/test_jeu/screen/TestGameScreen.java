@@ -5,7 +5,14 @@
  */
 package test_jeu.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import net.java.games.input.Component;
 import test_jeu.Test_Jeu;
 
 /**
@@ -16,6 +23,14 @@ import test_jeu.Test_Jeu;
  */
 public class TestGameScreen implements Screen{
     
+    private SpriteBatch batch;
+    
+    /*Perso*/
+    private Texture texture_perso;
+    private Texture texture_perso_g;
+    private Texture texture_perso_d;
+    private Vector2 perso_pos;
+    
     /**
      * Constructeur de l'ecran.
      * @param application : Test_Jeu 
@@ -23,7 +38,11 @@ public class TestGameScreen implements Screen{
      * @author jeremy
      */
     public TestGameScreen(Test_Jeu application) {
-
+        batch = new SpriteBatch();
+        texture_perso = new Texture("img/gd.jpg");
+        texture_perso_g = new Texture("img/gpd.jpg");
+        texture_perso_d = new Texture("img/gpg.jpg");
+        perso_pos = new Vector2(100,100);
     }
     
     /**
@@ -43,7 +62,25 @@ public class TestGameScreen implements Screen{
      */
     @Override
     public void render(float delta) {
-
+        Gdx.gl.glClearColor((float) 0.5, 1, 0, 1);//couleur de fond
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//netoie l'écran en recoloriant
+        
+        batch.begin();//début la zone de dessin
+        
+        //batch.draw(texture_perso, 100, 100, 64, 64);//dessine le perso à la position 100,100 de taille 64x64
+        batch.draw(texture_perso, perso_pos.x, perso_pos.y);
+        
+        batch.end();//termine la zone de dessin
+        
+        if(Gdx.input.isKeyPressed(Keys.RIGHT)){
+            perso_pos.x = perso_pos.x + 10;
+            texture_perso = texture_perso_g;
+        }
+        if(Gdx.input.isKeyPressed(Keys.LEFT)){
+            perso_pos.x = perso_pos.x - 10;
+            texture_perso = texture_perso_d;
+        }
+                
     }
     
     /**
