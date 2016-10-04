@@ -46,6 +46,14 @@ public class TestGameScreen implements Screen {
     }
 
     Direction direction = Direction.debut;
+    
+    
+    private int vitesse_horizontale = 10;
+    private int vitesse_verticale = 5;
+    private int hauteur_saut = 25;
+    boolean phase_montante = true;
+    private Vector2 perso_pos_prec;
+    private boolean saut_active = false;
 
     /*fond*/
     private Texture texture_fond;
@@ -69,6 +77,7 @@ public class TestGameScreen implements Screen {
         textures_perso.put("gauche_droit", new Texture("img/gpgd.jpg"));
         textures_perso.put("gauche_gauche", new Texture("img/gpgg.png"));
         perso_pos = new Vector2(100, 100);
+        perso_pos_prec = new Vector2(100, 100);
     }
 
     /**
@@ -104,8 +113,11 @@ public class TestGameScreen implements Screen {
         batch.draw(texture_perso, perso_pos.x, perso_pos.y);
 
         batch.end();//termine la zone de dessin
-
         processInput();
+        if(saut_active){
+            saut();
+        }
+        
         try {
             sleep(100);
         } catch (InterruptedException ex) {
@@ -152,20 +164,72 @@ public class TestGameScreen implements Screen {
      * @since 1.0
      * @author jeremy
      */
-    private void processInput() {
+    private void processInput(){
 
         if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
             direction = Direction.droit;
             perso_pos.x = perso_pos.x + 10;
+            //tester si saut (apppui de 2 touches en même temps)
+            
+            
         } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
             direction = Direction.gauche;
             perso_pos.x = perso_pos.x - 10;
+            //tester si saut (apppui de 2 touches en même temps)
+            
+            
+        } else if (Gdx.input.isKeyPressed(Keys.UP)) {
+            //mettre deux état : saut droit, saut gauche : direction = Direction.?;
+            saut_active = true;
         } else {//si on s'arrête
             if (direction == Direction.gauche) {
                 direction = Direction.stop_gauche;
             } else if (direction == Direction.droit) {
                 direction = Direction.stop_droit;
             }
+        }
+    }
+    
+    /**
+     * Effectue les saut du perso
+     *
+     * @since 1.0
+     * @author jeremy
+     */
+    private void saut(){
+        
+        if(perso_pos.y >99){//à modif (hitbox sol)
+            if(phase_montante){
+                if(direction == Direction.droit){//à changer avec saut droit
+                    perso_pos.x = perso_pos.x + vitesse_horizontale;
+                } else if(direction == Direction.gauche){
+                    perso_pos.x = perso_pos.x - vitesse_horizontale;
+                } else {
+                    //on reste sur place
+                }
+                perso_pos.y = perso_pos.y + vitesse_verticale;
+                if(perso_pos.y >= hauteur_saut+perso_pos_prec.y){
+                    phase_montante = !phase_montante;
+                }
+            } else {
+                if(direction == Direction.droit){//à changer avec saut droit
+                    perso_pos.x = perso_pos.x + vitesse_horizontale;
+                } else if(direction == Direction.gauche){
+                    perso_pos.x = perso_pos.x - vitesse_horizontale;
+                } else {
+                    //on reste sur place
+                }
+                perso_pos.y = perso_pos.y - vitesse_verticale;
+            }
+        } else {
+            phase_montante = true;
+            
+            //tant que pas de gestion de hitbox
+            perso_pos.y = 100;
+            
+            perso_pos_prec.x = perso_pos.x;
+            perso_pos_prec.y = perso_pos.y;
+            saut_active = false;
         }
     }
 
