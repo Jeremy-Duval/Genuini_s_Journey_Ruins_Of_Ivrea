@@ -13,98 +13,98 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import static java.lang.Thread.sleep;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.java.games.input.Component;
 import test_jeu.Test_Jeu;
 
 /**
- * Classe servant à definir notre ecran.
- * Implemente la classe Screen de LibGDX
- * @since  1.0
+ * Classe servant à definir notre ecran. Implemente la classe Screen de LibGDX
+ *
+ * @since 1.0
  * @author jeremy
  */
-public class TestGameScreen implements Screen{
-    
+public class TestGameScreen implements Screen {
+
     private SpriteBatch batch;
-    
+
     /*Perso*/
     private Texture texture_perso;
-    private Texture texture_perso_h;
-    private Texture texture_perso_g;
-    private Texture texture_perso_g_d;
-    private Texture texture_perso_g_g;
-    private Texture texture_perso_d;
-    private Texture texture_perso_d_d;
-    private Texture texture_perso_d_g;
+    private Map<String, Texture> textures_perso = new TreeMap();
     private Vector2 perso_pos;
     boolean pied = true;
-    
+
     private enum Direction {
+
         debut,
         gauche,
         droit,
         stop_gauche,
         stop_droit,
     }
-    
+
     Direction direction = Direction.debut;
-    
+
     /*fond*/
     private Texture texture_fond;
-    
+
     /**
      * Constructeur de l'ecran.
-     * @param application : Test_Jeu 
-     * @since  1.0
+     *
+     * @param application : Test_Jeu
+     * @since 1.0
      * @author jeremy
      */
     public TestGameScreen(Test_Jeu application) {
         batch = new SpriteBatch();
         texture_fond = new Texture("img/landscape.png");
         texture_perso = new Texture("img/gd.jpg");
-        texture_perso_h = new Texture("img/gd.jpg");
-        texture_perso_d = new Texture("img/gpd.jpg");
-        texture_perso_d_d = new Texture("img/gpdd.jpg");
-        texture_perso_d_g = new Texture("img/gpdg.jpg");
-        texture_perso_g = new Texture("img/gpg.jpg");
-        texture_perso_g_d = new Texture("img/gpgd.jpg");
-        texture_perso_g_g = new Texture("img/gpgg.png");
-        perso_pos = new Vector2(100,100);
+        textures_perso.put("haut", new Texture("img/gd.jpg"));
+        textures_perso.put("droit", new Texture("img/gpd.jpg"));
+        textures_perso.put("droit_droit", new Texture("img/gpdd.jpg"));
+        textures_perso.put("droit_gauche", new Texture("img/gpdg.jpg"));
+        textures_perso.put("gauche", new Texture("img/gpg.jpg"));
+        textures_perso.put("gauche_droit", new Texture("img/gpgd.jpg"));
+        textures_perso.put("gauche_gauche", new Texture("img/gpgg.png"));
+        perso_pos = new Vector2(100, 100);
     }
-    
+
     /**
      * methode override servant à afficher l'ecran
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
     @Override
     public void show() {
 
     }
-    
+
     /**
      * methode override servant au rendu de l'ecran
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor((float) 0.5, 1, 0, 1);//couleur de fond
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//netoie l'écran en recoloriant
-        
+
         skin();
-        
+
         batch.begin();//début la zone de dessin
-        
+
         //dessine le fond
         batch.draw(texture_fond, 0, 0, 1024, 624);
-        
+
         //batch.draw(texture_perso, 100, 100, 64, 64);//dessine le perso à la position 100,100 de taille 64x64
         batch.draw(texture_perso, perso_pos.x, perso_pos.y);
-        
+
         batch.end();//termine la zone de dessin
-        
+
         processInput();
         try {
             sleep(100);
@@ -112,50 +112,52 @@ public class TestGameScreen implements Screen{
             Logger.getLogger(TestGameScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Gère les skins à afficher.
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
-    private void skin(){
-        
-        if(direction == Direction.debut){
-            texture_perso = texture_perso_h;
+    private void skin() {
+
+        if (direction == Direction.debut) {
+            texture_perso = textures_perso.get("haut");
         } else if (direction == Direction.gauche) {
-            if(pied){
-                texture_perso = texture_perso_g_g;
+            if (pied) {
+                texture_perso = textures_perso.get("gauche_gauche");
             } else {
-                texture_perso = texture_perso_g_d;
+                texture_perso = textures_perso.get("gauche_droit");
             }
             pied = !pied;
         } else if (direction == Direction.droit) {
-            if(pied){
-                texture_perso = texture_perso_d_g;
+            if (pied) {
+                texture_perso = textures_perso.get("droit_gauche");
             } else {
-                texture_perso = texture_perso_d_d;
+                texture_perso = textures_perso.get("droit_droit");
             }
             pied = !pied;
         } else if (direction == Direction.stop_droit) {
-            texture_perso = texture_perso_d;
+            texture_perso = textures_perso.get("droit");
         } else if (direction == Direction.stop_gauche) {
-            texture_perso = texture_perso_g;
+            texture_perso = textures_perso.get("gauche");
         } else {
             System.out.println("erreur");
         }
     }
-    
+
     /**
      * Gère les évènements (claviers, souris...)
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
-    private void processInput(){
-        
-        if(Gdx.input.isKeyPressed(Keys.RIGHT)){
+    private void processInput() {
+
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
             direction = Direction.droit;
             perso_pos.x = perso_pos.x + 10;
-        }else if(Gdx.input.isKeyPressed(Keys.LEFT)){
+        } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
             direction = Direction.gauche;
             perso_pos.x = perso_pos.x - 10;
         } else {//si on s'arrête
@@ -166,55 +168,60 @@ public class TestGameScreen implements Screen{
             }
         }
     }
-    
+
     /**
      * methode override servant au redimentionnement l'ecran
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
     @Override
     public void resize(int width, int height) {
 
     }
-    
+
     /**
      * methode override servant à mettre en pause l'ecran
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
     @Override
     public void pause() {
 
     }
-    
+
     /**
      * methode override servant à mettre fin à une pause
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
     @Override
     public void resume() {
 
     }
-    
+
     /**
      * methode override servant à cacher l'ecran
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
     @Override
     public void hide() {
 
     }
-    
+
     /**
      * methode override servant à quitter l'ecran
-     * @since  1.0
+     *
+     * @since 1.0
      * @author jeremy
      */
     @Override
     public void dispose() {
 
     }
-    
+
 }
