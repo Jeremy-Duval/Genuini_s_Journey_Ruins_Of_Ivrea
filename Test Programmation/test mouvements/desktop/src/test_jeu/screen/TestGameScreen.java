@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import static java.lang.Math.round;
 import static java.lang.Thread.sleep;
 import java.util.Map;
 import java.util.TreeMap;
@@ -48,9 +49,9 @@ public class TestGameScreen implements Screen {
     Direction direction = Direction.debut;
     
     
-    private int vitesse_horizontale = 10;
-    private int vitesse_verticale = 5;
-    private int hauteur_saut = 25;
+    private int vitesse_horizontale = 9;
+    private int vitesse_verticale = 7;
+    private int hauteur_saut = 30;
     boolean phase_montante = true;
     private Vector2 perso_pos_prec;
     private boolean saut_active = false;
@@ -125,113 +126,6 @@ public class TestGameScreen implements Screen {
         }
     }
 
-    /**
-     * Gère les skins à afficher.
-     *
-     * @since 1.0
-     * @author jeremy
-     */
-    private void skin() {
-
-        if (direction == Direction.debut) {
-            texture_perso = textures_perso.get("haut");
-        } else if (direction == Direction.gauche) {
-            if (pied) {
-                texture_perso = textures_perso.get("gauche_gauche");
-            } else {
-                texture_perso = textures_perso.get("gauche_droit");
-            }
-            pied = !pied;
-        } else if (direction == Direction.droit) {
-            if (pied) {
-                texture_perso = textures_perso.get("droit_gauche");
-            } else {
-                texture_perso = textures_perso.get("droit_droit");
-            }
-            pied = !pied;
-        } else if (direction == Direction.stop_droit) {
-            texture_perso = textures_perso.get("droit");
-        } else if (direction == Direction.stop_gauche) {
-            texture_perso = textures_perso.get("gauche");
-        } else {
-            System.out.println("erreur");
-        }
-    }
-
-    /**
-     * Gère les évènements (claviers, souris...)
-     *
-     * @since 1.0
-     * @author jeremy
-     */
-    private void processInput(){
-
-        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            direction = Direction.droit;
-            perso_pos.x = perso_pos.x + 10;
-            //tester si saut (apppui de 2 touches en même temps)
-            
-            
-        } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-            direction = Direction.gauche;
-            perso_pos.x = perso_pos.x - 10;
-            //tester si saut (apppui de 2 touches en même temps)
-            
-            
-        } else if (Gdx.input.isKeyPressed(Keys.UP)) {
-            //mettre deux état : saut droit, saut gauche : direction = Direction.?;
-            saut_active = true;
-        } else {//si on s'arrête
-            if (direction == Direction.gauche) {
-                direction = Direction.stop_gauche;
-            } else if (direction == Direction.droit) {
-                direction = Direction.stop_droit;
-            }
-        }
-    }
-    
-    /**
-     * Effectue les saut du perso
-     *
-     * @since 1.0
-     * @author jeremy
-     */
-    private void saut(){
-        
-        if(perso_pos.y >99){//à modif (hitbox sol)
-            if(phase_montante){
-                if(direction == Direction.droit){//à changer avec saut droit
-                    perso_pos.x = perso_pos.x + vitesse_horizontale;
-                } else if(direction == Direction.gauche){
-                    perso_pos.x = perso_pos.x - vitesse_horizontale;
-                } else {
-                    //on reste sur place
-                }
-                perso_pos.y = perso_pos.y + vitesse_verticale;
-                if(perso_pos.y >= hauteur_saut+perso_pos_prec.y){
-                    phase_montante = !phase_montante;
-                }
-            } else {
-                if(direction == Direction.droit){//à changer avec saut droit
-                    perso_pos.x = perso_pos.x + vitesse_horizontale;
-                } else if(direction == Direction.gauche){
-                    perso_pos.x = perso_pos.x - vitesse_horizontale;
-                } else {
-                    //on reste sur place
-                }
-                perso_pos.y = perso_pos.y - vitesse_verticale;
-            }
-        } else {
-            phase_montante = true;
-            
-            //tant que pas de gestion de hitbox
-            perso_pos.y = 100;
-            
-            perso_pos_prec.x = perso_pos.x;
-            perso_pos_prec.y = perso_pos.y;
-            saut_active = false;
-        }
-    }
 
     /**
      * methode override servant au redimentionnement l'ecran
@@ -287,5 +181,162 @@ public class TestGameScreen implements Screen {
     public void dispose() {
 
     }
+    
+    
+    /**
+     * Gère les skins à afficher.
+     *
+     * @since 1.0
+     * @author jeremy
+     */
+    private void skin() {
 
+        if (direction == Direction.debut) {
+            texture_perso = textures_perso.get("haut");
+        } else if (direction == Direction.gauche) {
+            if (pied) {
+                texture_perso = textures_perso.get("gauche_gauche");
+            } else {
+                texture_perso = textures_perso.get("gauche_droit");
+            }
+            pied = !pied;
+        } else if (direction == Direction.droit) {
+            if (pied) {
+                texture_perso = textures_perso.get("droit_gauche");
+            } else {
+                texture_perso = textures_perso.get("droit_droit");
+            }
+            pied = !pied;
+        } else if (direction == Direction.stop_droit) {
+            texture_perso = textures_perso.get("droit");
+        } else if (direction == Direction.stop_gauche) {
+            texture_perso = textures_perso.get("gauche");
+        } else {
+            System.out.println("erreur");
+        }
+    }
+
+    /**
+     * Gère les évènements (claviers, souris...)
+     *
+     * @since 1.0
+     * @author jeremy
+     */
+    private void processInput(){
+
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+            //on va à droite seulement si l'on est pas en train de sauter
+            if(!saut_active){
+                direction = Direction.droit;
+                perso_pos.x = perso_pos.x + 10;
+            }
+            
+            //teste si saut (apppui de 2 touches en même temps)
+            if (Gdx.input.isKeyPressed(Keys.UP)) {
+                //mettre deux état : saut droit, saut gauche : direction = Direction.?;
+                saut_active = true;
+            }
+            
+        } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+            //on va à gauche seulement si l'on est pas en train de sauter
+            if(!saut_active){
+                direction = Direction.gauche;
+                perso_pos.x = perso_pos.x - 10;
+            }
+                
+            //teste si saut (apppui de 2 touches en même temps)
+            if (Gdx.input.isKeyPressed(Keys.UP)) {
+                //mettre deux état : saut droit, saut gauche : direction = Direction.?;
+                saut_active = true;
+            } 
+        } else if (Gdx.input.isKeyPressed(Keys.UP)) {
+            //mettre deux état : saut droit, saut gauche : direction = Direction.?;
+            saut_active = true;
+        } else {//si on s'arrête
+            //evite de freiner un saut
+            if(!saut_active){
+                if (direction == Direction.gauche) {
+                    direction = Direction.stop_gauche;
+                } else if (direction == Direction.droit) {
+                    direction = Direction.stop_droit;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Effectue les saut du perso
+     *
+     * @since 1.0
+     * @author jeremy
+     */
+    private void saut(){
+        double coef_acceleration;
+        
+        coef_acceleration = calcul_acceleration_saut();
+        
+        
+        if(perso_pos.y >99){//à modif (hitbox sol)
+            if(phase_montante){
+                if(direction == Direction.droit){//à changer avec saut droit
+                    perso_pos.x = perso_pos.x + vitesse_horizontale;
+                } else if(direction == Direction.gauche){
+                    perso_pos.x = perso_pos.x - vitesse_horizontale;
+                } else {
+                    //on reste sur place
+                }
+                perso_pos.y = round(perso_pos.y + vitesse_verticale*coef_acceleration);
+                
+                if(perso_pos.y >= hauteur_saut+perso_pos_prec.y){
+                    phase_montante = !phase_montante;
+                }
+            } else {
+                if(direction == Direction.droit){//à changer avec saut droit
+                    perso_pos.x = perso_pos.x + vitesse_horizontale;
+                } else if(direction == Direction.gauche){
+                    perso_pos.x = perso_pos.x - vitesse_horizontale;
+                } else {
+                    //on reste sur place
+                }
+                perso_pos.y = round(perso_pos.y - vitesse_verticale*coef_acceleration);
+            }
+        } else {
+            phase_montante = true;
+            
+            //tant que pas de gestion de hitbox
+            perso_pos.y = 100;
+            
+            perso_pos_prec.x = perso_pos.x;
+            perso_pos_prec.y = perso_pos.y;
+            saut_active = false;
+        }
+    }
+    
+    /**
+     * Cette fonction sert à calculer la variation de vitesse durant le saut
+     * @return coef : int : coefficient d'accélération lors du saut
+     * @since 1.0
+     * @author jeremy
+     */
+    private double calcul_acceleration_saut(){
+        double coef = 1;
+        
+        //on calcule l'acceleration en fonction de la phase de saut
+        
+        //si on se trouve en-dessous de 1/5e de la hauteur max de saut
+        if(perso_pos.y < perso_pos_prec.y + hauteur_saut/5){
+            coef = 1.2;
+        } else if((perso_pos.y < perso_pos_prec.y + 2*hauteur_saut/5)&&(perso_pos.y > perso_pos_prec.y + hauteur_saut/5)){
+            //si on se trouve entre 1/5e et 2/5e
+            coef = 1;
+        } else if((perso_pos.y < perso_pos_prec.y + 3*hauteur_saut/5)&&(perso_pos.y > perso_pos_prec.y + 2*hauteur_saut/5)){
+            //si on se trouve entre 2/5e et 3/5e
+            coef = 0.8;
+        } else if((perso_pos.y < perso_pos_prec.y + 4*hauteur_saut/5)&&(perso_pos.y > perso_pos_prec.y + 3*hauteur_saut/5)){
+            //si on se trouve entre 3/5e et 4/5e
+            coef = 0.6;
+        }
+        
+        return coef;
+    }
 }
