@@ -253,7 +253,6 @@ public class TestGameScreen implements Screen {
             if(!saut_active){
                 direction = Direction.droit;
                 perso_pos.x = perso_pos.x + 10;
-                hitbox_perso.setPosition(perso_pos);//met à jour la position de la hitbox
             }
             
             //teste si saut (apppui de 2 touches en même temps)
@@ -267,7 +266,6 @@ public class TestGameScreen implements Screen {
             if(!saut_active){
                 direction = Direction.gauche;
                 perso_pos.x = perso_pos.x - 10;
-                hitbox_perso.setPosition(perso_pos);//met à jour la position de la hitbox
             }
                 
             //teste si saut (apppui de 2 touches en même temps)
@@ -288,6 +286,7 @@ public class TestGameScreen implements Screen {
                 }
             }
         }
+        hitbox_perso.setPosition(perso_pos);//met à jour la position de la hitbox
     }
     
     /**
