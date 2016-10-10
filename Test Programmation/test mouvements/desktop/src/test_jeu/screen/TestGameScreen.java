@@ -38,8 +38,8 @@ public class TestGameScreen implements Screen {
     private Map<String, Texture> textures_perso = new TreeMap();
     private Vector2 perso_pos;
     private Rectangle hitbox_perso;
-    private int largeur_perso = 40;
-    private int hauteur_perso = 64;
+    private int largeur_perso = 20;
+    private int hauteur_perso = 70;
     boolean pied = true;
     private enum Direction {
 
@@ -50,6 +50,11 @@ public class TestGameScreen implements Screen {
         stop_droit,
     }
     Direction direction = Direction.debut;
+    
+    /*méchant*/
+    private Texture texture_perso_mechant;
+    private Rectangle hitbox_perso_mechant;
+    private int nb_collision = 0;
     
     /*saut*/
     private int vitesse_horizontale = 9;
@@ -86,7 +91,10 @@ public class TestGameScreen implements Screen {
         perso_pos = new Vector2(100, 100);
         hitbox_perso = new Rectangle(perso_pos.x, perso_pos.y, largeur_perso, hauteur_perso);
         perso_pos_prec = new Vector2(100, 100);
-        font = new BitmapFont(Gdx.files.internal("ARDED___.TTF"), false);//initialisation police d'écriture
+        font = new BitmapFont();//initialisation police d'écriture
+        /*méchant*/
+        texture_perso_mechant = new Texture("img/gfm.png");
+        hitbox_perso_mechant = new Rectangle(500, 100, 10, 16);
     }
 
     /**
@@ -121,11 +129,16 @@ public class TestGameScreen implements Screen {
         //batch.draw(texture_perso, 100, 100, 64, 64);//dessine le perso à la position 100,100 de taille 64x64
         batch.draw(texture_perso, perso_pos.x, perso_pos.y);
         
+        //dessine le méchant
+        batch.draw(texture_perso_mechant, 500, 100, 10, 16);
+        
         //dessine le texte
         font.draw(batch, "Test de mouvements :)", 50, Gdx.graphics.getHeight() - 50);
+        font.draw(batch, "Collision : "+nb_collision, 50, Gdx.graphics.getHeight() - 75);
 
         batch.end();//termine la zone de dessin
         processInput();
+        testHitBoxPerso();
         if(saut_active){
             saut();
         }
@@ -240,6 +253,7 @@ public class TestGameScreen implements Screen {
             if(!saut_active){
                 direction = Direction.droit;
                 perso_pos.x = perso_pos.x + 10;
+                hitbox_perso.setPosition(perso_pos);//met à jour la position de la hitbox
             }
             
             //teste si saut (apppui de 2 touches en même temps)
@@ -253,6 +267,7 @@ public class TestGameScreen implements Screen {
             if(!saut_active){
                 direction = Direction.gauche;
                 perso_pos.x = perso_pos.x - 10;
+                hitbox_perso.setPosition(perso_pos);//met à jour la position de la hitbox
             }
                 
             //teste si saut (apppui de 2 touches en même temps)
@@ -349,5 +364,23 @@ public class TestGameScreen implements Screen {
         }
         
         return coef;
+    }
+    
+    /**
+     * test les collision avec le personnage
+     * @since 1.0
+     * @author jeremy
+     */
+    private void testHitBoxPerso(){
+        if(hitbox_perso.overlaps(hitbox_perso_mechant)){
+            nb_collision++;
+            perso_pos.x = 100;
+            perso_pos.y = 100;
+            hitbox_perso.setPosition(perso_pos);
+            phase_montante = true;
+            perso_pos_prec.x = 100;
+            perso_pos_prec.y = 100;
+            saut_active = false;
+        }
     }
 }
