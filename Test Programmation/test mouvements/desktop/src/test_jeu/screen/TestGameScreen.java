@@ -10,7 +10,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import static java.lang.Math.round;
 import static java.lang.Thread.sleep;
@@ -19,7 +21,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.java.games.input.Component;
-import test_jeu.Test_Jeu;
+import test_jeu.Test_Jeu; 
 
 /**
  * Classe servant à definir notre ecran. Implemente la classe Screen de LibGDX
@@ -35,8 +37,10 @@ public class TestGameScreen implements Screen {
     private Texture texture_perso;
     private Map<String, Texture> textures_perso = new TreeMap();
     private Vector2 perso_pos;
+    private Rectangle hitbox_perso;
+    private int largeur_perso = 40;
+    private int hauteur_perso = 64;
     boolean pied = true;
-
     private enum Direction {
 
         debut,
@@ -45,10 +49,9 @@ public class TestGameScreen implements Screen {
         stop_gauche,
         stop_droit,
     }
-
     Direction direction = Direction.debut;
     
-    
+    /*saut*/
     private int vitesse_horizontale = 9;
     private int vitesse_verticale = 7;
     private int hauteur_saut = 30;
@@ -58,6 +61,9 @@ public class TestGameScreen implements Screen {
 
     /*fond*/
     private Texture texture_fond;
+    
+    /*écriture*/
+    BitmapFont font;
 
     /**
      * Constructeur de l'ecran.
@@ -78,7 +84,9 @@ public class TestGameScreen implements Screen {
         textures_perso.put("gauche_droit", new Texture("img/gpgd.jpg"));
         textures_perso.put("gauche_gauche", new Texture("img/gpgg.png"));
         perso_pos = new Vector2(100, 100);
+        hitbox_perso = new Rectangle(perso_pos.x, perso_pos.y, largeur_perso, hauteur_perso);
         perso_pos_prec = new Vector2(100, 100);
+        font = new BitmapFont(Gdx.files.internal("ARDED___.TTF"), false);//initialisation police d'écriture
     }
 
     /**
@@ -112,6 +120,9 @@ public class TestGameScreen implements Screen {
 
         //batch.draw(texture_perso, 100, 100, 64, 64);//dessine le perso à la position 100,100 de taille 64x64
         batch.draw(texture_perso, perso_pos.x, perso_pos.y);
+        
+        //dessine le texte
+        font.draw(batch, "Test de mouvements :)", 50, Gdx.graphics.getHeight() - 50);
 
         batch.end();//termine la zone de dessin
         processInput();
