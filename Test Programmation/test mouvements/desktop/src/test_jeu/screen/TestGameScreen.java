@@ -140,7 +140,7 @@ public class TestGameScreen implements Screen {
         //dessine le texte
         font.draw(batch, "Test de mouvements :)", 50, Gdx.graphics.getHeight() - 50);
         font.draw(batch, "Collision : "+nb_collision, 50, Gdx.graphics.getHeight() - 75);
-        font.draw(batch, "Temps écoulé : "+temps, 50, Gdx.graphics.getHeight() - 100);
+            //font.draw(batch, "Temps écoulé : "+temps, 50, Gdx.graphics.getHeight() - 100);
         
         batch.end();//termine la zone de dessin
         
@@ -148,7 +148,7 @@ public class TestGameScreen implements Screen {
         
         temps = TimeUtils.nanosToMillis(TimeUtils.nanoTime());
         
-        if(temps-temps_prec >= 100){
+        if(temps-temps_prec >= 100f){
             processInput();//gestion des touches
             if(saut_active){
                 saut();//gestion du saut
