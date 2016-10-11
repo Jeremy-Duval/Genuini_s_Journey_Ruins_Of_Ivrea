@@ -32,6 +32,7 @@ import test_jeu.Test_Jeu;
  */
 public class TestGameScreen implements Screen {
 
+    /*écran*/
     private SpriteBatch batch;
 
     /*Perso*/
@@ -74,6 +75,9 @@ public class TestGameScreen implements Screen {
     /*Temps*/
     private float temps_prec = 0;
     private float temps = 0;
+    
+    /*Général*/
+    private float movement_time = 100f;
 
     /**
      * Constructeur de l'ecran.
@@ -148,7 +152,7 @@ public class TestGameScreen implements Screen {
         
         temps = TimeUtils.nanosToMillis(TimeUtils.nanoTime());
         
-        if(temps-temps_prec >= 100f){
+        if(temps-temps_prec >= movement_time){
             processInput();//gestion des touches
             if(saut_active){
                 saut();//gestion du saut
