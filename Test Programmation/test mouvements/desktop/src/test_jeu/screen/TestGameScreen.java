@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import static java.lang.Math.round;
 import static java.lang.Thread.sleep;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class TestGameScreen implements Screen {
     private int vitesse_verticale = 7;
     private int hauteur_saut = 30;
     boolean phase_montante = true;
-    private Vector2 perso_pos_prec;
+    private Vector2 perso_pos_init_saut;
     private boolean saut_active = false;
 
     /*fond*/
@@ -69,6 +70,10 @@ public class TestGameScreen implements Screen {
     
     /*écriture*/
     BitmapFont font;
+    
+    /*Temps*/
+    private float temps_prec = 0;
+    private float temps = 0;
 
     /**
      * Constructeur de l'ecran.
@@ -90,7 +95,7 @@ public class TestGameScreen implements Screen {
         textures_perso.put("gauche_gauche", new Texture("img/gpgg.png"));
         perso_pos = new Vector2(100, 100);
         hitbox_perso = new Rectangle(perso_pos.x, perso_pos.y, largeur_perso, hauteur_perso);
-        perso_pos_prec = new Vector2(100, 100);
+        perso_pos_init_saut = new Vector2(100, 100);
         font = new BitmapFont();//initialisation police d'écriture
         /*méchant*/
         texture_perso_mechant = new Texture("img/gfm.png");
@@ -135,19 +140,23 @@ public class TestGameScreen implements Screen {
         //dessine le texte
         font.draw(batch, "Test de mouvements :)", 50, Gdx.graphics.getHeight() - 50);
         font.draw(batch, "Collision : "+nb_collision, 50, Gdx.graphics.getHeight() - 75);
-
+        font.draw(batch, "Temps écoulé : "+temps, 50, Gdx.graphics.getHeight() - 100);
+        
         batch.end();//termine la zone de dessin
-        processInput();
+        
         testHitBoxPerso();
-        if(saut_active){
-            saut();
+        
+        temps = TimeUtils.nanosToMillis(TimeUtils.nanoTime());
+        
+        if(temps-temps_prec >= 100){
+            processInput();//gestion des touches
+            if(saut_active){
+                saut();//gestion du saut
+            }
+            //à chaque passage dans la boucle, on met à jour le temps du dernier passage
+            temps_prec = temps;
         }
         
-        try {
-            sleep(100);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(TestGameScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
 
@@ -312,7 +321,7 @@ public class TestGameScreen implements Screen {
                 }
                 perso_pos.y = round(perso_pos.y + vitesse_verticale*coef_acceleration);
                 
-                if(perso_pos.y >= hauteur_saut+perso_pos_prec.y){
+                if(perso_pos.y >= hauteur_saut+perso_pos_init_saut.y){
                     phase_montante = !phase_montante;
                 }
             } else {
@@ -331,8 +340,8 @@ public class TestGameScreen implements Screen {
             //tant que pas de gestion de hitbox
             perso_pos.y = 100;
             
-            perso_pos_prec.x = perso_pos.x;
-            perso_pos_prec.y = perso_pos.y;
+            perso_pos_init_saut.x = perso_pos.x;
+            perso_pos_init_saut.y = perso_pos.y;
             saut_active = false;
         }
     }
@@ -349,15 +358,15 @@ public class TestGameScreen implements Screen {
         //on calcule l'acceleration en fonction de la phase de saut
         
         //si on se trouve en-dessous de 1/5e de la hauteur max de saut
-        if(perso_pos.y < perso_pos_prec.y + hauteur_saut/5){
+        if(perso_pos.y < perso_pos_init_saut.y + hauteur_saut/5){
             coef = 1.2;
-        } else if((perso_pos.y < perso_pos_prec.y + 2*hauteur_saut/5)&&(perso_pos.y > perso_pos_prec.y + hauteur_saut/5)){
+        } else if((perso_pos.y < perso_pos_init_saut.y + 2*hauteur_saut/5)&&(perso_pos.y > perso_pos_init_saut.y + hauteur_saut/5)){
             //si on se trouve entre 1/5e et 2/5e
             coef = 1;
-        } else if((perso_pos.y < perso_pos_prec.y + 3*hauteur_saut/5)&&(perso_pos.y > perso_pos_prec.y + 2*hauteur_saut/5)){
+        } else if((perso_pos.y < perso_pos_init_saut.y + 3*hauteur_saut/5)&&(perso_pos.y > perso_pos_init_saut.y + 2*hauteur_saut/5)){
             //si on se trouve entre 2/5e et 3/5e
             coef = 0.8;
-        } else if((perso_pos.y < perso_pos_prec.y + 4*hauteur_saut/5)&&(perso_pos.y > perso_pos_prec.y + 3*hauteur_saut/5)){
+        } else if((perso_pos.y < perso_pos_init_saut.y + 4*hauteur_saut/5)&&(perso_pos.y > perso_pos_init_saut.y + 3*hauteur_saut/5)){
             //si on se trouve entre 3/5e et 4/5e
             coef = 0.6;
         }
@@ -377,8 +386,8 @@ public class TestGameScreen implements Screen {
             perso_pos.y = 100;
             hitbox_perso.setPosition(perso_pos);
             phase_montante = true;
-            perso_pos_prec.x = 100;
-            perso_pos_prec.y = 100;
+            perso_pos_init_saut.x = 100;
+            perso_pos_init_saut.y = 100;
             saut_active = false;
         }
     }
