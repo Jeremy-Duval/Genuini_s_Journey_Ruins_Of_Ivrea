@@ -8,6 +8,7 @@ package test_jeu.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -44,7 +45,6 @@ public class TestGameScreen implements Screen {
     private int hauteur_perso = 70;
     boolean pied = true;
     private enum Direction {
-
         debut,
         gauche,
         droit,
@@ -76,6 +76,9 @@ public class TestGameScreen implements Screen {
     private float temps_prec = 0;
     private float temps = 0;
     
+    /*Musique*/
+    private Music musique;
+    
     /*Général*/
     private float movement_time = 100f;
 
@@ -87,8 +90,10 @@ public class TestGameScreen implements Screen {
      * @author jeremy
      */
     public TestGameScreen(Test_Jeu application) {
+        /*fenêtre*/
         batch = new SpriteBatch();
         texture_fond = new Texture("img/landscape.png");
+        /*perso*/
         texture_perso = new Texture("img/gd.jpg");
         textures_perso.put("haut", new Texture("img/gd.jpg"));
         textures_perso.put("droit", new Texture("img/gpd.jpg"));
@@ -100,10 +105,15 @@ public class TestGameScreen implements Screen {
         perso_pos = new Vector2(100, 100);
         hitbox_perso = new Rectangle(perso_pos.x, perso_pos.y, largeur_perso, hauteur_perso);
         perso_pos_init_saut = new Vector2(100, 100);
+        /*police d'écriture*/
         font = new BitmapFont();//initialisation police d'écriture
         /*méchant*/
         texture_perso_mechant = new Texture("img/gfm.png");
         hitbox_perso_mechant = new Rectangle(500, 100, 10, 16);
+        /*musique*/
+        musique = Gdx.audio.newMusic(Gdx.files.internal("sounds/To_The_Level_100_Of_The_Dead.mp3"));
+        musique.setLooping(true);
+        musique.play();
     }
 
     /**
