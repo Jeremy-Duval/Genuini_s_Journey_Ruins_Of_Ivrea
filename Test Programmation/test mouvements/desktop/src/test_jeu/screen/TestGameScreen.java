@@ -333,7 +333,7 @@ public class TestGameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Keys.P)){
             temps_pause = TimeUtils.nanosToMillis(TimeUtils.nanoTime());
             //on test le dernier appuie sur P afin d'éviter que le programme compte deux fois le même appuie
-            if(temps_pause-temps_prec_pause >= 100){
+            if(temps_pause-temps_prec_pause >= 1000){
                 if(state == State.RUN){
                     musique_fond.pause();
                     state = State.PAUSE;
