@@ -77,7 +77,8 @@ public class TestGameScreen implements Screen {
     private float temps = 0;
     
     /*Musique*/
-    private Music musique;
+    private Music musique_fond;
+    private Music musique_coup;
     
     /*Général*/
     private float movement_time = 100f;
@@ -110,10 +111,12 @@ public class TestGameScreen implements Screen {
         /*méchant*/
         texture_perso_mechant = new Texture("img/gfm.png");
         hitbox_perso_mechant = new Rectangle(500, 100, 10, 16);
-        /*musique*/
-        musique = Gdx.audio.newMusic(Gdx.files.internal("sounds/To_The_Level_100_Of_The_Dead.mp3"));
-        musique.setLooping(true);
-        musique.play();
+        /*musique_fond*/
+        musique_fond = Gdx.audio.newMusic(Gdx.files.internal("sounds/To_The_Level_100_Of_The_Dead.mp3"));
+        musique_fond.setLooping(true);
+        musique_fond.play();
+        musique_coup = Gdx.audio.newMusic(Gdx.files.internal("sounds/mallets.mp3"));
+        musique_coup.setLooping(false);
     }
 
     /**
@@ -153,8 +156,9 @@ public class TestGameScreen implements Screen {
         
         //dessine le texte
         font.draw(batch, "Test de mouvements :)", 50, Gdx.graphics.getHeight() - 50);
-        font.draw(batch, "Collision : "+nb_collision, 50, Gdx.graphics.getHeight() - 75);
-            //font.draw(batch, "Temps écoulé : "+temps, 50, Gdx.graphics.getHeight() - 100);
+        font.draw(batch, "Collision : "+nb_collision, 50, Gdx.graphics.getHeight() - 100);
+        font.draw(batch, "Appuyez sur P pour mettre la musique en pause ", 50, Gdx.graphics.getHeight() - 75);
+            //font.draw(batch, "Temps écoulé : "+temps, 50, Gdx.graphics.getHeight() - 125);
         
         batch.end();//termine la zone de dessin
         
@@ -309,6 +313,13 @@ public class TestGameScreen implements Screen {
                 }
             }
         }
+        if (Gdx.input.isKeyPressed(Keys.P)){
+            if(musique_fond.isPlaying()){
+                musique_fond.pause();
+            } else {
+                musique_fond.play();
+            }
+        }
         hitbox_perso.setPosition(perso_pos);//met à jour la position de la hitbox
     }
     
@@ -395,6 +406,7 @@ public class TestGameScreen implements Screen {
      */
     private void testHitBoxPerso(){
         if(hitbox_perso.overlaps(hitbox_perso_mechant)){
+            musique_coup.play();
             nb_collision++;
             perso_pos.x = 100;
             perso_pos.y = 100;
