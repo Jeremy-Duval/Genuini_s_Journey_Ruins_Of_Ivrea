@@ -1,7 +1,6 @@
-ant test
+gradle check
 
 language: java
-install: ant deps
 
 - os: linux
 jdk:
@@ -11,13 +10,3 @@ jdk:
 jdk:
   - oraclejdk8
   - oraclejdk7
-- os: windows
-jdk:
-  - oraclejdk8
-  - oraclejdk7
- 
-script:
-  - jdk_switcher use oraclejdk8
-  - # do stuff with Java 8
-  - jdk_switcher use oraclejdk7
-  - # do stuff with Java 7
