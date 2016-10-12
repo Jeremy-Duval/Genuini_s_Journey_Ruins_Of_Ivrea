@@ -14,7 +14,7 @@ public class Genuini extends Game {
 	
 	@Override
 	public void create () {
-            setScreen(new CreaMenu());    
+            setScreen(new CreaMenu(this));    
 	}
 
 	@Override

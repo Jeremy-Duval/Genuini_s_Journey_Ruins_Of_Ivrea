@@ -9,7 +9,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.Genuini;
 
 /**
  *
@@ -20,12 +23,19 @@ public class CreaMenu implements Screen{
     private SpriteBatch batch;
     private Texture background;
     
-
+    BitmapFont font;
+    private Rectangle appuiJouer;
+    
+    public CreaMenu(Genuini app){
+        batch = new SpriteBatch();
+        background = new Texture("background.jpg");
+        font = new BitmapFont();
+        appuiJouer = new Rectangle(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()-150,64,64);
+    }
     
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        background = new Texture("background.jpg");
+        
     }
 
     @Override
@@ -34,8 +44,17 @@ public class CreaMenu implements Screen{
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
+        
         batch.draw(background, 0, 0);
+        font.draw(batch, "Bienvenue dans notre monde extraordinaire", Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()-50);
+        font.draw(batch, "Jouer", Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()-150);
+        
         batch.end();
+        
+        if(Gdx.input.isButtonPressed(0)){ 
+        if(Gdx.input.getX() == Gdx.graphics.getWidth()/3 && Gdx.input.getY() == Gdx.graphics.getHeight()-150){
+            System.out.println("click");
+        }}
     }
 
     @Override
