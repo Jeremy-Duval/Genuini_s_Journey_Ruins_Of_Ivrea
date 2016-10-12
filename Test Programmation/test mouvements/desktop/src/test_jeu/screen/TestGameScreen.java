@@ -320,6 +320,9 @@ public class TestGameScreen implements Screen {
                 musique_fond.play();
             }
         }
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)){
+            Gdx.app.exit();
+        }
         hitbox_perso.setPosition(perso_pos);//met à jour la position de la hitbox
     }
     
