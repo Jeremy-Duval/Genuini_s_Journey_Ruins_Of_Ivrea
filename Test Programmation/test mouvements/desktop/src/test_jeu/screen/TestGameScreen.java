@@ -51,7 +51,7 @@ public class TestGameScreen implements Screen {
         stop_gauche,
         stop_droit,
     }
-    Direction direction = Direction.debut;
+    Direction direction;
     
     /*méchant*/
     private Texture texture_perso_mechant;
@@ -73,8 +73,12 @@ public class TestGameScreen implements Screen {
     BitmapFont font;
     
     /*Temps*/
-    private float temps_prec = 0;
+    private float temps_prec_mouvement = 0;
+    private float temps_prec_saut = 0;
     private float temps = 0;
+        //pour l'appui sur P
+    private float temps_prec_pause = 0;
+    private float temps_pause = 0;
     
     /*Musique*/
     private Music musique_fond;
@@ -82,7 +86,17 @@ public class TestGameScreen implements Screen {
     
     /*Général*/
     private float movement_time = 100f;
-
+    private enum State {
+        RUN,
+        PAUSE,
+        RESUME,
+    }
+    State state;
+    
+    /*****************************************************************************************************************/
+    /********************************************fin déclaration variables********************************************/
+    /*****************************************************************************************************************/
+    
     /**
      * Constructeur de l'ecran.
      *
@@ -95,6 +109,7 @@ public class TestGameScreen implements Screen {
         batch = new SpriteBatch();
         texture_fond = new Texture("img/landscape.png");
         /*perso*/
+        direction = Direction.debut;
         texture_perso = new Texture("img/gd.jpg");
         textures_perso.put("haut", new Texture("img/gd.jpg"));
         textures_perso.put("droit", new Texture("img/gpd.jpg"));
@@ -117,6 +132,8 @@ public class TestGameScreen implements Screen {
         musique_fond.play();
         musique_coup = Gdx.audio.newMusic(Gdx.files.internal("sounds/mallets.mp3"));
         musique_coup.setLooping(false);
+        /*général*/
+        state = State.RUN;
     }
 
     /**
@@ -156,24 +173,20 @@ public class TestGameScreen implements Screen {
         
         //dessine le texte
         font.draw(batch, "Test de mouvements :)", 50, Gdx.graphics.getHeight() - 50);
-        font.draw(batch, "Collision : "+nb_collision, 50, Gdx.graphics.getHeight() - 100);
+        font.draw(batch, "Collision : "+nb_collision, 50, Gdx.graphics.getHeight() - 125);
         font.draw(batch, "Appuyez sur P pour mettre la musique en pause ", 50, Gdx.graphics.getHeight() - 75);
-            //font.draw(batch, "Temps écoulé : "+temps, 50, Gdx.graphics.getHeight() - 125);
+        font.draw(batch, "Etat du jeu : "+state, 50, Gdx.graphics.getHeight() - 100);
         
         batch.end();//termine la zone de dessin
         
         testHitBoxPerso();
         
+        //on récupère le temps courant
         temps = TimeUtils.nanosToMillis(TimeUtils.nanoTime());
         
-        if(temps-temps_prec >= movement_time){
-            processInput();//gestion des touches
-            if(saut_active){
-                saut();//gestion du saut
-            }
-            //à chaque passage dans la boucle, on met à jour le temps du dernier passage
-            temps_prec = temps;
-        }
+        processInput();//gestion des touches
+        saut();//gestion du saut
+        
         
     }
 
@@ -274,50 +287,61 @@ public class TestGameScreen implements Screen {
      * @author jeremy
      */
     private void processInput(){
+        if((temps-temps_prec_mouvement >= movement_time)&&(state == State.RUN)){
+            if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+                //on va à droite seulement si l'on est pas en train de sauter
+                if(!saut_active){
+                    direction = Direction.droit;
+                    perso_pos.x = perso_pos.x + 10;
+                }
 
-        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            //on va à droite seulement si l'on est pas en train de sauter
-            if(!saut_active){
-                direction = Direction.droit;
-                perso_pos.x = perso_pos.x + 10;
-            }
-            
-            //teste si saut (apppui de 2 touches en même temps)
-            if (Gdx.input.isKeyPressed(Keys.UP)) {
+                //teste si saut (apppui de 2 touches en même temps)
+                if (Gdx.input.isKeyPressed(Keys.UP)) {
+                    //mettre deux état : saut droit, saut gauche : direction = Direction.?;
+                    saut_active = true;
+                }
+
+            } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+                //on va à gauche seulement si l'on est pas en train de sauter
+                if(!saut_active){
+                    direction = Direction.gauche;
+                    perso_pos.x = perso_pos.x - 10;
+                }
+
+                //teste si saut (apppui de 2 touches en même temps)
+                if (Gdx.input.isKeyPressed(Keys.UP)) {
+                    //mettre deux état : saut droit, saut gauche : direction = Direction.?;
+                    saut_active = true;
+                } 
+            } else if (Gdx.input.isKeyPressed(Keys.UP)) {
                 //mettre deux état : saut droit, saut gauche : direction = Direction.?;
                 saut_active = true;
-            }
-            
-        } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-            //on va à gauche seulement si l'on est pas en train de sauter
-            if(!saut_active){
-                direction = Direction.gauche;
-                perso_pos.x = perso_pos.x - 10;
-            }
-                
-            //teste si saut (apppui de 2 touches en même temps)
-            if (Gdx.input.isKeyPressed(Keys.UP)) {
-                //mettre deux état : saut droit, saut gauche : direction = Direction.?;
-                saut_active = true;
-            } 
-        } else if (Gdx.input.isKeyPressed(Keys.UP)) {
-            //mettre deux état : saut droit, saut gauche : direction = Direction.?;
-            saut_active = true;
-        } else {//si on s'arrête
-            //evite de freiner un saut
-            if(!saut_active){
-                if (direction == Direction.gauche) {
-                    direction = Direction.stop_gauche;
-                } else if (direction == Direction.droit) {
-                    direction = Direction.stop_droit;
+            } else {//si on s'arrête
+                //evite de freiner un saut
+                if(!saut_active){
+                    if (direction == Direction.gauche) {
+                        direction = Direction.stop_gauche;
+                    } else if (direction == Direction.droit) {
+                        direction = Direction.stop_droit;
+                    }
                 }
             }
-        }
+            //à chaque passage dans la boucle, on met à jour le temps du dernier passage
+            temps_prec_mouvement = temps;
+        }//end time test
+        //on test pause et échap dans tout les cas
         if (Gdx.input.isKeyPressed(Keys.P)){
-            if(musique_fond.isPlaying()){
-                musique_fond.pause();
-            } else {
-                musique_fond.play();
+            temps_pause = TimeUtils.nanosToMillis(TimeUtils.nanoTime());
+            //on test le dernier appuie sur P afin d'éviter que le programme compte deux fois le même appuie
+            if(temps_pause-temps_prec_pause >= 100){
+                if(state == State.RUN){
+                    musique_fond.pause();
+                    state = State.PAUSE;
+                }else if(state == State.PAUSE){
+                    musique_fond.play();
+                    state = State.RUN;
+                }
+                temps_prec_pause = temps_pause;
             }
         }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)){
@@ -335,43 +359,53 @@ public class TestGameScreen implements Screen {
     private void saut(){
         double coef_acceleration;
         
-        coef_acceleration = calcul_acceleration_saut();
-        
-        
-        if(perso_pos.y >99){//à modif (hitbox sol)
-            if(phase_montante){
-                if(direction == Direction.droit){//à changer avec saut droit
-                    perso_pos.x = perso_pos.x + vitesse_horizontale;
-                } else if(direction == Direction.gauche){
-                    perso_pos.x = perso_pos.x - vitesse_horizontale;
-                } else {
-                    //on reste sur place
-                }
-                perso_pos.y = round(perso_pos.y + vitesse_verticale*coef_acceleration);
+        if((temps-temps_prec_saut >= movement_time)&&(state == State.RUN)){
+            if(saut_active){
                 
-                if(perso_pos.y >= hauteur_saut+perso_pos_init_saut.y){
-                    phase_montante = !phase_montante;
-                }
-            } else {
-                if(direction == Direction.droit){//à changer avec saut droit
-                    perso_pos.x = perso_pos.x + vitesse_horizontale;
-                } else if(direction == Direction.gauche){
-                    perso_pos.x = perso_pos.x - vitesse_horizontale;
+                coef_acceleration = calcul_acceleration_saut();
+
+                if(perso_pos.y >99){//à modif (hitbox sol)
+                    if(phase_montante){
+                        if(direction == Direction.droit){//à changer avec saut droit
+                            perso_pos.x = perso_pos.x + vitesse_horizontale;
+                        } else if(direction == Direction.gauche){
+                            perso_pos.x = perso_pos.x - vitesse_horizontale;
+                        } else {
+                            //on reste sur place
+                        }
+                        perso_pos.y = round(perso_pos.y + vitesse_verticale*coef_acceleration);
+
+                        if(perso_pos.y >= hauteur_saut+perso_pos_init_saut.y){
+                            phase_montante = !phase_montante;
+                        }
+                    } else {
+                        if(direction == Direction.droit){//à changer avec saut droit
+                            perso_pos.x = perso_pos.x + vitesse_horizontale;
+                        } else if(direction == Direction.gauche){
+                            perso_pos.x = perso_pos.x - vitesse_horizontale;
+                        } else {
+                            //on reste sur place
+                        }
+                        perso_pos.y = round(perso_pos.y - vitesse_verticale*coef_acceleration);
+                    }
                 } else {
-                    //on reste sur place
+                    phase_montante = true;
+
+                    //tant que pas de gestion de hitbox
+                    perso_pos.y = 100;
+
+                    perso_pos_init_saut.x = perso_pos.x;
+                    perso_pos_init_saut.y = perso_pos.y;
+                    saut_active = false;
                 }
-                perso_pos.y = round(perso_pos.y - vitesse_verticale*coef_acceleration);
-            }
-        } else {
-            phase_montante = true;
+                
+            }//end jump test
             
-            //tant que pas de gestion de hitbox
-            perso_pos.y = 100;
-            
-            perso_pos_init_saut.x = perso_pos.x;
-            perso_pos_init_saut.y = perso_pos.y;
-            saut_active = false;
-        }
+            //à chaque passage dans la boucle, on met à jour le temps du dernier passage
+            temps_prec_saut = temps;
+        }//end time test
+        
+        
     }
     
     /**
