@@ -1,23 +1,12 @@
-ant test
-
 language: java
-install: ant deps
+sudo: false # faster builds
+jdk:
+  - oraclejdk7
+  - openjdk7
 
-- os: linux
-jdk:
-  - oraclejdk8
-  - oraclejdk7
-- os: osx
-jdk:
-  - oraclejdk8
-  - oraclejdk7
-- os: windows
-jdk:
-  - oraclejdk8
-  - oraclejdk7
- 
-script:
-  - jdk_switcher use oraclejdk8
-  - # do stuff with Java 8
-  - jdk_switcher use oraclejdk7
-  - # do stuff with Java 7
+before_install:
+  - cd proj
+  - chmod +x gradlew
+
+notifications:
+  email: false
