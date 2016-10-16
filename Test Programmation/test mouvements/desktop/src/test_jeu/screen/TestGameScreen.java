@@ -157,11 +157,11 @@ public class TestGameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor((float) 0.5, 1, 0, 1);//couleur de fond
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//netoie l'écran en recoloriant
-
+        
         skin();
-
+        
         batch.begin();//début la zone de dessin
-
+        
         //dessine le fond
         batch.draw(texture_fond, 0, 0, 1024, 624);
 

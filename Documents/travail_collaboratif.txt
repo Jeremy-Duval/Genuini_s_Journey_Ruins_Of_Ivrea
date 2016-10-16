@@ -1,4 +1,0 @@
-Je vous ai invité sur slack. adresse: https://ptutarduino.slack.com/
-Formatter les messages : https://get.slack.help/hc/en-us/articles/202288908-Formatting-your-messages
-
-Trello est lié à Slack et push les notifications directement sur le chan. Je vous invite donc à l'utiliser aussi.
