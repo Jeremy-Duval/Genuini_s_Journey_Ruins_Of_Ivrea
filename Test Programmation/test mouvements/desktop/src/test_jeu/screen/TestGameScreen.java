@@ -10,9 +10,17 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -38,11 +46,13 @@ public class TestGameScreen implements Screen {
 
     /*Perso*/
     private Texture texture_perso;
-    private Map<String, Texture> textures_perso = new TreeMap();
+    private Map<String, Texture> map_textures_perso = new TreeMap();
     private Vector2 perso_pos;
     private Rectangle hitbox_perso;
     private int largeur_perso = 20;
     private int hauteur_perso = 70;
+    private int perso_x_depart = 100;
+    private int perso_y_depart = 500;
     boolean pied = true;
     private enum Direction {
         debut,
@@ -84,6 +94,16 @@ public class TestGameScreen implements Screen {
     private Music musique_fond;
     private Music musique_coup;
     
+    /*Map*/
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
+    private OrthographicCamera camera;
+    
+    private TiledMapTileLayer mainLayer;
+    int tileSize;
+    int mapWidth;
+    float ratio;
+    
     /*Général*/
     private float movement_time = 100f;
     private enum State {
@@ -111,16 +131,16 @@ public class TestGameScreen implements Screen {
         /*perso*/
         direction = Direction.debut;
         texture_perso = new Texture("img/gd.jpg");
-        textures_perso.put("haut", new Texture("img/gd.jpg"));
-        textures_perso.put("droit", new Texture("img/gpd.jpg"));
-        textures_perso.put("droit_droit", new Texture("img/gpdd.jpg"));
-        textures_perso.put("droit_gauche", new Texture("img/gpdg.jpg"));
-        textures_perso.put("gauche", new Texture("img/gpg.jpg"));
-        textures_perso.put("gauche_droit", new Texture("img/gpgd.jpg"));
-        textures_perso.put("gauche_gauche", new Texture("img/gpgg.png"));
-        perso_pos = new Vector2(100, 100);
+        map_textures_perso.put("haut", new Texture("img/gd.jpg"));
+        map_textures_perso.put("droit", new Texture("img/gpd.jpg"));
+        map_textures_perso.put("droit_droit", new Texture("img/gpdd.jpg"));
+        map_textures_perso.put("droit_gauche", new Texture("img/gpdg.jpg"));
+        map_textures_perso.put("gauche", new Texture("img/gpg.jpg"));
+        map_textures_perso.put("gauche_droit", new Texture("img/gpgd.jpg"));
+        map_textures_perso.put("gauche_gauche", new Texture("img/gpgg.png"));
+        perso_pos = new Vector2(perso_x_depart, perso_y_depart);
         hitbox_perso = new Rectangle(perso_pos.x, perso_pos.y, largeur_perso, hauteur_perso);
-        perso_pos_init_saut = new Vector2(100, 100);
+        perso_pos_init_saut = new Vector2(perso_x_depart, perso_y_depart);
         /*police d'écriture*/
         font = new BitmapFont();//initialisation police d'écriture
         /*méchant*/
@@ -132,6 +152,14 @@ public class TestGameScreen implements Screen {
         musique_fond.play();
         musique_coup = Gdx.audio.newMusic(Gdx.files.internal("sounds/mallets.mp3"));
         musique_coup.setLooping(false);
+        /*Map*/
+        map = new TmxMapLoader().load("map/essai.tmx");//chargement du fichier map
+        mainLayer = (TiledMapTileLayer) map.getLayers().get(0);//charge la première couche
+        tileSize = (int) mainLayer.getTileWidth();//largeur de la tile
+        mapWidth = mainLayer.getWidth() * tileSize;//largeur de la map
+        ratio = mapWidth/Gdx.graphics.getWidth();
+        renderer = new OrthogonalTiledMapRenderer(map, 1/ratio);//adapte la map en fonction de l'écran
+        camera = new OrthographicCamera();//créer une caméra
         /*général*/
         state = State.RUN;
     }
@@ -160,10 +188,13 @@ public class TestGameScreen implements Screen {
         
         skin();
         
+        renderer.setView(camera);//affiche la map du point de vue de la caméra
+        renderer.render();//applique les changements
+        
         batch.begin();//début la zone de dessin
         
         //dessine le fond
-        batch.draw(texture_fond, 0, 0, 1024, 624);
+        //batch.draw(texture_fond, 0, 0, 1024, 624);
 
         //batch.draw(texture_perso, 100, 100, 64, 64);//dessine le perso à la position 100,100 de taille 64x64
         batch.draw(texture_perso, perso_pos.x, perso_pos.y);
@@ -178,6 +209,7 @@ public class TestGameScreen implements Screen {
         font.draw(batch, "Etat du jeu : "+state, 50, Gdx.graphics.getHeight() - 100);
         
         batch.end();//termine la zone de dessin
+        
         
         testHitBoxPerso();
         
@@ -199,7 +231,11 @@ public class TestGameScreen implements Screen {
      */
     @Override
     public void resize(int width, int height) {
-
+        //gestion des caméras
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.position.set(camera.viewportWidth/2f, camera.viewportHeight/2f, 0);
+        camera.update();
     }
 
     /**
@@ -243,7 +279,12 @@ public class TestGameScreen implements Screen {
      */
     @Override
     public void dispose() {
-
+        map.dispose();
+        renderer.dispose();
+        texture_perso.dispose();
+        texture_perso_mechant.dispose();
+        texture_fond.dispose();
+        batch.dispose();
     }
     
     
@@ -256,25 +297,25 @@ public class TestGameScreen implements Screen {
     private void skin() {
 
         if (direction == Direction.debut) {
-            texture_perso = textures_perso.get("haut");
+            texture_perso = map_textures_perso.get("haut");
         } else if (direction == Direction.gauche) {
             if (pied) {
-                texture_perso = textures_perso.get("gauche_gauche");
+                texture_perso = map_textures_perso.get("gauche_gauche");
             } else {
-                texture_perso = textures_perso.get("gauche_droit");
+                texture_perso = map_textures_perso.get("gauche_droit");
             }
             pied = !pied;
         } else if (direction == Direction.droit) {
             if (pied) {
-                texture_perso = textures_perso.get("droit_gauche");
+                texture_perso = map_textures_perso.get("droit_gauche");
             } else {
-                texture_perso = textures_perso.get("droit_droit");
+                texture_perso = map_textures_perso.get("droit_droit");
             }
             pied = !pied;
         } else if (direction == Direction.stop_droit) {
-            texture_perso = textures_perso.get("droit");
+            texture_perso = map_textures_perso.get("droit");
         } else if (direction == Direction.stop_gauche) {
-            texture_perso = textures_perso.get("gauche");
+            texture_perso = map_textures_perso.get("gauche");
         } else {
             System.out.println("erreur");
         }
@@ -442,15 +483,36 @@ public class TestGameScreen implements Screen {
      * @author jeremy
      */
     private void testHitBoxPerso(){
+        //test collision obstacle
+        int objectLayerId = 0;
+        TiledMapTileLayer collisionObjectLayer = (TiledMapTileLayer)map.getLayers().get(objectLayerId);
+        MapObjects objects = collisionObjectLayer.getObjects();
+
+        // there are several other types, Rectangle is probably the most common one
+        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+
+            Rectangle rectangle = rectangleObject.getRectangle();
+            if (hitbox_perso.overlaps(rectangle)) {
+                musique_coup.play();
+                nb_collision++;
+                perso_pos.x = 100;
+                perso_pos.y = 100;
+                hitbox_perso.setPosition(perso_pos);
+                phase_montante = true;
+                perso_pos_init_saut.x = 100;
+                perso_pos_init_saut.y = 100;
+                saut_active = false;
+            }
+        }
         if(hitbox_perso.overlaps(hitbox_perso_mechant)){
             musique_coup.play();
             nb_collision++;
-            perso_pos.x = 100;
-            perso_pos.y = 100;
+            perso_pos.x = perso_x_depart;
+            perso_pos.y = perso_y_depart;
             hitbox_perso.setPosition(perso_pos);
             phase_montante = true;
-            perso_pos_init_saut.x = 100;
-            perso_pos_init_saut.y = 100;
+            perso_pos_init_saut.x = perso_x_depart;
+            perso_pos_init_saut.y = perso_y_depart;
             saut_active = false;
         }
     }
