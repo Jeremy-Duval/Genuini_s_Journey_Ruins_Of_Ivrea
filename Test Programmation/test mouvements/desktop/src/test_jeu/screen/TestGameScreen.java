@@ -484,7 +484,7 @@ public class TestGameScreen implements Screen {
      */
     private void testHitBoxPerso(){
         //test collision obstacle
-        int objectLayerId = 0;
+        int objectLayerId = 1;
         TiledMapTileLayer collisionObjectLayer = (TiledMapTileLayer)map.getLayers().get(objectLayerId);
         MapObjects objects = collisionObjectLayer.getObjects();
 
