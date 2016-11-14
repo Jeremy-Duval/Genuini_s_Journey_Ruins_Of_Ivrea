@@ -3,6 +3,10 @@ sudo: false # faster builds
 jdk:
   - oraclejdk7
   - openjdk7
+  
+branches:
+  only:
+    - master
 
 before_install:
   - cd Genuini
