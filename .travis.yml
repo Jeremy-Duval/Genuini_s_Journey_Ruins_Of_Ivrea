@@ -6,6 +6,7 @@ jdk:
   
 branches:
   only:
+    - master
     - Création_de_la_base
 
 before_install:
