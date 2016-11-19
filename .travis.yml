@@ -10,7 +10,7 @@ branches:
     - Création_de_la_base
 
 before_install:
-  - cd Genuini
+  - cd xGenuini
   - chmod +x gradlew
 
 notifications:
