@@ -5,10 +5,17 @@
  */
 package genuini.game;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 /**
  *
  * @author Adrien
  */
-public class GameState {
+public abstract class GameState {
+    protected GamesStateManager gsm;
+    protected Game game;
     
+    protected SpriteBatch spriteBatch;
+    protected Orth
 }
