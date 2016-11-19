@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package genuini.game;
+package genuini.handlers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,7 +28,7 @@ public class TextManager {
     */
     
     public static void Draw(java.lang.CharSequence msg,OrthographicCamera camera){
-        Vector3 position = new Vector3(10,20,0);
+        Vector3 position = new Vector3(100,20,0);
         camera.unproject(position);
         bfont.draw(spriteBatchHandle, msg , position.x,position.y);
     }

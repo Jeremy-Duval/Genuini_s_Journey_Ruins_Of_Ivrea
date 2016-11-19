@@ -4,40 +4,67 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import genuini.handlers.BoundedCamera;
+import genuini.handlers.Content;
 import genuini.handlers.GameScreenManager;
+import genuini.handlers.Input;
+import genuini.handlers.InputProcessor;
 
 public class Game implements ApplicationListener {
-    public static final String TITLE = "Block Bunny";
-	public static final int V_WIDTH = 320;
-	public static final int V_HEIGHT = 240;
-	public static final int SCALE = 2;
+    public static final String TITLE = "Genuini";
+	public static final int V_WIDTH = 1280;
+	public static final int V_HEIGHT = 720;
+	public static final int SCALE = 1;
 	public static final float STEP = 1 / 60f;
 	
         private SpriteBatch spriteBatch;
-	private OrthographicCamera cam;
+	private BoundedCamera cam;
 	private OrthographicCamera hudCam;
 	private GameScreenManager gameScreenManager;
-        //public static Content res;
+        public static Content contentManager;
 	//Texture img;
 	
     @Override
     public void create () {
-        spriteBatch = new SpriteBatch();
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false,V_WIDTH,V_HEIGHT);
+        
+        
+        Gdx.input.setInputProcessor(new InputProcessor());
+        
+        contentManager = new Content();
+        for(int i=1;i<12;i++){
+            String index=Integer.toString(i);
+            if(i<10){
+               contentManager.loadTexture("img/Player/p1/left/p1_walk0"+index+".png","p1_left_"+index);
+               contentManager.loadTexture("img/Player/p1/right/p1_walk0"+index+".png","p1_right_"+index);
+            }else{
+                contentManager.loadTexture("img/Player/p1/left/p1_walk"+index+".png","p1_left_"+index);
+                contentManager.loadTexture("img/Player/p1/right/p1_walk"+index+".png","p1_right_"+index); 
+            } 
+        }
+        contentManager.loadTexture("img/Player/p1/left/p1_jump.png","p1_left_jump");
+        contentManager.loadTexture("img/Player/p1/right/p1_jump.png","p1_right_jump");
+        
+        
+        
+        
+        
+        cam = new BoundedCamera();
+        cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
         hudCam = new OrthographicCamera();
-        hudCam.setToOrtho(false,V_WIDTH,V_HEIGHT);
+        hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+        
+        spriteBatch = new SpriteBatch();
+
         gameScreenManager = new GameScreenManager(this);
     }
 
     @Override
     public void render () {
-            Gdx.graphics.setTitle(TITLE + " -- FPS: " + Gdx.graphics.getFramesPerSecond());
+        Gdx.graphics.setTitle(TITLE + " -- FPS: " + Gdx.graphics.getFramesPerSecond());
 
-            gameScreenManager.update(Gdx.graphics.getDeltaTime());
-            gameScreenManager.render();
-            gameScreenManager.update(0f);
-           
+        gameScreenManager.update(Gdx.graphics.getDeltaTime());
+        gameScreenManager.render();
+        Input.update();
     }
 
     @Override
@@ -60,7 +87,7 @@ public class Game implements ApplicationListener {
         return spriteBatch;
     }
 
-    public OrthographicCamera getCamera() {
+    public BoundedCamera getCamera() {
         return cam;
     }
 
