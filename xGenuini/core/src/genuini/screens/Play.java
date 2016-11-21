@@ -36,7 +36,7 @@ import genuini.main.Game;
 
 
 public class Play extends GameScreen{
-    private boolean debug = false;
+    private boolean debug = true;
     private BitmapFont font = new BitmapFont();
     
     private BoundedCamera b2dCam;
@@ -58,7 +58,7 @@ public class Play extends GameScreen{
         
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
-        world.setContactListener(contactManager);
+        world.setContactListener(contactManager);//
         
         /* DEBUG */
         b2dr = new Box2DDebugRenderer();

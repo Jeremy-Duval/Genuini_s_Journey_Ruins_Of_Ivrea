@@ -12,17 +12,17 @@ import genuini.handlers.InputProcessor;
 
 public class Game implements ApplicationListener {
     public static final String TITLE = "Genuini";
-	public static final int V_WIDTH = 1280;
-	public static final int V_HEIGHT = 720;
-	public static final int SCALE = 1;
-	public static final float STEP = 1 / 60f;
-	
-        private SpriteBatch spriteBatch;
-	private BoundedCamera cam;
-	private OrthographicCamera hudCam;
-	private GameScreenManager gameScreenManager;
-        public static Content contentManager;
-	//Texture img;
+    public static final int V_WIDTH = 1280;
+    public static final int V_HEIGHT = 720;
+    public static final int SCALE = 1;
+    public static final float STEP = 1 / 60f;
+
+    private SpriteBatch spriteBatch;
+    private BoundedCamera cam;
+    private OrthographicCamera hudCam;
+    private GameScreenManager gameScreenManager;
+    public static Content contentManager;
+    //Texture img;
 	
     @Override
     public void create () {
