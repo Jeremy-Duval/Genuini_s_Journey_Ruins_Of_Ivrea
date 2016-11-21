@@ -31,6 +31,11 @@ public class Game implements ApplicationListener {
         Gdx.input.setInputProcessor(new InputProcessor());
         
         contentManager = new Content();
+        
+        contentManager.loadTexture("img/bg_shroom.png","background");
+        
+        
+        //load player textures
         for(int i=1;i<12;i++){
             String index=Integer.toString(i);
             if(i<10){

@@ -51,6 +51,7 @@ public class Play extends GameScreen{
     private int tileMapHeight;
     private float tileSize;
     private TiledMapRenderer tmr;
+
     
     public Play(GameScreenManager gsm){
         super(gsm);
@@ -63,6 +64,9 @@ public class Play extends GameScreen{
         b2dr = new Box2DDebugRenderer();
         /**/
 
+        
+        
+        
         //create tiles
         createTiles();
         
@@ -71,7 +75,7 @@ public class Play extends GameScreen{
         cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
         
         //set the Text batch
-        TextManager.SetSpriteBatch(spriteBatch);
+        //TextManager.SetSpriteBatch(spriteBatch);
         
         // set up box2d cam
         b2dCam = new BoundedCamera();
@@ -134,11 +138,10 @@ public class Play extends GameScreen{
         //clear screen
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        
-        
-        //draw player
         spriteBatch.setProjectionMatrix(cam.combined);
-        player.render(spriteBatch);
+        
+        
+       
         
         // camera follow player
         cam.setPosition(player.getPosition().x * PPM + Game.V_WIDTH / 4, Game.V_HEIGHT / 2);
@@ -148,12 +151,16 @@ public class Play extends GameScreen{
         tmr.setView(cam);
         tmr.render();
 
-      
+        
+         //draw player
+        
+        player.render(spriteBatch);
         //To write on screen
-        /*spriteBatch.setProjectionMatrix(cam.combined);
         spriteBatch.begin();
-        TextManager.Draw("FPS: ",cam);
-        spriteBatch.end();*/
+        //spriteBatch.draw(background, 0,0,Game.V_WIDTH, Game.V_WIDTH);
+        //TextManager.Draw("FPS: ",cam);
+        spriteBatch.end();
+        
         
         if(debug) {
                 b2dCam.setPosition(player.getPosition().x + Game.V_WIDTH / 4 / PPM, Game.V_HEIGHT / 2 / PPM);
