@@ -6,7 +6,7 @@
 package genuini.handlers;
 
 
-import genuini.main.Game;
+import genuini.main.GenuiniGame;
 import genuini.screens.GameScreen;
 import genuini.screens.Play;
 import java.util.Stack;
@@ -16,7 +16,7 @@ import java.util.Stack;
  * @author Adrien
  */
 public class GameScreenManager {
-    private Game game;
+    private GenuiniGame game;
 
     private Stack<GameScreen> gameScreens;
 
@@ -24,7 +24,7 @@ public class GameScreenManager {
     public static final int PLAY = 388031654;
     public static final int LEVEL_SELECT = -9238732;
 
-    public GameScreenManager(Game game) {
+    public GameScreenManager(GenuiniGame game) {
             this.game = game;
             gameScreens = new Stack<GameScreen>();
             pushScreen(PLAY);
@@ -38,7 +38,7 @@ public class GameScreenManager {
             gameScreens.peek().render();
     }
 
-    public Game game() { return game; }
+    public GenuiniGame game() { return game; }
 
     private GameScreen getScreen(int state) {
             //if(state == MENU) return new Menu(this);

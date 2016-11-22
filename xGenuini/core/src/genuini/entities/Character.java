@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import genuini.handlers.PhysicsVariables;
-import genuini.main.Game;
+import genuini.main.GenuiniGame;
 
 /**
  *
@@ -38,7 +38,7 @@ public class Character extends Sprites{
         direction=initialDirection;
         textureFrame=minTextureFrame;
         index=Integer.toString(minTextureFrame);
-        texture = Game.contentManager.getTexture(name+"_"+direction+"_"+index); 
+        texture = GenuiniGame.contentManager.getTexture(name+"_"+direction+"_"+index); 
     }
     
     
@@ -76,10 +76,10 @@ public class Character extends Sprites{
     
     public void updateTexture(boolean jump){
         if(jump){
-            texture=Game.contentManager.getTexture(name+"_"+direction+"_jump");
+            texture=GenuiniGame.contentManager.getTexture(name+"_"+direction+"_jump");
         }else{
             index=Integer.toString(textureFrame);
-            texture=Game.contentManager.getTexture(name+"_"+direction+"_"+index);
+            texture=GenuiniGame.contentManager.getTexture(name+"_"+direction+"_"+index);
         }
         
     }
