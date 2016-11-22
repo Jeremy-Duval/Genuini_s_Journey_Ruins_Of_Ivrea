@@ -7,8 +7,10 @@ package com.mygdx.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera; /***/
+import com.badlogic.gdx.graphics.OrthographicCamera;import com.badlogic.gdx.graphics.Pixmap;
+ /***/
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +19,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
  /****/
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer; /****/
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.Genuini;
 
 /**
@@ -31,71 +39,66 @@ public class CreaMenu implements Screen{
     /* Variable de police */
     BitmapFont font;
     
-    /*création du rectangle pour appui sur les boutons du menu (non fonctionnel)*/
-    private Rectangle appuiJouer;
-    
-    /*variables de création de tiledMap en .tmx et penser à importer les librairies(classes marquées par /***/
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private OrthographicCamera camera;
+    private Skin skin;
+    private Stage stage;
+    private Texture background;
+    private TextButton newGameButton;
+    private TextButton quitButton;
 
     public CreaMenu(Genuini app){
-        /*instanciation des variables*/
         batch = new SpriteBatch();
-        //background = new Texture("background.jpg");
+        background = new Texture("background.jpg");
         font = new BitmapFont();
-        //création du rectangle de click menu
-        appuiJouer = new Rectangle(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()-150,64,64);    
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);// Make the stage consume events
+ 
+        createBasicSkin();
+        newGameButton = new TextButton("Jouer", skin); // Use the initialized skin
+        quitButton = new TextButton("Quitter", skin);
+        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/2);
+        quitButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/3);
+        stage.addActor(newGameButton);
+        stage.addActor(quitButton);
         
-        map = new TmxMapLoader().load("essai.tmx"); //ajout de la tiledMap essai.tmx en fond de map
-        TiledMapTileLayer mainLayer = (TiledMapTileLayer) map.getLayers().get(0);
-        int tileSize = (int) mainLayer.getTileWidth();
-        int mapWidth = mainLayer.getWidth() * tileSize;
-        float ratio = mapWidth/Gdx.graphics.getWidth();
-        renderer= new OrthogonalTiledMapRenderer(map,1/ratio);
-        camera=new OrthographicCamera();
-
     }
     
     @Override
     public void show() {
-        
+      newGameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               // ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
+            }
+        });
+      
+      quitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               Gdx.app.exit();
+            }
+        });
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
-	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         
-        renderer.setView(camera);
-        renderer.render();
         
         batch.begin();
+        batch.draw(background,0,0);
         
-        //batch.draw(background, 0, 0);
-        
-        //écriture du texte sur le screen + placement
-        font.draw(batch, "Bienvenue dans notre monde extraordinaire", Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()-50);
-        font.draw(batch, "Jouer", Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()-150);
         
         batch.end();
         
-        /*essai de création de zone de cliques*/
-        if(Gdx.input.isButtonPressed(0)){ 
-        if(Gdx.input.getX() == Gdx.graphics.getWidth()/3 && Gdx.input.getY() == Gdx.graphics.getHeight()-150){
-            //debug
-            System.out.println("click");
-        }}
+        stage.act();
+        stage.draw();        
     }
 
     @Override
     public void resize(int width, int height) {
-        //gestion de caméras
-        camera.viewportWidth=width;
-        camera.viewportHeight=height;
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
-        //gestion de caméras qui permettront "surement" le mouvement de la map, se renseigner
+        
     }
 
     @Override
@@ -112,9 +115,28 @@ public class CreaMenu implements Screen{
 
     @Override
     public void dispose() {
-        map.dispose();
-        renderer.dispose();
-
+       skin.dispose();
     }
-    
+   private void createBasicSkin(){
+  //Create a font
+
+  skin = new Skin();
+  skin.add("default", font);
+
+  //Create a texture
+  Pixmap pixmap = new Pixmap((int)Gdx.graphics.getWidth()/4,(int)Gdx.graphics.getHeight()/10, Pixmap.Format.RGB888);
+  pixmap.setColor(Color.WHITE);
+  pixmap.fill();
+  skin.add("background",new Texture(pixmap));
+
+  //Create a button style
+  TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+  textButtonStyle.up = skin.newDrawable("background", Color.GRAY);
+  textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
+  textButtonStyle.checked = skin.newDrawable("background", Color.DARK_GRAY);
+  textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
+  textButtonStyle.font = skin.getFont("default");
+  skin.add("default", textButtonStyle);
+
+}
 }
