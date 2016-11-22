@@ -7,6 +7,7 @@ package genuini.screens;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import genuini.handlers.BoundedCamera;
 import genuini.handlers.GameScreenManager;
 import genuini.main.Game;
 
@@ -19,7 +20,7 @@ public abstract class GameScreen {
     protected Game game;
 	
     protected SpriteBatch spriteBatch;
-    protected OrthographicCamera cam;
+    protected BoundedCamera cam;
     protected OrthographicCamera hudCam;
 	
     protected GameScreen(GameScreenManager gameScreenManager) {
