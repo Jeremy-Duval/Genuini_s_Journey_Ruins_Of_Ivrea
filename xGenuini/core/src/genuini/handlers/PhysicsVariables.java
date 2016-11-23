@@ -11,7 +11,7 @@ package genuini.handlers;
  */
 public class PhysicsVariables {
     // pixels per meter
-	public static final float PPM = 100;
+    public static final float PPM = 100;
 	
     // collision bit filters
     public static final short BIT_PLAYER = 2;

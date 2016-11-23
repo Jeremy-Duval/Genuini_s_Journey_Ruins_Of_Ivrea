@@ -3,17 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package genuini.entities;
+package genuini.screens;
 
-import com.badlogic.gdx.physics.box2d.Body;
 /**
  *
  * @author Adrien
  */
-public class Player extends Character{
+class MainMenuScreen extends AbstractScreen {
 
-    public Player(Body body) {
-        super(body,"p1",76,92,1,11,"right");  
+    public MainMenuScreen() {
     }
+
+    @Override
+    public void buildStage() {
+        
+    }
+
     
 }
