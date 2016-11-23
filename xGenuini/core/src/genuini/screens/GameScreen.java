@@ -38,7 +38,7 @@ import static genuini.main.MainGame.V_WIDTH;
 
 
 public class GameScreen extends AbstractScreen{
-    private boolean debug = true;
+    private boolean debug = false;
     private BitmapFont font = new BitmapFont();
     
     private BoundedCamera b2dCam;

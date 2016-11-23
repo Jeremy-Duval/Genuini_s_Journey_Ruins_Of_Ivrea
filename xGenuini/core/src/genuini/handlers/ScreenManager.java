@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package genuini.screens;
+package genuini.handlers;
 
+import genuini.handlers.ScreenEnum;
 import com.badlogic.gdx.Screen;
 import genuini.main.MainGame;
+import genuini.screens.AbstractScreen;
 
 /**
  *

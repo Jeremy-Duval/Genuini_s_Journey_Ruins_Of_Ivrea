@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package genuini.screens;
+package genuini.handlers;
+
+import genuini.screens.AbstractScreen;
+import genuini.screens.GameScreen;
+import genuini.screens.MainMenuScreen;
 
 /**
  *

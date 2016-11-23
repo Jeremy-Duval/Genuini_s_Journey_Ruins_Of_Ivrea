@@ -5,8 +5,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import genuini.handlers.Content;
 import genuini.screens.AbstractScreen;
-import genuini.screens.ScreenEnum;
-import genuini.screens.ScreenManager;
+import genuini.handlers.ScreenEnum;
+import genuini.handlers.ScreenManager;
 
 public class MainGame extends Game implements ApplicationListener {
     public static final String TITLE = "Genuini";
@@ -41,7 +41,7 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadTexture("img/Player/p1/right/p1_jump.png","p1_right_jump");
 
         ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
+        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
     }
 
     @Override
