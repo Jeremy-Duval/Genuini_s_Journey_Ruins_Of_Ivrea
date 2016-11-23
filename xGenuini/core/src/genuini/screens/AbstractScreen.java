@@ -8,9 +8,16 @@ package genuini.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import genuini.main.MainGame;
 
@@ -18,27 +25,40 @@ import genuini.main.MainGame;
  *
  * @author Adrien
  */
-public abstract class AbstractScreen extends Stage implements Screen {
- 
+public class AbstractScreen extends Stage implements Screen {
+    
+    Texture background;
+    Stage stage;
+    Skin skin;
+    BitmapFont font;
+    SpriteBatch batch;
+    
     protected AbstractScreen() {
         super( new StretchViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera()) );
+        
+        stage = new Stage();
+        font = new BitmapFont();
+        batch=new SpriteBatch();
+        background = new Texture("background.jpg");     
+        createBasicSkin();
+        
     }
  
     // Subclasses must load actors in this method
-    public abstract void buildStage();
+    public  void buildStage(){
+        
+    };
  
     @Override
     public void render(float delta) {
         // Clear screen
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        // Calling to Stage methods
-        super.act(delta);
-        super.draw();
     }
  
     @Override
     public void show() {
+        
     }
     
     @Override
@@ -49,4 +69,35 @@ public abstract class AbstractScreen extends Stage implements Screen {
     @Override public void hide() {}
     @Override public void pause() {}
     @Override public void resume() {}
+    
+    @Override
+    public void dispose(){
+        skin.dispose();
+        background.dispose();
+        font.dispose();
+        stage.dispose();
+        batch.dispose();
+    }
+    private void createBasicSkin(){
+        //Create a font
+
+        skin = new Skin();
+        skin.add("default", font);
+
+        //Create a texture
+        Pixmap pixmap = new Pixmap((int)Gdx.graphics.getWidth()/4,(int)Gdx.graphics.getHeight()/10, Pixmap.Format.RGB888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("background",new Texture(pixmap));
+
+        //Create a button style
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("background", Color.GRAY);
+        textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.checked = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+      }
 }

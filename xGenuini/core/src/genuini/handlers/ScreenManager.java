@@ -5,7 +5,6 @@
  */
 package genuini.handlers;
 
-import genuini.handlers.ScreenEnum;
 import com.badlogic.gdx.Screen;
 import genuini.main.MainGame;
 import genuini.screens.AbstractScreen;

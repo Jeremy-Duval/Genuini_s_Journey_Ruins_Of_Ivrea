@@ -7,7 +7,10 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
@@ -26,10 +29,17 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.entities.Player;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
 import static genuini.handlers.PhysicsVariables.PPM;
+import genuini.handlers.ScreenEnum;
+import genuini.handlers.ScreenManager;
 import genuini.handlers.TextManager;
 import genuini.main.MainGame;
 import static genuini.main.MainGame.V_HEIGHT;
@@ -38,24 +48,25 @@ import static genuini.main.MainGame.V_WIDTH;
 
 
 public class GameScreen extends AbstractScreen{
-    private boolean debug = false;
-    private BitmapFont font = new BitmapFont();
-    
+    private final boolean debug = true;
     private BoundedCamera b2dCam;
+    private Box2DDebugRenderer b2dr;
+   
+    private BoundedCamera cam;
+    
     private Player player;
     
     private final World world;
-    private Box2DDebugRenderer b2dr;
+    
     private ContactHandler contactManager;
     
     private TiledMap map;
+    private TiledMapRenderer tmr;
     private int tileMapWidth;
     private int tileMapHeight;
     private float tileSize;
-    private TiledMapRenderer tmr;
-    
-    private SpriteBatch spriteBatch;
-    private BoundedCamera cam;
+
+    private TextButton menuButton;
     
     public GameScreen() {
         super();
@@ -63,27 +74,24 @@ public class GameScreen extends AbstractScreen{
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
-        
-        /* DEBUG */
-        b2dr = new Box2DDebugRenderer();
-        
-        
+
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-        spriteBatch=new SpriteBatch();
         
         //set the Text batch
-        TextManager.SetSpriteBatch(spriteBatch);
+        TextManager.SetSpriteBatch(batch);
         
         //create tiles
         createTiles();
         
-        // set up box2d cam
-        b2dCam = new BoundedCamera();
-        b2dCam.setToOrtho(false, MainGame.V_WIDTH / PPM, MainGame.V_HEIGHT / PPM);
-        b2dCam.setBounds(0, (tileMapWidth * tileSize) / PPM, 0, (tileMapHeight * tileSize) / PPM);
-        
-        
+        /* DEBUG */
+        if(debug) {
+            b2dr = new Box2DDebugRenderer();
+            // set up box2d cam
+            b2dCam = new BoundedCamera();
+            b2dCam.setToOrtho(false, MainGame.V_WIDTH / PPM, MainGame.V_HEIGHT / PPM);
+            b2dCam.setBounds(0, (tileMapWidth * tileSize) / PPM, 0, (tileMapHeight * tileSize) / PPM);
+        }
         
         //create player
         createPlayer();
@@ -94,18 +102,29 @@ public class GameScreen extends AbstractScreen{
     
     @Override
     public void show(){
-        
+        Gdx.input.setInputProcessor(stage);
+        menuButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+            }
+        });
     }
     
-    
+    @Override
+    public void buildStage() {
+        menuButton=new TextButton("Menu", skin);
+        menuButton.setPosition(V_WIDTH/2 , V_HEIGHT/2);
+        stage.addActor(menuButton);
+    }
 
 
     @Override
-    public void render(float dt) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        spriteBatch.setProjectionMatrix(cam.combined);
-        world.step(dt, 6, 2);
+    public void render(float delta) {
+        super.render(delta);
+
+        batch.setProjectionMatrix(cam.combined);
+        world.step(delta, 7, 3);
         
         handleInput();
         // camera follow player
@@ -119,12 +138,13 @@ public class GameScreen extends AbstractScreen{
         
         //draw player
         
-        player.render(spriteBatch);
+        player.render(batch);
         //To write on screen
-        spriteBatch.begin();
+        
+        batch.begin();
         //spriteBatch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
         //TextManager.Draw("FPS: ",cam);
-        spriteBatch.end();
+        batch.end();
         
         
         if(debug) {
@@ -132,13 +152,14 @@ public class GameScreen extends AbstractScreen{
                 b2dCam.update();
                 b2dr.render(world, b2dCam.combined);
         }
+        
+        stage.act(delta);
+        stage.draw();
+        
     }
 
     
-    @Override
-    public void buildStage() {
-        
-    }
+    
     /**
      * Apply upward force to player body.
      */
@@ -152,7 +173,7 @@ public class GameScreen extends AbstractScreen{
                     player.updateTexture(false);
                 }
             }, 
-            500
+            600
         );
     }
     
@@ -180,6 +201,9 @@ public class GameScreen extends AbstractScreen{
 
     @Override
     public void dispose() {
+        super.dispose();
+        world.dispose();
+        map.dispose();
     }
     
     
@@ -208,8 +232,7 @@ public class GameScreen extends AbstractScreen{
         body.createFixture(fdef).setUserData("foot");
         
         //Create player entity
-        player = new Player(body);
-        
+        player = new Player(body);    
     }
     
     private void createTiles(){
@@ -260,7 +283,5 @@ public class GameScreen extends AbstractScreen{
                 cs.dispose();
             }
         }
-    }
-
-    
+    } 
 }
