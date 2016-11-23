@@ -31,7 +31,7 @@ import genuini.handlers.GameScreenManager;
 import genuini.handlers.Input;
 import static genuini.handlers.PhysicsVariables.PPM;
 import genuini.handlers.TextManager;
-import genuini.main.GenuiniGame;
+import genuini.main.Game;
 
 
 
@@ -79,7 +79,7 @@ public class Play extends GameScreen{
         
         // set up box2d cam
         b2dCam = new BoundedCamera();
-        b2dCam.setToOrtho(false, GenuiniGame.V_WIDTH / PPM, GenuiniGame.V_HEIGHT / PPM);
+        b2dCam.setToOrtho(false, Game.V_WIDTH / PPM, Game.V_HEIGHT / PPM);
         b2dCam.setBounds(0, (tileMapWidth * tileSize) / PPM, 0, (tileMapHeight * tileSize) / PPM);
     }
     
@@ -144,7 +144,7 @@ public class Play extends GameScreen{
        
         
         // camera follow player
-        cam.setPosition(player.getPosition().x * PPM + GenuiniGame.V_WIDTH / 4, GenuiniGame.V_HEIGHT / 2);
+        cam.setPosition(player.getPosition().x * PPM + Game.V_WIDTH / 4, Game.V_HEIGHT / 2);
         cam.update();
         
         //draw tiled map
@@ -157,13 +157,13 @@ public class Play extends GameScreen{
         player.render(spriteBatch);
         //To write on screen
         spriteBatch.begin();
-        //spriteBatch.draw(background, 0,0,GenuiniGame.V_WIDTH, GenuiniGame.V_WIDTH);
+        //spriteBatch.draw(background, 0,0,Game.V_WIDTH, Game.V_WIDTH);
         //TextManager.Draw("FPS: ",cam);
         spriteBatch.end();
         
         
         if(debug) {
-                b2dCam.setPosition(player.getPosition().x + GenuiniGame.V_WIDTH / 4 / PPM, GenuiniGame.V_HEIGHT / 2 / PPM);
+                b2dCam.setPosition(player.getPosition().x + Game.V_WIDTH / 4 / PPM, Game.V_HEIGHT / 2 / PPM);
                 b2dCam.update();
                 b2dr.render(world, b2dCam.combined);
         }

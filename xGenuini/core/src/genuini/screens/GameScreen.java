@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.GameScreenManager;
-import genuini.main.GenuiniGame;
+import genuini.main.Game;
 
 /**
  *
@@ -17,7 +17,7 @@ import genuini.main.GenuiniGame;
  */
 public abstract class GameScreen {
     protected GameScreenManager gameScreenManager;
-    protected GenuiniGame game;
+    protected Game game;
 	
     protected SpriteBatch spriteBatch;
     protected BoundedCamera cam;
