@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import genuini.main.GenuiniGame;
 import genuini.screens.Menu;
+import genuini.screens.Start;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -12,7 +13,7 @@ public class DesktopLauncher {
             cfg.title = GenuiniGame.TITLE;
             cfg.width = GenuiniGame.V_WIDTH * GenuiniGame.SCALE;
             cfg.height = GenuiniGame.V_HEIGHT * GenuiniGame.SCALE;
-            LwjglApplication lwjglApplication = new LwjglApplication(new GenuiniGame(), cfg);
+            LwjglApplication lwjglApplication = new LwjglApplication(new Start(), cfg);
 		
 	}
 }

@@ -3,6 +3,7 @@ package genuini.main;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import genuini.handlers.BoundedCamera;
@@ -12,7 +13,7 @@ import genuini.handlers.Input;
 import genuini.handlers.InputProcessor;
 import genuini.screens.Menu;
 
-public class GenuiniGame extends Game implements ApplicationListener {
+public class GenuiniGame implements ApplicationListener,Screen {
     public static final String TITLE = "Genuini";
     public static final int V_WIDTH = 1280;
     public static final int V_HEIGHT = 720;
@@ -26,13 +27,9 @@ public class GenuiniGame extends Game implements ApplicationListener {
     public static Content contentManager;
     //Texture img;
     
-    public GenuiniGame(){
-        setScreen(new Menu(this));
-    }
     
     @Override
     public void create () {
-        
         
         Gdx.input.setInputProcessor(new InputProcessor());
         
@@ -104,6 +101,21 @@ public class GenuiniGame extends Game implements ApplicationListener {
 
     public OrthographicCamera getHUDCamera() {
         return hudCam;
+    }
+
+    @Override
+    public void show() {
+        
+    }
+
+    @Override
+    public void render(float delta) {
+        
+    }
+
+    @Override
+    public void hide() {
+        
     }
 
     

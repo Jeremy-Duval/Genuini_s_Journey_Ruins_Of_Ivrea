@@ -5,6 +5,7 @@
  */
 package genuini.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -31,7 +32,7 @@ import genuini.main.GenuiniGame;
  *
  * @author Valentin
  */
-public class Menu implements Screen {
+public class Menu extends Game implements Screen {
     /* Sprite et texture pour image et fond d'écran */ 
     private SpriteBatch batch;
     //private Texture background;
@@ -45,7 +46,7 @@ public class Menu implements Screen {
     private TextButton newGameButton;
     private TextButton quitButton;
 
-    public Menu(GenuiniGame app){
+    public Menu(Start app){
         batch = new SpriteBatch();
         background = new Texture("background.jpg");
         font = new BitmapFont();
@@ -67,7 +68,9 @@ public class Menu implements Screen {
       newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((GenuiniGame)Gdx.app.getApplicationListener()).setScreen(new GenuiniGame());
+                GenuiniGame gen = new GenuiniGame();
+                setScreen(gen);
+             // ((GenuiniGame)Gdx.app.getApplicationListener()).setScreen(new GenuiniGame());
             }
         });
       
@@ -139,4 +142,9 @@ public class Menu implements Screen {
   skin.add("default", textButtonStyle);
 
 }
+
+    @Override
+    public void create() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
