@@ -6,7 +6,7 @@
 package genuini.entities;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import genuini.main.Game;
+import genuini.main.GenuiniGame;
 /**
  *
  * @author Adrien
