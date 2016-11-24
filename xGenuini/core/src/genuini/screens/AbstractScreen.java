@@ -5,7 +5,6 @@
  */
 package genuini.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import genuini.handlers.PreferencesManager;
 import genuini.main.MainGame;
 
 /**
@@ -32,16 +32,15 @@ public class AbstractScreen extends Stage implements Screen {
     Skin skin;
     BitmapFont font;
     SpriteBatch batch;
+    PreferencesManager prefs;
     
     protected AbstractScreen() {
         super( new StretchViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera()) );
-        
+        prefs = new PreferencesManager();
         stage = new Stage();
         font = new BitmapFont();
         batch=new SpriteBatch();
         background = new Texture("background.jpg");     
-        createBasicSkin();
-        
     }
  
     // Subclasses must load actors in this method
@@ -78,14 +77,14 @@ public class AbstractScreen extends Stage implements Screen {
         stage.dispose();
         batch.dispose();
     }
-    private void createBasicSkin(){
+    void createButtonSkin(float width, float height){
         //Create a font
 
         skin = new Skin();
         skin.add("default", font);
 
         //Create a texture
-        Pixmap pixmap = new Pixmap((int)Gdx.graphics.getWidth()/4,(int)Gdx.graphics.getHeight()/10, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap((int)width,(int)height, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("background",new Texture(pixmap));

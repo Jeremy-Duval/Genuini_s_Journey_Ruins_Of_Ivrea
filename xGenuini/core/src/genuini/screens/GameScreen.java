@@ -7,12 +7,6 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -30,8 +24,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.entities.Player;
@@ -52,13 +44,13 @@ public class GameScreen extends AbstractScreen{
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
    
-    private BoundedCamera cam;
+    private final BoundedCamera cam;
     
     private Player player;
     
     private final World world;
     
-    private ContactHandler contactManager;
+    private final ContactHandler contactManager;
     
     private TiledMap map;
     private TiledMapRenderer tmr;
@@ -70,7 +62,7 @@ public class GameScreen extends AbstractScreen{
     
     public GameScreen() {
         super();
-        
+         
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
@@ -83,6 +75,8 @@ public class GameScreen extends AbstractScreen{
         
         //create tiles
         createTiles();
+        
+        super.createButtonSkin(tileSize*1.6f,tileSize/2);
         
         /* DEBUG */
         if(debug) {
@@ -106,7 +100,10 @@ public class GameScreen extends AbstractScreen{
         menuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+                prefs.setPositionX(player.getPosition().x);
+                prefs.setPositionY(player.getPosition().y);
+                prefs.save();
+                ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
     }
@@ -114,7 +111,7 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skin);
-        menuButton.setPosition(V_WIDTH/2 , V_HEIGHT/2);
+        menuButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*3);
         stage.addActor(menuButton);
     }
 
@@ -212,7 +209,7 @@ public class GameScreen extends AbstractScreen{
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         
-        bdef.position.set(160 / PPM , 200 / PPM);
+        bdef.position.set(prefs.getPositionX() , prefs.getPositionY());
         bdef.type = BodyType.DynamicBody;
         bdef.linearDamping = 3f;
         Body body = world.createBody(bdef);
@@ -253,28 +250,51 @@ public class GameScreen extends AbstractScreen{
             for(int col = 0; col < layer.getWidth(); col++){
                 // get cell
                 Cell cell = layer.getCell(col, row);
-
+                
                 // check that there is a cell
                 if(cell == null) continue;
                 if(cell.getTile() == null) continue;
-
                 // create body from cell
                 bdef.type = BodyType.StaticBody;
                 bdef.position.set((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM); //centered at center
                 
-                
                 ChainShape cs = new ChainShape();
                 float padding = 2f;
-                //to link the cell edges
-                Vector2[] v = new Vector2[5];
-                v[0] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
-                v[1] = new Vector2((-tileSize+padding)  / 2 / PPM, (tileSize-padding) / 2 / PPM);//top left corner
-                v[2] = new Vector2((tileSize-padding)  / 2 / PPM,(tileSize-padding)  / 2 / PPM);//top right corner
-                v[3] = new Vector2((tileSize-padding) / 2 / PPM, (-tileSize+padding)  / 2 / PPM);//bottom right corner
-                v[4] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
-                cs.createChain(v);
+                
+                
+                float fric;
+                if(cell.getTile().getProperties().get("slide_left")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[4];
+                    v[0] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    v[1] = new Vector2((tileSize-padding)  / 2 / PPM,(tileSize-padding)  / 2 / PPM);//top right corner
+                    v[2] = new Vector2((tileSize-padding) / 2 / PPM, (-tileSize+padding)  / 2 / PPM);//bottom right corner
+                    v[3] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    cs.createChain(v);
+                    fric=0.5f;
+                }else if(cell.getTile().getProperties().get("slide_right")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[4];
+                    v[0] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    v[1] = new Vector2((-tileSize+padding)  / 2 / PPM, (tileSize-padding) / 2 / PPM);//top left corner
+                    v[2] = new Vector2((tileSize-padding) / 2 / PPM, (-tileSize+padding)  / 2 / PPM);//bottom right corner
+                    v[3] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    cs.createChain(v);
+                    fric=0.5f;
+                }else{
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[5];
+                    v[0] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    v[1] = new Vector2((-tileSize+padding)  / 2 / PPM, (tileSize-padding) / 2 / PPM);//top left corner
+                    v[2] = new Vector2((tileSize-padding)  / 2 / PPM,(tileSize-padding)  / 2 / PPM);//top right corner
+                    v[3] = new Vector2((tileSize-padding) / 2 / PPM, (-tileSize+padding)  / 2 / PPM);//bottom right corner
+                    v[4] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    cs.createChain(v);
+                    fric=0;
+                }
+                
                 FixtureDef fd = new FixtureDef();
-                fd.friction = 0;
+                fd.friction = fric;
                 fd.shape = cs;
                 fd.isSensor=false;
                 //fd.filter.categoryBits = PhysicsVariables.BIT_TERRAIN;    

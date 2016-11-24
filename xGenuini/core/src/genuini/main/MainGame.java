@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import genuini.handlers.Content;
-import genuini.screens.AbstractScreen;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 

@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
+import static genuini.main.MainGame.V_HEIGHT;
+import static genuini.main.MainGame.V_WIDTH;
 
 /**
  *
@@ -21,10 +23,14 @@ public class MainMenuScreen extends AbstractScreen{
 
     private TextButton newGameButton;
     private TextButton quitButton;
-    
+    private final int buttonWidth;
+    private final int buttonHeight;
     
     public MainMenuScreen() {
         super();
+        buttonWidth=V_WIDTH/6;
+        buttonHeight=V_HEIGHT/10;
+        super.createButtonSkin(buttonWidth,buttonHeight); 
     }
 
     @Override
@@ -33,8 +39,8 @@ public class MainMenuScreen extends AbstractScreen{
         newGameButton = new TextButton("Jouer", skin); // Use the initialized skin
         quitButton = new TextButton("Quitter", skin);
         
-        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/2);
-        quitButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/3);
+        newGameButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/2+10);
+        quitButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT-buttonHeight)/2-10);
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
     }
@@ -52,6 +58,7 @@ public class MainMenuScreen extends AbstractScreen{
       quitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+               prefs.save();
                Gdx.app.exit();
             }
         });
