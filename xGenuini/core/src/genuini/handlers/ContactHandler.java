@@ -21,7 +21,7 @@ public class ContactHandler implements ContactListener{
     
     private int numFootContacts;
     private Array<Body> bodiesToRemove;
-    private boolean playerDead;
+    private boolean bounce;
     
     //Called when 2 fixtures collide
     @Override
@@ -36,6 +36,11 @@ public class ContactHandler implements ContactListener{
         }
         if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 numFootContacts++;
+        }
+        
+        if((fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("bounce"))
+                || (fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
+            bounce=true;
         }
         
 }
@@ -55,7 +60,10 @@ public class ContactHandler implements ContactListener{
         if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 numFootContacts--;
         }
-        
+        if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("bounce")
+                || fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
+                bounce=false;
+        }
     }
     
     //Before collision handling
@@ -74,6 +82,6 @@ public class ContactHandler implements ContactListener{
     
     public boolean playerCanJump() { return numFootContacts > 0; }
     public Array<Body> getBodies() { return bodiesToRemove; }
-    public boolean isPlayerDead() { return playerDead; }
+    public boolean isBouncy() { return bounce; }
     
 }

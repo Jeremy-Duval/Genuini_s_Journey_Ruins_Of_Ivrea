@@ -40,7 +40,7 @@ import static genuini.main.MainGame.V_WIDTH;
 
 
 public class GameScreen extends AbstractScreen{
-    private final boolean debug = true;
+    private final boolean debug = false;
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
    
@@ -124,8 +124,9 @@ public class GameScreen extends AbstractScreen{
         world.step(delta, 7, 3);
         
         handleInput();
+        handleContact();
         // camera follow player
-        cam.setPosition(player.getPosition().x * PPM + MainGame.V_WIDTH / 4, MainGame.V_HEIGHT / 2);
+        cam.setPosition(player.getPosition().x * PPM + MainGame.V_WIDTH / 4, player.getPosition().y * PPM);
         cam.update();
         
         //draw tiled map
@@ -153,6 +154,7 @@ public class GameScreen extends AbstractScreen{
         stage.act(delta);
         stage.draw();
         
+        
     }
 
     
@@ -171,6 +173,20 @@ public class GameScreen extends AbstractScreen{
                 }
             }, 
             600
+        );
+    }
+    
+    public void playerBounce() {
+        player.getBody().applyLinearImpulse(0, 640/PPM, 0, 0, true);
+        player.updateTexture(true);
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    player.updateTexture(false);
+                }
+            }, 
+            800
         );
     }
     
@@ -193,6 +209,14 @@ public class GameScreen extends AbstractScreen{
         }
         if(Gdx.input.isKeyPressed(Keys.Z) && contactManager.playerCanJump()){
             playerJump();
+        }
+        
+    }
+    
+    
+    public void handleContact(){
+        if (contactManager.isBouncy()){
+            playerBounce();
         }
     }
 
@@ -217,14 +241,26 @@ public class GameScreen extends AbstractScreen{
         fdef.shape = shape;
         //fdef.filter.categoryBits = PhysicsVariables.BIT_PLAYER;
         //fdef.filter.maskBits = PhysicsVariables.BIT_TERRAIN;
-        float bodyWidth = 22f;
-        float bodyHeight = 44f;
-        shape.setAsBox(bodyWidth/PPM ,bodyHeight/PPM);
+        float bodyWidth = 22f/PPM;
+        float bodyHeight = 44f/PPM;
+        float feetWidth = 14f/PPM;
+        float feetHeight = 14f/PPM;
+        
+        
+        //Create player shape
+        Vector2[] playerShapeVertices = new Vector2[6];
+        playerShapeVertices[0] = new Vector2(-feetWidth,-bodyHeight);
+        playerShapeVertices[1] = new Vector2(feetWidth,-bodyHeight);
+        playerShapeVertices[2] = new Vector2(bodyWidth,-bodyHeight+feetHeight);
+        playerShapeVertices[3] = new Vector2(bodyWidth,bodyHeight);
+        playerShapeVertices[4] = new Vector2(-bodyWidth,bodyHeight);
+        playerShapeVertices[5] = new Vector2(-bodyWidth,-bodyHeight+feetHeight);
+        shape.set(playerShapeVertices);
+        //shape.setAsBox(bodyWidth, bodyHeight);
         body.createFixture(fdef).setUserData("player");
         
-        
         //create foot sensor
-        shape.setAsBox((bodyWidth-10)/PPM ,3/PPM, new Vector2(0, -bodyHeight /PPM),0);
+        shape.setAsBox(feetWidth,feetHeight/2, new Vector2(0, -bodyHeight),0);
         fdef.isSensor=true;
         body.createFixture(fdef).setUserData("foot");
         
@@ -259,47 +295,63 @@ public class GameScreen extends AbstractScreen{
                 bdef.position.set((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM); //centered at center
                 
                 ChainShape cs = new ChainShape();
-                float padding = 2f;
+                FixtureDef fd = new FixtureDef();
                 
-                
-                float fric;
+                float box2dTileSize=tileSize/PPM;
                 if(cell.getTile().getProperties().get("slide_left")!=null){
                     //to link the cell edges
                     Vector2[] v = new Vector2[4];
-                    v[0] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
-                    v[1] = new Vector2((tileSize-padding)  / 2 / PPM,(tileSize-padding)  / 2 / PPM);//top right corner
-                    v[2] = new Vector2((tileSize-padding) / 2 / PPM, (-tileSize+padding)  / 2 / PPM);//bottom right corner
-                    v[3] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    v[0] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    v[1] = new Vector2(box2dTileSize/2,box2dTileSize/2);//top right corner
+                    v[2] = new Vector2(box2dTileSize/2, -box2dTileSize/2);//bottom right corner
+                    v[3] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
                     cs.createChain(v);
-                    fric=0.5f;
+                    fd.friction = 0.8f;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    world.createBody(bdef).createFixture(fd);
                 }else if(cell.getTile().getProperties().get("slide_right")!=null){
                     //to link the cell edges
                     Vector2[] v = new Vector2[4];
-                    v[0] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
-                    v[1] = new Vector2((-tileSize+padding)  / 2 / PPM, (tileSize-padding) / 2 / PPM);//top left corner
-                    v[2] = new Vector2((tileSize-padding) / 2 / PPM, (-tileSize+padding)  / 2 / PPM);//bottom right corner
-                    v[3] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    v[0] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize/2, box2dTileSize/2);//top left corner
+                    v[2] = new Vector2(box2dTileSize/2, -box2dTileSize/2);//bottom right corner
+                    v[3] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
                     cs.createChain(v);
-                    fric=0.5f;
+                    fd.friction = 0.8f;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    world.createBody(bdef).createFixture(fd);
+                }else if(cell.getTile().getProperties().get("bounce")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[5];
+                    v[0] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize/2, box2dTileSize/9);//top left corner
+                    v[2] = new Vector2(box2dTileSize/2, box2dTileSize/9);//top right corner
+                    v[3] = new Vector2(box2dTileSize/2 , -box2dTileSize/2);//bottom right corner
+                    v[4] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    cs.createChain(v);
+                    fd.friction = 0;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    world.createBody(bdef).createFixture(fd).setUserData("bounce");
                 }else{
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
-                    v[1] = new Vector2((-tileSize+padding)  / 2 / PPM, (tileSize-padding) / 2 / PPM);//top left corner
-                    v[2] = new Vector2((tileSize-padding)  / 2 / PPM,(tileSize-padding)  / 2 / PPM);//top right corner
-                    v[3] = new Vector2((tileSize-padding) / 2 / PPM, (-tileSize+padding)  / 2 / PPM);//bottom right corner
-                    v[4] = new Vector2((-tileSize+padding) / 2 / PPM, (-tileSize+padding) / 2 / PPM);//bottom left corner
+                    v[0] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize/2, box2dTileSize/2);//top left corner
+                    v[2] = new Vector2(box2dTileSize/2, box2dTileSize/2);//top right corner
+                    v[3] = new Vector2(box2dTileSize/2 , -box2dTileSize/2);//bottom right corner
+                    v[4] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
                     cs.createChain(v);
-                    fric=0;
+                    fd.friction = 0;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    world.createBody(bdef).createFixture(fd);
                 }
                 
-                FixtureDef fd = new FixtureDef();
-                fd.friction = fric;
-                fd.shape = cs;
-                fd.isSensor=false;
-                //fd.filter.categoryBits = PhysicsVariables.BIT_TERRAIN;    
-                //fd.filter.maskBits = PhysicsVariables.BIT_BALL | PhysicsVariables.BIT_PLAYER;
-                world.createBody(bdef).createFixture(fd);
+                
+                
                 cs.dispose();
             }
         }
