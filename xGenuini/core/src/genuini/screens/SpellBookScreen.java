@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
+import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 
 /**
@@ -24,11 +25,9 @@ import static genuini.main.MainGame.V_WIDTH;
 public class SpellBookScreen extends AbstractScreen{
     /*************************Button****************************************/
     private TextButton menuButton;
+    private final int buttonWidth;
+    private final int buttonHeight;
     /*************************Tile****************************************/
-    private TiledMap map;
-    private TiledMapRenderer tmr;
-    private int tileMapWidth;
-    private int tileMapHeight;
     private float tileSize;
     
     /**
@@ -39,7 +38,9 @@ public class SpellBookScreen extends AbstractScreen{
      */
     public SpellBookScreen(){
         super();
-        menuButton = new TextButton("Menu", skin); // Use the initialized skin
+        buttonWidth=V_WIDTH/6;
+        buttonHeight=V_HEIGHT/10;
+        super.createButtonSkin(buttonWidth,buttonHeight); 
     }
     
     /**
@@ -53,7 +54,7 @@ public class SpellBookScreen extends AbstractScreen{
       menuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+               ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
             }
         });
     }
@@ -65,8 +66,8 @@ public class SpellBookScreen extends AbstractScreen{
      */
     @Override
     public void buildStage() {
-        menuButton=new TextButton("Menu", skin);
-        menuButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*3);
+        menuButton = new TextButton("Menu", skin); // Use the initialized skin
+        menuButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/3+10);
         stage.addActor(menuButton);
     }
     
