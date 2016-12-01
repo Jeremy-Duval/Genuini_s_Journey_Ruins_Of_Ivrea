@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
@@ -21,14 +22,13 @@ import static genuini.main.MainGame.V_WIDTH;
  * @since 29/11/2016
  * @author jeremy
  */
-public class SpellBookScreen extends AbstractScreen implements TextInputListener{
+public class SpellBookScreen extends AbstractScreen{
     /*************************Button****************************************/
     private TextButton menuButton;
     private final int buttonWidth;
     private final int buttonHeight;
-    /*************************Tile****************************************/
-    private float tileSize;
-    
+    /*************************Text area****************************************/
+    private TextField codeField;
     
     
     /**
@@ -60,6 +60,20 @@ public class SpellBookScreen extends AbstractScreen implements TextInputListener
                ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
             }
         });
+      
+      Gdx.input.getTextInput(new TextInputListener(){
+
+          @Override
+          public void input(String text) {
+              throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          }
+
+          @Override
+          public void canceled() {
+              throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          }
+          
+      }, "Arduino area", "Enter your code", "");
     }
     
     /**
@@ -71,7 +85,7 @@ public class SpellBookScreen extends AbstractScreen implements TextInputListener
     @Override
     public void buildStage() {
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
-        menuButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/3+10);
+        menuButton.setPosition((V_WIDTH-buttonWidth)/8 , (V_HEIGHT+buttonHeight)/2);
         stage.addActor(menuButton);
     }
     
@@ -87,7 +101,7 @@ public class SpellBookScreen extends AbstractScreen implements TextInputListener
         super.render(delta);
         /*draw*/
         batch.begin();
-        batch.draw(background,0,0);
+        //batch.draw(background,0,0);
         /*TODO :
         *Draw screen (change background)
         *Draw font in an specific area
@@ -101,6 +115,8 @@ public class SpellBookScreen extends AbstractScreen implements TextInputListener
     /**
      * Unmodify overrided function.
      * Override of AbstractScreen.
+     * @param width
+     * @param height
      * @since 29/11/2016
      * @author jeremy
      */
@@ -165,29 +181,5 @@ public class SpellBookScreen extends AbstractScreen implements TextInputListener
         if(Gdx.input.isKeyPressed(Input.Keys.Z)){
         }
         
-    }
-    
-    /*********************Override of TextInputListener************************/
-    
-    /**
-     * 
-     * Override of TextInputListener.
-     * @since 29/11/2016
-     * @author jeremy
-     */
-    @Override
-    public void input(String text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    /**
-     * 
-     * Override of TextInputListener.
-     * @since 29/11/2016
-     * @author jeremy
-     */
-    @Override
-    public void canceled() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
