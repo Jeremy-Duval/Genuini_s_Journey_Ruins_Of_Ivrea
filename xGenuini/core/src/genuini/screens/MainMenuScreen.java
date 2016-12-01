@@ -23,7 +23,6 @@ public class MainMenuScreen extends AbstractScreen{
 
     private TextButton newGameButton;
     private TextButton quitButton;
-    private TextButton spellBookScreenButton;
     private final int buttonWidth;
     private final int buttonHeight;
     
@@ -39,12 +38,9 @@ public class MainMenuScreen extends AbstractScreen{
         batch = new SpriteBatch();
         newGameButton = new TextButton("Jouer", skin); // Use the initialized skin
         quitButton = new TextButton("Quitter", skin);
-        spellBookScreenButton = new TextButton("Grimoire", skin);
         
-        spellBookScreenButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/3+10);
-        newGameButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/3+90);
-        quitButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT-buttonHeight)/3-30);
-        stage.addActor(spellBookScreenButton);
+        newGameButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/2+10);
+        quitButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT-buttonHeight)/2-10);
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
     }
@@ -64,13 +60,6 @@ public class MainMenuScreen extends AbstractScreen{
             public void clicked(InputEvent event, float x, float y) {
                prefs.save();
                Gdx.app.exit();
-            }
-        });
-      
-      spellBookScreenButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen( ScreenEnum.SPELLBOOK);
             }
         });
     }

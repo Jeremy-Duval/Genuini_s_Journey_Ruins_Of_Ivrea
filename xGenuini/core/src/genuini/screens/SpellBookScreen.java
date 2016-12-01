@@ -7,8 +7,7 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -22,7 +21,7 @@ import static genuini.main.MainGame.V_WIDTH;
  * @since 29/11/2016
  * @author jeremy
  */
-public class SpellBookScreen extends AbstractScreen{
+public class SpellBookScreen extends AbstractScreen implements TextInputListener{
     /*************************Button****************************************/
     private TextButton menuButton;
     private final int buttonWidth;
@@ -30,9 +29,12 @@ public class SpellBookScreen extends AbstractScreen{
     /*************************Tile****************************************/
     private float tileSize;
     
+    
+    
     /**
      * Spell book constructor.
      * Call AbstractScreen constructor and create completrary elements.
+     * Override of AbstractScreen.
      * @since 29/11/2016
      * @author jeremy
      */
@@ -45,6 +47,7 @@ public class SpellBookScreen extends AbstractScreen{
     
     /**
      * Create a listener for the menuButton.
+     * Override of AbstractScreen.
      * @since 29/11/2016
      * @author jeremy
      */
@@ -61,6 +64,7 @@ public class SpellBookScreen extends AbstractScreen{
     
     /**
      * Set the menu button position.
+     * Override of AbstractScreen.
      * @since 29/11/2016
      * @author jeremy
      */
@@ -71,6 +75,13 @@ public class SpellBookScreen extends AbstractScreen{
         stage.addActor(menuButton);
     }
     
+    /**
+     * Render of the screen.
+     * Override of AbstractScreen.
+     * @param delta
+     * @since 29/11/2016
+     * @author jeremy
+     */
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -86,24 +97,54 @@ public class SpellBookScreen extends AbstractScreen{
         stage.draw();
         
     }
-
+    
+    /**
+     * Unmodify overrided function.
+     * Override of AbstractScreen.
+     * @since 29/11/2016
+     * @author jeremy
+     */
     @Override
     public void resize(int width, int height) {
         
     }
-
+    
+    /**
+     * Unmodify overrided function.
+     * Override of AbstractScreen.
+     * @since 29/11/2016
+     * @author jeremy
+     */
     @Override
     public void pause() {
     }
-
+    
+    /**
+     * Unmodify overrided function.
+     * Override of AbstractScreen.
+     * @since 29/11/2016
+     * @author jeremy
+     */
     @Override
     public void resume() {
     }
-
+    
+    /**
+     * Unmodify overrided function.
+     * Override of AbstractScreen.
+     * @since 29/11/2016
+     * @author jeremy
+     */
     @Override
     public void hide() {
     }
-
+    
+    /**
+     * Unmodify overrided function.
+     * Override of AbstractScreen.
+     * @since 29/11/2016
+     * @author jeremy
+     */
     @Override
     public void dispose() {
        super.dispose();
@@ -124,5 +165,29 @@ public class SpellBookScreen extends AbstractScreen{
         if(Gdx.input.isKeyPressed(Input.Keys.Z)){
         }
         
+    }
+    
+    /*********************Override of TextInputListener************************/
+    
+    /**
+     * 
+     * Override of TextInputListener.
+     * @since 29/11/2016
+     * @author jeremy
+     */
+    @Override
+    public void input(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * 
+     * Override of TextInputListener.
+     * @since 29/11/2016
+     * @author jeremy
+     */
+    @Override
+    public void canceled() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

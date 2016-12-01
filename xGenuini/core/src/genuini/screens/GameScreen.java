@@ -57,7 +57,8 @@ public class GameScreen extends AbstractScreen{
     private int tileMapWidth;
     private int tileMapHeight;
     private float tileSize;
-
+    
+    private TextButton spellBookScreenButton;
     private TextButton menuButton;
     
     public GameScreen() {
@@ -106,13 +107,25 @@ public class GameScreen extends AbstractScreen{
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
+        
+        spellBookScreenButton.addListener(new ClickListener(){ //to know if there is a event on this button
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               ScreenManager.getInstance().showScreen( ScreenEnum.SPELLBOOK);
+            }
+        });
     }
     
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skin);
+        spellBookScreenButton = new TextButton("Grimoire", skin);
+        
+        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*1.8f);
         menuButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*3);
+        
         stage.addActor(menuButton);
+        stage.addActor(spellBookScreenButton);
     }
 
 
