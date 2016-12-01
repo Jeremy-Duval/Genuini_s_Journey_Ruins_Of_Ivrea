@@ -7,10 +7,16 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.TextInputListener;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea.TextAreaListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
@@ -28,7 +34,10 @@ public class SpellBookScreen extends AbstractScreen{
     private final int buttonWidth;
     private final int buttonHeight;
     /*************************Text area****************************************/
-    private TextField codeField;
+    private TextArea codeArea;
+    private final int areaWidth;
+    private final int areaHeight;
+    Skin bookSkin;
     
     
     /**
@@ -42,7 +51,10 @@ public class SpellBookScreen extends AbstractScreen{
         super();
         buttonWidth=V_WIDTH/6;
         buttonHeight=V_HEIGHT/10;
-        super.createButtonSkin(buttonWidth,buttonHeight); 
+        super.createButtonSkin(buttonWidth,buttonHeight);
+        areaWidth=V_WIDTH/6;
+        areaHeight=V_HEIGHT/10;
+        createBookSkin(areaWidth,areaHeight);
     }
     
     /**
@@ -61,19 +73,14 @@ public class SpellBookScreen extends AbstractScreen{
             }
         });
       
-      Gdx.input.getTextInput(new TextInputListener(){
+      codeArea.setTextFieldListener(new TextFieldListener() {
 
           @Override
-          public void input(String text) {
-              throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-          }
-
-          @Override
-          public void canceled() {
-              throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          public void keyTyped(TextField textField, char c) {
+              System.out.println("ok");
           }
           
-      }, "Arduino area", "Enter your code", "");
+      });
     }
     
     /**
@@ -84,8 +91,16 @@ public class SpellBookScreen extends AbstractScreen{
      */
     @Override
     public void buildStage() {
+        codeArea = new TextArea("A text", bookSkin);
+        codeArea.setX(10);
+	codeArea.setY(10);
+	codeArea.setWidth(200);
+	codeArea.setHeight(200);
+        
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
         menuButton.setPosition((V_WIDTH-buttonWidth)/8 , (V_HEIGHT+buttonHeight)/2);
+        
+        stage.addActor(codeArea);
         stage.addActor(menuButton);
     }
     
@@ -166,20 +181,26 @@ public class SpellBookScreen extends AbstractScreen{
        super.dispose();
     }
     
-    /**
-     * Define action to do when we use an input key.
-     * @since 29/11/2016
-     * @author jeremy
-     */
-    public void handleInput() {
-        //TODO : if you push a key : concat to a string and always drow the string
-        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
-        }
-        
-    }
+    void createBookSkin(float width, float height){
+        //Create a font
+        bookSkin = new Skin();
+        bookSkin.add("default", font);
+
+        //Create a texture
+        Pixmap pixmap = new Pixmap((int)width,(int)height, Pixmap.Format.RGB888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        bookSkin.add("background",new Texture(pixmap));
+
+        //Create a button style
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.fontColor = Color.FOREST;
+        textFieldStyle.background = bookSkin.newDrawable("background", Color.WHITE);
+        textFieldStyle.cursor = bookSkin.newDrawable("background", Color.BLACK);
+        textFieldStyle.focusedBackground = bookSkin.newDrawable("background", Color.LIGHT_GRAY);
+        textFieldStyle.font = bookSkin.getFont("default");
+        bookSkin.add("default", textFieldStyle);
+
+      }
+
 }

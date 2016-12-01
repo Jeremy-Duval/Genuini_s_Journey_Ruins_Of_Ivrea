@@ -77,6 +77,7 @@ public class AbstractScreen extends Stage implements Screen {
         stage.dispose();
         batch.dispose();
     }
+    
     void createButtonSkin(float width, float height){
         //Create a font
 
