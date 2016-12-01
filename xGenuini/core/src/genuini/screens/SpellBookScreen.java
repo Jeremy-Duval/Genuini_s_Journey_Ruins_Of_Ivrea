@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
@@ -37,6 +38,7 @@ public class SpellBookScreen extends AbstractScreen{
     private TextArea codeArea;
     private final int areaWidth;
     private final int areaHeight;
+    BitmapFont bookFont;
     Skin bookSkin;
     
     
@@ -49,12 +51,14 @@ public class SpellBookScreen extends AbstractScreen{
      */
     public SpellBookScreen(){
         super();
-        buttonWidth=V_WIDTH/6;
-        buttonHeight=V_HEIGHT/10;
+        buttonWidth=V_WIDTH/15;
+        buttonHeight=V_HEIGHT/20;
         super.createButtonSkin(buttonWidth,buttonHeight);
         areaWidth=V_WIDTH/6;
         areaHeight=V_HEIGHT/10;
+        bookFont = new BitmapFont();
         createBookSkin(areaWidth,areaHeight);
+        background = new Texture("img/book/SpellBookWrite.png");
     }
     
     /**
@@ -77,7 +81,6 @@ public class SpellBookScreen extends AbstractScreen{
 
           @Override
           public void keyTyped(TextField textField, char c) {
-              System.out.println("ok");
           }
           
       });
@@ -91,14 +94,14 @@ public class SpellBookScreen extends AbstractScreen{
      */
     @Override
     public void buildStage() {
-        codeArea = new TextArea("A text", bookSkin);
-        codeArea.setX(10);
-	codeArea.setY(10);
-	codeArea.setWidth(200);
-	codeArea.setHeight(200);
+        codeArea = new TextArea("Entrez votre code Arduino", bookSkin);
+        codeArea.setX(V_WIDTH/7+10);
+	codeArea.setY(55);
+	codeArea.setWidth(450);
+	codeArea.setHeight(580);
         
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
-        menuButton.setPosition((V_WIDTH-buttonWidth)/8 , (V_HEIGHT+buttonHeight)/2);
+        menuButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
         
         stage.addActor(codeArea);
         stage.addActor(menuButton);
@@ -116,7 +119,7 @@ public class SpellBookScreen extends AbstractScreen{
         super.render(delta);
         /*draw*/
         batch.begin();
-        //batch.draw(background,0,0);
+        batch.draw(background,V_WIDTH/8,0);
         /*TODO :
         *Draw screen (change background)
         *Draw font in an specific area
@@ -194,10 +197,11 @@ public class SpellBookScreen extends AbstractScreen{
 
         //Create a button style
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.fontColor = Color.FOREST;
-        textFieldStyle.background = bookSkin.newDrawable("background", Color.WHITE);
-        textFieldStyle.cursor = bookSkin.newDrawable("background", Color.BLACK);
-        textFieldStyle.focusedBackground = bookSkin.newDrawable("background", Color.LIGHT_GRAY);
+        textFieldStyle.fontColor = Color.GOLDENROD;
+        textFieldStyle.background = bookSkin.newDrawable("background", Color.CLEAR);
+        textFieldStyle.focusedBackground = bookSkin.newDrawable("background", Color.CLEAR);
+        textFieldStyle.cursor = bookSkin.newDrawable("background", Color.DARK_GRAY);
+        textFieldStyle.cursor.setMinWidth(1f);
         textFieldStyle.font = bookSkin.getFont("default");
         bookSkin.add("default", textFieldStyle);
 
