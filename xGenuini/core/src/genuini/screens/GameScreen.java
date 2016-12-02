@@ -216,13 +216,13 @@ public class GameScreen extends AbstractScreen{
     }
         
     public void handleInput() {
-        if(Gdx.input.isKeyPressed(Keys.Q)){
+        if((Gdx.input.isKeyPressed(Keys.Q))||(Gdx.input.isKeyPressed(Keys.LEFT))){
             playerMoveLeft();
         }
-        if(Gdx.input.isKeyPressed(Keys.D)){
+        if((Gdx.input.isKeyPressed(Keys.D))||(Gdx.input.isKeyPressed(Keys.RIGHT))){
             playerMoveRight();
         }
-        if(Gdx.input.isKeyPressed(Keys.Z) && contactManager.playerCanJump()){
+        if(((Gdx.input.isKeyPressed(Keys.Z))||(Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()){
             playerJump();
         }
         
