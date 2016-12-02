@@ -26,7 +26,7 @@ import static genuini.main.MainGame.V_WIDTH;
 
 /**
  * Defined the spell book screen
- * @since 29/11/2016
+ * @since 01/12/2016
  * @author jeremy
  */
 public class SpellBookScreen extends AbstractScreen{
@@ -46,7 +46,7 @@ public class SpellBookScreen extends AbstractScreen{
      * Spell book constructor.
      * Call AbstractScreen constructor and create completrary elements.
      * Override of AbstractScreen.
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     public SpellBookScreen(){
@@ -64,7 +64,7 @@ public class SpellBookScreen extends AbstractScreen{
     /**
      * Create a listener for the menuButton.
      * Override of AbstractScreen.
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -89,7 +89,7 @@ public class SpellBookScreen extends AbstractScreen{
     /**
      * Set the menu button position.
      * Override of AbstractScreen.
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -111,7 +111,7 @@ public class SpellBookScreen extends AbstractScreen{
      * Render of the screen.
      * Override of AbstractScreen.
      * @param delta
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -135,7 +135,7 @@ public class SpellBookScreen extends AbstractScreen{
      * Override of AbstractScreen.
      * @param width
      * @param height
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -146,7 +146,7 @@ public class SpellBookScreen extends AbstractScreen{
     /**
      * Unmodify overrided function.
      * Override of AbstractScreen.
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -156,7 +156,7 @@ public class SpellBookScreen extends AbstractScreen{
     /**
      * Unmodify overrided function.
      * Override of AbstractScreen.
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -166,7 +166,7 @@ public class SpellBookScreen extends AbstractScreen{
     /**
      * Unmodify overrided function.
      * Override of AbstractScreen.
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -176,7 +176,7 @@ public class SpellBookScreen extends AbstractScreen{
     /**
      * Unmodify overrided function.
      * Override of AbstractScreen.
-     * @since 29/11/2016
+     * @since 01/12/2016
      * @author jeremy
      */
     @Override
@@ -185,7 +185,11 @@ public class SpellBookScreen extends AbstractScreen{
        bookSkin.dispose();
        super.dispose();
     }
-    
+    /**
+     * Create a skin for the spell book in the background.
+     * @since 01/12/2016
+     * @author jeremy
+     */
     void createBookSkin(float width, float height){
         //Create a font
         bookSkin = new Skin();

@@ -78,6 +78,7 @@ public class GameScreen extends AbstractScreen{
         createTiles();
         
         super.createButtonSkin(tileSize*1.6f,tileSize/2);
+        super.createBookButtonSkin(tileSize*1.6f,tileSize/2);
         
         /* DEBUG */
         if(debug) {
@@ -119,9 +120,10 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skin);
-        spellBookScreenButton = new TextButton("Grimoire", skin);
+        spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
         
-        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*1.8f);
+        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1.3f, tileSize*1.8f);
+        spellBookScreenButton.setSize(tileSize, tileSize);
         menuButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*3);
         
         stage.addActor(menuButton);

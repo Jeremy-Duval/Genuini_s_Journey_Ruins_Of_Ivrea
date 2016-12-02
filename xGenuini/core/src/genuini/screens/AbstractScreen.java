@@ -28,8 +28,10 @@ import genuini.main.MainGame;
 public class AbstractScreen extends Stage implements Screen {
     
     Texture background;
+    Texture textureBookButton;
     Stage stage;
     Skin skin;
+    Skin bookButtonSkin;
     BitmapFont font;
     SpriteBatch batch;
     PreferencesManager prefs;
@@ -40,7 +42,8 @@ public class AbstractScreen extends Stage implements Screen {
         stage = new Stage();
         font = new BitmapFont();
         batch=new SpriteBatch();
-        background = new Texture("background.jpg");     
+        background = new Texture("background.jpg");   
+        textureBookButton = new Texture("img/book/redbook.png");
     }
  
     // Subclasses must load actors in this method
@@ -72,6 +75,7 @@ public class AbstractScreen extends Stage implements Screen {
     @Override
     public void dispose(){
         skin.dispose();
+        //bookButtonSkin.dispose();
         background.dispose();
         font.dispose();
         stage.dispose();
@@ -98,6 +102,30 @@ public class AbstractScreen extends Stage implements Screen {
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
+
+      }
+    
+    /**
+     * Create a skin for the spell book button.
+     * @since 01/12/2016
+     * @author jeremy
+     */
+    void createBookButtonSkin(float width, float height){
+        //Create a font
+
+        bookButtonSkin = new Skin();
+        bookButtonSkin.add("default", font);
+
+        bookButtonSkin.add("textureBookButton",textureBookButton);
+
+        //Create a button style
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = bookButtonSkin.newDrawable("textureBookButton", Color.GRAY);
+        textButtonStyle.down = bookButtonSkin.newDrawable("textureBookButton", Color.DARK_GRAY);
+        textButtonStyle.checked = bookButtonSkin.newDrawable("textureBookButton", Color.DARK_GRAY);
+        textButtonStyle.over = bookButtonSkin.newDrawable("textureBookButton", Color.LIGHT_GRAY);
+        textButtonStyle.font = bookButtonSkin.getFont("default");
+        bookButtonSkin.add("default", textButtonStyle);
 
       }
 }
