@@ -292,7 +292,7 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void dispose() {
         super.dispose();
-        font.dispose();
+        //font.dispose();
         world.dispose();
         map.dispose();
     }

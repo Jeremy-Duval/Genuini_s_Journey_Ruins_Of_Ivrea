@@ -72,7 +72,7 @@ public class MainMenuScreen extends AbstractScreen{
         batch.draw(background,0,0);
         batch.draw(connectArduino, 50, 600);
         if(connected)
-            font.draw(batch, arduinoPort.toString(), 50, 550);
+            font.draw(batch, "Le port est " + arduinoPort.toString(), 50, 550);
         batch.end();
         stage.act(delta);
         stage.draw();
