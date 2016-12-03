@@ -14,12 +14,16 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import genuini.arduino.SerialTest;
+import genuini.arduino.UnobtainableComPortException;
 import genuini.handlers.PreferencesManager;
 import genuini.main.MainGame;
+import gnu.io.SerialPort;
 
 /**
  *
@@ -28,19 +32,55 @@ import genuini.main.MainGame;
 public class AbstractScreen extends Stage implements Screen {
     
     Texture background;
+    SerialTest arduinoInstance; //Arduino Connection
+    SerialPort arduinoPort; //Port Use
+    static boolean connected = false;// arduino connected or no
+    Texture connectArduino; //image of arduino connected
+    Texture textureBookButton;
     Stage stage;
     Skin skin;
+    Skin bookButtonSkin;
     BitmapFont font;
     SpriteBatch batch;
     PreferencesManager prefs;
     
-    protected AbstractScreen() {
+    //Freetype init
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Action_Man.ttf"));
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    
+
+    
+    protected AbstractScreen(){
         super( new StretchViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera()) );
         prefs = new PreferencesManager();
         stage = new Stage();
-        font = new BitmapFont();
         batch=new SpriteBatch();
-        background = new Texture("background.jpg");     
+ 
+        textureBookButton = new Texture("img/book/redbook.png");
+        background = new Texture("background.jpg");
+        
+        //define the .ttf font
+        parameter.size = 12; //set the font size: 12px
+        parameter.color = Color.YELLOW; //set the color size
+        parameter.borderColor = Color.BLACK; //set the color of the border
+        parameter.borderWidth = 3; //set the width of the border
+        font = generator.generateFont(parameter); //set the font size: 12px
+        generator.dispose(); // free memory space
+        
+        connectArduino = new Texture("img/arduinoconnected.png");
+        
+       if(!connected){ 
+        //connection with SerialTest class
+        arduinoInstance = new SerialTest();
+        try{
+        connected = true;
+        arduinoPort  = arduinoInstance.initialize();
+        }catch(UnobtainableComPortException e){
+            connected = false;
+            System.out.println(e.getMessage());
+            connectArduino = new Texture("img/errorarduino.png");
+        }
+       }
     }
  
     // Subclasses must load actors in this method
@@ -72,11 +112,13 @@ public class AbstractScreen extends Stage implements Screen {
     @Override
     public void dispose(){
         skin.dispose();
+        //bookButtonSkin.dispose();
         background.dispose();
-        font.dispose();
         stage.dispose();
         batch.dispose();
+        connectArduino.dispose();
     }
+    
     void createButtonSkin(float width, float height){
         //Create a font
 
@@ -97,6 +139,30 @@ public class AbstractScreen extends Stage implements Screen {
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
+
+      }
+    
+    /**
+     * Create a skin for the spell book button.
+     * @since 01/12/2016
+     * @author jeremy
+     */
+    void createBookButtonSkin(float width, float height){
+        //Create a font
+
+        bookButtonSkin = new Skin();
+        bookButtonSkin.add("default", font);
+
+        bookButtonSkin.add("textureBookButton",textureBookButton);
+
+        //Create a button style
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = bookButtonSkin.newDrawable("textureBookButton", Color.GRAY);
+        textButtonStyle.down = bookButtonSkin.newDrawable("textureBookButton", Color.DARK_GRAY);
+        textButtonStyle.checked = bookButtonSkin.newDrawable("textureBookButton", Color.DARK_GRAY);
+        textButtonStyle.over = bookButtonSkin.newDrawable("textureBookButton", Color.LIGHT_GRAY);
+        textButtonStyle.font = bookButtonSkin.getFont("default");
+        bookButtonSkin.add("default", textButtonStyle);
 
       }
 }
