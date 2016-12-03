@@ -7,6 +7,10 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -24,8 +28,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import genuini.entities.Player;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
@@ -36,6 +43,7 @@ import genuini.handlers.TextManager;
 import genuini.main.MainGame;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
+import java.util.Timer;
 
 
 
@@ -61,9 +69,15 @@ public class GameScreen extends AbstractScreen{
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
     
+    
+    //Starting text "Hey, my name is Genuini"
+    private int textChoice = 10;
+
+
+    
     public GameScreen() {
         super();
-         
+        
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
@@ -92,6 +106,18 @@ public class GameScreen extends AbstractScreen{
         //create player
         createPlayer();
         cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
+        
+        
+        /*text time*/
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    textChoice = 0;
+                }
+            }, 
+            4000
+        );   
         
     }
     
@@ -157,6 +183,20 @@ public class GameScreen extends AbstractScreen{
         batch.begin();
         //spriteBatch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
         //TextManager.Draw("FPS: ",cam);
+        
+        if(textChoice == 10){
+            font.draw(batch, "Hey, my name is Genuini",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+        }else if(textChoice==0){
+            font.draw(batch, "Make me jump with Z",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+        }else if(textChoice==1){
+            font.draw(batch, "Well done, now to the right pushing D",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+        }else if(textChoice==2){
+            font.draw(batch, "Nice, Can we go to the left please with Q",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+        }else if(textChoice==3){
+            font.draw(batch, "Let's Play !",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+        }
+        
+        batch.draw(connectArduino,player.getPosition().x * PPM - 270 , Gdx.graphics.getHeight()-100);
         batch.end();
         
         
@@ -168,7 +208,6 @@ public class GameScreen extends AbstractScreen{
         
         stage.act(delta);
         stage.draw();
-        
         
     }
 
@@ -216,14 +255,29 @@ public class GameScreen extends AbstractScreen{
     }
         
     public void handleInput() {
-        if((Gdx.input.isKeyPressed(Keys.Q))||(Gdx.input.isKeyPressed(Keys.LEFT))){
+        if(Gdx.input.isKeyPressed(Keys.Q)||Gdx.input.isKeyPressed(Keys.LEFT)){
+            if(textChoice!=0 && textChoice!=1 && textChoice!=10){
             playerMoveLeft();
+            if(textChoice==2){
+                textChoice = 3; 
+                deleteTexture();
+            }
+            }
         }
-        if((Gdx.input.isKeyPressed(Keys.D))||(Gdx.input.isKeyPressed(Keys.RIGHT))){
+
+        if(Gdx.input.isKeyPressed(Keys.D) ||(Gdx.input.isKeyPressed(Keys.RIGHT))){
+            if(textChoice!=0 && textChoice!=10){
             playerMoveRight();
+            if(textChoice==1)
+                textChoice = 2;
+            }
         }
-        if(((Gdx.input.isKeyPressed(Keys.Z))||(Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()){
+
+        if(Gdx.input.isKeyPressed(Keys.Z) ||(Gdx.input.isKeyPressed(Keys.UP)) && contactManager.playerCanJump()){
+           if(textChoice!=10)
             playerJump();
+            if(textChoice==0)
+                textChoice = 1;
         }
         
     }
@@ -238,6 +292,7 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void dispose() {
         super.dispose();
+        //font.dispose();
         world.dispose();
         map.dispose();
     }
@@ -281,6 +336,19 @@ public class GameScreen extends AbstractScreen{
         
         //Create player entity
         player = new Player(body);    
+    }
+    
+    private void deleteTexture(){
+        //delete "let's play text"
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                        textChoice = 4;
+                }
+            }, 
+            4000
+        );
     }
     
     private void createTiles(){
