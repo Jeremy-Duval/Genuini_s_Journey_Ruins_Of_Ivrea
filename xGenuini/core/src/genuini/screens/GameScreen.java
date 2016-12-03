@@ -65,7 +65,8 @@ public class GameScreen extends AbstractScreen{
     private int tileMapWidth;
     private int tileMapHeight;
     private float tileSize;
-
+    
+    private TextButton spellBookScreenButton;
     private TextButton menuButton;
     
     
@@ -91,6 +92,7 @@ public class GameScreen extends AbstractScreen{
         createTiles();
         
         super.createButtonSkin(tileSize*1.6f,tileSize/2);
+        super.createBookButtonSkin(tileSize*1.6f,tileSize/2);
         
         /* DEBUG */
         if(debug) {
@@ -132,13 +134,26 @@ public class GameScreen extends AbstractScreen{
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
+        
+        spellBookScreenButton.addListener(new ClickListener(){ //to know if there is a event on this button
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               ScreenManager.getInstance().showScreen( ScreenEnum.SPELLBOOK);
+            }
+        });
     }
     
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skin);
+        spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
+        
+        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1f, tileSize*1.8f);
+        spellBookScreenButton.setSize(tileSize, tileSize);
         menuButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*3);
+        
         stage.addActor(menuButton);
+        stage.addActor(spellBookScreenButton);
     }
 
 
@@ -240,7 +255,7 @@ public class GameScreen extends AbstractScreen{
     }
         
     public void handleInput() {
-        if(Gdx.input.isKeyPressed(Keys.Q)){
+        if(Gdx.input.isKeyPressed(Keys.Q)||Gdx.input.isKeyPressed(Keys.LEFT)){
             if(textChoice!=0 && textChoice!=1 && textChoice!=10){
             playerMoveLeft();
             if(textChoice==2){
@@ -249,14 +264,16 @@ public class GameScreen extends AbstractScreen{
             }
             }
         }
-        if(Gdx.input.isKeyPressed(Keys.D)){
+
+        if(Gdx.input.isKeyPressed(Keys.D) ||(Gdx.input.isKeyPressed(Keys.RIGHT))){
             if(textChoice!=0 && textChoice!=10){
             playerMoveRight();
             if(textChoice==1)
                 textChoice = 2;
             }
         }
-        if(Gdx.input.isKeyPressed(Keys.Z) && contactManager.playerCanJump()){
+
+        if(Gdx.input.isKeyPressed(Keys.Z) ||(Gdx.input.isKeyPressed(Keys.UP)) && contactManager.playerCanJump()){
            if(textChoice!=10)
             playerJump();
             if(textChoice==0)
