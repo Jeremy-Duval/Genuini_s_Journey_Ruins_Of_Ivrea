@@ -9,6 +9,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -65,9 +67,9 @@ public class GameScreen extends AbstractScreen{
     private float tileSize;
 
     private TextButton menuButton;
-    private BitmapFont white;
     
-    //texte initial "coucou je m'appelle genuini"
+    
+    //Starting text "Hey, my name is Genuini"
     private int textChoice = 10;
 
 
@@ -103,9 +105,6 @@ public class GameScreen extends AbstractScreen{
         createPlayer();
         cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
         
-        //écriture du texte
-        font = new BitmapFont();
-        font.setColor(Color.RED);
         
         /*text time*/
         new java.util.Timer().schedule( 
@@ -171,7 +170,7 @@ public class GameScreen extends AbstractScreen{
         //TextManager.Draw("FPS: ",cam);
         
         if(textChoice == 10){
-            font.draw(batch, "Coucou je m'appelle Genuini",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+            font.draw(batch, "Hey, my name is Genuini",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
         }else if(textChoice==0){
             font.draw(batch, "Make me jump with Z",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
         }else if(textChoice==1){
@@ -180,9 +179,9 @@ public class GameScreen extends AbstractScreen{
             font.draw(batch, "Nice, Can we go to the left please with Q",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
         }else if(textChoice==3){
             font.draw(batch, "Let's Play !",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
-        }else{
-            font.dispose();
         }
+        
+        batch.draw(connectArduino,player.getPosition().x * PPM - 270 , Gdx.graphics.getHeight()-100);
         batch.end();
         
         
@@ -242,7 +241,7 @@ public class GameScreen extends AbstractScreen{
         
     public void handleInput() {
         if(Gdx.input.isKeyPressed(Keys.Q)){
-            if(textChoice!=0 && textChoice!=1){
+            if(textChoice!=0 && textChoice!=1 && textChoice!=10){
             playerMoveLeft();
             if(textChoice==2){
                 textChoice = 3; 
@@ -251,13 +250,14 @@ public class GameScreen extends AbstractScreen{
             }
         }
         if(Gdx.input.isKeyPressed(Keys.D)){
-            if(textChoice!=0){
+            if(textChoice!=0 && textChoice!=10){
             playerMoveRight();
             if(textChoice==1)
                 textChoice = 2;
             }
         }
         if(Gdx.input.isKeyPressed(Keys.Z) && contactManager.playerCanJump()){
+           if(textChoice!=10)
             playerJump();
             if(textChoice==0)
                 textChoice = 1;
@@ -275,6 +275,7 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void dispose() {
         super.dispose();
+        font.dispose();
         world.dispose();
         map.dispose();
     }
