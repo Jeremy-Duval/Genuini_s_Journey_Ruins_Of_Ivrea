@@ -1,5 +1,5 @@
 language: java
-sudo: false # faster builds
+sudo: true # faster builds
 jdk:
   - oraclejdk7
   - openjdk7
@@ -12,6 +12,8 @@ branches:
 before_install:
   - cd xGenuini
   - chmod +x gradlew
+  
+install: true
 
 script:
   - ./gradlew clean compile
