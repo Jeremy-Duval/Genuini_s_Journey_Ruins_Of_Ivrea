@@ -11,9 +11,7 @@ branches:
 
 before_install:
   - sudo apt-get install librxtx-java
-  - cd /usr/lib/jni
-  - ls
-  - cd /usr/lib/jvm
+  - cd /usr/lib/jvm/java-7-oracle
   - ls
   - cd xGenuini
   - chmod +x gradlew
