@@ -12,8 +12,6 @@ branches:
 before_install:
   - cd xGenuini
   - chmod +x gradlew
-  
-install: true
 
 script:
   - ./gradlew clean compile
