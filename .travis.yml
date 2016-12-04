@@ -1,5 +1,5 @@
 language: java
-sudo: true # faster builds
+sudo: false # faster builds
 jdk:
   - oraclejdk7
   - openjdk7
