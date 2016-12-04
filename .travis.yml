@@ -13,5 +13,8 @@ before_install:
   - cd xGenuini
   - chmod +x gradlew
 
+script:
+  - ./gradlew clean compile
+
 notifications:
   email: false
