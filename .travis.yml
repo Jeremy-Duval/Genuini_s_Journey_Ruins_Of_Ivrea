@@ -11,6 +11,12 @@ branches:
 
 before_install:
   - sudo apt-get install librxtx-java
+  - cd /usr/lib
+  - ls
+  - cd /opt/
+  - ls
+  - sudo cp /usr/lib/jni/librxtxSerial.so /opt/java/jre/lib/i386/librxtxSerial.so
+  - sudo cp /usr/lib/jni/librxtxParallel.so /opt/java/jre/lib/i386/librxtxParallel.so
   - cd xGenuini
   - chmod +x gradlew
 
