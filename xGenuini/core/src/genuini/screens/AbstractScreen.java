@@ -44,7 +44,7 @@ public class AbstractScreen extends Stage implements Screen {
     SpriteBatch batch;
     PreferencesManager prefs;
     
-    //Freetype init
+    
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Action_Man.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
     
@@ -58,6 +58,7 @@ public class AbstractScreen extends Stage implements Screen {
  
         textureBookButton = new Texture("img/book/redbook.png");
         background = new Texture("background.jpg");
+        
         
         //define the .ttf font
         parameter.size = 12; //set the font size: 12px

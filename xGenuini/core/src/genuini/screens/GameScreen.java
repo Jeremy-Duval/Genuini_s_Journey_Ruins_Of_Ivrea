@@ -7,16 +7,14 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -28,11 +26,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import genuini.entities.Player;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
@@ -43,7 +38,6 @@ import genuini.handlers.TextManager;
 import genuini.main.MainGame;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
-import java.util.Timer;
 
 
 
@@ -183,17 +177,24 @@ public class GameScreen extends AbstractScreen{
         batch.begin();
         //spriteBatch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
         //TextManager.Draw("FPS: ",cam);
-        
-        if(textChoice == 10){
-            font.draw(batch, "Hey, my name is Genuini",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
-        }else if(textChoice==0){
-            font.draw(batch, "Make me jump with Z",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
-        }else if(textChoice==1){
-            font.draw(batch, "Well done, now to the right pushing D",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
-        }else if(textChoice==2){
-            font.draw(batch, "Nice, Can we go to the left please with Q",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
-        }else if(textChoice==3){
-            font.draw(batch, "Let's Play !",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+        switch (textChoice) {
+            case 10:
+                font.draw(batch, "Hey, my name is Genuini",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+                break;
+            case 0:
+                font.draw(batch, "Make me jump with Z",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+                break;
+            case 1:
+                font.draw(batch, "Well done, now to the right pushing D",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+                break;
+            case 2:
+                font.draw(batch, "Nice, Can we go to the left please with Q",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+                break;
+            case 3:
+                font.draw(batch, "Let's Play !",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
+                break;
+            default:
+                break;
         }
         
         batch.draw(connectArduino,player.getPosition().x * PPM - 270 , Gdx.graphics.getHeight()-100);
@@ -273,9 +274,9 @@ public class GameScreen extends AbstractScreen{
             }
         }
 
-        if(Gdx.input.isKeyPressed(Keys.Z) ||(Gdx.input.isKeyPressed(Keys.UP)) && contactManager.playerCanJump()){
-           if(textChoice!=10)
-            playerJump();
+        if( (Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()){
+            if(textChoice!=10)
+                playerJump();
             if(textChoice==0)
                 textChoice = 1;
         }
@@ -352,10 +353,17 @@ public class GameScreen extends AbstractScreen{
     }
     
     private void createTiles(){
+        
+        // TmxMapLoader.Parameters
+        Parameters params = new Parameters();
+        params.textureMinFilter = TextureFilter.Linear;
+        params.textureMagFilter = TextureFilter.Nearest;
+        
         //Load map
-        map = new TmxMapLoader().load("maps/test.tmx");
+        map = new TmxMapLoader().load("maps/test.tmx",params);
         // Retrieve map properties
         MapProperties properties = map.getProperties();
+
         tmr = new OrthogonalTiledMapRenderer(map);
         
         

@@ -6,7 +6,6 @@
 package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea.TextAreaListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
@@ -181,16 +179,15 @@ public class SpellBookScreen extends AbstractScreen{
      */
     @Override
     public void dispose() {
-       bookFont.dispose();
-       bookSkin.dispose();
        super.dispose();
+       bookFont.dispose();
     }
     /**
      * Create a skin for the spell book in the background.
      * @since 01/12/2016
      * @author jeremy
      */
-    void createBookSkin(float width, float height){
+    private void createBookSkin(float width, float height){
         //Create a font
         bookSkin = new Skin();
         bookSkin.add("default", font);
