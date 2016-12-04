@@ -13,7 +13,7 @@ before_install:
   - cd xGenuini
   - chmod +x gradlew
 
-script:
+install:
   - ./gradlew clean compile
 
 notifications:
