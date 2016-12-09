@@ -15,5 +15,7 @@ public class Player extends Character{
     public Player(Body body) {
         super(body,"p1",76,92,1,11,"right");  
     }
+
+    
     
 }

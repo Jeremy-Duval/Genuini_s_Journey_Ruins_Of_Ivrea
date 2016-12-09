@@ -43,6 +43,7 @@ import static genuini.main.MainGame.V_WIDTH;
 
 public class GameScreen extends AbstractScreen{
     private final boolean debug = false;
+    private final boolean tutorial = false;
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
    
@@ -103,7 +104,8 @@ public class GameScreen extends AbstractScreen{
         
         
         /*text time*/
-        new java.util.Timer().schedule( 
+        if(tutorial){
+           new java.util.Timer().schedule( 
             new java.util.TimerTask() {
                 @Override
                 public void run() {
@@ -112,6 +114,8 @@ public class GameScreen extends AbstractScreen{
             }, 
             4000
         );   
+         
+        }
         
     }
     
@@ -177,7 +181,8 @@ public class GameScreen extends AbstractScreen{
         batch.begin();
         //spriteBatch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
         //TextManager.Draw("FPS: ",cam);
-        switch (textChoice) {
+        if(tutorial){
+            switch (textChoice) {
             case 10:
                 font.draw(batch, "Hey, my name is Genuini",player.getPosition().x * PPM , player.getPosition().y * PPM+60);
                 break;
@@ -198,6 +203,8 @@ public class GameScreen extends AbstractScreen{
         }
         
         batch.draw(connectArduino,player.getPosition().x * PPM - 270 , Gdx.graphics.getHeight()-100);
+        }
+        
         batch.end();
         
         
@@ -218,7 +225,7 @@ public class GameScreen extends AbstractScreen{
      * Apply upward force to player body.
      */
     private void playerJump() {
-        player.getBody().applyLinearImpulse(0, 320/PPM, 0, 0, true);
+        player.getBody().applyLinearImpulse(0, 160/PPM, 0, 0, true);
         player.updateTexture(true);
         new java.util.Timer().schedule( 
             new java.util.TimerTask() {
@@ -232,7 +239,7 @@ public class GameScreen extends AbstractScreen{
     }
     
     public void playerBounce() {
-        player.getBody().applyLinearImpulse(0, 640/PPM, 0, 0, true);
+        player.getBody().applyLinearImpulse(0, 480/PPM, 0, 0, true);
         player.updateTexture(true);
         new java.util.Timer().schedule( 
             new java.util.TimerTask() {
@@ -246,39 +253,57 @@ public class GameScreen extends AbstractScreen{
     }
     
     private void playerMoveLeft() {
-        player.getBody().applyLinearImpulse(-7/PPM, 0, 0, 0, true);
+        player.getBody().applyLinearImpulse(-5/PPM, 0, 0, 0, true);
         player.walkLeft();
     }
     
     private void playerMoveRight() {
-        player.getBody().applyLinearImpulse(7/PPM, 0, 0, 0, true);
+        player.getBody().applyLinearImpulse(5/PPM, 0, 0, 0, true);
         player.walkRight();
     }
         
     public void handleInput() {
         if(Gdx.input.isKeyPressed(Keys.Q)||Gdx.input.isKeyPressed(Keys.LEFT)){
-            if(textChoice!=0 && textChoice!=1 && textChoice!=10){
-            playerMoveLeft();
-            if(textChoice==2){
-                textChoice = 3; 
-                deleteTexture();
+            if(tutorial){
+                if(textChoice!=0 && textChoice!=1 && textChoice!=10){
+                    playerMoveLeft();
+                    if(textChoice==2){
+                        textChoice = 3; 
+                        deleteTexture();
+                    }
+                }
+            }else{
+                playerMoveLeft();
             }
-            }
+            
         }
 
         if(Gdx.input.isKeyPressed(Keys.D) ||(Gdx.input.isKeyPressed(Keys.RIGHT))){
-            if(textChoice!=0 && textChoice!=10){
-            playerMoveRight();
-            if(textChoice==1)
-                textChoice = 2;
+            
+            if(tutorial){
+                if(textChoice!=0 && textChoice!=10){
+                    playerMoveRight();
+                    if(textChoice==1)
+                        textChoice = 2;
+                }
+            }else{
+                playerMoveRight();
             }
+            
         }
 
         if( (Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()){
-            if(textChoice!=10)
+            if(tutorial){
+                if(textChoice!=10){
+                    playerJump();
+                if(textChoice==0)
+                    textChoice = 1;
+                }
+                
+            }else{
                 playerJump();
-            if(textChoice==0)
-                textChoice = 1;
+            }
+            
         }
         
     }
@@ -306,7 +331,7 @@ public class GameScreen extends AbstractScreen{
         
         bdef.position.set(prefs.getPositionX() , prefs.getPositionY());
         bdef.type = BodyType.DynamicBody;
-        bdef.linearDamping = 3f;
+        bdef.linearDamping = 1f;
         Body body = world.createBody(bdef);
         fdef.friction=1.5f;
         fdef.shape = shape;
@@ -440,9 +465,6 @@ public class GameScreen extends AbstractScreen{
                     fd.isSensor=false;
                     world.createBody(bdef).createFixture(fd);
                 }
-                
-                
-                
                 cs.dispose();
             }
         }

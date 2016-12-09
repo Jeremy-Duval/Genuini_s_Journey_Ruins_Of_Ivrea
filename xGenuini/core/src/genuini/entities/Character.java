@@ -89,4 +89,5 @@ public class Character extends Sprites{
             spriteBatch.draw(texture, (int) (body.getPosition().x * PhysicsVariables.PPM - width / 2), (int) (body.getPosition().y * PhysicsVariables.PPM - height / 2));
             spriteBatch.end();
     }
+
 }

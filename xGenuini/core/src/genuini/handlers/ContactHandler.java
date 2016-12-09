@@ -54,8 +54,7 @@ public class ContactHandler implements ContactListener{
         if(fa == null || fb == null) return;
 
         if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
-                numFootContacts--;
-                
+                numFootContacts--;       
         }
         if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 numFootContacts--;
