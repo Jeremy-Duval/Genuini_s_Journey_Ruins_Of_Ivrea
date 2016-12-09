@@ -11,11 +11,20 @@ import com.badlogic.gdx.physics.box2d.Body;
  * @author Adrien
  */
 public class Player extends Character{
-
+    private int life;
+    
     public Player(Body body) {
-        super(body,"p1",76,92,1,11,"right");  
+        super(body,"p1",76,92,1,11,"right");
+        life=100;
     }
-
+    
+    public void changeLife(int delta){
+        life+=delta;
+    }
+    
+    public int getLife(){
+        return life;
+    }
     
     
 }

@@ -40,6 +40,7 @@ public class AbstractScreen extends Stage implements Screen {
     Stage stage;
     Skin skin;
     Skin bookButtonSkin;
+    Skin textSkin;
     BitmapFont font;
     SpriteBatch batch;
     PreferencesManager prefs;
@@ -164,6 +165,13 @@ public class AbstractScreen extends Stage implements Screen {
         textButtonStyle.over = bookButtonSkin.newDrawable("textureBookButton", Color.LIGHT_GRAY);
         textButtonStyle.font = bookButtonSkin.getFont("default");
         bookButtonSkin.add("default", textButtonStyle);
+
+      }
+    
+    void createTextSkin(){
+        //Create a font
+        textSkin = new Skin();
+        textSkin.add("default", font);
 
       }
 }

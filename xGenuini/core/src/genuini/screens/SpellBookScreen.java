@@ -38,6 +38,7 @@ public class SpellBookScreen extends AbstractScreen{
     private final int areaHeight;
     BitmapFont bookFont;
     Skin bookSkin;
+    private TextButton gameButton;
     
     
     /**
@@ -74,6 +75,12 @@ public class SpellBookScreen extends AbstractScreen{
                ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
             }
         });
+      gameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+            }
+        });
       
       codeArea.setTextFieldListener(new TextFieldListener() {
 
@@ -100,9 +107,12 @@ public class SpellBookScreen extends AbstractScreen{
         
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
         menuButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
+        gameButton = new TextButton("Game", skin); // Use the initialized skin
+        gameButton.setPosition(buttonWidth/2 , V_HEIGHT-4*buttonHeight);
         
         stage.addActor(codeArea);
         stage.addActor(menuButton);
+        stage.addActor(gameButton);
     }
     
     /**
