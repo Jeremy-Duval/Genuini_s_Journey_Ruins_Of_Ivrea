@@ -29,7 +29,7 @@ import static genuini.main.MainGame.V_WIDTH;
  */
 public class SpellBookScreen extends AbstractScreen{
     /*************************Button****************************************/
-    private TextButton menuButton;
+    private TextButton gameButton;
     private TextButton arduinoButton;
     private final int buttonWidth;
     private final int buttonHeight;
@@ -61,7 +61,7 @@ public class SpellBookScreen extends AbstractScreen{
     }
     
     /**
-     * Create a listener for the menuButton.
+     * Create a listener for the gameButton.
      * Override of AbstractScreen.
      * @since 01/12/2016
      * @author jeremy
@@ -69,10 +69,10 @@ public class SpellBookScreen extends AbstractScreen{
     @Override
     public void show() {
       Gdx.input.setInputProcessor(stage);
-      menuButton.addListener(new ClickListener(){
+      gameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
+               ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
             }
         });
       
@@ -107,15 +107,15 @@ public class SpellBookScreen extends AbstractScreen{
 	codeArea.setWidth(450);
 	codeArea.setHeight(580);
         
-        menuButton = new TextButton("Menu", skin); // Use the initialized skin
-        menuButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
+        gameButton = new TextButton("Jeu", skin); // Use the initialized skin
+        gameButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
         
         arduinoButton = new TextButton("Valider", skin); // Use the initialized skin
         arduinoButton.setPosition(buttonWidth/2 , V_HEIGHT-4*buttonHeight);
         
         stage.addActor(codeArea);
         stage.addActor(arduinoButton);
-        stage.addActor(menuButton);
+        stage.addActor(gameButton);
     }
     
     /**
