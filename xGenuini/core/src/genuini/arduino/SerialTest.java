@@ -95,7 +95,9 @@ public class SerialTest implements SerialPortEventListener {
 
 	/**
 	 * Handle an event on the serial port. Read the data and print it.
+     * @param oEvent
 	 */
+        @Override
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
@@ -107,5 +109,8 @@ public class SerialTest implements SerialPortEventListener {
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
+        
+        
+        
 
 }

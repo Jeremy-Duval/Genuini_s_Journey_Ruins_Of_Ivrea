@@ -39,5 +39,7 @@ public class PreferencesManager {
     public void save() {
         data.flush();
     }
- 
+    public void reset(){
+        System.out.println("DEBBB"+Gdx.files.external(".prefs/game_data").exists());
+    }
 }

@@ -45,7 +45,7 @@ import static genuini.main.MainGame.V_WIDTH;
 
 
 public class GameScreen extends AbstractScreen{
-    private final boolean debug = true;
+    private final boolean debug = false;
     private final boolean tutorial = false;
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -66,6 +66,7 @@ public class GameScreen extends AbstractScreen{
     
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
+    private TextButton deathButton;
     
     
     
@@ -74,6 +75,7 @@ public class GameScreen extends AbstractScreen{
 
     private Table table;
     private Label lifePointsLabel;
+
     
     public GameScreen() {
         super();
@@ -139,24 +141,36 @@ public class GameScreen extends AbstractScreen{
             }
         });
         
+        deathButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
+            }
+        });
+        
         spellBookScreenButton.addListener(new ClickListener(){ //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen( ScreenEnum.SPELLBOOK);
+               ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
             }
         });
+        
     }
     
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skin);
-        spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
-        
-        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1f, tileSize*1.8f);
-        spellBookScreenButton.setSize(tileSize, tileSize);
         menuButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*3);
         
+        deathButton=new TextButton("Death", skin);
+        deathButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*5);
+        
+        spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
+        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1f, tileSize*1.8f);
+        spellBookScreenButton.setSize(tileSize, tileSize);
+        
         stage.addActor(menuButton);
+        stage.addActor(deathButton);
         stage.addActor(spellBookScreenButton);
         
         /* HUD creation */
@@ -166,16 +180,11 @@ public class GameScreen extends AbstractScreen{
         stage.addActor(table);
         table.setSize(V_WIDTH-1,V_HEIGHT/8);
         table.setPosition(1,(7*V_HEIGHT/8)-1);
+        table.right();
         // table.align(Align.right | Align.bottom);
         if(debug){
-            table.debug();
+            table.debug();// Enables debug lines for tables.
         }
-        
-
-        table.setDebug(true); // This is optional, but enables debug lines for tables.
-        table.right();
-        
-        
         
         Label lifeLabel = new Label("Life:",textSkin,"default",Color.WHITE);
         table.add(lifeLabel).width(50);
@@ -194,6 +203,7 @@ public class GameScreen extends AbstractScreen{
         
         handleInput();
         handleContact();
+        handlePlayer();
         
         
         // camera follow player
@@ -252,8 +262,18 @@ public class GameScreen extends AbstractScreen{
         
     }
 
+    private void handlePlayer(){
+        if(player.getLife()<=0 && player.getStatus()!=0){
+            playerDeath();
+        }
+    }
     
-    
+    private void playerDeath(){
+        player.setStatus(0);
+        System.out.println("You dead");
+        //prefs.reset(); 
+        //ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
+    }
     /**
      * Apply upward force to player body.
      */
@@ -271,8 +291,9 @@ public class GameScreen extends AbstractScreen{
         );
     }
     
-    public void playerBounce() {
-        player.getBody().applyLinearImpulse(0, 480/PPM, 0, 0, true);
+    public void playerBounce(float impulse) {
+        player.getBody().applyLinearImpulse(0, impulse/PPM, 0, 0, true);
+        
         player.updateTexture(true);
         new java.util.Timer().schedule( 
             new java.util.TimerTask() {
@@ -344,8 +365,10 @@ public class GameScreen extends AbstractScreen{
     
     public void handleContact(){
         
-        if (contactManager.isBouncy()){
-            playerBounce();
+        if (contactManager.isBouncy() && contactManager.isSpike()){
+            playerBounce(200f);
+        }else if(contactManager.isBouncy()){
+            playerBounce(480f);
         }
         if (contactManager.isSpike()){
             player.changeLife(-5);

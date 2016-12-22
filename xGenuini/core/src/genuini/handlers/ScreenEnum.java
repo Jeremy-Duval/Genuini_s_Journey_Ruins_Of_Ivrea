@@ -7,6 +7,7 @@ package genuini.handlers;
 
 import genuini.screens.AbstractScreen;
 import genuini.screens.GameScreen;
+import genuini.screens.DeathScreen;
 import genuini.screens.MainMenuScreen;
 import genuini.screens.SpellBookScreen;
 
@@ -34,6 +35,13 @@ public enum ScreenEnum {
         @Override
         public AbstractScreen getScreen(Object... params) {
             return new SpellBookScreen() {};
+        }
+    },
+    
+    DEATH {
+        @Override
+        public AbstractScreen getScreen(Object... params) {
+            return new DeathScreen() {};
         }
     };
  

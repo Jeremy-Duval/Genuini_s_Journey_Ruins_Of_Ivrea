@@ -15,15 +15,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import genuini.arduino.SerialTest;
 import genuini.arduino.UnobtainableComPortException;
 import genuini.handlers.PreferencesManager;
 import genuini.main.MainGame;
 import gnu.io.SerialPort;
+
 
 /**
  *
@@ -174,4 +179,14 @@ public class AbstractScreen extends Stage implements Screen {
         textSkin.add("default", font);
 
       }
+    
+    void performClick(Actor actor) {
+    Array<EventListener> listeners = actor.getListeners();
+    for(int i=0;i<listeners.size;i++)
+    {
+        if(listeners.get(i) instanceof ClickListener){
+            ((ClickListener)listeners.get(i)).clicked(null, 0, 0);
+        }
+    }
+}
 }

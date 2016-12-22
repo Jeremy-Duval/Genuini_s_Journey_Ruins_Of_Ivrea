@@ -59,7 +59,6 @@ public class MainMenuScreen extends AbstractScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                prefs.save();
-               font.dispose();
                Gdx.app.exit();
             }
         });
@@ -71,8 +70,10 @@ public class MainMenuScreen extends AbstractScreen{
         batch.begin();
         batch.draw(background,0,0);
         batch.draw(connectArduino, 50, 600);
-        if(connected)
-            font.draw(batch, "Le port est " + arduinoPort.toString(), 50, 550);
+        /*if(connected){
+          font.draw(batch, "Le port est " + arduinoPort.toString(), 50, 550);  
+        }*/
+            
         batch.end();
         stage.act(delta);
         stage.draw();
