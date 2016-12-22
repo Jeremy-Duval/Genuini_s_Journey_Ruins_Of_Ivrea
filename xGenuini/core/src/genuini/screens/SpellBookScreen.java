@@ -17,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import genuini.arduino.Communication;
+import genuini.arduino.UnobtainableComPortException;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 import static genuini.main.MainGame.V_HEIGHT;
@@ -28,7 +30,7 @@ import static genuini.main.MainGame.V_WIDTH;
  * @author jeremy
  */
 public class SpellBookScreen extends AbstractScreen{
-    /*************************Button****************************************/
+    /**************************Button******************************************/
     private TextButton gameButton;
     private TextButton arduinoButton;
     private final int buttonWidth;
@@ -39,7 +41,8 @@ public class SpellBookScreen extends AbstractScreen{
     private final int areaHeight;
     BitmapFont bookFont;
     Skin bookSkin;
-    
+    /************************Communication*************************************/
+    Communication arduino;
     
     /**
      * Spell book constructor.
@@ -58,6 +61,8 @@ public class SpellBookScreen extends AbstractScreen{
         bookFont = new BitmapFont();
         createBookSkin(areaWidth,areaHeight);
         background = new Texture("img/book/SpellBookWrite.png");
+        /**************************Communication*******************************/
+        arduino = new Communication();
     }
     
     /**
@@ -81,6 +86,7 @@ public class SpellBookScreen extends AbstractScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                //WRITE IN ARDUINO
+               
             }
         });
       
