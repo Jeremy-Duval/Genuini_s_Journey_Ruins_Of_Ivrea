@@ -30,6 +30,7 @@ import static genuini.main.MainGame.V_WIDTH;
 public class SpellBookScreen extends AbstractScreen{
     /*************************Button****************************************/
     private TextButton menuButton;
+    private TextButton arduinoButton;
     private final int buttonWidth;
     private final int buttonHeight;
     /*************************Text area****************************************/
@@ -75,6 +76,14 @@ public class SpellBookScreen extends AbstractScreen{
             }
         });
       
+      Gdx.input.setInputProcessor(stage);
+      arduinoButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               //WRITE IN ARDUINO
+            }
+        });
+      
       codeArea.setTextFieldListener(new TextFieldListener() {
 
           @Override
@@ -101,7 +110,11 @@ public class SpellBookScreen extends AbstractScreen{
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
         menuButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
         
+        arduinoButton = new TextButton("Valider", skin); // Use the initialized skin
+        arduinoButton.setPosition(buttonWidth/2 , V_HEIGHT-4*buttonHeight);
+        
         stage.addActor(codeArea);
+        stage.addActor(arduinoButton);
         stage.addActor(menuButton);
     }
     
