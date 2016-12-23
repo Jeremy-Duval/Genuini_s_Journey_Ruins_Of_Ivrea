@@ -43,6 +43,7 @@ public class SpellBookScreen extends AbstractScreen{
     Skin bookSkin;
     /************************Communication*************************************/
     Communication arduino;
+    String message;
     
     /**
      * Spell book constructor.
@@ -86,7 +87,9 @@ public class SpellBookScreen extends AbstractScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                //WRITE IN ARDUINO
-               
+               message = codeArea.getText();
+               //System.out.println(message);
+               arduino.arduinoWrite(message);
             }
         });
       

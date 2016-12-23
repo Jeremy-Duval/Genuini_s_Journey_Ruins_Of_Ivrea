@@ -25,7 +25,6 @@ import java.util.logging.Logger;
  */
 public class Communication {
     /**************************************************************************/
-    static String messageString = "color FF00FFEND";
     private SerialPort serialPort;
     private static CommPortIdentifier portId;
     /* A BufferedReader which will be fed by a InputStreamReader converting the
@@ -66,7 +65,8 @@ public class Communication {
      * @since 22/12/2016
      * @author jeremy
      */
-    public void arduinoWrite() {
+    public void arduinoWrite(String message) {
+        String test;
         try {
             outputStream = serialPort.getOutputStream();
         } catch (IOException e) {
@@ -81,8 +81,8 @@ public class Communication {
             System.out.println("err2");
         }
         try {
-            outputStream.write(messageString.getBytes());
-            System.out.println(messageString);
+            outputStream.write(message.getBytes());
+            System.out.println(message);
 
             outputStream.close();
             serialPort.close();
