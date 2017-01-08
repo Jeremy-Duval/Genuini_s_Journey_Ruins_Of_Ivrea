@@ -181,9 +181,9 @@ public class SpellBookScreen extends AbstractScreen{
      */
     @Override
     public void dispose() {
-       bookFont.dispose();
-       bookSkin.dispose();
        super.dispose();
+       bookFont.dispose();
+       
     }
     /**
      * Create a skin for the spell book in the background.

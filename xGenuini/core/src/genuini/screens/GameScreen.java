@@ -273,7 +273,7 @@ public class GameScreen extends AbstractScreen{
             }
         }
 
-        if(Gdx.input.isKeyPressed(Keys.Z) ||(Gdx.input.isKeyPressed(Keys.UP)) && contactManager.playerCanJump()){
+        if((Gdx.input.isKeyPressed(Keys.Z) ||(Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()){
            if(textChoice!=10)
             playerJump();
             if(textChoice==0)
