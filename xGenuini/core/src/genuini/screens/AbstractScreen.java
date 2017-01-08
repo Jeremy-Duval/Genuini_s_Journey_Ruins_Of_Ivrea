@@ -76,7 +76,7 @@ public class AbstractScreen extends Stage implements Screen {
         
         connectArduino = new Texture("img/arduinoconnected.png");
         
-       if(!connected){ 
+
         //connection with SerialTest class
         arduinoInstance = new SerialTest();
         try{
@@ -87,7 +87,7 @@ public class AbstractScreen extends Stage implements Screen {
             System.out.println(e.getMessage());
             connectArduino = new Texture("img/errorarduino.png");
         }
-       }
+       
     }
  
     // Subclasses must load actors in this method

@@ -23,6 +23,10 @@ public class MainMenuScreen extends AbstractScreen{
 
     private TextButton newGameButton;
     private TextButton quitButton;
+    
+    private TextButton arduinoButton;
+    private boolean etatArduino = false;
+    
     private final int buttonWidth;
     private final int buttonHeight;
     
@@ -38,11 +42,14 @@ public class MainMenuScreen extends AbstractScreen{
         batch = new SpriteBatch();
         newGameButton = new TextButton("Jouer", skin); // Use the initialized skin
         quitButton = new TextButton("Quitter", skin);
+        arduinoButton = new TextButton("Arduino Connexion", skin);
         
         newGameButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/2+10);
         quitButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT-buttonHeight)/2-10);
+        arduinoButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT-buttonHeight)/2-100);
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
+        stage.addActor(arduinoButton);
     }
     
     @Override
@@ -60,6 +67,19 @@ public class MainMenuScreen extends AbstractScreen{
             public void clicked(InputEvent event, float x, float y) {
                prefs.save();
                Gdx.app.exit();
+            }
+        });
+      
+      arduinoButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+              if(!etatArduino){  
+               arduinoInstance.write('e');
+               etatArduino = true;
+              }else{
+                 arduinoInstance.write('u');
+                 etatArduino = false; 
+              }
             }
         });
     }

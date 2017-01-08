@@ -26,7 +26,7 @@ public class SerialTest implements SerialPortEventListener {
 			"/dev/tty.usbserial-A9007UX1", // Mac OS X
                         "/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
-			"COM3", // Windows
+			"COM5", // Windows
 	};
 	/**
 	* A BufferedReader which will be fed by a InputStreamReader 
@@ -115,6 +115,7 @@ public class SerialTest implements SerialPortEventListener {
         
         public synchronized void write(String s){
             try {
+                
                 output = serialPort.getOutputStream();
                 output.write(s.getBytes());
                 output.flush();
@@ -131,6 +132,10 @@ public class SerialTest implements SerialPortEventListener {
             } catch (IOException ex) {
                 Logger.getLogger(SerialTest.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        public synchronized void essai(String s){
+            System.out.println(s);
         }
         
         
