@@ -12,7 +12,10 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
+import java.io.IOException;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -110,6 +113,25 @@ public class SerialTest implements SerialPortEventListener {
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
         
+        public synchronized void write(String s){
+            try {
+                output = serialPort.getOutputStream();
+                output.write(s.getBytes());
+                output.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(SerialTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        public synchronized void write(int i){
+            try {
+                output = serialPort.getOutputStream();
+                output.write(i);
+                output.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(SerialTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
         
 

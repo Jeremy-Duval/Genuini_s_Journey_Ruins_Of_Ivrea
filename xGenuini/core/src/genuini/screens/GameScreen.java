@@ -259,6 +259,7 @@ public class GameScreen extends AbstractScreen{
         
         stage.act(delta);
         stage.draw();
+        arduinoInstance.write(40);
         
     }
 
