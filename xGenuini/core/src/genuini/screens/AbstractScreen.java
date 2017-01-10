@@ -37,7 +37,7 @@ import gnu.io.SerialPort;
 public class AbstractScreen extends Stage implements Screen {
     
     Texture background;
-    SerialTest arduinoInstance; //Arduino Connection
+    public static SerialTest arduinoInstance; //Arduino Connection
     SerialPort arduinoPort; //Port Use
     static boolean connected = false;// arduino connected or no
     Texture connectArduino; //image of arduino connected
@@ -76,7 +76,7 @@ public class AbstractScreen extends Stage implements Screen {
         
         connectArduino = new Texture("img/arduinoconnected.png");
         
-
+        if(!connected){
         //connection with SerialTest class
         arduinoInstance = new SerialTest();
         try{
@@ -87,7 +87,7 @@ public class AbstractScreen extends Stage implements Screen {
             System.out.println(e.getMessage());
             connectArduino = new Texture("img/errorarduino.png");
         }
-       
+        }
     }
  
     // Subclasses must load actors in this method

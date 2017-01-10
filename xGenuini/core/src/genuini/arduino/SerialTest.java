@@ -124,7 +124,7 @@ public class SerialTest implements SerialPortEventListener {
             }
         }
         
-        public synchronized void write(int i){
+        public synchronized void write(byte[] i){
             try {
                 output = serialPort.getOutputStream();
                 output.write(i);
