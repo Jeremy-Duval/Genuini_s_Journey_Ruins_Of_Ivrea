@@ -254,7 +254,7 @@ public class GameScreen extends AbstractScreen{
         
         batch.end();
         
-        
+        arduinoInstance.write("game;"+String.valueOf(player.getLife()));
         
         
         stage.act(delta);

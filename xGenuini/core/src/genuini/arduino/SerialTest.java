@@ -122,7 +122,7 @@ public class SerialTest implements SerialPortEventListener {
             } catch (IOException ex) {
                 Logger.getLogger(SerialTest.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        } 
         
         public synchronized void write(byte[] i){
             try {

@@ -38,26 +38,28 @@ void loop() {
     int commaIndex = rec.indexOf(';');
     String firstValue = rec.substring(0, commaIndex);
     String secondValue = rec.substring(commaIndex+1);
-    
-/*    switch(rec){
-      case 'm':                  
-         //lcd.setRGB(colorR, colorG, colorB);
-         lcd.clear();
-         lcd.print("Genuini's Journey");
-         lcd.setCursor(0, 1);
-         lcd.print("Main menu");
-         bar.setBits(0x3ff);
-         break;
-      case 'j':
-         lcd.clear();   //clear au premier passage
-         lcd.print("Life: ");       
-         changeSentence = !changeSentence;  //changeSentence permet de bloquer le changement de texte sur la phrase en cours
-         break;
-      default:
-         bar.setBits(0x0);
-    } */
-} 
 
+    int life = secondValue.toInt(); 
+
+      if(firstValue=="menu"){
+                //lcd.setRGB(colorR, colorG, colorB);
+               lcd.clear();
+               lcd.print("Genuini's Journey");
+               lcd.setCursor(0, 1);
+               lcd.print("Main menu");
+               bar.setBits(0x3ff);
+      }else if(firstValue=="game"){
+               lcd.clear();   //clear au premier passage
+               lcd.print("Life: ");
+               lcd.setCursor(6,0);
+               lcd.print(life);
+               bar.setLevel(life/10);  
+               Serial.print(life);     
+               changeSentence = !changeSentence;  //changeSentence permet de bloquer le changement de texte sur la phrase en cours
+      }else{
+               bar.setBits(0x0);
+      }
+}
 if(changeSentence == true){
       lcd.setCursor(0, 1);
       lcd.print(sentence[i]); 

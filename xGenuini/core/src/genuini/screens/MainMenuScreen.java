@@ -50,7 +50,7 @@ public class MainMenuScreen extends AbstractScreen{
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
         stage.addActor(arduinoButton);
-        arduinoInstance.write("2;important");
+        arduinoInstance.write("menu;0");
     }
     
     @Override
