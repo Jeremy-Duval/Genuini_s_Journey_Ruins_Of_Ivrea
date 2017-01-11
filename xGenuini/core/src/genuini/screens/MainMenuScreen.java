@@ -50,7 +50,9 @@ public class MainMenuScreen extends AbstractScreen{
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
         stage.addActor(arduinoButton);
-        arduinoInstance.write("menu;0");
+        
+        if(connected)
+            arduinoInstance.write("menu;0");
     }
     
     @Override
@@ -74,13 +76,7 @@ public class MainMenuScreen extends AbstractScreen{
       arduinoButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-              if(!etatArduino){  
-//               arduinoInstance.write('e');
-               etatArduino = true;
-              }else{
-//                 arduinoInstance.write('u');
-                 etatArduino = false; 
-              }
+              //TO IMPLEMENT
             }
         });
     }

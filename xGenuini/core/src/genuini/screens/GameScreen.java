@@ -41,6 +41,8 @@ import genuini.handlers.TextManager;
 import genuini.main.MainGame;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
+import static genuini.screens.AbstractScreen.arduinoInstance;
+import static genuini.screens.AbstractScreen.connected;
 
 
 
@@ -125,6 +127,9 @@ public class GameScreen extends AbstractScreen{
          
         }
         
+        if(connected)
+            arduinoInstance.write("game;"+String.valueOf(player.getLife()));
+        
     }
     
     
@@ -144,6 +149,8 @@ public class GameScreen extends AbstractScreen{
         deathButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(connected)
+                    arduinoInstance.write("death;");
                 ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
             }
         });
@@ -254,7 +261,6 @@ public class GameScreen extends AbstractScreen{
         
         batch.end();
         
-        arduinoInstance.write("game;"+String.valueOf(player.getLife()));
         
         
         stage.act(delta);
@@ -372,6 +378,8 @@ public class GameScreen extends AbstractScreen{
         }
         if (contactManager.isSpike()){
             player.changeLife(-5);
+            if(connected)
+                arduinoInstance.write("game;"+String.valueOf(player.getLife())); //quand vie change
             lifePointsLabel.setText(String.valueOf(player.getLife()));
         }
     }

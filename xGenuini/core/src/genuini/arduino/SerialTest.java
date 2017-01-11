@@ -117,7 +117,7 @@ public class SerialTest implements SerialPortEventListener {
             try {
                 
                 output = serialPort.getOutputStream();
-                output.write(s.getBytes());
+                output.write((s+"\n").getBytes());
                 output.flush();
             } catch (IOException ex) {
                 Logger.getLogger(SerialTest.class.getName()).log(Level.SEVERE, null, ex);
