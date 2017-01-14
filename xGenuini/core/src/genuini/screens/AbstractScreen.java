@@ -15,15 +15,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import genuini.arduino.SerialTest;
 import genuini.arduino.UnobtainableComPortException;
 import genuini.handlers.PreferencesManager;
 import genuini.main.MainGame;
 import gnu.io.SerialPort;
+
 
 /**
  *
@@ -32,7 +37,7 @@ import gnu.io.SerialPort;
 public class AbstractScreen extends Stage implements Screen {
     
     Texture background;
-    SerialTest arduinoInstance; //Arduino Connection
+    public static SerialTest arduinoInstance; //Arduino Connection
     SerialPort arduinoPort; //Port Use
     static boolean connected = false;// arduino connected or no
     Texture connectArduino; //image of arduino connected
@@ -40,6 +45,7 @@ public class AbstractScreen extends Stage implements Screen {
     Stage stage;
     Skin skin;
     Skin bookButtonSkin;
+    Skin textSkin;
     BitmapFont font;
     SpriteBatch batch;
     PreferencesManager prefs;
@@ -70,7 +76,7 @@ public class AbstractScreen extends Stage implements Screen {
         
         connectArduino = new Texture("img/arduinoconnected.png");
         
-       if(!connected){ 
+        if(!connected){
         //connection with SerialTest class
         arduinoInstance = new SerialTest();
         try{
@@ -81,7 +87,7 @@ public class AbstractScreen extends Stage implements Screen {
             System.out.println(e.getMessage());
             connectArduino = new Texture("img/errorarduino.png");
         }
-       }
+        }
     }
  
     // Subclasses must load actors in this method
@@ -166,4 +172,21 @@ public class AbstractScreen extends Stage implements Screen {
         bookButtonSkin.add("default", textButtonStyle);
 
       }
+    
+    void createTextSkin(){
+        //Create a font
+        textSkin = new Skin();
+        textSkin.add("default", font);
+
+      }
+    
+    void performClick(Actor actor) {
+    Array<EventListener> listeners = actor.getListeners();
+    for(int i=0;i<listeners.size;i++)
+    {
+        if(listeners.get(i) instanceof ClickListener){
+            ((ClickListener)listeners.get(i)).clicked(null, 0, 0);
+        }
+    }
+}
 }

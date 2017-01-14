@@ -7,6 +7,7 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -26,6 +27,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.entities.Player;
@@ -38,6 +41,8 @@ import genuini.handlers.TextManager;
 import genuini.main.MainGame;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
+import static genuini.screens.AbstractScreen.arduinoInstance;
+import static genuini.screens.AbstractScreen.connected;
 
 
 
@@ -63,11 +68,15 @@ public class GameScreen extends AbstractScreen{
     
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
+    private TextButton deathButton;
+    
     
     
     //Starting text "Hey, my name is Genuini"
     private int textChoice = 10;
 
+    private Table table;
+    private Label lifePointsLabel;
 
     
     public GameScreen() {
@@ -88,6 +97,7 @@ public class GameScreen extends AbstractScreen{
         
         super.createButtonSkin(tileSize*1.6f,tileSize/2);
         super.createBookButtonSkin(tileSize*1.6f,tileSize/2);
+        super.createTextSkin();
         
         /* DEBUG */
         if(debug) {
@@ -117,6 +127,9 @@ public class GameScreen extends AbstractScreen{
          
         }
         
+        if(connected)
+            arduinoInstance.write("game;"+String.valueOf(player.getLife()));
+        
     }
     
     
@@ -133,25 +146,58 @@ public class GameScreen extends AbstractScreen{
             }
         });
         
+        deathButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(connected)
+                    arduinoInstance.write("death;");
+                ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
+            }
+        });
+        
         spellBookScreenButton.addListener(new ClickListener(){ //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen( ScreenEnum.SPELLBOOK);
+               ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
             }
         });
+        
     }
     
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skin);
-        spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
-        
-        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1f, tileSize*1.8f);
-        spellBookScreenButton.setSize(tileSize, tileSize);
         menuButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*3);
         
+        deathButton=new TextButton("Death", skin);
+        deathButton.setPosition(V_WIDTH-tileSize*1.6f, tileSize*5);
+        
+        spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
+        spellBookScreenButton.setPosition(V_WIDTH-tileSize*1f, tileSize*1.8f);
+        spellBookScreenButton.setSize(tileSize, tileSize);
+        
         stage.addActor(menuButton);
+        stage.addActor(deathButton);
         stage.addActor(spellBookScreenButton);
+        
+        /* HUD creation */
+        
+        
+        table = new Table();
+        stage.addActor(table);
+        table.setSize(V_WIDTH-1,V_HEIGHT/8);
+        table.setPosition(1,(7*V_HEIGHT/8)-1);
+        table.right();
+        // table.align(Align.right | Align.bottom);
+        if(debug){
+            table.debug();// Enables debug lines for tables.
+        }
+        
+        Label lifeLabel = new Label("Life:",textSkin,"default",Color.WHITE);
+        table.add(lifeLabel).width(50);
+        lifePointsLabel = new Label(String.valueOf(player.getLife()),textSkin,"default",Color.WHITE);
+        table.add(lifePointsLabel).width(150);
+        // Add widgets to the table here.
     }
 
 
@@ -164,6 +210,9 @@ public class GameScreen extends AbstractScreen{
         
         handleInput();
         handleContact();
+        handlePlayer();
+        
+        
         // camera follow player
         cam.setPosition(player.getPosition().x * PPM + MainGame.V_WIDTH / 4, player.getPosition().y * PPM);
         cam.update();
@@ -177,6 +226,11 @@ public class GameScreen extends AbstractScreen{
         
         player.render(batch);
         //To write on screen
+        if(debug) {
+                b2dCam.setPosition(player.getPosition().x + MainGame.V_WIDTH / 4/PPM, player.getPosition().y );
+                b2dCam.update();
+                b2dr.render(world,b2dCam.combined);
+        }
         
         batch.begin();
         //spriteBatch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
@@ -208,19 +262,24 @@ public class GameScreen extends AbstractScreen{
         batch.end();
         
         
-        if(debug) {
-                b2dCam.setPosition(player.getPosition().x + MainGame.V_WIDTH / 4 / PPM, MainGame.V_HEIGHT / 2 / PPM);
-                b2dCam.update();
-                b2dr.render(world, b2dCam.combined);
-        }
         
         stage.act(delta);
         stage.draw();
         
     }
 
+    private void handlePlayer(){
+        if(player.getLife()<=0 && player.getStatus()!=0){
+            playerDeath();
+        }
+    }
     
-    
+    private void playerDeath(){
+        player.setStatus(0);
+        System.out.println("You dead");
+        //prefs.reset(); 
+        //ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
+    }
     /**
      * Apply upward force to player body.
      */
@@ -238,8 +297,9 @@ public class GameScreen extends AbstractScreen{
         );
     }
     
-    public void playerBounce() {
-        player.getBody().applyLinearImpulse(0, 480/PPM, 0, 0, true);
+    public void playerBounce(float impulse) {
+        player.getBody().applyLinearImpulse(0, impulse/PPM, 0, 0, true);
+        
         player.updateTexture(true);
         new java.util.Timer().schedule( 
             new java.util.TimerTask() {
@@ -310,8 +370,17 @@ public class GameScreen extends AbstractScreen{
     
     
     public void handleContact(){
-        if (contactManager.isBouncy()){
-            playerBounce();
+        
+        if (contactManager.isBouncy() && contactManager.isSpike()){
+            playerBounce(200f);
+        }else if(contactManager.isBouncy()){
+            playerBounce(480f);
+        }
+        if (contactManager.isSpike()){
+            player.changeLife(-5);
+            if(connected)
+                arduinoInstance.write("game;"+String.valueOf(player.getLife())); //quand vie change
+            lifePointsLabel.setText(String.valueOf(player.getLife()));
         }
     }
 
@@ -451,6 +520,19 @@ public class GameScreen extends AbstractScreen{
                     fd.shape = cs;
                     fd.isSensor=false;
                     world.createBody(bdef).createFixture(fd).setUserData("bounce");
+                }else if(cell.getTile().getProperties().get("spike")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[5];
+                    v[0] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize/2, -0.1f);//top left corner
+                    v[2] = new Vector2(box2dTileSize/2, -0.1f);//top right corner
+                    v[3] = new Vector2(box2dTileSize/2 , -box2dTileSize/2);//bottom right corner
+                    v[4] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    cs.createChain(v);
+                    fd.friction = 0;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    world.createBody(bdef).createFixture(fd).setUserData("spike");
                 }else{
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];

@@ -23,6 +23,10 @@ public class MainMenuScreen extends AbstractScreen{
 
     private TextButton newGameButton;
     private TextButton quitButton;
+    
+    private TextButton arduinoButton;
+    private boolean etatArduino = false;
+    
     private final int buttonWidth;
     private final int buttonHeight;
     
@@ -38,11 +42,17 @@ public class MainMenuScreen extends AbstractScreen{
         batch = new SpriteBatch();
         newGameButton = new TextButton("Jouer", skin); // Use the initialized skin
         quitButton = new TextButton("Quitter", skin);
+        arduinoButton = new TextButton("Arduino Connexion", skin);
         
         newGameButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT+buttonHeight)/2+10);
         quitButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT-buttonHeight)/2-10);
+        arduinoButton.setPosition((V_WIDTH-buttonWidth)/2 , (V_HEIGHT-buttonHeight)/2-100);
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
+        stage.addActor(arduinoButton);
+        
+        if(connected)
+            arduinoInstance.write("menu;0");
     }
     
     @Override
@@ -59,8 +69,14 @@ public class MainMenuScreen extends AbstractScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                prefs.save();
-               font.dispose();
                Gdx.app.exit();
+            }
+        });
+      
+      arduinoButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+              //TO IMPLEMENT
             }
         });
     }
@@ -71,8 +87,10 @@ public class MainMenuScreen extends AbstractScreen{
         batch.begin();
         batch.draw(background,0,0);
         batch.draw(connectArduino, 50, 600);
-        if(connected)
-            font.draw(batch, "Le port est " + arduinoPort.toString(), 50, 550);
+        /*if(connected){
+          font.draw(batch, "Le port est " + arduinoPort.toString(), 50, 550);  
+        }*/
+            
         batch.end();
         stage.act(delta);
         stage.draw();

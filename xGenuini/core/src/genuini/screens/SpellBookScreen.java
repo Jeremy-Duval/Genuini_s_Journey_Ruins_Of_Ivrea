@@ -31,6 +31,7 @@ import static genuini.main.MainGame.V_WIDTH;
  */
 public class SpellBookScreen extends AbstractScreen{
     /**************************Button******************************************/
+    private TextButton menuButton;
     private TextButton gameButton;
     private TextButton arduinoButton;
     private final int buttonWidth;
@@ -41,9 +42,14 @@ public class SpellBookScreen extends AbstractScreen{
     private final int areaHeight;
     BitmapFont bookFont;
     Skin bookSkin;
+    
     /************************Communication*************************************/
     Communication arduino;
     String message;
+
+    
+    
+
     
     /**
      * Spell book constructor.
@@ -92,6 +98,12 @@ public class SpellBookScreen extends AbstractScreen{
                arduino.arduinoWrite(message);
             }
         });
+      gameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+            }
+        });
       
       codeArea.setTextFieldListener(new TextFieldListener() {
 
@@ -116,6 +128,7 @@ public class SpellBookScreen extends AbstractScreen{
 	codeArea.setWidth(450);
 	codeArea.setHeight(580);
         
+
         gameButton = new TextButton("Jeu", skin); // Use the initialized skin
         gameButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
         
@@ -124,6 +137,15 @@ public class SpellBookScreen extends AbstractScreen{
         
         stage.addActor(codeArea);
         stage.addActor(arduinoButton);
+
+        menuButton = new TextButton("Menu", skin); // Use the initialized skin
+        menuButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
+        gameButton = new TextButton("Game", skin); // Use the initialized skin
+        gameButton.setPosition(buttonWidth/2 , V_HEIGHT-4*buttonHeight);
+        
+        stage.addActor(codeArea);
+        stage.addActor(menuButton);
+
         stage.addActor(gameButton);
     }
     

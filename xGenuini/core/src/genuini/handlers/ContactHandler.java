@@ -22,6 +22,7 @@ public class ContactHandler implements ContactListener{
     private int numFootContacts;
     private Array<Body> bodiesToRemove;
     private boolean bounce;
+    private boolean spike;
     
     //Called when 2 fixtures collide
     @Override
@@ -41,6 +42,13 @@ public class ContactHandler implements ContactListener{
         if((fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("bounce"))
                 || (fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
             bounce=true;
+        }
+        if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
+                || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
+            bounce=true;    
+            spike=true;    
+                
+                
         }
         
 }
@@ -63,6 +71,11 @@ public class ContactHandler implements ContactListener{
                 || fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 bounce=false;
         }
+        if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
+                || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
+                bounce=false;
+                spike=false;
+        }
     }
     
     //Before collision handling
@@ -82,5 +95,6 @@ public class ContactHandler implements ContactListener{
     public boolean playerCanJump() { return numFootContacts > 0; }
     public Array<Body> getBodies() { return bodiesToRemove; }
     public boolean isBouncy() { return bounce; }
+    public boolean isSpike() { return spike; }
     
 }

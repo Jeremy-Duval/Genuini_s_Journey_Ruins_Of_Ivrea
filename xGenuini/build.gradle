@@ -52,7 +52,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"  
-        compile files('../assets/libs/RXTXComm.jar')
+        compile files('assets/libs/RXTXComm.jar')
     }
 }
 
