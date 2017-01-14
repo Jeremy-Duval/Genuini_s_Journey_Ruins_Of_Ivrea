@@ -25,16 +25,23 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import genuini.entities.Player;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
 import static genuini.handlers.PhysicsVariables.PPM;
+import static genuini.handlers.PhysicsVariables.BIT_PLAYER;
+import static genuini.handlers.PhysicsVariables.BIT_FIREBALL;
+import static genuini.handlers.PhysicsVariables.BIT_TERRAIN;
+import static genuini.handlers.PhysicsVariables.BIT_TURRET;
+
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 import genuini.handlers.TextManager;
@@ -47,7 +54,7 @@ import static genuini.screens.AbstractScreen.connected;
 
 
 public class GameScreen extends AbstractScreen{
-    private final boolean debug = false;
+    private final boolean debug = true;
     private final boolean tutorial = false;
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -77,6 +84,10 @@ public class GameScreen extends AbstractScreen{
 
     private Table table;
     private Label lifePointsLabel;
+    
+    
+    //Fire turret
+    private Vector2 fire_pos;
 
     
     public GameScreen() {
@@ -111,7 +122,7 @@ public class GameScreen extends AbstractScreen{
         //create player
         createPlayer();
         cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
-        
+        createObjects();
         
         /*text time*/
         if(tutorial){
@@ -211,6 +222,8 @@ public class GameScreen extends AbstractScreen{
         handleInput();
         handleContact();
         handlePlayer();
+        handleArea();
+        
         
         
         // camera follow player
@@ -265,6 +278,16 @@ public class GameScreen extends AbstractScreen{
         
         stage.act(delta);
         stage.draw();
+        Array<Body> bodies = contactManager.getBodies();
+        if (bodies!=null){
+            for(int i = 0; i < bodies.size; i++) {
+                Body b = bodies.get(i);
+                world.destroyBody(b);
+                b.setUserData(null);
+                b = null;
+            }
+            bodies.clear();
+        }
         
     }
 
@@ -383,6 +406,14 @@ public class GameScreen extends AbstractScreen{
             lifePointsLabel.setText(String.valueOf(player.getLife()));
         }
     }
+    
+    public void handleArea(){
+        float distance_player_turret =(float) Math.sqrt(Math.pow(player.getPosition().x-fire_pos.x,2) + (Math.pow(player.getPosition().y-fire_pos.y,2)));
+        if( distance_player_turret < 5 ){
+        }else{
+            System.out.println("NOT IN AREA");
+        }
+    }
 
     @Override
     public void dispose() {
@@ -402,10 +433,10 @@ public class GameScreen extends AbstractScreen{
         bdef.type = BodyType.DynamicBody;
         bdef.linearDamping = 1f;
         Body body = world.createBody(bdef);
-        fdef.friction=1.5f;
+        fdef.friction=2f;
         fdef.shape = shape;
-        //fdef.filter.categoryBits = PhysicsVariables.BIT_PLAYER;
-        //fdef.filter.maskBits = PhysicsVariables.BIT_TERRAIN;
+        fdef.filter.categoryBits = BIT_PLAYER;
+        fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL;
         float bodyWidth = 22f/PPM;
         float bodyHeight = 44f/PPM;
         float feetWidth = 14f/PPM;
@@ -494,6 +525,8 @@ public class GameScreen extends AbstractScreen{
                     fd.friction = 0.8f;
                     fd.shape = cs;
                     fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
                     world.createBody(bdef).createFixture(fd);
                 }else if(cell.getTile().getProperties().get("slide_right")!=null){
                     //to link the cell edges
@@ -506,6 +539,8 @@ public class GameScreen extends AbstractScreen{
                     fd.friction = 0.8f;
                     fd.shape = cs;
                     fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
                     world.createBody(bdef).createFixture(fd);
                 }else if(cell.getTile().getProperties().get("bounce")!=null){
                     //to link the cell edges
@@ -519,6 +554,8 @@ public class GameScreen extends AbstractScreen{
                     fd.friction = 0;
                     fd.shape = cs;
                     fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER;
                     world.createBody(bdef).createFixture(fd).setUserData("bounce");
                 }else if(cell.getTile().getProperties().get("spike")!=null){
                     //to link the cell edges
@@ -532,7 +569,25 @@ public class GameScreen extends AbstractScreen{
                     fd.friction = 0;
                     fd.shape = cs;
                     fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
                     world.createBody(bdef).createFixture(fd).setUserData("spike");
+                }else if(cell.getTile().getProperties().get("fire_turret")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[5];
+                    v[0] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize/2, box2dTileSize/2);//top left corner
+                    v[2] = new Vector2(box2dTileSize/2, box2dTileSize/2);//top right corner
+                    v[3] = new Vector2(box2dTileSize/2 , -box2dTileSize/2);//bottom right corner
+                    v[4] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
+                    cs.createChain(v);
+                    fd.friction = 0;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TURRET;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN;
+                    world.createBody(bdef).createFixture(fd).setUserData("fire_turret");
+                    fire_pos= new Vector2((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM);
                 }else{
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
@@ -545,10 +600,33 @@ public class GameScreen extends AbstractScreen{
                     fd.friction = 0;
                     fd.shape = cs;
                     fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
                     world.createBody(bdef).createFixture(fd);
                 }
                 cs.dispose();
             }
         }
-    } 
+    }
+    
+    
+    private void createObjects(){
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyType.DynamicBody;
+        bdef.position.set(fire_pos.x,fire_pos.y);
+        Body body = world.createBody(bdef);
+        CircleShape circle = new CircleShape();
+        circle.setRadius(0.15f);
+        FixtureDef fd = new FixtureDef();
+        fd.shape = circle;
+        fd.density = 4f; 
+        fd.friction = 1.4f;
+        fd.restitution = 0.6f; // Make it bounce a little bit
+        fd.filter.categoryBits = BIT_FIREBALL;
+        fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER;
+        world.createBody(bdef).createFixture(fd).setUserData("fireball");
+        circle.dispose();
+    }
+    
+
 }
