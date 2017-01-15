@@ -38,6 +38,10 @@ public class DeathScreen extends AbstractScreen{
         buttonHeight=V_HEIGHT/20;
         super.createButtonSkin(buttonWidth,buttonHeight);
         super.createTextSkin();
+        /********************************music*********************************/
+        super.setMusic("sounds/Death.mp3");
+        super.playMusic(1.0f, true);
+        /**********************************************************************/
     }
     
     @Override
@@ -71,6 +75,7 @@ public class DeathScreen extends AbstractScreen{
       menuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+               stopMusic();
                ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
             }
         });

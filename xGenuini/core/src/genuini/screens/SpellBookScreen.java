@@ -26,132 +26,137 @@ import static genuini.main.MainGame.V_WIDTH;
 
 /**
  * Defined the spell book screen
+ *
  * @since 01/12/2016
  * @author jeremy
  */
-public class SpellBookScreen extends AbstractScreen{
-    /**************************Button******************************************/
+public class SpellBookScreen extends AbstractScreen {
+
+    /**
+     * ************************Button*****************************************
+     */
     private TextButton menuButton;
     private TextButton gameButton;
     private TextButton arduinoButton;
     private final int buttonWidth;
     private final int buttonHeight;
-    /*************************Text area****************************************/
+    /**
+     * ***********************Text area***************************************
+     */
     private TextArea codeArea;
     private final int areaWidth;
     private final int areaHeight;
     BitmapFont bookFont;
     Skin bookSkin;
-    
-    /************************Communication*************************************/
+
+    /**
+     * **********************Communication************************************
+     */
     Communication arduino;
     String message;
 
-    
-    
-
-    
     /**
-     * Spell book constructor.
-     * Call AbstractScreen constructor and create completrary elements.
-     * Override of AbstractScreen.
+     * Spell book constructor. Call AbstractScreen constructor and create
+     * completrary elements. Override of AbstractScreen.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
-    public SpellBookScreen(){
+    public SpellBookScreen() {
         super();
-        buttonWidth=V_WIDTH/15;
-        buttonHeight=V_HEIGHT/20;
-        super.createButtonSkin(buttonWidth,buttonHeight);
-        areaWidth=V_WIDTH/6;
-        areaHeight=V_HEIGHT/10;
+        buttonWidth = V_WIDTH / 15;
+        buttonHeight = V_HEIGHT / 20;
+        super.createButtonSkin(buttonWidth, buttonHeight);
+        areaWidth = V_WIDTH / 6;
+        areaHeight = V_HEIGHT / 10;
         bookFont = new BitmapFont();
-        createBookSkin(areaWidth,areaHeight);
+        createBookSkin(areaWidth, areaHeight);
         background = new Texture("img/book/SpellBookWrite.png");
-        /**************************Communication*******************************/
+        /**
+         * ************************Communication******************************
+         */
         arduino = new Communication();
     }
-    
+
     /**
-     * Create a listener for the gameButton.
-     * Override of AbstractScreen.
+     * Create a listener for the gameButton. Override of AbstractScreen.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
     @Override
     public void show() {
-      Gdx.input.setInputProcessor(stage);
-      gameButton.addListener(new ClickListener(){
+        Gdx.input.setInputProcessor(stage);
+        gameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
+                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
-      
-      Gdx.input.setInputProcessor(stage);
-      arduinoButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-               //WRITE IN ARDUINO
-               message = codeArea.getText();
-               //System.out.println(message);
-               arduino.arduinoWrite(message);
-            }
-        });
-      gameButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-               ScreenManager.getInstance().showScreen( ScreenEnum.GAME);
-            }
-        });
-      
-      codeArea.setTextFieldListener(new TextFieldListener() {
 
-          @Override
-          public void keyTyped(TextField textField, char c) {
-          }
-          
-      });
+        Gdx.input.setInputProcessor(stage);
+        arduinoButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //WRITE IN ARDUINO
+                message = codeArea.getText();
+                //System.out.println(message);
+                arduino.arduinoWrite(message);
+            }
+        });
+        gameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+            }
+        });
+
+        codeArea.setTextFieldListener(new TextFieldListener() {
+
+            @Override
+            public void keyTyped(TextField textField, char c) {
+            }
+
+        });
     }
-    
+
     /**
-     * Set the menu button position.
-     * Override of AbstractScreen.
+     * Set the menu button position. Override of AbstractScreen.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
     @Override
     public void buildStage() {
         codeArea = new TextArea("Entrez votre code Arduino", bookSkin);
-        codeArea.setX(V_WIDTH/7+10);
-	codeArea.setY(55);
-	codeArea.setWidth(450);
-	codeArea.setHeight(580);
-        
+        codeArea.setX(V_WIDTH / 7 + 10);
+        codeArea.setY(55);
+        codeArea.setWidth(450);
+        codeArea.setHeight(580);
 
         gameButton = new TextButton("Jeu", skin); // Use the initialized skin
-        gameButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
-        
+        gameButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);
+
         arduinoButton = new TextButton("Valider", skin); // Use the initialized skin
-        arduinoButton.setPosition(buttonWidth/2 , V_HEIGHT-4*buttonHeight);
-        
+        arduinoButton.setPosition(buttonWidth / 2, V_HEIGHT - 4 * buttonHeight);
+
         stage.addActor(codeArea);
         stage.addActor(arduinoButton);
 
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
-        menuButton.setPosition(buttonWidth/2 , V_HEIGHT-2*buttonHeight);
+        menuButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);
         gameButton = new TextButton("Game", skin); // Use the initialized skin
-        gameButton.setPosition(buttonWidth/2 , V_HEIGHT-4*buttonHeight);
-        
+        gameButton.setPosition(buttonWidth / 2, V_HEIGHT - 4 * buttonHeight);
+
         stage.addActor(codeArea);
         stage.addActor(menuButton);
 
         stage.addActor(gameButton);
     }
-    
+
     /**
-     * Render of the screen.
-     * Override of AbstractScreen.
+     * Render of the screen. Override of AbstractScreen.
+     *
      * @param delta
      * @since 01/12/2016
      * @author jeremy
@@ -161,20 +166,20 @@ public class SpellBookScreen extends AbstractScreen{
         super.render(delta);
         /*draw*/
         batch.begin();
-        batch.draw(background,V_WIDTH/8,0);
+        batch.draw(background, V_WIDTH / 8, 0);
         /*TODO :
-        *Draw screen (change background)
-        *Draw font in an specific area
-        */
+         *Draw screen (change background)
+         *Draw font in an specific area
+         */
         batch.end();
         stage.act(delta);
         stage.draw();
-        
+
     }
-    
+
     /**
-     * Unmodify overrided function.
-     * Override of AbstractScreen.
+     * Unmodify overrided function. Override of AbstractScreen.
+     *
      * @param width
      * @param height
      * @since 01/12/2016
@@ -182,65 +187,67 @@ public class SpellBookScreen extends AbstractScreen{
      */
     @Override
     public void resize(int width, int height) {
-        
+
     }
-    
+
     /**
-     * Unmodify overrided function.
-     * Override of AbstractScreen.
+     * Unmodify overrided function. Override of AbstractScreen.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
     @Override
     public void pause() {
     }
-    
+
     /**
-     * Unmodify overrided function.
-     * Override of AbstractScreen.
+     * Unmodify overrided function. Override of AbstractScreen.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
     @Override
     public void resume() {
     }
-    
+
     /**
-     * Unmodify overrided function.
-     * Override of AbstractScreen.
+     * Unmodify overrided function. Override of AbstractScreen.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
     @Override
     public void hide() {
     }
-    
+
     /**
-     * Unmodify overrided function.
-     * Override of AbstractScreen.
+     * Unmodify overrided function. Override of AbstractScreen.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
     @Override
     public void dispose() {
-       super.dispose();
-       bookFont.dispose();
+        super.dispose();
+        bookFont.dispose();
     }
+
     /**
      * Create a skin for the spell book in the background.
+     *
      * @since 01/12/2016
      * @author jeremy
      */
-    private void createBookSkin(float width, float height){
+    private void createBookSkin(float width, float height) {
         //Create a font
         bookSkin = new Skin();
         bookSkin.add("default", font);
 
         //Create a texture
-        Pixmap pixmap = new Pixmap((int)width,(int)height, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        bookSkin.add("background",new Texture(pixmap));
+        bookSkin.add("background", new Texture(pixmap));
 
         //Create a button style
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
@@ -252,6 +259,6 @@ public class SpellBookScreen extends AbstractScreen{
         textFieldStyle.font = bookSkin.getFont("default");
         bookSkin.add("default", textFieldStyle);
 
-      }
+    }
 
 }
