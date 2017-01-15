@@ -35,6 +35,10 @@ public class MainMenuScreen extends AbstractScreen {
         buttonWidth = V_WIDTH / 6;
         buttonHeight = V_HEIGHT / 10;
         super.createButtonSkin(buttonWidth, buttonHeight);
+        /********************************music*********************************/
+        super.setMusic("sounds/Earth_From_Sky.mp3");
+        super.playMusic(0.5f, true);
+        /**********************************************************************/
     }
 
     @Override
@@ -62,6 +66,7 @@ public class MainMenuScreen extends AbstractScreen {
         newGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                stopMusic();
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
