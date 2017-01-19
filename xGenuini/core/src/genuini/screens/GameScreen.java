@@ -22,7 +22,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import genuini.entities.Mob;
 import genuini.entities.Player;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
@@ -42,6 +48,7 @@ import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
+import java.util.Vector;
 
 public class GameScreen extends AbstractScreen {
 
@@ -53,10 +60,12 @@ public class GameScreen extends AbstractScreen {
     private final BoundedCamera cam;
 
     private Player player;
+    private Mob mob;
 
     private final World world;
 
-    private final ContactHandler contactManager;
+    private final ContactHandler contactManagerPlayer;
+    //private final ContactHandler contactManagerMob;
 
     private TiledMap map;
     private TiledMapRenderer tmr;
@@ -73,13 +82,16 @@ public class GameScreen extends AbstractScreen {
 
     private Table table;
     private Label lifePointsLabel;
+    
 
     public GameScreen() {
         super();
 
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
-        contactManager = new ContactHandler();
-        world.setContactListener(contactManager);//
+        contactManagerPlayer = new ContactHandler();
+        //contactManagerMob = new ContactHandler();
+        world.setContactListener(contactManagerPlayer);//
+        //world.setContactListener(contactManagerMob);
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
@@ -111,7 +123,10 @@ public class GameScreen extends AbstractScreen {
         //create player
         createPlayer();
         cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
-
+        
+        //create mob
+        createMob();
+        
         /*text time*/
         if (tutorial) {
             new java.util.Timer().schedule(
@@ -211,7 +226,8 @@ public class GameScreen extends AbstractScreen {
         handleInput();
         handleContact();
         handlePlayer();
-
+        handleMob();
+        
         // camera follow player
         cam.setPosition(player.getPosition().x * PPM + MainGame.V_WIDTH / 4, player.getPosition().y * PPM);
         cam.update();
@@ -222,6 +238,7 @@ public class GameScreen extends AbstractScreen {
 
         //draw player
         player.render(batch);
+        mob.render(batch);
         //To write on screen
         if (debug) {
             b2dCam.setPosition(player.getPosition().x + MainGame.V_WIDTH / 4 / PPM, player.getPosition().y);
@@ -261,6 +278,58 @@ public class GameScreen extends AbstractScreen {
         stage.act(delta);
         stage.draw();
 
+    }
+    
+    private void createCollisionListener() {
+        world.setContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact contact) {
+                Fixture fixtureA = contact.getFixtureA();
+                Fixture fixtureB = contact.getFixtureB();
+                
+                for(Fixture current_fixture_i : mob.getBody().getFixtureList()){
+                    if(current_fixture_i == fixtureA){
+                        for(Fixture current_fixture_j : player.getBody().getFixtureList()){
+                            if(current_fixture_j == fixtureB){
+                                collisionMobPlayer();
+                            }
+                        }
+                    } else if(current_fixture_i == fixtureB){
+                        for(Fixture current_fixture_j : player.getBody().getFixtureList()){
+                            if(current_fixture_j == fixtureA){
+                                collisionMobPlayer();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });
+    }
+    
+    private void collisionMobPlayer(){
+        mob.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
+        mob.walkRight();
+        player.getBody().applyLinearImpulse(-5 / PPM, 0, 0, 0, true);
+        player.walkLeft();
+        player.setLife(player.getLife()-10);
+        mob.setLife(mob.getLife()-10);
     }
 
     private void handlePlayer() {
@@ -349,7 +418,7 @@ public class GameScreen extends AbstractScreen {
 
         }
 
-        if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
+        if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManagerPlayer.playerCanJump()) {
             if (tutorial) {
                 if (textChoice != 10) {
                     playerJump();
@@ -365,16 +434,53 @@ public class GameScreen extends AbstractScreen {
         }
 
     }
+    
+    /**
+     * Mob's AI and test for life
+     * @authpr Jeremy
+     */
+    public void handleMob(){
+        Vector2 vector2_mob = mob.getPosition();
+        Vector2 vector2_player = player.getPosition();
+        float ecart = mob.getPosition().x-player.getPosition().x;
+        
+        if(vector2_mob.x < vector2_player.x-1){
+            mob.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
+            mob.walkRight();
+        }
+        if(vector2_mob.x > vector2_player.x+1){
+            mob.getBody().applyLinearImpulse(-5 / PPM, 0, 0, 0, true);
+            mob.walkLeft();
+        }
+        if ((vector2_mob.y < vector2_player.y)||(Math.abs(ecart)>3)){
+            mob.getBody().applyLinearImpulse(0, 160 / PPM, 0, 0, true);
+            mob.updateTexture(true);
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            mob.updateTexture(false);
+                        }
+                    },
+                    600
+            );
+        }
+        /****************************Life**************************************/
+        if(mob.getLife()<=0){
+            mob.setStatus(0);
+        }
+        
+    }
 
     public void handleContact() {
 
-        if (contactManager.isBouncy() && contactManager.isSpike()) {
+        if (contactManagerPlayer.isBouncy() && contactManagerPlayer.isSpike()) {
             playerBounce(200f);
-        } else if (contactManager.isBouncy()) {
+        } else if (contactManagerPlayer.isBouncy()) {
             playerBounce(480f);
         }
-        if (contactManager.isSpike()) {
-            player.changeLife(-5);
+        if (contactManagerPlayer.isSpike()) {
+            player.setLife(-5);
             if (connected) {
                 arduinoInstance.write("game;" + String.valueOf(player.getLife())); //quand vie change
             }
@@ -427,6 +533,45 @@ public class GameScreen extends AbstractScreen {
 
         //Create player entity
         player = new Player(body);
+    }
+    
+    private void createMob() {
+        BodyDef bdef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fdef = new FixtureDef();
+
+        bdef.position.set(prefs.getPositionX(), prefs.getPositionY());
+        bdef.type = BodyType.DynamicBody;
+        bdef.linearDamping = 1f;
+        Body body = world.createBody(bdef);
+        fdef.friction = 1.5f;
+        fdef.shape = shape;
+        //fdef.filter.categoryBits = PhysicsVariables.BIT_PLAYER;
+        //fdef.filter.maskBits = PhysicsVariables.BIT_TERRAIN;
+        float bodyWidth = 22f / PPM;
+        float bodyHeight = 44f / PPM;
+        float feetWidth = 14f / PPM;
+        float feetHeight = 14f / PPM;
+
+        //Create player shape
+        Vector2[] playerShapeVertices = new Vector2[6];
+        playerShapeVertices[0] = new Vector2(-feetWidth, -bodyHeight);
+        playerShapeVertices[1] = new Vector2(feetWidth, -bodyHeight);
+        playerShapeVertices[2] = new Vector2(bodyWidth, -bodyHeight + feetHeight);
+        playerShapeVertices[3] = new Vector2(bodyWidth, bodyHeight);
+        playerShapeVertices[4] = new Vector2(-bodyWidth, bodyHeight);
+        playerShapeVertices[5] = new Vector2(-bodyWidth, -bodyHeight + feetHeight);
+        shape.set(playerShapeVertices);
+        //shape.setAsBox(bodyWidth, bodyHeight);
+        body.createFixture(fdef).setUserData("player");
+
+        //create foot sensor
+        shape.setAsBox(feetWidth, feetHeight / 2, new Vector2(0, -bodyHeight), 0);
+        fdef.isSensor = true;
+        body.createFixture(fdef).setUserData("foot");
+
+        //Create player entity
+        mob = new Mob(body);
     }
 
     private void deleteTexture() {

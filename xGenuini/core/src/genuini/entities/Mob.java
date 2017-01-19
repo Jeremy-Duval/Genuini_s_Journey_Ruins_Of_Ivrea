@@ -10,14 +10,14 @@ import com.badlogic.gdx.physics.box2d.Body;
  *
  * @author Adrien
  */
-public class Player extends Character{
+public class Mob extends Character{
     private int life;
     private int status;
     
-    public Player(Body body) {
+    public Mob(Body body) {
         super(body,"p1",76,92,1,11,"right");
-        life=100;
-        status=1;// means he is alive
+        life=500;
+        status=1;// 1 : alive -> 0 : dead
     }
     
     public void setLife(int delta){
