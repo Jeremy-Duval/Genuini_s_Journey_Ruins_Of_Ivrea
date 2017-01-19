@@ -66,7 +66,6 @@ public class GameScreen extends AbstractScreen {
 
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
-    private TextButton deathButton;
 
     //Starting text "Hey, my name is Genuini"
     private int textChoice = 10;
@@ -146,16 +145,6 @@ public class GameScreen extends AbstractScreen {
             }
         });
 
-        deathButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (connected) {
-                    arduinoInstance.write("death;");
-                }
-                stopMusic();
-                ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
-            }
-        });
 
         spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
             @Override
@@ -172,15 +161,11 @@ public class GameScreen extends AbstractScreen {
         menuButton = new TextButton("Menu", skin);
         menuButton.setPosition(V_WIDTH - tileSize * 1.6f, tileSize * 3);
 
-        deathButton = new TextButton("Death", skin);
-        deathButton.setPosition(V_WIDTH - tileSize * 1.6f, tileSize * 5);
-
         spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
         spellBookScreenButton.setPosition(V_WIDTH - tileSize * 1f, tileSize * 1.8f);
         spellBookScreenButton.setSize(tileSize, tileSize);
 
         stage.addActor(menuButton);
-        stage.addActor(deathButton);
         stage.addActor(spellBookScreenButton);
 
         /* HUD creation */
@@ -210,7 +195,6 @@ public class GameScreen extends AbstractScreen {
 
         handleInput();
         handleContact();
-        handlePlayer();
 
         // camera follow player
         cam.setPosition(player.getPosition().x * PPM + MainGame.V_WIDTH / 4, player.getPosition().y * PPM);
@@ -263,17 +247,16 @@ public class GameScreen extends AbstractScreen {
 
     }
 
-    private void handlePlayer() {
-        if (player.getLife() <= 0 && player.getStatus() != 0) {
-            playerDeath();
-        }
-    }
 
     private void playerDeath() {
         player.setStatus(0);
         System.out.println("You dead");
-        //prefs.reset(); 
-        //ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
+        prefs.reset();
+        if (connected) {
+            arduinoInstance.write("death;");
+        }
+        stopMusic();
+        ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
 
     /**
@@ -379,6 +362,9 @@ public class GameScreen extends AbstractScreen {
                 arduinoInstance.write("game;" + String.valueOf(player.getLife())); //quand vie change
             }
             lifePointsLabel.setText(String.valueOf(player.getLife()));
+            if (player.getLife() <= 0 && player.getStatus() != 0) {
+                playerDeath();
+            }
         }
     }
 
