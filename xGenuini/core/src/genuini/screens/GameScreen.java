@@ -287,7 +287,10 @@ public class GameScreen extends AbstractScreen {
             public void beginContact(Contact contact) {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
-                
+                System.out.println("********************************************");
+                System.out.println("Fixture A : " + fixtureA);
+                System.out.println("Fixture B : " + fixtureB);
+                System.out.println("********************************************");
                 for(Fixture current_fixture_i : mob.getBody().getFixtureList()){
                     if(current_fixture_i == fixtureA){
                         for(Fixture current_fixture_j : player.getBody().getFixtureList()){
