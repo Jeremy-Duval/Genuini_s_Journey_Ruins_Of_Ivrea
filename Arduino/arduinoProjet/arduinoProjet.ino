@@ -77,7 +77,7 @@ void loop() {
     lcd.createChar(1, myarray);
     switch (currentState) {
       case State::Menu:
-        //lcd.setRGB(colorR, colorG, colorB);
+        lcd.setRGB(255, 255, 255);
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Genuini\001 Journey");
@@ -98,6 +98,7 @@ void loop() {
       case State::Death:
         lcd.clear();
         lcd.setRGB(colorR, colorG, colorB);
+        changeSentence = false;
         break;
 
       default:
