@@ -18,6 +18,7 @@ import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
+import static genuini.screens.AbstractScreen.continueMusic;
 
 
 
@@ -79,6 +80,7 @@ public class DeathScreen extends AbstractScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                music.stopMusic();
+               continueMusic = false;
                ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
             }
         });
