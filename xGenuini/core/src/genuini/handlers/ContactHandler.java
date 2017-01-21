@@ -46,11 +46,20 @@ public class ContactHandler implements ContactListener{
         if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
                 || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
             bounce=true;    
-            spike=true;    
-                
-                
+            spike=true;                  
         }
         
+        if(fa.getUserData() != null && fa.getUserData().equals("fireball") && fb.getUserData() != null && !fb.getUserData().equals("player")){
+            bodiesToRemove.add(fa.getBody());              
+        }
+        if(fa.getUserData() != null && !fa.getUserData().equals("player") && fb.getUserData() != null && fb.getUserData().equals("fireball")){
+            bodiesToRemove.add(fb.getBody());              
+        }
+        
+        if(fa.getUserData() != null && fa.getUserData().equals("player") && fb.getUserData() != null && fb.getUserData().equals("fireball")
+                || fa.getUserData() != null && fa.getUserData().equals("fireball") && fb.getUserData() != null && fb.getUserData().equals("player")) {
+            System.out.println("aiii");
+        }
 }
     
     //Called when 2 fixtures no longer collide
