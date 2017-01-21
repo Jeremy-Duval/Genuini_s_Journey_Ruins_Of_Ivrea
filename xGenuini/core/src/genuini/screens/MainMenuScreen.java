@@ -24,7 +24,7 @@ public class MainMenuScreen extends AbstractScreen {
     private TextButton newGameButton;
     private TextButton quitButton;
 
-    private TextButton arduinoButton;
+
     private boolean etatArduino = false;
 
     private final int buttonWidth;
@@ -36,8 +36,8 @@ public class MainMenuScreen extends AbstractScreen {
         buttonHeight = V_HEIGHT / 10;
         super.createButtonSkin(buttonWidth, buttonHeight);
         /********************************music*********************************/
-        super.setMusic("sounds/Earth_From_Sky.mp3");
-        super.playMusic(0.5f, true);
+        music.setMusic("sounds/Earth_From_Sky.mp3");
+        music.playMusic(0.5f, true,-1);
         /**********************************************************************/
     }
 
@@ -46,14 +46,14 @@ public class MainMenuScreen extends AbstractScreen {
         batch = new SpriteBatch();
         newGameButton = new TextButton("Jouer", skin); // Use the initialized skin
         quitButton = new TextButton("Quitter", skin);
-        arduinoButton = new TextButton("Arduino Connexion", skin);
+
 
         newGameButton.setPosition((V_WIDTH - buttonWidth) / 2, (V_HEIGHT + buttonHeight) / 2 + 10);
         quitButton.setPosition((V_WIDTH - buttonWidth) / 2, (V_HEIGHT - buttonHeight) / 2 - 10);
-        arduinoButton.setPosition((V_WIDTH - buttonWidth) / 2, (V_HEIGHT - buttonHeight) / 2 - 100);
+
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
-        stage.addActor(arduinoButton);
+
 
         if (connected) {
             arduinoInstance.write("menu;0");
@@ -66,7 +66,7 @@ public class MainMenuScreen extends AbstractScreen {
         newGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stopMusic();
+                music.stopMusic();
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
@@ -74,17 +74,12 @@ public class MainMenuScreen extends AbstractScreen {
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                arduinoInstance.write("exit;");
                 prefs.save();
                 Gdx.app.exit();
             }
         });
 
-        arduinoButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //TO IMPLEMENT
-            }
-        });
     }
 
     @Override
@@ -122,7 +117,9 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
+        music.dispose();
         super.dispose();
+        
     }
 
 }

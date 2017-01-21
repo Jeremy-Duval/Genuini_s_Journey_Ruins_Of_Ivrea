@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import genuini.handlers.Content;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
+import static genuini.screens.AbstractScreen.arduinoInstance;
 
 public class MainGame extends Game implements ApplicationListener {
     public static final String TITLE = "Genuini";
@@ -52,6 +53,7 @@ public class MainGame extends Game implements ApplicationListener {
     @Override
     public void dispose () {
         contentManager.removeAll();
+        arduinoInstance.write("exit;");
     }
 
     @Override

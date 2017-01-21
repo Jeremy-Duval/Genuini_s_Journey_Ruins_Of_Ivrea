@@ -42,6 +42,7 @@ import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
+import static genuini.screens.AbstractScreen.continueMusic;
 
 public class GameScreen extends AbstractScreen {
 
@@ -92,11 +93,12 @@ public class GameScreen extends AbstractScreen {
         super.createButtonSkin(tileSize * 1.6f, tileSize / 2);
         super.createBookButtonSkin(tileSize * 1.6f, tileSize / 2);
         super.createTextSkin();
-        
-        /********************************music*********************************/
-        super.setMusic("sounds/Land_of_Ivrea.mp3");
-        super.playMusic(1.0f, true);
-        /**********************************************************************/
+
+        /* Music */
+        if (!continueMusic) {
+            music.setMusic("sounds/Land_of_Ivrea.mp3");
+            music.playMusic(1.0f, true, -1);
+        }
 
         /* DEBUG */
         if (debug) {
@@ -115,11 +117,11 @@ public class GameScreen extends AbstractScreen {
         if (tutorial) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            textChoice = 0;
-                        }
-                    },
+                @Override
+                public void run() {
+                    textChoice = 0;
+                }
+            },
                     4000
             );
 
@@ -140,16 +142,16 @@ public class GameScreen extends AbstractScreen {
                 prefs.setPositionX(player.getPosition().x);
                 prefs.setPositionY(player.getPosition().y);
                 prefs.save();
-                stopMusic();
+                music.stopMusic();
+                continueMusic = false;
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
 
-
         spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stopMusic();
+                continueMusic = true;
                 ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
             }
         });
@@ -247,7 +249,6 @@ public class GameScreen extends AbstractScreen {
 
     }
 
-
     private void playerDeath() {
         player.setStatus(0);
         System.out.println("You dead");
@@ -255,7 +256,7 @@ public class GameScreen extends AbstractScreen {
         if (connected) {
             arduinoInstance.write("death;");
         }
-        stopMusic();
+        music.stopMusic();
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
 
@@ -267,11 +268,11 @@ public class GameScreen extends AbstractScreen {
         player.updateTexture(true);
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        player.updateTexture(false);
-                    }
-                },
+            @Override
+            public void run() {
+                player.updateTexture(false);
+            }
+        },
                 600
         );
     }
@@ -282,11 +283,11 @@ public class GameScreen extends AbstractScreen {
         player.updateTexture(true);
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        player.updateTexture(false);
-                    }
-                },
+            @Override
+            public void run() {
+                player.updateTexture(false);
+            }
+        },
                 800
         );
     }
@@ -372,6 +373,9 @@ public class GameScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
         //font.dispose();
+        if (!continueMusic) {
+            music.dispose();
+        }
         world.dispose();
         map.dispose();
     }
@@ -419,11 +423,11 @@ public class GameScreen extends AbstractScreen {
         //delete "let's play text"
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        textChoice = 4;
-                    }
-                },
+            @Override
+            public void run() {
+                textChoice = 4;
+            }
+        },
                 4000
         );
     }
