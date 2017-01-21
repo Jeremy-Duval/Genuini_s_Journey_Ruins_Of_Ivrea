@@ -40,7 +40,7 @@ public class AbstractScreen extends Stage implements Screen {
     Texture background;
     public static SerialTest arduinoInstance; //Arduino Connection
     SerialPort arduinoPort; //Port Use
-    static boolean connected = false;// arduino connected or no
+    public static boolean connected = false;// arduino connected or no
     Texture connectArduino; //image of arduino connected
     Texture textureBookButton;
     Stage stage;
