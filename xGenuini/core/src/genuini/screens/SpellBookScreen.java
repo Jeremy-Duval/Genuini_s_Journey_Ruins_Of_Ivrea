@@ -17,12 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import genuini.arduino.Communication;
-import genuini.arduino.UnobtainableComPortException;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
+import static genuini.screens.AbstractScreen.music;
 
 /**
  * Defined the spell book screen
@@ -37,7 +36,6 @@ public class SpellBookScreen extends AbstractScreen {
      */
     private TextButton menuButton;
     private TextButton gameButton;
-    private TextButton arduinoButton;
     private final int buttonWidth;
     private final int buttonHeight;
     /**
@@ -49,11 +47,6 @@ public class SpellBookScreen extends AbstractScreen {
     BitmapFont bookFont;
     Skin bookSkin;
 
-    /**
-     * **********************Communication************************************
-     */
-    Communication arduino;
-    String message;
 
     /**
      * Spell book constructor. Call AbstractScreen constructor and create
@@ -72,10 +65,8 @@ public class SpellBookScreen extends AbstractScreen {
         bookFont = new BitmapFont();
         createBookSkin(areaWidth, areaHeight);
         background = new Texture("img/book/SpellBookWrite.png");
-        /**
-         * ************************Communication******************************
-         */
-        arduino = new Communication();
+
+
     }
 
     /**
@@ -87,26 +78,19 @@ public class SpellBookScreen extends AbstractScreen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        gameButton.addListener(new ClickListener() {
+        menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+                music.stopMusic();
+                continueMusic=false;
+                ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
 
-        Gdx.input.setInputProcessor(stage);
-        arduinoButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //WRITE IN ARDUINO
-                message = codeArea.getText();
-                //System.out.println(message);
-                arduino.arduinoWrite(message);
-            }
-        });
         gameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                continueMusic=true;
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
@@ -137,11 +121,10 @@ public class SpellBookScreen extends AbstractScreen {
         gameButton = new TextButton("Jeu", skin); // Use the initialized skin
         gameButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);
 
-        arduinoButton = new TextButton("Valider", skin); // Use the initialized skin
-        arduinoButton.setPosition(buttonWidth / 2, V_HEIGHT - 4 * buttonHeight);
+
 
         stage.addActor(codeArea);
-        stage.addActor(arduinoButton);
+
 
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
         menuButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);
@@ -230,6 +213,9 @@ public class SpellBookScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
         bookFont.dispose();
+        if(!continueMusic){
+            music.dispose();
+        }
     }
 
     /**
