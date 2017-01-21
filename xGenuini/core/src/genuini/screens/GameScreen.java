@@ -447,26 +447,28 @@ public class GameScreen extends AbstractScreen {
         Vector2 vector2_player = player.getPosition();
         float ecart = mob.getPosition().x-player.getPosition().x;
         
-        if(vector2_mob.x < vector2_player.x-1){
-            mob.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
-            mob.walkRight();
-        }
-        if(vector2_mob.x > vector2_player.x+1){
-            mob.getBody().applyLinearImpulse(-5 / PPM, 0, 0, 0, true);
-            mob.walkLeft();
-        }
-        if ((vector2_mob.y < vector2_player.y)||(Math.abs(ecart)>3)){
-            mob.getBody().applyLinearImpulse(0, 160 / PPM, 0, 0, true);
-            mob.updateTexture(true);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            mob.updateTexture(false);
-                        }
-                    },
-                    600
-            );
+        if (ecart < 10) {
+            if (vector2_mob.x < vector2_player.x - 1) {
+                mob.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
+                mob.walkRight();
+            }
+            if (vector2_mob.x > vector2_player.x + 1) {
+                mob.getBody().applyLinearImpulse(-5 / PPM, 0, 0, 0, true);
+                mob.walkLeft();
+            }
+            if ((vector2_mob.y < vector2_player.y) || (Math.abs(ecart) > 3)) {
+                mob.getBody().applyLinearImpulse(0, 160 / PPM, 0, 0, true);
+                mob.updateTexture(true);
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                mob.updateTexture(false);
+                            }
+                        },
+                        600
+                );
+            }
         }
         /****************************Life**************************************/
         if(mob.getLife()<=0){
@@ -542,8 +544,7 @@ public class GameScreen extends AbstractScreen {
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
-
-        bdef.position.set(prefs.getPositionX(), prefs.getPositionY());
+        bdef.position.set((tileMapWidth * tileSize)/PPM-3*(tileSize/PPM), tileSize/PPM * 2);//place the mob juste before the end of the map, at the second tiles in height
         bdef.type = BodyType.DynamicBody;
         bdef.linearDamping = 1f;
         Body body = world.createBody(bdef);
