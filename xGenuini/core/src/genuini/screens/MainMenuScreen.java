@@ -74,6 +74,7 @@ public class MainMenuScreen extends AbstractScreen {
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                arduinoInstance.write("exit;");
                 prefs.save();
                 Gdx.app.exit();
             }
