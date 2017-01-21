@@ -25,7 +25,8 @@ enum State : uint8_t {
   None,
   Menu,
   Game,
-  Death
+  Death,
+  Exit
 } previousState = State::None, currentState = State::None;
 
 void setup() {
@@ -61,6 +62,9 @@ void loop() {
     } else if (firstValue == "death") {
       previousState = currentState;
       currentState = State::Death;
+    } else if (firstValue == "exit") {
+      previousState = currentState;
+      currentState = State::Exit;
     }
 
     int life = secondValue.toInt();
@@ -77,7 +81,7 @@ void loop() {
     lcd.createChar(1, myarray);
     switch (currentState) {
       case State::Menu:
-        //lcd.setRGB(colorR, colorG, colorB);
+        lcd.setRGB(255, 255, 255);
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Genuini\001 Journey");
@@ -98,8 +102,14 @@ void loop() {
       case State::Death:
         lcd.clear();
         lcd.setRGB(colorR, colorG, colorB);
+        changeSentence = false;
         break;
-
+      case State::Exit:
+        lcd.clear();
+        lcd.setRGB(0, 0, 0);
+        changeSentence = false;  
+        bar.setBits(0x0);
+        break;
       default:
         bar.setBits(0x0);
         break;
