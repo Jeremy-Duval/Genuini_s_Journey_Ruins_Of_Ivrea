@@ -59,7 +59,6 @@ public class AudioManager {
      */
     public void stopMusic(){
         sound.stop(id_sound);
-        sound.dispose();
     }
     
     /**

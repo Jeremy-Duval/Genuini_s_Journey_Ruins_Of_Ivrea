@@ -162,7 +162,6 @@ public class GameScreen extends AbstractScreen{
                 prefs.setPositionX(player.getPosition().x);
                 prefs.setPositionY(player.getPosition().y);
                 prefs.save();
-                music.stopMusic();
                 continueMusic = false;
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
@@ -294,6 +293,7 @@ public class GameScreen extends AbstractScreen{
         if (connected) {
             arduinoInstance.write("death;");
         }
+        music.stopMusic();
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
 
@@ -420,7 +420,7 @@ public class GameScreen extends AbstractScreen{
                     Fireball fireball = createFireball(turret);
                     fireballs.add(fireball);
                     turret.setFireball(fireball);
-                    targetPlayer(fireball.getBody(), 10);
+                    targetPlayer(fireball.getBody(), 20);
                 }else{
                     //System.out.println(distance_player_turret);
                 }
@@ -433,9 +433,6 @@ public class GameScreen extends AbstractScreen{
     public void dispose() {
         super.dispose();
         //font.dispose();
-        if (!continueMusic) {
-            music.dispose();
-        }
         world.dispose();
         map.dispose();
     }
@@ -667,11 +664,7 @@ public class GameScreen extends AbstractScreen{
             }
         }
     }
-    
 
-    
-    
-    
     private void createFireTurret(Vector2 turret_pos) {
         Turret turret = new Turret(turret_pos);
         turrets.add(turret);

@@ -81,7 +81,6 @@ public class SpellBookScreen extends AbstractScreen {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                music.stopMusic();
                 continueMusic=false;
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
@@ -90,7 +89,6 @@ public class SpellBookScreen extends AbstractScreen {
         gameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                continueMusic=true;
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
@@ -213,9 +211,6 @@ public class SpellBookScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
         bookFont.dispose();
-        if(!continueMusic){
-            music.dispose();
-        }
     }
 
     /**
@@ -244,7 +239,6 @@ public class SpellBookScreen extends AbstractScreen {
         textFieldStyle.cursor.setMinWidth(1f);
         textFieldStyle.font = bookSkin.getFont("default");
         bookSkin.add("default", textFieldStyle);
-
     }
 
 }

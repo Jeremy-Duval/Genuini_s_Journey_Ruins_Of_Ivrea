@@ -136,6 +136,10 @@ public class AbstractScreen extends Stage implements Screen {
         //bookButtonSkin.dispose();
         background.dispose();
         stage.dispose();
+        if (!continueMusic) {
+            music.stopMusic();
+            music.dispose();
+        }
         batch.dispose();
         connectArduino.dispose();
     }

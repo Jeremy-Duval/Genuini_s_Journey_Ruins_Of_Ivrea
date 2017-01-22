@@ -66,7 +66,6 @@ public class MainMenuScreen extends AbstractScreen {
         newGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                music.stopMusic();
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
@@ -119,7 +118,6 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
-        music.dispose();
         super.dispose();
         
     }

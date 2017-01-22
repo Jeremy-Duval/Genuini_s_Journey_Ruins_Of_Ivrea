@@ -79,8 +79,6 @@ public class DeathScreen extends AbstractScreen{
       menuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               music.stopMusic();
-               continueMusic = false;
                ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
             }
         });
@@ -99,6 +97,5 @@ public class DeathScreen extends AbstractScreen{
     @Override
     public void dispose() {
        super.dispose();
-       music.dispose();
     }
 }
