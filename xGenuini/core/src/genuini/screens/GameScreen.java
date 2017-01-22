@@ -34,7 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.Fireball;
 import genuini.entities.Player;
-import genuini.entities.Sprites;
+import genuini.entities.Turret;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
 import static genuini.handlers.PhysicsVariables.PPM;
@@ -52,8 +52,6 @@ import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import static genuini.screens.AbstractScreen.continueMusic;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameScreen extends AbstractScreen{
     private final boolean debug = false;
@@ -87,9 +85,9 @@ public class GameScreen extends AbstractScreen{
     
 
     //Fire turret
-    private Vector2 fire_pos;
-    private static boolean turretActivated = true;
-    private Fireball fireball;
+    private Array<Turret> turrets;
+    private Array<Fireball> fireballs;
+
     
 
     public GameScreen() {
@@ -104,7 +102,10 @@ public class GameScreen extends AbstractScreen{
 
         //set the Text batch
         TextManager.SetSpriteBatch(batch);
-
+        
+        //turrets
+        turrets = new Array<Turret>();
+        fireballs = new Array<Fireball>();
         //create tiles
         createTiles();
 
@@ -214,12 +215,13 @@ public class GameScreen extends AbstractScreen{
         batch.setProjectionMatrix(cam.combined);
         world.step(delta, 7, 3);
         
-        destroyBodies();
+        //destroyBodies();
+        //destroyFireballs();
               
         
         handleInput();
         handleContact();
-        handleArea();
+        //handleArea();
         
         
         
@@ -235,10 +237,13 @@ public class GameScreen extends AbstractScreen{
         //draw player
         player.render(batch);
         
-        //draw fireballs
-        if(fireball!=null && !turretActivated){
-            fireball.render(batch);
-        }
+        /*draw fireballs
+        if(fireballs.size>0){
+            for(Fireball f: fireballs){
+                f.render(batch);
+            }
+        }*/
+        
         
         //To write on screen
         if (debug) {
@@ -283,14 +288,12 @@ public class GameScreen extends AbstractScreen{
         
     }
 
-
     private void playerDeath() {
         player.setStatus(0);
         prefs.reset();
         if (connected) {
             arduinoInstance.write("death;");
         }
-        music.stopMusic();
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
 
@@ -339,10 +342,7 @@ public class GameScreen extends AbstractScreen{
     private void targetPlayer(Body body, float speed) { 
         body.applyLinearImpulse((player.getPosition().x-body.getPosition().x)*speed/PPM, (player.getPosition().y-body.getPosition().y)*speed/PPM, 0, 0, true);
     }
-    
-    public static void activateTurret(boolean active){
-        turretActivated = active;   
-    }
+
     
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
@@ -413,13 +413,20 @@ public class GameScreen extends AbstractScreen{
     }
     
     public void handleArea(){
-        float distance_player_turret =(float) Math.sqrt(Math.pow(player.getPosition().x-fire_pos.x,2) + (Math.pow(player.getPosition().y-fire_pos.y,2)));
-        if(distance_player_turret < 5  && turretActivated){
-            createFireball("turret_1");
-            targetPlayer(fireball.getBody(), 30);
-        }else{
-            //System.out.println(distance_player_turret);
+        for(Turret turret : turrets){      
+            if(!turret.hasFireball()){   
+                float distance_player_turret =(float) Math.sqrt(Math.pow(player.getPosition().x-turret.getPos().x,2) + (Math.pow(player.getPosition().y-turret.getPos().y,2)));
+                if(distance_player_turret < 5 && turret.isActive()){
+                    Fireball fireball = createFireball(turret);
+                    fireballs.add(fireball);
+                    turret.setFireball(fireball);
+                    targetPlayer(fireball.getBody(), 10);
+                }else{
+                    //System.out.println(distance_player_turret);
+                }
+            }    
         }
+        
     }
 
     @Override
@@ -473,10 +480,10 @@ public class GameScreen extends AbstractScreen{
         player = new Player(body);
     }
     
-    private void createFireball(String name){
+    public Fireball createFireball(Turret turret){
         BodyDef bdef = new BodyDef();
         bdef.type = BodyType.DynamicBody;
-        bdef.position.set(fire_pos.x,fire_pos.y);
+        bdef.position.set(turret.getPos().x,turret.getPos().y);
         
         Body body = world.createBody(bdef);
         
@@ -489,9 +496,8 @@ public class GameScreen extends AbstractScreen{
         fd.restitution = 0.6f; // Make it bounce a little bit
         fd.filter.categoryBits = BIT_FIREBALL;
         fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER;
-        body.createFixture(fd).setUserData(name);
-        activateTurret(false);
-        fireball = new Fireball(body);
+        body.createFixture(fd).setUserData("fireball");
+        return new Fireball(body,turret);
     }
     
     private void deleteTexture() {
@@ -621,7 +627,9 @@ public class GameScreen extends AbstractScreen{
                     fd.filter.categoryBits = BIT_TURRET;
                     fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN;
                     world.createBody(bdef).createFixture(fd).setUserData("fire_turret");
-                    fire_pos= new Vector2((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM);
+                    Vector2 turret_pos= new Vector2((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM);
+                    createFireTurret(turret_pos);
+                    
                 }else{
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
@@ -649,9 +657,25 @@ public class GameScreen extends AbstractScreen{
             Body b = bodies.get(i);
             world.destroyBody(bodies.get(i));
         }
-        bodies.clear();
+        bodies.clear();        
     }
-
+    
+    public void destroyFireballs(){
+        if(fireballs.size>0){
+            for(Fireball f : fireballs){
+                if(!f.getBody().isActive()){
+                    fireballs.removeValue(f, false);
+                    f.getTurret().destroyFireball();
+                }
+            }
+        }
+        
+    }
     
     
+    
+    private void createFireTurret(Vector2 turret_pos) {
+        Turret turret = new Turret(turret_pos);
+        turrets.add(turret);
+    }
 }

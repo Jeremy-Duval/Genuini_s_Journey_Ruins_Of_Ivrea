@@ -55,13 +55,13 @@ public class ContactHandler implements ContactListener{
         }
         
         
-        if(fa.getUserData() != null && fa.getUserData().equals("turret_1")){
+        if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=true;
             }
         }
         
-        if(fb.getUserData() != null && fb.getUserData().equals("turret_1")){
+        if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=true;
             }
@@ -94,19 +94,17 @@ public class ContactHandler implements ContactListener{
                 dangerous=false;
         }
 
-        if(fa.getUserData() != null && fa.getUserData().equals("turret_1")){
+        if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=false;
             }
-            GameScreen.activateTurret(true);
             bodiesToRemove.add(fa.getBody());
         }
         
-        if(fb.getUserData() != null && fb.getUserData().equals("turret_1")){
+        if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=false;
             }
-            GameScreen.activateTurret(true);
             bodiesToRemove.add(fb.getBody());
         }
     }

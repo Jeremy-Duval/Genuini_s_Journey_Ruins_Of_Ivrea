@@ -7,10 +7,8 @@ package genuini.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import genuini.handlers.PhysicsVariables;
 
 /**
  *
@@ -30,10 +28,6 @@ public class Sprites extends Sprite{
     public Body getBody() { return body; }
     public Vector2 getPosition() { return body.getPosition(); }
 
-    public void render(SpriteBatch spriteBatch) {
-            spriteBatch.begin();
-            spriteBatch.draw(sprite.getTexture(), (int) (body.getPosition().x * PhysicsVariables.PPM - sprite.getWidth() / 2), (int) (body.getPosition().y * PhysicsVariables.PPM - sprite.getHeight() / 2));
-            spriteBatch.end();
-    }
+    
 
 }
