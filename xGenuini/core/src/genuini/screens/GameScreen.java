@@ -215,13 +215,13 @@ public class GameScreen extends AbstractScreen{
         batch.setProjectionMatrix(cam.combined);
         world.step(delta, 7, 3);
         
-        //destroyBodies();
+        destroyBodies();
         //destroyFireballs();
               
         
         handleInput();
         handleContact();
-        //handleArea();
+        handleArea();
         
         
         
@@ -237,12 +237,12 @@ public class GameScreen extends AbstractScreen{
         //draw player
         player.render(batch);
         
-        /*draw fireballs
+        //draw fireballs
         if(fireballs.size>0){
             for(Fireball f: fireballs){
                 f.render(batch);
             }
-        }*/
+        }
         
         
         //To write on screen
@@ -414,9 +414,9 @@ public class GameScreen extends AbstractScreen{
     
     public void handleArea(){
         for(Turret turret : turrets){      
-            if(!turret.hasFireball()){   
+            if(!turret.hasFireball() && turret.isActive()){   
                 float distance_player_turret =(float) Math.sqrt(Math.pow(player.getPosition().x-turret.getPos().x,2) + (Math.pow(player.getPosition().y-turret.getPos().y,2)));
-                if(distance_player_turret < 5 && turret.isActive()){
+                if(distance_player_turret < 5){
                     Fireball fireball = createFireball(turret);
                     fireballs.add(fireball);
                     turret.setFireball(fireball);
@@ -657,10 +657,7 @@ public class GameScreen extends AbstractScreen{
             Body b = bodies.get(i);
             world.destroyBody(bodies.get(i));
         }
-        bodies.clear();        
-    }
-    
-    public void destroyFireballs(){
+        bodies.clear();
         if(fireballs.size>0){
             for(Fireball f : fireballs){
                 if(!f.getBody().isActive()){
@@ -669,8 +666,9 @@ public class GameScreen extends AbstractScreen{
                 }
             }
         }
-        
     }
+    
+
     
     
     
