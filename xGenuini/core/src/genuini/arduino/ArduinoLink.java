@@ -84,6 +84,8 @@ public class ArduinoLink implements SerialPortEventListener {
 			// add event listeners
 			serialPort.addEventListener(this);
 			serialPort.notifyOnDataAvailable(true);
+                        serialPort.disableReceiveTimeout();
+                        serialPort.enableReceiveThreshold(1);
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}
@@ -107,7 +109,7 @@ public class ArduinoLink implements SerialPortEventListener {
 	 */
         @Override
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
-		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+	/*	if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				String inputLine=input.readLine();
 				System.out.println(inputLine);
@@ -115,8 +117,18 @@ public class ArduinoLink implements SerialPortEventListener {
 				System.err.println(e.toString());
 			}
 		}
-		// Ignore all the other eventTypes, but you should consider the other ones.
+		// Ignore all the other eventTypes, but you should consider the other ones. */
 	}
+        
+        public synchronized String read(){
+            String receive = null;
+            try {
+                receive = input.readLine();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            return receive;
+        }
         
         public synchronized void write(String s){
             try {
