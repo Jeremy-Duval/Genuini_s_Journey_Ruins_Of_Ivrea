@@ -291,7 +291,6 @@ public class GameScreen extends AbstractScreen{
             arduinoInstance.write("death;");
         }
         music.stopMusic();
-        continueMusic=false;
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
 
