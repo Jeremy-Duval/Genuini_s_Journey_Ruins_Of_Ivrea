@@ -10,7 +10,7 @@ import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 
 public class MainGame extends Game implements ApplicationListener {
-    public static final String TITLE = "Genuini";
+    public static final String TITLE = "Genuini's Journey : Ruins of Ivrea";
     public static final int V_WIDTH = 1280;
     public static final int V_HEIGHT = 720;
     public static final int SCALE = 1;
@@ -62,7 +62,7 @@ public class MainGame extends Game implements ApplicationListener {
     @Override
     public void render () {
         super.render();
-        Gdx.graphics.setTitle(TITLE + " -- FPS: " + Gdx.graphics.getFramesPerSecond());
+        Gdx.graphics.setTitle(TITLE + " ----     FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     @Override

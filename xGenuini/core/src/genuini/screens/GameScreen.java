@@ -165,7 +165,7 @@ public class GameScreen extends AbstractScreen{
                 prefs.setPositionY(player.getPosition().y);
                 prefs.save();
                 
-                //MainGame.contentManager.getMusic("gameMusic").pause();
+                MainGame.contentManager.getMusic("gameMusic").pause();
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
@@ -224,13 +224,15 @@ public class GameScreen extends AbstractScreen{
         
         handleInput();
         handleContact();
-        handleArea();
+        
         float player_pos_x=prefs.getPositionX();
         float player_pos_y=prefs.getPositionY();
         if(player.getStatus()!=0){
             player_pos_x = player.getPosition().x;
             player_pos_y = player.getPosition().y;
         }
+        
+        handleArea(player_pos_x,player_pos_y);
         
         
         
@@ -247,10 +249,8 @@ public class GameScreen extends AbstractScreen{
         player.render(batch);
         
         //draw fireballs
-        if(fireballs.size>0){
-            for(Fireball f: fireballs){
-                f.render(batch);
-            }
+        for(int i=0; i<fireballs.size; i++){
+            fireballs.get(i).draw(batch);
         }
         
         
@@ -261,38 +261,11 @@ public class GameScreen extends AbstractScreen{
             b2dr.render(world, b2dCam.combined);
         }
 
-        batch.begin();
-        //spriteBatch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
-        //TextManager.Draw("FPS: ",cam);
-        if (tutorial) {
-            switch (textChoice) {
-                case 10:
-                    font.draw(batch, "Hey, my name is Genuini", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 0:
-                    font.draw(batch, "Make me jump with Z", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 1:
-                    font.draw(batch, "Well done, now to the right pushing D", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 2:
-                    font.draw(batch, "Nice, Can we go to the left please with Q", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 3:
-                    font.draw(batch, "Let's Play !", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                default:
-                    break;
-            }
-
-            batch.draw(connectArduino, player_pos_x * PPM - 270, Gdx.graphics.getHeight() - 100);
-        }
-
-        batch.end();
+        
 
         stage.act(delta);
         stage.draw();
-
+        
         
         
     }
@@ -422,21 +395,18 @@ public class GameScreen extends AbstractScreen{
         
     }
     
-    public void handleArea(){
+    public void handleArea(float x, float y){
         for(Turret turret : turrets){      
             if(!turret.hasFireball() && turret.isActive()){   
-                float distance_player_turret =(float) Math.sqrt(Math.pow(player.getPosition().x-turret.getPos().x,2) + (Math.pow(player.getPosition().y-turret.getPos().y,2)));
+                float distance_player_turret =(float) Math.sqrt(Math.pow(x-turret.getPos().x,2) + (Math.pow(y-turret.getPos().y,2)));
                 if(distance_player_turret < 5){
                     Fireball fireball = createFireball(turret);
                     fireballs.add(fireball);
                     turret.setFireball(fireball);
-                    targetPlayer(fireball.getBody(), 20);
-                }else{
-                    //System.out.println(distance_player_turret);
+                    targetPlayer(fireball.getBody(), 5);
                 }
             }    
-        }
-        
+        }       
     }
 
     @Override
@@ -666,6 +636,7 @@ public class GameScreen extends AbstractScreen{
             world.destroyBody(b);
         }
         bodies.clear();
+        
        if(fireballs.size>0){
             for(Fireball f : fireballs){
                 if(!f.getBody().isActive()){

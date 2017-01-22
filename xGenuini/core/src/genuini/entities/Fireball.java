@@ -21,9 +21,8 @@ public class Fireball extends EnvironmentObject{
         this.turret=turret;
    }
     
-    @Override
-    public void render(SpriteBatch spriteBatch){
-        super.render(spriteBatch);
+    public void draw(SpriteBatch spriteBatch){
+        super.draw(spriteBatch);
         rotationAngle+=45;
     }
     

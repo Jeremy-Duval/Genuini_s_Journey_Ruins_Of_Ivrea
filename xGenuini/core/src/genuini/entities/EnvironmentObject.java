@@ -30,10 +30,9 @@ public class EnvironmentObject extends Sprites{
     }
     
     
-    public void render(SpriteBatch spriteBatch){
+    public void draw(SpriteBatch spriteBatch){
         spriteBatch.begin();
         spriteBatch.draw(region, (int) (body.getPosition().x * PhysicsVariables.PPM - sprite.getWidth() / 2), (int) (body.getPosition().y * PhysicsVariables.PPM - sprite.getHeight() / 2), textureWidth / 2f, textureHeight / 2f, textureWidth, textureHeight, 1, 1, rotationAngle, false);
         spriteBatch.end();
-        rotationAngle+=45;
     }
 }

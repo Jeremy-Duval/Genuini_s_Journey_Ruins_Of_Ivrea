@@ -126,7 +126,6 @@ public class AbstractScreen extends Stage implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
-        //bookButtonSkin.dispose();
         background.dispose();
         stage.dispose();
         batch.dispose();
