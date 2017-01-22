@@ -32,7 +32,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import genuini.entities.Fireball;
 import genuini.entities.Player;
+import genuini.entities.Sprites;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
 import static genuini.handlers.PhysicsVariables.PPM;
@@ -50,9 +52,11 @@ import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import static genuini.screens.AbstractScreen.continueMusic;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameScreen extends AbstractScreen{
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private final boolean tutorial = false;
     private BoundedCamera b2dCam;
@@ -81,9 +85,12 @@ public class GameScreen extends AbstractScreen{
     private Table table;
     private Label lifePointsLabel;
     
-    
+
     //Fire turret
     private Vector2 fire_pos;
+    private static boolean turretActivated = true;
+    private Fireball fireball;
+    
 
     public GameScreen() {
         super();
@@ -123,8 +130,6 @@ public class GameScreen extends AbstractScreen{
         //create player
         createPlayer();
         cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
-
-        createObjects();
         
 
         /*text time*/
@@ -208,10 +213,12 @@ public class GameScreen extends AbstractScreen{
 
         batch.setProjectionMatrix(cam.combined);
         world.step(delta, 7, 3);
-
+        
+        destroyBodies();
+              
+        
         handleInput();
         handleContact();
-
         handleArea();
         
         
@@ -227,6 +234,12 @@ public class GameScreen extends AbstractScreen{
 
         //draw player
         player.render(batch);
+        
+        //draw fireballs
+        if(fireball!=null && !turretActivated){
+            fireball.render(batch);
+        }
+        
         //To write on screen
         if (debug) {
             b2dCam.setPosition(player.getPosition().x + MainGame.V_WIDTH / 4 / PPM, player.getPosition().y);
@@ -266,30 +279,19 @@ public class GameScreen extends AbstractScreen{
         stage.act(delta);
         stage.draw();
 
-        Array<Body> bodies = contactManager.getBodies();
-        if (bodies!=null){
-            for(int i = 0; i < bodies.size; i++) {
-                Body b = bodies.get(i);
-                world.destroyBody(b);
-                b.setUserData(null);
-                b = null;
-            }
-            bodies.clear();
-        }
+        
         
     }
 
 
-    
-
     private void playerDeath() {
         player.setStatus(0);
-        System.out.println("You dead");
         prefs.reset();
         if (connected) {
             arduinoInstance.write("death;");
         }
         music.stopMusic();
+        continueMusic=false;
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
 
@@ -334,7 +336,15 @@ public class GameScreen extends AbstractScreen{
         player.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
         player.walkRight();
     }
-
+    
+    private void targetPlayer(Body body, float speed) { 
+        body.applyLinearImpulse((player.getPosition().x-body.getPosition().x)*speed/PPM, (player.getPosition().y-body.getPosition().y)*speed/PPM, 0, 0, true);
+    }
+    
+    public static void activateTurret(boolean active){
+        turretActivated = active;   
+    }
+    
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
             if (tutorial) {
@@ -385,12 +395,12 @@ public class GameScreen extends AbstractScreen{
 
     public void handleContact() {
 
-        if (contactManager.isBouncy() && contactManager.isSpike()) {
+        if (contactManager.isBouncy() && contactManager.isDangerous()) {
             playerBounce(200f);
         } else if (contactManager.isBouncy()) {
             playerBounce(480f);
         }
-        if (contactManager.isSpike()) {
+        if (contactManager.isDangerous()) {
             player.changeLife(-5);
             if (connected) {
                 arduinoInstance.write("game;" + String.valueOf(player.getLife())); //quand vie change
@@ -400,13 +410,16 @@ public class GameScreen extends AbstractScreen{
                 playerDeath();
             }
         }
+        
     }
     
     public void handleArea(){
         float distance_player_turret =(float) Math.sqrt(Math.pow(player.getPosition().x-fire_pos.x,2) + (Math.pow(player.getPosition().y-fire_pos.y,2)));
-        if( distance_player_turret < 5 ){
+        if(distance_player_turret < 5  && turretActivated){
+            createFireball("turret_1");
+            targetPlayer(fireball.getBody(), 30);
         }else{
-            System.out.println("NOT IN AREA");
+            //System.out.println(distance_player_turret);
         }
     }
 
@@ -460,7 +473,28 @@ public class GameScreen extends AbstractScreen{
         //Create player entity
         player = new Player(body);
     }
-
+    
+    private void createFireball(String name){
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyType.DynamicBody;
+        bdef.position.set(fire_pos.x,fire_pos.y);
+        
+        Body body = world.createBody(bdef);
+        
+        CircleShape circle = new CircleShape();
+        circle.setRadius(0.15f);
+        FixtureDef fd = new FixtureDef();
+        fd.shape = circle;
+        fd.density = 1f; 
+        fd.friction = 1.4f;
+        fd.restitution = 0.6f; // Make it bounce a little bit
+        fd.filter.categoryBits = BIT_FIREBALL;
+        fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER;
+        body.createFixture(fd).setUserData(name);
+        activateTurret(false);
+        fireball = new Fireball(body);
+    }
+    
     private void deleteTexture() {
         //delete "let's play text"
         new java.util.Timer().schedule(
@@ -570,6 +604,8 @@ public class GameScreen extends AbstractScreen{
                     fd.friction = 0;
                     fd.shape = cs;
                     fd.isSensor = false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER;
                     world.createBody(bdef).createFixture(fd).setUserData("spike");
                 }else if(cell.getTile().getProperties().get("fire_turret")!=null){
                     //to link the cell edges
@@ -608,25 +644,15 @@ public class GameScreen extends AbstractScreen{
         }
     }
 
-    
-    
-    private void createObjects(){
-        BodyDef bdef = new BodyDef();
-        bdef.type = BodyType.DynamicBody;
-        bdef.position.set(fire_pos.x,fire_pos.y);
-        Body body = world.createBody(bdef);
-        CircleShape circle = new CircleShape();
-        circle.setRadius(0.15f);
-        FixtureDef fd = new FixtureDef();
-        fd.shape = circle;
-        fd.density = 4f; 
-        fd.friction = 1.4f;
-        fd.restitution = 0.6f; // Make it bounce a little bit
-        fd.filter.categoryBits = BIT_FIREBALL;
-        fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER;
-        world.createBody(bdef).createFixture(fd).setUserData("fireball");
-        circle.dispose();
+    private void destroyBodies() {
+        Array<Body> bodies = contactManager.getBodies();
+        for(int i = 0; i < bodies.size; i++) {
+            Body b = bodies.get(i);
+            world.destroyBody(bodies.get(i));
+        }
+        bodies.clear();
     }
-    
 
+    
+    
 }

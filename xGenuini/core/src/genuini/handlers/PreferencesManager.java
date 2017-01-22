@@ -40,6 +40,6 @@ public class PreferencesManager {
         data.flush();
     }
     public void reset(){
-        System.out.println("DEBBB"+Gdx.files.external(".prefs/game_data").exists());
+        //System.out.println("DEBBB"+Gdx.files.external(".prefs/game_data").exists());
     }
 }
