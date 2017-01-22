@@ -56,6 +56,7 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.removeAll();
         if(connected){
             arduinoInstance.write("exit;");
+            arduinoInstance.close();
         }
     }
 

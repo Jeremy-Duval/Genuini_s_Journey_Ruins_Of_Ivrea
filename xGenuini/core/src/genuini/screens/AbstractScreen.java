@@ -7,7 +7,6 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,7 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import genuini.arduino.SerialTest;
+import genuini.arduino.ArduinoLink;
 import genuini.arduino.UnobtainableComPortException;
 import genuini.handlers.AudioManager;
 import genuini.handlers.PreferencesManager;
@@ -38,7 +37,7 @@ import gnu.io.SerialPort;
 public class AbstractScreen extends Stage implements Screen {
 
     Texture background;
-    public static SerialTest arduinoInstance; //Arduino Connection
+    public static ArduinoLink arduinoInstance; //Arduino Connection
     SerialPort arduinoPort; //Port Use
     public static boolean connected = false;// arduino connected or no
     Texture connectArduino; //image of arduino connected
@@ -81,15 +80,15 @@ public class AbstractScreen extends Stage implements Screen {
         connectArduino = new Texture("img/arduinoconnected.png");
 
         if (!connected) {
-            //connection with SerialTest class
-            arduinoInstance = new SerialTest();
+            //connection with ArduinoLink class
+            arduinoInstance = new ArduinoLink();
             try {
                 connected = true;
                 arduinoPort = arduinoInstance.initialize();
             } catch (UnobtainableComPortException e) {
-                connected = false;
-                System.out.println(e.getMessage());
-                connectArduino = new Texture("img/errorarduino.png");
+                    connected = false;
+                    System.out.println(e.getMessage());
+                    connectArduino = new Texture("img/errorarduino.png");                
             }
         }
     }
@@ -99,7 +98,7 @@ public class AbstractScreen extends Stage implements Screen {
 
     }
 
-    ;
+    
  
     @Override
     public void render(float delta) {
