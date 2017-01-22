@@ -4,7 +4,8 @@
 #include "rgb_lcd.h"
 
 // Define the pin to which the angle sensor is connected.
-const int potentiometer = A4;
+
+const int potentiometer = A0;
 
 Grove_LED_Bar bar(9, 8, 0);  // Clock pin, Data pin, Orientation
 rgb_lcd lcd;
@@ -46,11 +47,9 @@ void setup() {
 void loop() {
 
   int value = analogRead(potentiometer);
-  Serial.println(value);
+
+  Serial.write(value);
   delay(100);
-
-
-  
   String rec;
 
   unsigned long currentMillis = millis() / 1000;

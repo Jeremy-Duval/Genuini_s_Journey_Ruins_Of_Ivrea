@@ -335,7 +335,7 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void playerMoveRight() {
-        player.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
+        player.getBody().applyLinearImpulse(Integer.valueOf(arduinoInstance.read())/70 / PPM, 0, 0, 0, true);
         player.walkRight();
     }
     
