@@ -40,6 +40,20 @@ public class MainGame extends Game implements ApplicationListener {
         }
         contentManager.loadTexture("img/Player/p1/left/p1_jump.png","p1_left_jump");
         contentManager.loadTexture("img/Player/p1/right/p1_jump.png","p1_right_jump");
+        
+        
+        contentManager.loadMusic("sounds/Death.mp3","deathMusic");
+        contentManager.getMusic("deathMusic").setLooping(true);
+        contentManager.getMusic("deathMusic").setVolume(1f);
+        
+        contentManager.loadMusic("sounds/Earth_From_Sky.mp3","menuMusic");
+        contentManager.getMusic("menuMusic").setLooping(true);
+        contentManager.getMusic("menuMusic").setVolume(1f);
+        
+        contentManager.loadMusic("sounds/Land_of_Ivrea.mp3","gameMusic");
+        contentManager.getMusic("gameMusic").setLooping(true);
+        contentManager.getMusic("gameMusic").setVolume(1f);
+        
 
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );

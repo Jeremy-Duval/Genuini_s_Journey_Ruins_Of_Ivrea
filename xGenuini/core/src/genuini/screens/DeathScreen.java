@@ -13,12 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import genuini.handlers.AudioManager;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
-import static genuini.screens.AbstractScreen.continueMusic;
+import static genuini.main.MainGame.contentManager;
 
 
 
@@ -42,10 +41,8 @@ public class DeathScreen extends AbstractScreen{
         buttonHeight=V_HEIGHT/20;
         super.createButtonSkin(buttonWidth,buttonHeight);
         super.createTextSkin();
-        /********************************music*********************************/
-        music.setMusic("sounds/Death.mp3");
-        music.playMusic(1.0f, true, -1);
-        /**********************************************************************/
+        contentManager.getMusic("deathMusic").play();
+
     }
     
     @Override
@@ -79,6 +76,7 @@ public class DeathScreen extends AbstractScreen{
       menuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+               contentManager.getMusic("deathMusic").stop();
                ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU);
             }
         });

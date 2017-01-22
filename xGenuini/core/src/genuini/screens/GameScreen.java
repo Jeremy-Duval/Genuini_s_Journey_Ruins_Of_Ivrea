@@ -51,7 +51,6 @@ import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
-import static genuini.screens.AbstractScreen.continueMusic;
 
 public class GameScreen extends AbstractScreen{
     private final boolean debug = false;
@@ -83,7 +82,7 @@ public class GameScreen extends AbstractScreen{
     private Table table;
     private Label lifePointsLabel;
     
-
+    private float speed;
     //Fire turret
     private Array<Turret> turrets;
     private Array<Fireball> fireballs;
@@ -92,14 +91,21 @@ public class GameScreen extends AbstractScreen{
 
     public GameScreen() {
         super();
+        if(!MainGame.contentManager.getMusic("gameMusic").isPlaying()){
+            MainGame.contentManager.getMusic("gameMusic").play();
+        }
 
+        
+        
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-
+        if(connected){
+            speed=Integer.valueOf(arduinoInstance.read())/70;
+        }
         //set the Text batch
         TextManager.SetSpriteBatch(batch);
         
@@ -113,11 +119,7 @@ public class GameScreen extends AbstractScreen{
         super.createBookButtonSkin(tileSize * 1.6f, tileSize / 2);
         super.createTextSkin();
 
-        /* Music */
-        if (!continueMusic) {
-            music.setMusic("sounds/Land_of_Ivrea.mp3");
-            music.playMusic(1.0f, true, -1);
-        }
+
 
         /* DEBUG */
         if (debug) {
@@ -162,7 +164,8 @@ public class GameScreen extends AbstractScreen{
                 prefs.setPositionX(player.getPosition().x);
                 prefs.setPositionY(player.getPosition().y);
                 prefs.save();
-                continueMusic = false;
+                
+                //MainGame.contentManager.getMusic("gameMusic").pause();
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
@@ -170,7 +173,9 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                continueMusic = true;
+                prefs.setPositionX(player.getPosition().x);
+                prefs.setPositionY(player.getPosition().y);
+                prefs.save();
                 ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
             }
         });
@@ -215,18 +220,23 @@ public class GameScreen extends AbstractScreen{
         world.step(delta, 7, 3);
         
         destroyBodies();
-        //destroyFireballs();
               
         
         handleInput();
         handleContact();
         handleArea();
+        float player_pos_x=prefs.getPositionX();
+        float player_pos_y=prefs.getPositionY();
+        if(player.getStatus()!=0){
+            player_pos_x = player.getPosition().x;
+            player_pos_y = player.getPosition().y;
+        }
         
         
         
 
         // camera follow player
-        cam.setPosition(player.getPosition().x * PPM + MainGame.V_WIDTH / 4, player.getPosition().y * PPM);
+        cam.setPosition(player_pos_x * PPM + MainGame.V_WIDTH / 4, player_pos_y * PPM);
         cam.update();
 
         //draw tiled map
@@ -246,7 +256,7 @@ public class GameScreen extends AbstractScreen{
         
         //To write on screen
         if (debug) {
-            b2dCam.setPosition(player.getPosition().x + MainGame.V_WIDTH / 4 / PPM, player.getPosition().y);
+            b2dCam.setPosition(player_pos_x + MainGame.V_WIDTH / 4 / PPM, player_pos_y);
             b2dCam.update();
             b2dr.render(world, b2dCam.combined);
         }
@@ -257,25 +267,25 @@ public class GameScreen extends AbstractScreen{
         if (tutorial) {
             switch (textChoice) {
                 case 10:
-                    font.draw(batch, "Hey, my name is Genuini", player.getPosition().x * PPM, player.getPosition().y * PPM + 60);
+                    font.draw(batch, "Hey, my name is Genuini", player_pos_x * PPM, player_pos_y * PPM + 60);
                     break;
                 case 0:
-                    font.draw(batch, "Make me jump with Z", player.getPosition().x * PPM, player.getPosition().y * PPM + 60);
+                    font.draw(batch, "Make me jump with Z", player_pos_x * PPM, player_pos_y * PPM + 60);
                     break;
                 case 1:
-                    font.draw(batch, "Well done, now to the right pushing D", player.getPosition().x * PPM, player.getPosition().y * PPM + 60);
+                    font.draw(batch, "Well done, now to the right pushing D", player_pos_x * PPM, player_pos_y * PPM + 60);
                     break;
                 case 2:
-                    font.draw(batch, "Nice, Can we go to the left please with Q", player.getPosition().x * PPM, player.getPosition().y * PPM + 60);
+                    font.draw(batch, "Nice, Can we go to the left please with Q", player_pos_x * PPM, player_pos_y * PPM + 60);
                     break;
                 case 3:
-                    font.draw(batch, "Let's Play !", player.getPosition().x * PPM, player.getPosition().y * PPM + 60);
+                    font.draw(batch, "Let's Play !", player_pos_x * PPM, player_pos_y * PPM + 60);
                     break;
                 default:
                     break;
             }
 
-            batch.draw(connectArduino, player.getPosition().x * PPM - 270, Gdx.graphics.getHeight() - 100);
+            batch.draw(connectArduino, player_pos_x * PPM - 270, Gdx.graphics.getHeight() - 100);
         }
 
         batch.end();
@@ -293,7 +303,7 @@ public class GameScreen extends AbstractScreen{
         if (connected) {
             arduinoInstance.write("death;");
         }
-        music.stopMusic();
+        MainGame.contentManager.getMusic("gameMusic").stop();
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
 
@@ -335,7 +345,7 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void playerMoveRight() {
-        player.getBody().applyLinearImpulse(Integer.valueOf(arduinoInstance.read())/70 / PPM, 0, 0, 0, true);
+        player.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
         player.walkRight();
     }
     
@@ -652,10 +662,11 @@ public class GameScreen extends AbstractScreen{
         Array<Body> bodies = contactManager.getBodies();
         for(int i = 0; i < bodies.size; i++) {
             Body b = bodies.get(i);
-            world.destroyBody(bodies.get(i));
+            bodies.removeIndex(i);
+            world.destroyBody(b);
         }
         bodies.clear();
-        if(fireballs.size>0){
+       if(fireballs.size>0){
             for(Fireball f : fireballs){
                 if(!f.getBody().isActive()){
                     fireballs.removeValue(f, false);

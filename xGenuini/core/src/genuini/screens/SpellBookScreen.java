@@ -21,7 +21,7 @@ import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
-import static genuini.screens.AbstractScreen.music;
+import static genuini.main.MainGame.contentManager;
 
 /**
  * Defined the spell book screen
@@ -81,7 +81,7 @@ public class SpellBookScreen extends AbstractScreen {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                continueMusic=false;
+                contentManager.getMusic("gameMusic").pause();
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });

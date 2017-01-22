@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
+import genuini.main.MainGame;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 
@@ -35,10 +36,10 @@ public class MainMenuScreen extends AbstractScreen {
         buttonWidth = V_WIDTH / 6;
         buttonHeight = V_HEIGHT / 10;
         super.createButtonSkin(buttonWidth, buttonHeight);
-        /********************************music*********************************/
-        music.setMusic("sounds/Earth_From_Sky.mp3");
-        music.playMusic(0.5f, true,-1);
-        /**********************************************************************/
+
+       
+        MainGame.contentManager.getMusic("menuMusic").play();
+        
     }
 
     @Override
@@ -66,6 +67,7 @@ public class MainMenuScreen extends AbstractScreen {
         newGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                MainGame.contentManager.getMusic("menuMusic").pause();
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
@@ -119,7 +121,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        
     }
 
 }

@@ -7,6 +7,7 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +26,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import genuini.arduino.ArduinoLink;
 import genuini.arduino.UnobtainableComPortException;
-import genuini.handlers.AudioManager;
 import genuini.handlers.PreferencesManager;
 import genuini.main.MainGame;
 import gnu.io.SerialPort;
@@ -49,9 +49,7 @@ public class AbstractScreen extends Stage implements Screen {
     BitmapFont font;
     SpriteBatch batch;
     PreferencesManager prefs;
-    protected static AudioManager music;
-    // To let the music play on
-    protected static boolean continueMusic = false;
+    Music music;
  
     
 
@@ -63,12 +61,8 @@ public class AbstractScreen extends Stage implements Screen {
         prefs = new PreferencesManager();
         stage = new Stage();
         batch = new SpriteBatch();
-
         textureBookButton = new Texture("img/book/redbook.png");
         background = new Texture("background.jpg");
-        if(!continueMusic){
-            music = new AudioManager();
-        }
         //define the .ttf font
         parameter.size = 12; //set the font size: 12px
         parameter.color = Color.YELLOW; //set the color size
@@ -135,10 +129,6 @@ public class AbstractScreen extends Stage implements Screen {
         //bookButtonSkin.dispose();
         background.dispose();
         stage.dispose();
-        if (!continueMusic) {
-            music.stopMusic();
-            music.dispose();
-        }
         batch.dispose();
         connectArduino.dispose();
     }
