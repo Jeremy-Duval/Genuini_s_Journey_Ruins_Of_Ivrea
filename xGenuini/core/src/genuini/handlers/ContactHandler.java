@@ -24,6 +24,7 @@ public class ContactHandler implements ContactListener{
     private Array<Body> bodiesToRemove;
     private boolean bounce;
     private boolean dangerous;
+    private boolean bookActive;
     
     public ContactHandler(){
         super();
@@ -65,6 +66,10 @@ public class ContactHandler implements ContactListener{
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=true;
             }
+        }
+        
+        if((fa.getUserData() != null && fa.getUserData().equals("challengeBox")) || (fb.getUserData() != null && fb.getUserData().equals("challengeBox"))){
+            bookActive=true;                
         }
 
 }
@@ -127,7 +132,7 @@ public class ContactHandler implements ContactListener{
     public Array<Body> getBodies() { return bodiesToRemove; }
     public boolean isBouncy() { return bounce; }
     public boolean isDangerous() { return dangerous; }
-
+    public boolean bookActive(){return bookActive;}
 
     
 }

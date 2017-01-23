@@ -35,6 +35,13 @@ public class PreferencesManager {
         return data.getFloat("player_YPosition", 200f/PPM);
     }
     
+    public void setBook(boolean active){
+        data.putBoolean("book_activated", active);
+    }
+     
+    public boolean getBook(){
+        return data.getBoolean("book_activated", false);
+    }
 
     public void save() {
         data.flush();

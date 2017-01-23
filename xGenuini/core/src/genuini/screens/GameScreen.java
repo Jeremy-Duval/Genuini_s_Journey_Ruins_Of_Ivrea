@@ -65,7 +65,7 @@ public class GameScreen extends AbstractScreen{
     private final BoundedCamera cam;
 
     private Player player;
-    private final Vector2 initpos= new Vector2(10f,24f); 
+    private final Vector2 initpos= new Vector2(50f,24f); 
 
     private final World world;
 
@@ -179,7 +179,9 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
         spellBookScreenButton.setPosition(V_WIDTH - tileSize * 1f, tileSize * 1.8f);
         spellBookScreenButton.setSize(tileSize, tileSize);
-
+        if(!prefs.getBook()){
+            spellBookScreenButton.setVisible(false);
+        }
         stage.addActor(menuButton);
         stage.addActor(spellBookScreenButton);
 
@@ -364,6 +366,10 @@ public class GameScreen extends AbstractScreen{
             if (player.getLife() <= 0 && player.getStatus() != 0) {
                 playerDeath();
             }
+        }
+        if(contactManager.bookActive() && !spellBookScreenButton.isVisible()){
+            spellBookScreenButton.setVisible(true);
+            prefs.setBook(true);
         }
         
     }
@@ -568,7 +574,21 @@ public class GameScreen extends AbstractScreen{
                     world.createBody(bdef).createFixture(fd).setUserData("fire_turret");
                     Vector2 turret_pos= new Vector2((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM);
                     createFireTurret(turret_pos);
-                    
+                }else if(cell.getTile().getProperties().get("challengeBox")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[5];
+                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
+                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
+                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
+                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
+                    cs.createChain(v);
+                    fd.friction = 0;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    world.createBody(bdef).createFixture(fd).setUserData("challengeBox");
                 }else{
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
