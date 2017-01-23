@@ -121,8 +121,8 @@ public class GameScreen extends AbstractScreen{
         super.createTextSkin();
 
 
-        prefs.setPositionX(initpos.x);
-        prefs.setPositionY(initpos.y);
+      //  prefs.setPositionX(initpos.x);
+      //  prefs.setPositionY(initpos.y);
         
         
         /* DEBUG */
@@ -179,7 +179,6 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
         spellBookScreenButton.setPosition(V_WIDTH - tileSize * 1f, tileSize * 1.8f);
         spellBookScreenButton.setSize(tileSize, tileSize);
-
         stage.addActor(menuButton);
         stage.addActor(spellBookScreenButton);
 
@@ -220,9 +219,7 @@ public class GameScreen extends AbstractScreen{
             player_pos_x = player.getPosition().x;
             player_pos_y = player.getPosition().y;
         }
-        
-        
-        
+         
 
         // camera follow player
         cam.setPosition(player_pos_x * PPM + MainGame.V_WIDTH / 4, player_pos_y * PPM);
