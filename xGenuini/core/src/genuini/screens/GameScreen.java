@@ -7,6 +7,7 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -53,6 +54,8 @@ import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 
 public class GameScreen extends AbstractScreen{
+    private Texture background;
+    
     private final boolean debug = false;
 
     private final boolean tutorial = false;
@@ -68,7 +71,7 @@ public class GameScreen extends AbstractScreen{
     private final ContactHandler contactManager;
 
     private TiledMap map;
-    private TiledMapRenderer tmr;
+    private OrthogonalTiledMapRenderer tmr;
     private int tileMapWidth;
     private int tileMapHeight;
     private float tileSize;
@@ -96,10 +99,10 @@ public class GameScreen extends AbstractScreen{
         }
 
         
-        
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
+        background = new Texture("img/backgroundgame.png");
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
@@ -262,7 +265,7 @@ public class GameScreen extends AbstractScreen{
         }
 
         batch.begin();
-        //spriteBatch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
+        batch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
         //TextManager.Draw("FPS: ",cam);
         if (tutorial) {
             switch (textChoice) {
@@ -287,6 +290,7 @@ public class GameScreen extends AbstractScreen{
 
             batch.draw(connectArduino, player_pos_x * PPM - 270, Gdx.graphics.getHeight() - 100);
         }
+        
 
         batch.end();
 

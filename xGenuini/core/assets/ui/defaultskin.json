@@ -1,7 +1,0 @@
-{
-
-com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
-default: { checkboxOn: check-on, checkboxOff: check-off, font: default-font, fontColor: white }
-},
-
-}

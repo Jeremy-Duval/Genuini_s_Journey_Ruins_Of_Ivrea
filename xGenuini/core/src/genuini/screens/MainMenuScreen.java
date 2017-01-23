@@ -22,7 +22,7 @@ import static genuini.main.MainGame.V_WIDTH;
  * @author Adrien
  */
 public class MainMenuScreen extends AbstractScreen {
-
+    private Texture background;
     private TextButton newGameButton;
     private TextButton quitButton;
 
@@ -93,9 +93,6 @@ public class MainMenuScreen extends AbstractScreen {
         batch.begin();
         batch.draw(background, 0, 0, V_WIDTH,V_HEIGHT);
         batch.draw(connectArduino, V_WIDTH-200, 600);
-        /*if(connected){
-         font.draw(batch, "Le port est " + arduinoPort.toString(), 50, 550);  
-         }*/
 
         batch.end();
         stage.act(delta);
@@ -122,6 +119,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
+        background.dispose();
         super.dispose();
     }
 

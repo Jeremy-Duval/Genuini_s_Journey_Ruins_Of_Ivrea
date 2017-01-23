@@ -5,7 +5,8 @@
 
 // Define the pin to which the angle sensor is connected.
 
-const int potentiometer = A0;
+//const int potentiometer = A0;
+const int pinButton = 4; //D4 pin
 
 Grove_LED_Bar bar(9, 8, 0);  // Clock pin, Data pin, Orientation
 rgb_lcd lcd;
@@ -16,6 +17,7 @@ const int colorB = 0;
 
 String sentence[] = {"Be Happy !", "Smile my gamer", "I love you"};
 unsigned long previousMillis = 0;
+unsigned long previousMillis2 = 0;
 boolean changeSentence = false;
 unsigned int i = 0;
 
@@ -41,18 +43,30 @@ void setup() {
   lcd.begin(16, 2);
 
   // Configure the angle sensor's pin for input.
-    pinMode(potentiometer, INPUT);
+  //  pinMode(potentiometer, INPUT);
+
+   // Configure the button's pin for input signals.
+    pinMode(pinButton, INPUT);
 }
 
+
+boolean stateButton = false;
 void loop() {
+    unsigned long currentMillis = millis() / 1000;
+    unsigned long currentMillis2 = millis() / 1000;
+      
+  
+  if ((unsigned long)(currentMillis2 - previousMillis2) >= 3 && digitalRead(pinButton)) { 
+       stateButton = !stateButton;
+       previousMillis2 = currentMillis2;
+    }
 
-  int value = analogRead(potentiometer);
+    int value = stateButton;
+    Serial.println(stateButton);
+    delay(100);
 
-  Serial.write(value);
-  delay(100);
+  
   String rec;
-
-  unsigned long currentMillis = millis() / 1000;
 
   // put your main code here, to run repeatedly:
 

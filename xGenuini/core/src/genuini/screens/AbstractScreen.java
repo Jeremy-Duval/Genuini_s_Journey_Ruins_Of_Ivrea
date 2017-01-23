@@ -39,7 +39,6 @@ import gnu.io.SerialPort;
  */
 public class AbstractScreen extends Stage implements Screen {
 
-    Texture background;
     public static ArduinoLink arduinoInstance; //Arduino Connection
     SerialPort arduinoPort; //Port Use
     public static boolean connected = false;// arduino connected or no
@@ -126,8 +125,7 @@ public class AbstractScreen extends Stage implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
-        //bookButtonSkin.dispose();
-        background.dispose();
+        //bookButtonSkin.dispose();        
         stage.dispose();
         batch.dispose();
         connectArduino.dispose();
