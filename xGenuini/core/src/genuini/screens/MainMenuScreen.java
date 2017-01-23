@@ -6,6 +6,7 @@
 package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -33,7 +34,8 @@ public class MainMenuScreen extends AbstractScreen {
 
     public MainMenuScreen() {
         super();
-        buttonWidth = V_WIDTH / 6;
+        background = new Texture("img/menu/bg_arduini1.jpg");
+        buttonWidth = V_WIDTH / 3;
         buttonHeight = V_HEIGHT / 10;
         super.createButtonSkin(buttonWidth, buttonHeight);
 
@@ -49,8 +51,8 @@ public class MainMenuScreen extends AbstractScreen {
         quitButton = new TextButton("Quitter", skin);
 
 
-        newGameButton.setPosition((V_WIDTH - buttonWidth) / 4, (V_HEIGHT + buttonHeight) / 3 + 80);
-        quitButton.setPosition((V_WIDTH - buttonWidth) / 4, (V_HEIGHT - buttonHeight) / 3 - 20);
+        newGameButton.setPosition((V_WIDTH - buttonWidth) / 4 - 35, (V_HEIGHT + buttonHeight) / 3 + 80);
+        quitButton.setPosition((V_WIDTH - buttonWidth) / 4 - 35, (V_HEIGHT - buttonHeight) / 3);
 
         stage.addActor(newGameButton);
         stage.addActor(quitButton);

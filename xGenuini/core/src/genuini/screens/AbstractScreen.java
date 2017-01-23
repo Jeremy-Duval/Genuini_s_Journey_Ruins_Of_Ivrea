@@ -56,7 +56,7 @@ public class AbstractScreen extends Stage implements Screen {
  
     
 
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Action_Man.ttf"));
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/grundchift.otf"));
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
     protected AbstractScreen() {
@@ -65,12 +65,9 @@ public class AbstractScreen extends Stage implements Screen {
         stage = new Stage();
         batch = new SpriteBatch();
         textureBookButton = new Texture("img/book/redbook.png");
-        background = new Texture("img/menu/bg_arduini1.jpg");
-        //define the .ttf font
-        parameter.size = 12; //set the font size: 12px
-        parameter.color = Color.YELLOW; //set the color size
-        parameter.borderColor = Color.BLACK; //set the color of the border
-        parameter.borderWidth = 3; //set the width of the border
+        //define the font
+        parameter.size = 30; //set the font size: 12px
+        parameter.color = Color.BLACK; //set the color size
         font = generator.generateFont(parameter); //set the font size: 12px
         generator.dispose(); // free memory space
 
