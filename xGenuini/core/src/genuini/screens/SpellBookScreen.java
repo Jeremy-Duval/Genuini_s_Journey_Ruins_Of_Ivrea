@@ -10,18 +10,23 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.main.MainGame.contentManager;
+import java.util.function.Consumer;
 
 /**
  * Defined the spell book screen
@@ -41,7 +46,16 @@ public class SpellBookScreen extends AbstractScreen {
     /**
      * ***********************Text area***************************************
      */
-    private TextArea codeArea;
+    private TextField codeArea;
+    private TextField response;
+    
+    
+    //differents soluces
+    private TextButton setupBox;
+    private TextButton intsetupBox;
+    private TextButton configureBox;
+    private TextButton initBox;
+    
     private final int areaWidth;
     private final int areaHeight;
     BitmapFont bookFont;
@@ -64,7 +78,7 @@ public class SpellBookScreen extends AbstractScreen {
         areaHeight = V_HEIGHT / 10;
         bookFont = new BitmapFont();
         createBookSkin(areaWidth, areaHeight);
-        background = new Texture("img/book/SpellBookWrite.png");
+        background = new Texture("img/book/book.png");
 
 
     }
@@ -92,6 +106,34 @@ public class SpellBookScreen extends AbstractScreen {
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
+        
+        initBox.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                response.setText("init isn't the good answer, Try again ;)");
+            }
+        });
+        
+        configureBox.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                response.setText("configure isn't the good answer, Try again ;)");
+            }
+        });
+        
+        setupBox.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                
+            }
+        });
+        
+        intsetupBox.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                response.setText("int setup isn't the good answer, Try again ;)");
+            }
+        });
 
         codeArea.setTextFieldListener(new TextFieldListener() {
 
@@ -110,19 +152,30 @@ public class SpellBookScreen extends AbstractScreen {
      */
     @Override
     public void buildStage() {
-        codeArea = new TextArea("Entrez votre code Arduino", bookSkin);
-        codeArea.setX(V_WIDTH / 7 + 10);
-        codeArea.setY(55);
-        codeArea.setWidth(450);
-        codeArea.setHeight(580);
-
-        gameButton = new TextButton("Jeu", skin); // Use the initialized skin
-        gameButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);
-
-
-
-        stage.addActor(codeArea);
-
+        codeArea = new TextField("What is the initialization method of an Arduino program ?", bookSkin);
+        codeArea.setX(V_WIDTH / 3);
+        codeArea.setY(V_HEIGHT - 200);
+        codeArea.setWidth(600);
+        codeArea.setHeight(100);
+        
+        response = new TextField("", bookSkin);
+        response.setX(V_WIDTH/2 - 140);
+        response.setY(V_HEIGHT-400);
+        response.setWidth(600);
+        
+        
+        initBox = new TextButton("void init()", skin);
+        setupBox = new TextButton("void setup()", skin);
+        configureBox = new TextButton("void config()", skin);
+        intsetupBox = new TextButton("int setup()", skin);
+        
+        initBox.setPosition(V_WIDTH / 3 + 40, V_HEIGHT - 250);
+        setupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 250);
+        configureBox.setPosition(V_WIDTH / 3 + 320, V_HEIGHT - 250);
+        intsetupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 300);
+        
+        
+        
 
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
         menuButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);
@@ -130,8 +183,13 @@ public class SpellBookScreen extends AbstractScreen {
         gameButton.setPosition(buttonWidth / 2, V_HEIGHT - 4 * buttonHeight);
 
         stage.addActor(codeArea);
+        stage.addActor(response);
+        stage.addActor(initBox);
+        stage.addActor(setupBox);
+        stage.addActor(configureBox);
+        stage.addActor(intsetupBox);
+        
         stage.addActor(menuButton);
-
         stage.addActor(gameButton);
     }
 
@@ -219,7 +277,7 @@ public class SpellBookScreen extends AbstractScreen {
      * @since 01/12/2016
      * @author jeremy
      */
-    private void createBookSkin(float width, float height) {
+    void createBookSkin(float width, float height) {
         //Create a font
         bookSkin = new Skin();
         bookSkin.add("default", font);
