@@ -49,8 +49,8 @@ public class MainMenuScreen extends AbstractScreen {
         quitButton = new TextButton("Quitter", skin);
 
 
-        newGameButton.setPosition((V_WIDTH - buttonWidth) / 2, (V_HEIGHT + buttonHeight) / 2 + 10);
-        quitButton.setPosition((V_WIDTH - buttonWidth) / 2, (V_HEIGHT - buttonHeight) / 2 - 10);
+        newGameButton.setPosition((V_WIDTH - buttonWidth) / 4, (V_HEIGHT + buttonHeight) / 3 + 80);
+        quitButton.setPosition((V_WIDTH - buttonWidth) / 4, (V_HEIGHT - buttonHeight) / 3 - 20);
 
         stage.addActor(newGameButton);
         stage.addActor(quitButton);
@@ -89,8 +89,8 @@ public class MainMenuScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-        batch.draw(background, 0, 0);
-        batch.draw(connectArduino, 50, 600);
+        batch.draw(background, 0, 0, V_WIDTH,V_HEIGHT);
+        batch.draw(connectArduino, V_WIDTH-200, 600);
         /*if(connected){
          font.draw(batch, "Le port est " + arduinoPort.toString(), 50, 550);  
          }*/

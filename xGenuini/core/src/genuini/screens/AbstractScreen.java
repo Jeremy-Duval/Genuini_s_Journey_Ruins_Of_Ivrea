@@ -65,7 +65,7 @@ public class AbstractScreen extends Stage implements Screen {
         stage = new Stage();
         batch = new SpriteBatch();
         textureBookButton = new Texture("img/book/redbook.png");
-        background = new Texture("background.jpg");
+        background = new Texture("img/menu/bg_arduini1.jpg");
         //define the .ttf font
         parameter.size = 12; //set the font size: 12px
         parameter.color = Color.YELLOW; //set the color size
