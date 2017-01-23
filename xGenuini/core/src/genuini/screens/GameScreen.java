@@ -54,7 +54,7 @@ import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 
 public class GameScreen extends AbstractScreen{
-    private Texture background;
+
     
     private final boolean debug = false;
 
@@ -65,6 +65,7 @@ public class GameScreen extends AbstractScreen{
     private final BoundedCamera cam;
 
     private Player player;
+    private final Vector2 initpos= new Vector2(10f,24f); 
 
     private final World world;
 
@@ -79,8 +80,7 @@ public class GameScreen extends AbstractScreen{
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
 
-    //Starting text "Hey, my name is Genuini"
-    private int textChoice = 10;
+
 
     private Table table;
     private Label lifePointsLabel;
@@ -102,19 +102,17 @@ public class GameScreen extends AbstractScreen{
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
-        background = new Texture("img/backgroundgame.png");
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-        if(connected){
-            speed=Integer.valueOf(arduinoInstance.read())/70;
-        }
+        
         //set the Text batch
         TextManager.SetSpriteBatch(batch);
         
         //turrets
         turrets = new Array<Turret>();
         fireballs = new Array<Fireball>();
+        
         //create tiles
         createTiles();
 
@@ -123,7 +121,10 @@ public class GameScreen extends AbstractScreen{
         super.createTextSkin();
 
 
-
+        prefs.setPositionX(initpos.x);
+        prefs.setPositionY(initpos.y);
+        
+        
         /* DEBUG */
         if (debug) {
             b2dr = new Box2DDebugRenderer();
@@ -137,21 +138,6 @@ public class GameScreen extends AbstractScreen{
         createPlayer();
         cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
         
-
-        /*text time*/
-        if (tutorial) {
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    textChoice = 0;
-                }
-            },
-                    4000
-            );
-
-        }
-
         if (connected) {
             arduinoInstance.write("game;" + String.valueOf(player.getLife()));
         }
@@ -168,7 +154,7 @@ public class GameScreen extends AbstractScreen{
                 prefs.setPositionY(player.getPosition().y);
                 prefs.save();
                 
-                //MainGame.contentManager.getMusic("gameMusic").pause();
+                MainGame.contentManager.getMusic("gameMusic").pause();
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
@@ -264,36 +250,6 @@ public class GameScreen extends AbstractScreen{
             b2dr.render(world, b2dCam.combined);
         }
 
-        batch.begin();
-        batch.draw(background, 0,0,MainGame.V_WIDTH, MainGame.V_WIDTH);
-        //TextManager.Draw("FPS: ",cam);
-        if (tutorial) {
-            switch (textChoice) {
-                case 10:
-                    font.draw(batch, "Hey, my name is Genuini", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 0:
-                    font.draw(batch, "Make me jump with Z", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 1:
-                    font.draw(batch, "Well done, now to the right pushing D", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 2:
-                    font.draw(batch, "Nice, Can we go to the left please with Q", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                case 3:
-                    font.draw(batch, "Let's Play !", player_pos_x * PPM, player_pos_y * PPM + 60);
-                    break;
-                default:
-                    break;
-            }
-
-            batch.draw(connectArduino, player_pos_x * PPM - 270, Gdx.graphics.getHeight() - 100);
-        }
-        
-
-        batch.end();
-
         stage.act(delta);
         stage.draw();
 
@@ -360,48 +316,34 @@ public class GameScreen extends AbstractScreen{
     
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
-            if (tutorial) {
-                if (textChoice != 0 && textChoice != 1 && textChoice != 10) {
-                    playerMoveLeft();
-                    if (textChoice == 2) {
-                        textChoice = 3;
-                        deleteTexture();
-                    }
-                }
-            } else {
-                playerMoveLeft();
-            }
-
+            playerMoveLeft();
         }
 
         if (Gdx.input.isKeyPressed(Keys.D) || (Gdx.input.isKeyPressed(Keys.RIGHT))) {
-
-            if (tutorial) {
-                if (textChoice != 0 && textChoice != 10) {
-                    playerMoveRight();
-                    if (textChoice == 1) {
-                        textChoice = 2;
-                    }
-                }
-            } else {
-                playerMoveRight();
-            }
-
+            playerMoveRight();
         }
 
         if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
-            if (tutorial) {
-                if (textChoice != 10) {
-                    playerJump();
-                    if (textChoice == 0) {
-                        textChoice = 1;
-                    }
-                }
-
-            } else {
                 playerJump();
+        }
+        
+        if ((Gdx.input.isKeyPressed(Keys.F))) {
+            for(Turret turret : turrets){
+                if(turret.isActive()){
+                  turret.deactivate();
+                }else{
+                    turret.activate();
+                }
+               
             }
-
+        }
+        
+        if ((Gdx.input.isKeyPressed(Keys.G))) {
+                if(world.getGravity().y<0){
+                  world.setGravity(new Vector2(0,9.81f));
+                }else{
+                  world.setGravity(new Vector2(0,-9.81f));
+                }
         }
 
     }
@@ -435,8 +377,6 @@ public class GameScreen extends AbstractScreen{
                     fireballs.add(fireball);
                     turret.setFireball(fireball);
                     targetPlayer(fireball.getBody(), 20);
-                }else{
-                    //System.out.println(distance_player_turret);
                 }
             }    
         }
@@ -510,19 +450,7 @@ public class GameScreen extends AbstractScreen{
         body.createFixture(fd).setUserData("fireball");
         return new Fireball(body,turret);
     }
-    
-    private void deleteTexture() {
-        //delete "let's play text"
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-            @Override
-            public void run() {
-                textChoice = 4;
-            }
-        },
-                4000
-        );
-    }
+
 
     private void createTiles() {
 

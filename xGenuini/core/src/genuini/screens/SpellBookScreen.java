@@ -200,10 +200,6 @@ public class SpellBookScreen extends AbstractScreen {
         /*draw*/
         batch.begin();
         batch.draw(background, V_WIDTH / 8, 0);
-        /*TODO :
-         *Draw screen (change background)
-         *Draw font in an specific area
-         */
         batch.end();
         stage.act(delta);
         stage.draw();
