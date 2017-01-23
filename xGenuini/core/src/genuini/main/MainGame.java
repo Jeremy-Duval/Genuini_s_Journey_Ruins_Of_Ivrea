@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import genuini.handlers.Content;
 import genuini.handlers.ScreenEnum;
 import genuini.handlers.ScreenManager;
+import static genuini.screens.AbstractScreen.arduinoInstance;
+import static genuini.screens.AbstractScreen.connected;
 
 public class MainGame extends Game implements ApplicationListener {
     public static final String TITLE = "Genuini";
@@ -23,7 +25,7 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager = new Content();
         
         contentManager.loadTexture("img/bg_shroom.png","background");
-        
+        contentManager.loadTexture("img/fireball.png","fireball");
         
         //load player textures
         for(int i=1;i<12;i++){
@@ -38,6 +40,20 @@ public class MainGame extends Game implements ApplicationListener {
         }
         contentManager.loadTexture("img/Player/p1/left/p1_jump.png","p1_left_jump");
         contentManager.loadTexture("img/Player/p1/right/p1_jump.png","p1_right_jump");
+        
+        
+        contentManager.loadMusic("sounds/Death.mp3","deathMusic");
+        contentManager.getMusic("deathMusic").setLooping(true);
+        contentManager.getMusic("deathMusic").setVolume(1f);
+        
+        contentManager.loadMusic("sounds/Earth_From_Sky.mp3","menuMusic");
+        contentManager.getMusic("menuMusic").setLooping(true);
+        contentManager.getMusic("menuMusic").setVolume(1f);
+        
+        contentManager.loadMusic("sounds/Land_of_Ivrea.mp3","gameMusic");
+        contentManager.getMusic("gameMusic").setLooping(true);
+        contentManager.getMusic("gameMusic").setVolume(1f);
+        
 
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
@@ -52,6 +68,10 @@ public class MainGame extends Game implements ApplicationListener {
     @Override
     public void dispose () {
         contentManager.removeAll();
+        if(connected){
+            arduinoInstance.write("exit;");
+            arduinoInstance.close();
+        }
     }
 
     @Override

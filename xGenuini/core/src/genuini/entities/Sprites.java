@@ -5,6 +5,8 @@
  */
 package genuini.entities;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -12,17 +14,20 @@ import com.badlogic.gdx.physics.box2d.Body;
  *
  * @author Adrien
  */
-public class Sprites {
+public class Sprites extends Sprite{
     protected Body body;
-    protected int width;
-    protected int height;
-	
-    public Sprites(Body body) {
-            this.body = body;
-    }
+    protected Sprite sprite;
 
+	
+    public Sprites(Body body, Texture texture) {
+            this.body = body;
+            sprite = new Sprite(texture);
+    }
+    
+    
     public Body getBody() { return body; }
     public Vector2 getPosition() { return body.getPosition(); }
-    public float getWidth() { return width; }
-    public float getHeight() { return height; }
+
+    
+
 }

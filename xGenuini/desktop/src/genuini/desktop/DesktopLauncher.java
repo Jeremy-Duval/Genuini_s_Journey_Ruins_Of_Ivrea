@@ -6,11 +6,12 @@ import genuini.main.MainGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-            LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-            cfg.title = MainGame.TITLE;
-            cfg.width = MainGame.V_WIDTH * MainGame.SCALE;
-            cfg.height = MainGame.V_HEIGHT * MainGame.SCALE;
-            LwjglApplication lwjglApplication = new LwjglApplication(new MainGame(), cfg);
+            LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+            config.vSyncEnabled = true;
+            config.title = MainGame.TITLE;
+            config.width = MainGame.V_WIDTH * MainGame.SCALE;
+            config.height = MainGame.V_HEIGHT * MainGame.SCALE;
+            LwjglApplication lwjglApplication = new LwjglApplication(new MainGame(), config);
 		
 	}
 }

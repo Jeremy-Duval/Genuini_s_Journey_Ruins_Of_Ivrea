@@ -15,6 +15,7 @@ public class PhysicsVariables {
 	
     // collision bit filters
     public static final short BIT_PLAYER = 2;
-    public static final short BIT_BALL = 4;
-    public static final short BIT_TERRAIN = 8;
+    public static final short BIT_TERRAIN = 4;
+    public static final short BIT_FIREBALL = 8;
+    public static final short BIT_TURRET = 16;
 }

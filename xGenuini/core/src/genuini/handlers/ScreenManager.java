@@ -45,16 +45,17 @@ public class ScreenManager {
  
         // Get current screen to dispose it
         Screen currentScreen = game.getScreen();
- 
+        
+        // Dispose previous screen
+        if (currentScreen != null) {
+            currentScreen.dispose();
+        }
         // Show new screen
         AbstractScreen newScreen = screenEnum.getScreen(params);
         newScreen.buildStage();
         game.setScreen(newScreen);
  
-        // Dispose previous screen
-        if (currentScreen != null) {
-            currentScreen.dispose();
-        }
+        
     }
     
     

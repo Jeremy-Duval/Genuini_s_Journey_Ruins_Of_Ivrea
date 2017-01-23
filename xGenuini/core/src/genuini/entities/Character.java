@@ -6,6 +6,7 @@
 package genuini.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import genuini.handlers.PhysicsVariables;
@@ -17,7 +18,6 @@ import genuini.main.MainGame;
  */
 public class Character extends Sprites{
     
-    Texture texture;
     int textureFrame;
     int minTextureFrame;
     int maxTextureFrame;
@@ -28,17 +28,15 @@ public class Character extends Sprites{
     String index;
     
     
-    public Character(Body body, String name, int width, int height, int minTextureFrame, int maxTextureFrame,String initialDirection) {
-        super(body);
-        this.name=name;
-        this.width=width;
-        this.height=height;
+    public Character(Body body, String name, int minTextureFrame, int maxTextureFrame,String initialDirection) {
+        super(body,MainGame.contentManager.getTexture(name+"_"+initialDirection+"_"+Integer.toString(minTextureFrame)));
+        this.name=name; 
         this.minTextureFrame=minTextureFrame;
         this.maxTextureFrame=maxTextureFrame;
         direction=initialDirection;
         textureFrame=minTextureFrame;
         index=Integer.toString(minTextureFrame);
-        texture = MainGame.contentManager.getTexture(name+"_"+direction+"_"+index); 
+        
     }
     
     
@@ -76,17 +74,19 @@ public class Character extends Sprites{
     
     public void updateTexture(boolean jump){
         if(jump){
-            texture=MainGame.contentManager.getTexture(name+"_"+direction+"_jump");
+            sprite.setTexture(MainGame.contentManager.getTexture(name+"_"+direction+"_jump"));
         }else{
             index=Integer.toString(textureFrame);
-            texture=MainGame.contentManager.getTexture(name+"_"+direction+"_"+index);
+            sprite.setTexture(MainGame.contentManager.getTexture(name+"_"+direction+"_"+index));
         }
         
     }
     
     public void render(SpriteBatch spriteBatch) {
             spriteBatch.begin();
-            spriteBatch.draw(texture, (int) (body.getPosition().x * PhysicsVariables.PPM - width / 2), (int) (body.getPosition().y * PhysicsVariables.PPM - height / 2));
+            spriteBatch.draw(sprite.getTexture(), (int) (body.getPosition().x * PhysicsVariables.PPM - sprite.getWidth() / 2), (int) (body.getPosition().y * PhysicsVariables.PPM - sprite.getHeight() / 2));
             spriteBatch.end();
     }
+
+
 }

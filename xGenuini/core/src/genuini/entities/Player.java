@@ -11,9 +11,29 @@ import com.badlogic.gdx.physics.box2d.Body;
  * @author Adrien
  */
 public class Player extends Character{
-
+    private int life;
+    private int status;
+    
     public Player(Body body) {
-        super(body,"p1",76,92,1,11,"right");  
+        super(body,"p1",1,11,"right");
+        life=100;
+        status=1;// means he is alive
+    }
+    
+    public void changeLife(int delta){
+        life+=delta;
+    }
+    
+    public int getLife(){
+        return life;
+    }
+    
+    public void setStatus(int status){
+        this.status=status;
+    }
+    
+    public int getStatus(){
+        return status;
     }
     
 }

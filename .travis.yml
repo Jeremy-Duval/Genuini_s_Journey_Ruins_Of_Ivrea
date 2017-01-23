@@ -1,5 +1,5 @@
 language: java
-sudo: false # faster builds
+sudo: true
 jdk:
   - oraclejdk7
   - openjdk7
@@ -10,8 +10,17 @@ branches:
     - Création_de_la_base
 
 before_install:
+  - sudo apt-get install librxtx-java
+  - sudo cp /usr/lib/jni/librxtxSerial.so /usr/lib/jvm/java-7-oracle/jre/lib/amd64/librxtxSerial.so
+  - sudo cp /usr/lib/jni/librxtxParallel.so /usr/lib/jvm/java-7-oracle/jre/lib/amd64/librxtxParallel.so
+  - echo "/usr/lib/jni/" >> /etc/ld.so.conf.d/rxtx.conf 
+  - sudo ldconfig
   - cd xGenuini
   - chmod +x gradlew
+
+install:
+  - ./gradlew assemble
+  - ./gradlew clean compile
 
 notifications:
   email: false

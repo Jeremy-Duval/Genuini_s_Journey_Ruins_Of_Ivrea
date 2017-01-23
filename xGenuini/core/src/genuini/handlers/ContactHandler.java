@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
+import genuini.screens.GameScreen;
 
 /**
  *
@@ -22,7 +23,12 @@ public class ContactHandler implements ContactListener{
     private int numFootContacts;
     private Array<Body> bodiesToRemove;
     private boolean bounce;
+    private boolean dangerous;
     
+    public ContactHandler(){
+        super();
+        bodiesToRemove = new Array<Body>();
+    }
     //Called when 2 fixtures collide
     @Override
     public void beginContact(Contact contact) {
@@ -42,7 +48,25 @@ public class ContactHandler implements ContactListener{
                 || (fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
             bounce=true;
         }
+        if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
+                || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
+            bounce=true;    
+            dangerous=true;                  
+        }
         
+        
+        if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
+            if(fb.getUserData() != null && fb.getUserData().equals("player")){
+                dangerous=true;
+            }
+        }
+        
+        if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
+            if(fa.getUserData() != null && fa.getUserData().equals("player")){
+                dangerous=true;
+            }
+        }
+
 }
     
     //Called when 2 fixtures no longer collide
@@ -54,15 +78,34 @@ public class ContactHandler implements ContactListener{
         if(fa == null || fb == null) return;
 
         if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
-                numFootContacts--;
-                
+                numFootContacts--;       
         }
         if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 numFootContacts--;
         }
+        
         if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("bounce")
                 || fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 bounce=false;
+        }
+        if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
+                || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
+                bounce=false;
+                dangerous=false;
+        }
+
+        if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
+            if(fb.getUserData() != null && fb.getUserData().equals("player")){
+                dangerous=false;
+            }
+            bodiesToRemove.add(fa.getBody());
+        }
+        
+        if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
+            if(fa.getUserData() != null && fa.getUserData().equals("player")){
+                dangerous=false;
+            }
+            bodiesToRemove.add(fb.getBody());
         }
     }
     
@@ -83,5 +126,8 @@ public class ContactHandler implements ContactListener{
     public boolean playerCanJump() { return numFootContacts > 0; }
     public Array<Body> getBodies() { return bodiesToRemove; }
     public boolean isBouncy() { return bounce; }
+    public boolean isDangerous() { return dangerous; }
+
+
     
 }
