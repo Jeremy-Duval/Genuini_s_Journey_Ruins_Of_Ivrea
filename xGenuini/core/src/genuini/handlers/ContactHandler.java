@@ -54,7 +54,6 @@ public class ContactHandler implements ContactListener{
             dangerous=true;                  
         }
         
-        
         if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=true;

@@ -25,7 +25,8 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager = new Content();
         
         contentManager.loadTexture("img/bg_shroom.png","background");
-        contentManager.loadTexture("img/fireball.png","fireball");
+        contentManager.loadTexture("img/springboardUp.png","springUp");
+        contentManager.loadTexture("img/springboardDown.png","spring");
         
         //load player textures
         for(int i=1;i<12;i++){

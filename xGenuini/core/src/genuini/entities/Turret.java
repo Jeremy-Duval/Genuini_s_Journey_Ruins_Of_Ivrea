@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Turret {
     private Vector2 pos;
-    private boolean activated = true;
+    private boolean activated = false;
     private Fireball fireball;
     private boolean hasFireball = false;
        

@@ -7,6 +7,7 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -32,11 +33,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import genuini.entities.EnvironmentObject;
 import genuini.entities.Fireball;
 import genuini.entities.Player;
+import genuini.entities.Spring;
+import genuini.entities.Sprites;
 import genuini.entities.Turret;
 import genuini.handlers.BoundedCamera;
 import genuini.handlers.ContactHandler;
+import genuini.handlers.MapBodyBuilder;
 import static genuini.handlers.PhysicsVariables.PPM;
 import static genuini.handlers.PhysicsVariables.BIT_PLAYER;
 import static genuini.handlers.PhysicsVariables.BIT_FIREBALL;
@@ -51,9 +56,11 @@ import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameScreen extends AbstractScreen{
-    private final boolean debug = false;
+    private final boolean debug = true;
 
     private final boolean tutorial = false;
     private BoundedCamera b2dCam;
@@ -64,7 +71,6 @@ public class GameScreen extends AbstractScreen{
     private Player player;
 
     private final World world;
-
     private final ContactHandler contactManager;
 
     private TiledMap map;
@@ -82,10 +88,14 @@ public class GameScreen extends AbstractScreen{
     private Table table;
     private Label lifePointsLabel;
     
-    private float speed;
+    
+
     //Fire turret
     private Array<Turret> turrets;
     private Array<Fireball> fireballs;
+    private final Array<Body> builtBodies;
+    
+    private Array<Spring> springs;
 
     
 
@@ -96,31 +106,47 @@ public class GameScreen extends AbstractScreen{
         }
 
         
-        
+        prefs.setPositionX(400/PPM);
+        prefs.setPositionY(400/PPM);
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-        if(connected){
-            speed=Integer.valueOf(arduinoInstance.read())/70;
-        }
+        
         //set the Text batch
         TextManager.SetSpriteBatch(batch);
         
         //turrets
         turrets = new Array<Turret>();
         fireballs = new Array<Fireball>();
+        springs = new Array<Spring>();
+
+
+
+        
+        
+        
         //create tiles
         createTiles();
-
+        builtBodies = MapBodyBuilder.buildShapes(map, world);
+        for(Body builtBody : builtBodies){
+            if(builtBody.getFixtureList().first().getUserData().toString().equals("spring")){
+                System.out.println("ok");
+                springs.add(new Spring(builtBody));
+            } 
+        }
+        
+        
         super.createButtonSkin(tileSize * 1.6f, tileSize / 2);
         super.createBookButtonSkin(tileSize * 1.6f, tileSize / 2);
         super.createTextSkin();
-
-
-
+        
+        //create player
+        createPlayer();
+        cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
+        
         /* DEBUG */
         if (debug) {
             b2dr = new Box2DDebugRenderer();
@@ -129,25 +155,7 @@ public class GameScreen extends AbstractScreen{
             b2dCam.setToOrtho(false, MainGame.V_WIDTH / PPM, MainGame.V_HEIGHT / PPM);
             b2dCam.setBounds(0, (tileMapWidth * tileSize) / PPM, 0, (tileMapHeight * tileSize) / PPM);
         }
-
-        //create player
-        createPlayer();
-        cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
-        
-
-        /*text time*/
-        if (tutorial) {
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    textChoice = 0;
-                }
-            },
-                    4000
-            );
-
-        }
+       
 
         if (connected) {
             arduinoInstance.write("game;" + String.valueOf(player.getLife()));
@@ -223,7 +231,11 @@ public class GameScreen extends AbstractScreen{
               
         
         handleInput();
-        handleContact();
+        try {
+            handleContact();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         float player_pos_x=prefs.getPositionX();
         float player_pos_y=prefs.getPositionY();
@@ -253,6 +265,12 @@ public class GameScreen extends AbstractScreen{
             fireballs.get(i).draw(batch);
         }
         
+        
+        /*
+        for(int i=0; i<springs.size; i++){
+            System.out.println(springs.get(i).getTexture().toString());
+            springs.get(i).draw(batch);
+        }*/
         
         //To write on screen
         if (debug) {
@@ -372,14 +390,24 @@ public class GameScreen extends AbstractScreen{
             }
 
         }
+        
+        if ((Gdx.input.isKeyPressed(Keys.F))) {
+           world.setGravity(new Vector2(0,-2.5f));
+
+        }
 
     }
 
-    public void handleContact() {
+    public void handleContact() throws InterruptedException {
 
         if (contactManager.isBouncy() && contactManager.isDangerous()) {
             playerBounce(200f);
         } else if (contactManager.isBouncy()) {
+            /*for(Sprites sprite : sprites){
+                if(sprite instanceof Spring){
+                    ((Spring) sprite).drawUp(MainGame.contentManager.getTexture("springUp"));
+                }
+            }*/
             playerBounce(480f);
         }
         if (contactManager.isDangerous()) {
@@ -403,9 +431,9 @@ public class GameScreen extends AbstractScreen{
                     Fireball fireball = createFireball(turret);
                     fireballs.add(fireball);
                     turret.setFireball(fireball);
-                    targetPlayer(fireball.getBody(), 5);
+                    targetPlayer(fireball.getBody(), 20);
                 }
-            }    
+            }
         }       
     }
 
@@ -415,6 +443,7 @@ public class GameScreen extends AbstractScreen{
         //font.dispose();
         world.dispose();
         map.dispose();
+        
     }
 
     private void createPlayer() {
