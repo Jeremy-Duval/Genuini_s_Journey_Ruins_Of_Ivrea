@@ -93,7 +93,6 @@ public class MainMenuScreen extends AbstractScreen {
         batch.begin();
         batch.draw(background, 0, 0, V_WIDTH,V_HEIGHT);
         batch.draw(connectArduino, V_WIDTH-200, 600);
-
         batch.end();
         stage.act(delta);
         stage.draw();
