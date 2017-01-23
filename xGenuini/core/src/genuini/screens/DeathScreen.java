@@ -7,8 +7,11 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -33,14 +36,19 @@ public class DeathScreen extends AbstractScreen{
     private final int buttonWidth;
     private final int buttonHeight;
 
-
+    private final int areaWidth;
+    private final int areaHeight;
+    private TextField gameOver;
+    private Skin bookSkin;
     
     public DeathScreen(){
         super();
         buttonWidth=V_WIDTH/15;
         buttonHeight=V_HEIGHT/20;
         super.createButtonSkin(buttonWidth,buttonHeight);
-        super.createTextSkin();
+        areaWidth = V_WIDTH / 6;
+        areaHeight = V_HEIGHT / 10;
+        createBookSkin(areaWidth, areaHeight);
         contentManager.getMusic("deathMusic").play();
 
     }
@@ -48,24 +56,24 @@ public class DeathScreen extends AbstractScreen{
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skin);
-        menuButton.setPosition((V_WIDTH-buttonWidth)/2, (V_HEIGHT-buttonHeight)/2);
+        menuButton.setPosition((V_WIDTH-buttonWidth)/2-40, (V_HEIGHT-buttonHeight)/2 - 50);
         
 
         
         stage.addActor(menuButton);
 
+        
+        gameOver = new TextField("Game Over", bookSkin);
         table = new Table();
-        stage.addActor(table);
         table.setSize(V_WIDTH,V_HEIGHT/8);
+        table.add(gameOver).width(200);
         table.setPosition(1, V_HEIGHT/2);
         table.center();
         // table.align(Align.right | Align.bottom);
         if(debug){
             table.debug();// Enables debug lines for tables.
         }
-        
-        Label lifeLabel = new Label("You are dead",textSkin,"default",Color.WHITE);
-        table.add(lifeLabel).width(120);
+        stage.addActor(table);
     }
     
     
@@ -95,5 +103,27 @@ public class DeathScreen extends AbstractScreen{
     @Override
     public void dispose() {
        super.dispose();
+    }
+    
+    void createBookSkin(float width, float height) {
+        //Create a font
+        bookSkin = new Skin();
+        bookSkin.add("default", font2);
+
+        //Create a texture
+        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        bookSkin.add("background", new Texture(pixmap));
+
+        //Create a button style
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.fontColor = Color.WHITE;
+        textFieldStyle.background = bookSkin.newDrawable("background", Color.CLEAR);
+        textFieldStyle.focusedBackground = bookSkin.newDrawable("background", Color.CLEAR);
+        textFieldStyle.cursor = bookSkin.newDrawable("background", Color.DARK_GRAY);
+        textFieldStyle.cursor.setMinWidth(1f);
+        textFieldStyle.font = bookSkin.getFont("default");
+        bookSkin.add("default", textFieldStyle);
     }
 }

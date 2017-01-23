@@ -118,7 +118,7 @@ public class SpellBookScreen extends AbstractScreen {
         setupBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                
+                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
         
@@ -149,7 +149,7 @@ public class SpellBookScreen extends AbstractScreen {
         codeArea = new TextField("What is the initialization method of an Arduino program ?", bookSkin);
         codeArea.setX(V_WIDTH / 3);
         codeArea.setY(V_HEIGHT - 200);
-        codeArea.setWidth(600);
+        codeArea.setWidth(700);
         codeArea.setHeight(100);
         
         response = new TextField("", bookSkin);
@@ -165,7 +165,7 @@ public class SpellBookScreen extends AbstractScreen {
         
         initBox.setPosition(V_WIDTH / 3 + 40, V_HEIGHT - 250);
         setupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 250);
-        configureBox.setPosition(V_WIDTH / 3 + 320, V_HEIGHT - 250);
+        configureBox.setPosition(V_WIDTH / 3 + 350, V_HEIGHT - 250);
         intsetupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 300);
         
         

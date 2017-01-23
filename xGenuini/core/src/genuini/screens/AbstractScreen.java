@@ -48,7 +48,7 @@ public class AbstractScreen extends Stage implements Screen {
     Skin skin;
     Skin bookButtonSkin;
     Skin textSkin;
-    BitmapFont font;
+    BitmapFont font,font2;
     SpriteBatch batch;
     PreferencesManager prefs;
     Music music;
@@ -68,6 +68,9 @@ public class AbstractScreen extends Stage implements Screen {
         parameter.size = 30; //set the font size: 12px
         parameter.color = Color.BLACK; //set the color size
         font = generator.generateFont(parameter); //set the font size: 12px
+        
+        parameter.color = Color.WHITE;       
+        font2 = generator.generateFont(parameter);
         generator.dispose(); // free memory space
 
         connectArduino = new Texture("img/arduinoconnected.png");

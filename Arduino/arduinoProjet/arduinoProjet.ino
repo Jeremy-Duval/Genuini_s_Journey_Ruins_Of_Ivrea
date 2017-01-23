@@ -56,13 +56,12 @@ void loop() {
     unsigned long currentMillis2 = millis() / 1000;
       
   
-  if ((unsigned long)(currentMillis2 - previousMillis2) >= 3 && digitalRead(pinButton)) { 
+  if ((unsigned long)(currentMillis2 - previousMillis2) >= 1 && digitalRead(pinButton)) { 
        stateButton = !stateButton;
        previousMillis2 = currentMillis2;
     }
-
-    int value = stateButton;
-    Serial.println(stateButton);
+    
+    Serial.write(stateButton);
     delay(100);
 
   
