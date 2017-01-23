@@ -62,7 +62,7 @@ public class GameScreen extends AbstractScreen{
     private final BoundedCamera cam;
 
     private Player player;
-    private final Vector2 initpos= new Vector2(10f,4f); 
+    private final Vector2 initpos= new Vector2(10f,24f); 
 
     private final World world;
 
