@@ -759,6 +759,9 @@
    <image width="70" height="70" source="Platformer Art Complete Pack/Buildings expansion/Tiles/doorLock.png"/>
   </tile>
   <tile id="11">
+   <properties>
+    <property name="victory" value=""/>
+   </properties>
    <image width="70" height="70" source="Platformer Art Complete Pack/Buildings expansion/Tiles/doorOpen.png"/>
   </tile>
   <tile id="12">
@@ -993,6 +996,9 @@
    <image width="70" height="70" source="Platformer Art Complete Pack/Buildings expansion/Tiles/windowHighOpenBottom.png"/>
   </tile>
   <tile id="89">
+   <properties>
+    <property name="victory" value=""/>
+   </properties>
    <image width="70" height="70" source="Platformer Art Complete Pack/Buildings expansion/Tiles/windowHighOpenMid.png"/>
   </tile>
   <tile id="90">

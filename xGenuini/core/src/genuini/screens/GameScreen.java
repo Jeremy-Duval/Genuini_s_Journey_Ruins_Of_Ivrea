@@ -7,12 +7,9 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -33,7 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.Fireball;
@@ -61,7 +57,6 @@ public class GameScreen extends AbstractScreen{
     
     private final boolean debug = false;
 
-    private final boolean tutorial = false;
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
 
@@ -82,12 +77,10 @@ public class GameScreen extends AbstractScreen{
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
 
-    private Skin textSkin;
 
     private Table table;
     private Label lifePointsLabel;
     
-    private float speed;
     //Fire turret
     private Array<Turret> turrets;
     private Array<Fireball> fireballs;
@@ -159,6 +152,9 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(connected){
+                    arduinoInstance.write("game;" + String.valueOf(player.getLife()));
+                }
                 prefs.setPositionX(player.getPosition().x);
                 prefs.setPositionY(player.getPosition().y);
                 prefs.save();
@@ -340,6 +336,9 @@ public class GameScreen extends AbstractScreen{
         
         if ((Gdx.input.isKeyPressed(Keys.G))) {
             if(prefs.getChallenge()){
+                if(connected){
+                    arduinoInstance.write("game;" + String.valueOf(player.getLife()));
+                }
                if(world.getGravity().y<0){
                   world.setGravity(new Vector2(0,9.81f));
                 }else{
@@ -370,8 +369,16 @@ public class GameScreen extends AbstractScreen{
         if(contactManager.bookActive() && !spellBookScreenButton.isVisible()){
             spellBookScreenButton.setVisible(true);
             prefs.setBook(true);
+            if(connected){
+                    arduinoInstance.write("book;");
+            }
         }
-        
+        if(contactManager.hasWon()){
+            prefs.reset();
+            prefs.save();
+            MainGame.contentManager.getMusic("gameMusic").pause();
+            ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
+        }
     }
     
     public void handleArea(){
@@ -589,6 +596,21 @@ public class GameScreen extends AbstractScreen{
                     fd.filter.categoryBits = BIT_TERRAIN;
                     fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
                     world.createBody(bdef).createFixture(fd).setUserData("challengeBox");
+                }else if(cell.getTile().getProperties().get("victory")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[5];
+                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
+                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
+                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
+                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
+                    cs.createChain(v);
+                    fd.friction = 0;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    world.createBody(bdef).createFixture(fd).setUserData("victory");
                 }else{
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];

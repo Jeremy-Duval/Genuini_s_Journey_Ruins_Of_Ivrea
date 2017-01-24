@@ -25,6 +25,7 @@ public class ContactHandler implements ContactListener{
     private boolean bounce;
     private boolean dangerous;
     private boolean bookActive;
+    private boolean victory=false;
     
     public ContactHandler(){
         super();
@@ -70,6 +71,9 @@ public class ContactHandler implements ContactListener{
         
         if((fa.getUserData() != null && fa.getUserData().equals("challengeBox")) || (fb.getUserData() != null && fb.getUserData().equals("challengeBox"))){
             bookActive=true;                
+        }
+        if((fa.getUserData() != null && fa.getUserData().equals("victory")) || (fb.getUserData() != null && fb.getUserData().equals("victory"))){
+            victory=true;                
         }
 
 }
@@ -133,6 +137,7 @@ public class ContactHandler implements ContactListener{
     public boolean isBouncy() { return bounce; }
     public boolean isDangerous() { return dangerous; }
     public boolean bookActive(){return bookActive;}
+    public boolean hasWon(){return victory;}
 
     
 }
