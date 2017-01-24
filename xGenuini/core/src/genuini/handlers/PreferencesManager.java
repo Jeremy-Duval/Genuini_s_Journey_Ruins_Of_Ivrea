@@ -49,4 +49,12 @@ public class PreferencesManager {
     public void reset(){
         //System.out.println("DEBBB"+Gdx.files.external(".prefs/game_data").exists());
     }
+
+    public void setChallenge(boolean valid) {
+        data.putBoolean("challengeValid", valid);
+    }
+    
+    public boolean getChallenge(){
+        return data.getBoolean("challengeValid", false);
+    }
 }

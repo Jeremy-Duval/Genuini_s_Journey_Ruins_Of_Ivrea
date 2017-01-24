@@ -328,6 +328,7 @@ public class GameScreen extends AbstractScreen{
                 playerJump();
         }
         
+        /*
         if ((Gdx.input.isKeyPressed(Keys.F))) {
             for(Turret turret : turrets){
                 if(turret.isActive()){
@@ -337,14 +338,16 @@ public class GameScreen extends AbstractScreen{
                 }
                
             }
-        }
+        }*/
         
         if ((Gdx.input.isKeyPressed(Keys.G))) {
-                if(world.getGravity().y<0){
+            if(prefs.getChallenge()){
+               if(world.getGravity().y<0){
                   world.setGravity(new Vector2(0,9.81f));
                 }else{
                   world.setGravity(new Vector2(0,-9.81f));
-                }
+                } 
+            }  
         }
 
     }
