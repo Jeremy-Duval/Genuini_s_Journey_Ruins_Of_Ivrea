@@ -7,12 +7,9 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -33,7 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.Fireball;
@@ -55,14 +51,12 @@ import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
-import javax.crypto.Mac;
 
 public class GameScreen extends AbstractScreen{
 
     
     private final boolean debug = false;
 
-    private final boolean tutorial = false;
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
 
@@ -83,12 +77,10 @@ public class GameScreen extends AbstractScreen{
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
 
-    private Skin textSkin;
 
     private Table table;
     private Label lifePointsLabel;
     
-    private float speed;
     //Fire turret
     private Array<Turret> turrets;
     private Array<Fireball> fireballs;
@@ -160,6 +152,9 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(connected){
+                    arduinoInstance.write("game;" + String.valueOf(player.getLife()));
+                }
                 prefs.setPositionX(player.getPosition().x);
                 prefs.setPositionY(player.getPosition().y);
                 prefs.save();
@@ -341,6 +336,9 @@ public class GameScreen extends AbstractScreen{
         
         if ((Gdx.input.isKeyPressed(Keys.G))) {
             if(prefs.getChallenge()){
+                if(connected){
+                    arduinoInstance.write("game;" + String.valueOf(player.getLife()));
+                }
                if(world.getGravity().y<0){
                   world.setGravity(new Vector2(0,9.81f));
                 }else{
@@ -371,10 +369,13 @@ public class GameScreen extends AbstractScreen{
         if(contactManager.bookActive() && !spellBookScreenButton.isVisible()){
             spellBookScreenButton.setVisible(true);
             prefs.setBook(true);
+            if(connected){
+                    arduinoInstance.write("book;");
+            }
         }
         if(contactManager.hasWon()){
-            //prefs.reset();
-            //prefs.save();
+            prefs.reset();
+            prefs.save();
             MainGame.contentManager.getMusic("gameMusic").pause();
             ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
         }

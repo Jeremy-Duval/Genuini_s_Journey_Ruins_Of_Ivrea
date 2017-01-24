@@ -119,6 +119,9 @@ public class SpellBookScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 prefs.setChallenge(true);
+                if(connected){
+                    arduinoInstance.write("gravity;");
+                }
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
