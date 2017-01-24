@@ -34,6 +34,7 @@ enum State : uint8_t {
   Death,
   Gravity,
   Book,
+  Victory,
   Exit
 } previousState = State::None, currentState = State::None;
 
@@ -98,7 +99,11 @@ void loop() {
     }else if (firstValue == "book") {
       previousState = currentState;
       currentState = State::Book;
+    }else if (firstValue == "victory") {
+      previousState = currentState;
+      currentState = State::Victory;
     }
+    
 
     int life = secondValue.toInt();
 
@@ -138,6 +143,12 @@ void loop() {
         lcd.setRGB(colorR, colorG, colorB);
         changeSentence = false;
         break;
+      case State::Victory:
+        lcd.clear();
+        lcd.setRGB(0, 255, 0);
+        lcd.print("Congratulation !");
+        changeSentence = false;
+        break; 
       case State::Exit:
         lcd.clear();
         lcd.setRGB(0, 0, 0);

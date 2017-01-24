@@ -377,6 +377,9 @@ public class GameScreen extends AbstractScreen{
         if(contactManager.hasWon()){
             prefs.reset();
             prefs.save();
+            if(connected){
+                arduinoInstance.write("victory;");
+            }
             MainGame.contentManager.getMusic("gameMusic").pause();
             ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
         }

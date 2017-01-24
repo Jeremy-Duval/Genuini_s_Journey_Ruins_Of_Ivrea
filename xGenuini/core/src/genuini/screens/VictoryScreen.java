@@ -63,7 +63,7 @@ public class VictoryScreen extends AbstractScreen{
         stage.addActor(menuButton);
 
         
-        gameOver = new TextField("Congratulations, demo finished !", bookSkin);
+        gameOver = new TextField("Congratulation, Demo finished !", bookSkin);
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
         table.add(gameOver).width(600);
