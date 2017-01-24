@@ -24,6 +24,10 @@ public class Player extends Character{
         life+=delta;
     }
     
+    public void setLife(int life){
+        this.life=life;
+    }
+    
     public int getLife(){
         return life;
     }

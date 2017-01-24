@@ -27,7 +27,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -142,6 +141,7 @@ public class GameScreen extends AbstractScreen{
             public void clicked(InputEvent event, float x, float y) {
                 prefs.setPositionX(player.getPosition().x);
                 prefs.setPositionY(player.getPosition().y);
+                prefs.setLife(player.getLife());
                 prefs.save();
                 
                 MainGame.contentManager.getMusic("gameMusic").pause();
@@ -157,6 +157,7 @@ public class GameScreen extends AbstractScreen{
                 }
                 prefs.setPositionX(player.getPosition().x);
                 prefs.setPositionY(player.getPosition().y);
+                prefs.setLife(player.getLife());
                 prefs.save();
                 ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
             }
@@ -334,7 +335,7 @@ public class GameScreen extends AbstractScreen{
             }
         }*/
         
-        if ((Gdx.input.isKeyPressed(Keys.G))) {
+        if ((Gdx.input.isKeyJustPressed(Keys.G))) {
             if(prefs.getChallenge()){
                 if(connected){
                     arduinoInstance.write("game;" + String.valueOf(player.getLife()));
@@ -442,6 +443,7 @@ public class GameScreen extends AbstractScreen{
 
         //Create player entity
         player = new Player(body);
+        player.setLife(prefs.getLife());
     }
     
     public Fireball createFireball(Turret turret){

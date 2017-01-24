@@ -54,6 +54,14 @@ public class PreferencesManager {
         return data.getBoolean("challengeValid", false);
     }
     
+    public void setLife(int life){
+        data.putInteger("life", life);
+    }
+    
+    public int getLife(){
+        return data.getInteger("life",100);
+    }
+    
     public void save() {
         data.flush();
     }
@@ -62,6 +70,7 @@ public class PreferencesManager {
         data.putFloat("player_YPosition", init_y);
         data.putBoolean("book_activated", false);
         data.putBoolean("challengeValid", false);
+        data.putInteger("life", 100);
     }
 
     
