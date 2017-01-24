@@ -145,11 +145,13 @@ void loop() {
         bar.setBits(0x0);
         break;
       case State::Gravity:
+        changeSentence = false;
         clearLign(0, 1);
         lcd.setCursor(0, 1);
         lcd.print("Press G"); 
         break;
       case State::Book:
+        changeSentence = false;
         clearLign(0, 1);
         lcd.setCursor(0, 1);
         lcd.print("Open Book"); 
