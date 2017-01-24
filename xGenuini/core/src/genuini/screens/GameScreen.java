@@ -7,6 +7,7 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
@@ -29,8 +30,10 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.Fireball;
@@ -56,7 +59,7 @@ import static genuini.screens.AbstractScreen.connected;
 public class GameScreen extends AbstractScreen{
 
     
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private final boolean tutorial = false;
     private BoundedCamera b2dCam;
@@ -65,7 +68,6 @@ public class GameScreen extends AbstractScreen{
     private final BoundedCamera cam;
 
     private Player player;
-    
 
     private final World world;
 
@@ -80,7 +82,7 @@ public class GameScreen extends AbstractScreen{
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
 
-
+    private Skin textSkin;
 
     private Table table;
     private Label lifePointsLabel;
@@ -174,6 +176,7 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
         spellBookScreenButton.setPosition(V_WIDTH - tileSize - 20 * 1f, tileSize * 1.8f);
         spellBookScreenButton.setSize(tileSize, tileSize);
+        
 
         if(!prefs.getBook()){
             spellBookScreenButton.setVisible(false);
@@ -248,7 +251,6 @@ public class GameScreen extends AbstractScreen{
 
         stage.act(delta);
         stage.draw();
-
         
         
     }
@@ -630,4 +632,5 @@ public class GameScreen extends AbstractScreen{
         Turret turret = new Turret(turret_pos);
         turrets.add(turret);
     }
+    
 }

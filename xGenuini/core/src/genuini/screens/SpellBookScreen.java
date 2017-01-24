@@ -148,9 +148,9 @@ public class SpellBookScreen extends AbstractScreen {
     @Override
     public void buildStage() {
         codeArea = new TextField("What is the initialization method of an Arduino program ?", bookSkin);
-        codeArea.setX(V_WIDTH / 3);
+        codeArea.setX(V_WIDTH / 3 - 100);
         codeArea.setY(V_HEIGHT - 200);
-        codeArea.setWidth(700);
+        codeArea.setWidth(800);
         codeArea.setHeight(100);
         
         response = new TextField("", bookSkin);
