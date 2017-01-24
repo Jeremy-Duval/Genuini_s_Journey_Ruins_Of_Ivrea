@@ -32,6 +32,8 @@ enum State : uint8_t {
   Menu,
   Game,
   Death,
+  Gravity,
+  Book,
   Exit
 } previousState = State::None, currentState = State::None;
 
@@ -53,7 +55,7 @@ void setup() {
 boolean stateButton = false;
 void loop() {
     unsigned long currentMillis = millis() / 1000;
-    unsigned long currentMillis2 = millis() / 1000;
+ /*   unsigned long currentMillis2 = millis() / 1000;
       
   
   if ((unsigned long)(currentMillis2 - previousMillis2) >= 1 && digitalRead(pinButton)) { 
@@ -62,7 +64,7 @@ void loop() {
     }
     
     Serial.write(stateButton);
-    delay(100);
+    delay(100);  */
 
   
   String rec;
@@ -90,6 +92,12 @@ void loop() {
     } else if (firstValue == "exit") {
       previousState = currentState;
       currentState = State::Exit;
+    }else if (firstValue == "gravity") {
+      previousState = currentState;
+      currentState = State::Gravity;
+    }else if (firstValue == "book") {
+      previousState = currentState;
+      currentState = State::Book;
     }
 
     int life = secondValue.toInt();
@@ -136,6 +144,16 @@ void loop() {
         changeSentence = false;  
         bar.setBits(0x0);
         break;
+      case State::Gravity:
+        clearLign(0, 1);
+        lcd.setCursor(0, 1);
+        lcd.print("Press G"); 
+        break;
+      case State::Book:
+        clearLign(0, 1);
+        lcd.setCursor(0, 1);
+        lcd.print("Open Book"); 
+        break;      
       default:
         bar.setBits(0x0);
         break;
