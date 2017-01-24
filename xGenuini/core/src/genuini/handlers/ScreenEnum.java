@@ -10,6 +10,7 @@ import genuini.screens.GameScreen;
 import genuini.screens.DeathScreen;
 import genuini.screens.MainMenuScreen;
 import genuini.screens.SpellBookScreen;
+import genuini.screens.VictoryScreen;
 
 /**
  *
@@ -42,6 +43,13 @@ public enum ScreenEnum {
         @Override
         public AbstractScreen getScreen(Object... params) {
             return new DeathScreen() {};
+        }
+    },
+    
+    VICTORY {
+        @Override
+        public AbstractScreen getScreen(Object... params) {
+            return new VictoryScreen() {};
         }
     };
  

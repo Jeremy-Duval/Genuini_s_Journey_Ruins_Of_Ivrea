@@ -52,6 +52,7 @@ import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
+import javax.crypto.Mac;
 
 public class GameScreen extends AbstractScreen{
 
@@ -369,7 +370,12 @@ public class GameScreen extends AbstractScreen{
             spellBookScreenButton.setVisible(true);
             prefs.setBook(true);
         }
-        
+        if(contactManager.hasWon()){
+            //prefs.reset();
+            //prefs.save();
+            MainGame.contentManager.getMusic("gameMusic").pause();
+            ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
+        }
     }
     
     public void handleArea(){
@@ -587,6 +593,21 @@ public class GameScreen extends AbstractScreen{
                     fd.filter.categoryBits = BIT_TERRAIN;
                     fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
                     world.createBody(bdef).createFixture(fd).setUserData("challengeBox");
+                }else if(cell.getTile().getProperties().get("victory")!=null){
+                    //to link the cell edges
+                    Vector2[] v = new Vector2[5];
+                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
+                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
+                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
+                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
+                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
+                    cs.createChain(v);
+                    fd.friction = 0;
+                    fd.shape = cs;
+                    fd.isSensor=false;
+                    fd.filter.categoryBits = BIT_TERRAIN;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    world.createBody(bdef).createFixture(fd).setUserData("victory");
                 }else{
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
