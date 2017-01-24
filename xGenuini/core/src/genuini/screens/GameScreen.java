@@ -170,7 +170,7 @@ public class GameScreen extends AbstractScreen{
         menuButton = new TextButton("Menu", skin);
         menuButton.setPosition(V_WIDTH - tileSize * 1.6f, tileSize * 3);
 
-        spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
+        spellBookScreenButton = new TextButton("Spellbook", bookButtonSkin);
         spellBookScreenButton.setPosition(V_WIDTH - tileSize - 20 * 1f, tileSize * 1.8f);
         spellBookScreenButton.setSize(tileSize, tileSize);
         
