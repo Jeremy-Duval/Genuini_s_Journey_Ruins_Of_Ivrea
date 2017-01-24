@@ -66,7 +66,7 @@ public class VictoryScreen extends AbstractScreen{
         gameOver = new TextField("Congratulations, demo finished !", bookSkin);
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
-        table.add(gameOver).width(200);
+        table.add(gameOver).width(600);
         table.setPosition(1, V_HEIGHT/2);
         table.center();
         // table.align(Align.right | Align.bottom);
