@@ -68,8 +68,10 @@ public class AbstractScreen extends Stage implements Screen {
         parameter.size = 30; //set the font size: 12px
         parameter.color = Color.BLACK; //set the color size
         font = generator.generateFont(parameter); //set the font size: 12px
-        
+        parameter.size = 24;
         parameter.color = Color.WHITE;       
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 2;
         font2 = generator.generateFont(parameter);
         generator.dispose(); // free memory space
 
@@ -166,7 +168,7 @@ public class AbstractScreen extends Stage implements Screen {
         //Create a font
 
         bookButtonSkin = new Skin();
-        bookButtonSkin.add("default", font);
+        bookButtonSkin.add("default", font2);
 
         bookButtonSkin.add("textureBookButton", textureBookButton);
 

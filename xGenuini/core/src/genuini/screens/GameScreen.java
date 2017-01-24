@@ -7,6 +7,7 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapProperties;
@@ -29,8 +30,10 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.Fireball;
@@ -66,7 +69,6 @@ public class GameScreen extends AbstractScreen{
     private final BoundedCamera cam;
 
     private Player player;
-    
 
     private final World world;
 
@@ -81,7 +83,7 @@ public class GameScreen extends AbstractScreen{
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
 
-
+    private Skin textSkin;
 
     private Table table;
     private Label lifePointsLabel;
@@ -173,8 +175,9 @@ public class GameScreen extends AbstractScreen{
         menuButton.setPosition(V_WIDTH - tileSize * 1.6f, tileSize * 3);
 
         spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
-        spellBookScreenButton.setPosition(V_WIDTH - tileSize * 1f, tileSize * 1.8f);
+        spellBookScreenButton.setPosition(V_WIDTH - tileSize - 20 * 1f, tileSize * 1.8f);
         spellBookScreenButton.setSize(tileSize, tileSize);
+        
 
         if(!prefs.getBook()){
             spellBookScreenButton.setVisible(false);
@@ -193,10 +196,10 @@ public class GameScreen extends AbstractScreen{
             table.debug();// Enables debug lines for tables.
         }
 
-        Label lifeLabel = new Label("Life:", textSkin, "default", Color.WHITE);
-        table.add(lifeLabel).width(50);
-        lifePointsLabel = new Label(String.valueOf(player.getLife()), textSkin, "default", Color.WHITE);
-        table.add(lifePointsLabel).width(150);
+        Label lifeLabel = new Label("Life :", bookButtonSkin, "default", Color.WHITE);
+        table.add(lifeLabel).width(70);
+        lifePointsLabel = new Label(String.valueOf(player.getLife()), bookButtonSkin, "default", Color.WHITE);
+        table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
     }
 
@@ -249,7 +252,6 @@ public class GameScreen extends AbstractScreen{
 
         stage.act(delta);
         stage.draw();
-
         
         
     }
@@ -651,4 +653,5 @@ public class GameScreen extends AbstractScreen{
         Turret turret = new Turret(turret_pos);
         turrets.add(turret);
     }
+    
 }
