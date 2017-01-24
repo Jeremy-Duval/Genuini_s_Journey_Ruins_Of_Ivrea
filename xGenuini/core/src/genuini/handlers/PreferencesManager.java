@@ -7,7 +7,6 @@ package genuini.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import static genuini.handlers.PhysicsVariables.PPM;
 
 /**
  *
@@ -15,6 +14,10 @@ import static genuini.handlers.PhysicsVariables.PPM;
  */
 public class PreferencesManager {
     Preferences data = Gdx.app.getPreferences("game_data");
+    
+    Float init_x = 6f;
+    Float init_y = 19f;
+    
     public PreferencesManager(){}
 
     
@@ -24,7 +27,7 @@ public class PreferencesManager {
     }
      
     public float getPositionX(){
-        return data.getFloat("player_xPosition", 160f/PPM);
+        return data.getFloat("player_xPosition", init_x);
     }
     
     public void setPositionY(float posY){
@@ -32,7 +35,7 @@ public class PreferencesManager {
     }
     
     public float getPositionY(){
-        return data.getFloat("player_YPosition", 200f/PPM);
+        return data.getFloat("player_YPosition", init_y);
     }
     
     public void setBook(boolean active){
@@ -42,14 +45,7 @@ public class PreferencesManager {
     public boolean getBook(){
         return data.getBoolean("book_activated", false);
     }
-
-    public void save() {
-        data.flush();
-    }
-    public void reset(){
-        //System.out.println("DEBBB"+Gdx.files.external(".prefs/game_data").exists());
-    }
-
+    
     public void setChallenge(boolean valid) {
         data.putBoolean("challengeValid", valid);
     }
@@ -57,4 +53,16 @@ public class PreferencesManager {
     public boolean getChallenge(){
         return data.getBoolean("challengeValid", false);
     }
+    
+    public void save() {
+        data.flush();
+    }
+    public void reset(){
+        data.putFloat("player_xPosition", init_x);
+        data.putFloat("player_YPosition", init_y);
+        data.putBoolean("book_activated", false);
+        data.putBoolean("challengeValid", false);
+    }
+
+    
 }

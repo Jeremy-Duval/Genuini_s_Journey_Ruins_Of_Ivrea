@@ -65,7 +65,7 @@ public class GameScreen extends AbstractScreen{
     private final BoundedCamera cam;
 
     private Player player;
-    private final Vector2 initpos= new Vector2(50f,24f); 
+    
 
     private final World world;
 
@@ -119,11 +119,6 @@ public class GameScreen extends AbstractScreen{
         super.createButtonSkin(tileSize * 1.6f, tileSize / 2);
         super.createBookButtonSkin(tileSize * 1.6f, tileSize / 2);
         super.createTextSkin();
-
-
-        prefs.setPositionX(initpos.x);
-        prefs.setPositionY(initpos.y);
-        
         
         /* DEBUG */
         if (debug) {
@@ -261,6 +256,7 @@ public class GameScreen extends AbstractScreen{
     private void playerDeath() {
         player.setStatus(0);
         prefs.reset();
+        prefs.save();
         if (connected) {
             arduinoInstance.write("death;");
         }
