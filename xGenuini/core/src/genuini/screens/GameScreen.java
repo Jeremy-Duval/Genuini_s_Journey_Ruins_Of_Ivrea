@@ -56,7 +56,7 @@ import static genuini.screens.AbstractScreen.connected;
 public class GameScreen extends AbstractScreen{
 
     
-    private final boolean debug = false;
+    private final boolean debug = true;
 
     private final boolean tutorial = false;
     private BoundedCamera b2dCam;
@@ -177,7 +177,7 @@ public class GameScreen extends AbstractScreen{
         menuButton.setPosition(V_WIDTH - tileSize * 1.6f, tileSize * 3);
 
         spellBookScreenButton = new TextButton("Grimoire", bookButtonSkin);
-        spellBookScreenButton.setPosition(V_WIDTH - tileSize * 1f, tileSize * 1.8f);
+        spellBookScreenButton.setPosition(V_WIDTH - tileSize - 20 * 1f, tileSize * 1.8f);
         spellBookScreenButton.setSize(tileSize, tileSize);
 
         if(!prefs.getBook()){
@@ -197,10 +197,10 @@ public class GameScreen extends AbstractScreen{
             table.debug();// Enables debug lines for tables.
         }
 
-        Label lifeLabel = new Label("Life:", textSkin, "default", Color.WHITE);
-        table.add(lifeLabel).width(50);
-        lifePointsLabel = new Label(String.valueOf(player.getLife()), textSkin, "default", Color.WHITE);
-        table.add(lifePointsLabel).width(150);
+        Label lifeLabel = new Label("Life :", bookButtonSkin, "default", Color.WHITE);
+        table.add(lifeLabel).width(70);
+        lifePointsLabel = new Label(String.valueOf(player.getLife()), bookButtonSkin, "default", Color.WHITE);
+        table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
     }
 
