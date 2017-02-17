@@ -91,7 +91,6 @@ public class GameScreen extends AbstractScreen{
         if(!MainGame.contentManager.getMusic("gameMusic").isPlaying()){
             MainGame.contentManager.getMusic("gameMusic").play();
         }
-
         
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
