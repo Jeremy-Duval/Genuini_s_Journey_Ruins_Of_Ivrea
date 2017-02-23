@@ -103,9 +103,10 @@ public class DeathScreen extends AbstractScreen{
     @Override
     public void dispose() {
        super.dispose();
+       bookSkin.dispose();
     }
     
-    void createBookSkin(float width, float height) {
+    private void createBookSkin(float width, float height) {
         //Create a font
         bookSkin = new Skin();
         bookSkin.add("default", font2);

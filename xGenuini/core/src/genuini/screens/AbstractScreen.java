@@ -55,8 +55,7 @@ public class AbstractScreen extends Stage implements Screen {
  
     
 
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/grundchift.otf"));
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    
 
     protected AbstractScreen() {
         super(new StretchViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera()));
@@ -65,6 +64,8 @@ public class AbstractScreen extends Stage implements Screen {
         batch = new SpriteBatch();
         textureBookButton = new Texture("img/book/redbook.png");
         //define the font
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/grundchift.otf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 30; //set the font size: 12px
         parameter.color = Color.BLACK; //set the color size
         font = generator.generateFont(parameter); //set the font size: 12px

@@ -214,7 +214,7 @@ public class WorldManager {
                     v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
                     v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
                     cs.createChain(v);
-                    fd.friction = 0;
+                    fd.friction = 0.05f;
                     fd.shape = cs;
                     fd.isSensor=false;
                     fd.filter.categoryBits = BIT_TERRAIN;

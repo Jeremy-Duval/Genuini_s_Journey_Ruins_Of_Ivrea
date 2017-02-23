@@ -26,6 +26,7 @@ public class ContactHandler implements ContactListener{
     private boolean dangerous;
     private boolean bookActive;
     private boolean victory=false;
+    private boolean playerHurt;
     
     public ContactHandler(){
         super();
@@ -53,19 +54,22 @@ public class ContactHandler implements ContactListener{
         if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
                 || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
             bounce=true;    
-            dangerous=true;                  
+            dangerous=true;   
+            playerHurt();
         }
         
         
         if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=true;
+                playerHurt();
             }
         }
         
         if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=true;
+                playerHurt();
             }
         }
         
@@ -131,7 +135,20 @@ public class ContactHandler implements ContactListener{
         
     }
     
-    
+    public void playerHurt(){
+        playerHurt=true;
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+            @Override
+            public void run() {
+                playerHurt=false;
+            }
+        },
+                950
+        );
+    }
+
+    public boolean isPlayerHurt() {return playerHurt;}
     public boolean playerCanJump() { return numFootContacts > 0; }
     public Array<Body> getBodies() { return bodiesToRemove; }
     public boolean isBouncy() { return bounce; }

@@ -42,8 +42,6 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadTexture("img/Player/p1/right/p1_jump.png","p1_right_jump");
         */
         
-        contentManager.loadTexture("img/Player/p1/p1_walk.png", "p1_walk");
-        contentManager.loadTexture("img/Player/p1_front.png", "p1");
         contentManager.loadMusic("sounds/Death.mp3","deathMusic");
         contentManager.getMusic("deathMusic").setLooping(true);
         contentManager.getMusic("deathMusic").setVolume(1f);

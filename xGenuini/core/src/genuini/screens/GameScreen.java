@@ -37,7 +37,7 @@ import genuini.world.WorldManager;
 public class GameScreen extends AbstractScreen{
 
     
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -216,7 +216,7 @@ public class GameScreen extends AbstractScreen{
         tmr.render();
         batch.begin();
         //draw player
-        
+        genuini.draw(batch, delta);
         
         /*draw fireballs
         if(fireballs.size>0){
@@ -224,9 +224,9 @@ public class GameScreen extends AbstractScreen{
                 f.render(batch);
             }
         }*/
-        genuini.draw(batch);
-        batch.end();
         
+        batch.end();
+        //genuini.draw(batch,delta);
         //To write on screen
         if (debug) {
             b2dr.render(world, b2dCam.combined);
@@ -238,16 +238,7 @@ public class GameScreen extends AbstractScreen{
         
     }
 
-    private void playerDeath() {
-        genuini.die();
-        prefs.reset();
-        prefs.save();
-        if (connected) {
-            arduinoInstance.write("death;");
-        }
-        MainGame.contentManager.getMusic("gameMusic").stop();
-        ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
-    }
+
 
     /**
      * Apply upward force to player body.
@@ -281,15 +272,7 @@ public class GameScreen extends AbstractScreen{
         );*/
     }
 
-    private void playerMoveLeft() {
-        genuini.getBody().applyLinearImpulse(-5 / PPM, 0, 0, 0, true);
-    }
 
-    private void playerMoveRight() {
-        genuini.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
-        //genuini.walkRight();
-    }
-    
     private void targetPlayer(Body body, float speed) { 
         body.applyLinearImpulse((genuini.getPosition().x-body.getPosition().x)*speed/PPM, (genuini.getPosition().y-body.getPosition().y)*speed/PPM, 0, 0, true);
     }
@@ -297,15 +280,15 @@ public class GameScreen extends AbstractScreen{
     
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
-            playerMoveLeft();
+            genuini.walk(Genuini.Direction.LEFT);
         }
 
         if (Gdx.input.isKeyPressed(Keys.D) || (Gdx.input.isKeyPressed(Keys.RIGHT))) {
-            playerMoveRight();
+            genuini.walk(Genuini.Direction.RIGHT);
         }
 
         if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
-                playerJump();
+            genuini.jump();
         }
         
         /*
@@ -338,9 +321,9 @@ public class GameScreen extends AbstractScreen{
     public void handleContact() {
 
         if (contactManager.isBouncy() && contactManager.isDangerous()) {
-            playerBounce(200f);
+            playerBounce(150f);
         } else if (contactManager.isBouncy()) {
-            playerBounce(480f);
+            playerBounce(420f);
         }
         if (contactManager.isDangerous()) {
             genuini.changeLife(-5);
@@ -348,8 +331,8 @@ public class GameScreen extends AbstractScreen{
                 arduinoInstance.write("game;" + String.valueOf(genuini.getLife())); //quand vie change
             }
             lifePointsLabel.setText(String.valueOf(genuini.getLife()));
-            if (genuini.getLife() <= 0 && genuini.getState()==Genuini.State.DEAD) {
-                playerDeath();
+            if (genuini.getLife() <= 0 && genuini.getState()!=Genuini.State.DEAD) {
+                genuini.die();
             }
         }
         if(contactManager.bookActive() && !spellBookScreenButton.isVisible()){
@@ -388,7 +371,6 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void dispose() {
         super.dispose();
-        //font.dispose();
         world.dispose();
         map.dispose();
     }
@@ -403,7 +385,6 @@ public class GameScreen extends AbstractScreen{
             world.destroyBody(b);
         }
         bodies.clear();
-       
     }
 
     
@@ -429,5 +410,9 @@ public class GameScreen extends AbstractScreen{
     
     public PreferencesManager getPreferences(){
         return prefs;
+    }
+    
+    public ContactHandler getContactManager(){
+        return contactManager;
     }
 }
