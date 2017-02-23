@@ -3,9 +3,9 @@ package genuini.main;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import genuini.handlers.Content;
-import genuini.handlers.ScreenEnum;
-import genuini.handlers.ScreenManager;
+import genuini.game.Content;
+import genuini.game.ScreenEnum;
+import genuini.game.ScreenManager;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 
@@ -27,7 +27,7 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadTexture("img/bg_shroom.png","background");
         contentManager.loadTexture("img/fireball.png","fireball");
         
-        //load player textures
+        /*load player textures
         for(int i=1;i<12;i++){
             String index=Integer.toString(i);
             if(i<10){
@@ -40,8 +40,10 @@ public class MainGame extends Game implements ApplicationListener {
         }
         contentManager.loadTexture("img/Player/p1/left/p1_jump.png","p1_left_jump");
         contentManager.loadTexture("img/Player/p1/right/p1_jump.png","p1_right_jump");
+        */
         
-        
+        contentManager.loadTexture("img/Player/p1/p1_walk.png", "p1_walk");
+        contentManager.loadTexture("img/Player/p1_front.png", "p1");
         contentManager.loadMusic("sounds/Death.mp3","deathMusic");
         contentManager.getMusic("deathMusic").setLooping(true);
         contentManager.getMusic("deathMusic").setVolume(1f);
@@ -56,7 +58,7 @@ public class MainGame extends Game implements ApplicationListener {
         
 
         ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
+        ScreenManager.getInstance().showScreen( ScreenEnum.GAME );
     }
 
     @Override

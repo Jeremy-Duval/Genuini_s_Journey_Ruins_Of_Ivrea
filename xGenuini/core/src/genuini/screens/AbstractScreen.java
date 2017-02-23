@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import genuini.arduino.ArduinoLink;
 import genuini.arduino.UnobtainableComPortException;
-import genuini.handlers.PreferencesManager;
+import genuini.game.PreferencesManager;
 import genuini.main.MainGame;
 import gnu.io.SerialPort;
 
