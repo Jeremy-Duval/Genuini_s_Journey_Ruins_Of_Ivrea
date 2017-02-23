@@ -5,28 +5,38 @@
  */
 package genuini.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
+import genuini.screens.GameScreen;
 
 /**
  *
  * @author Adrien
  */
-public class Sprites extends Sprite{
+public abstract class Sprites extends Sprite{
     protected Body body;
-    protected Sprite sprite;
+    protected GameScreen screen;
+    protected World world;
 
 	
-    public Sprites(Body body, Texture texture) {
-            this.body = body;
-            sprite = new Sprite(texture);
+    public Sprites(GameScreen screen) {
+            this.screen=screen;
+            this.world=screen.getWorld();
+            
     }
     
     
     public Body getBody() { return body; }
-    public Vector2 getPosition() { return body.getPosition(); }
+    public Vector2 getPosition() { return body.getPosition();}
+    
+    public void draw(SpriteBatch spriteBatch) {
+            //spriteBatch.draw(sprite.getTexture(), (int) (body.getPosition().x * PhysicsVariables.PPM - sprite.getWidth() / 2), (int) (body.getPosition().y * PhysicsVariables.PPM - sprite.getHeight() / 2));
+            super.draw(spriteBatch);
+    }
+
 
     
 
