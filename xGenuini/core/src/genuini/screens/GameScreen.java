@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Array;
 import genuini.entities.Genuini;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
+import genuini.entities.Turret;
 import genuini.game.BoundedCamera;
 import genuini.game.PreferencesManager;
 import genuini.world.ContactHandler;
@@ -40,7 +41,7 @@ import genuini.world.WorldManager;
 public class GameScreen extends AbstractScreen{
 
     
-    private final boolean debug = false;
+    private final boolean debug = true;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -217,7 +218,7 @@ public class GameScreen extends AbstractScreen{
         batch.setProjectionMatrix(cam.combined);
         
         
-        destroyBodies();
+        
 
         //draw tiled map
         tmr.setView(cam);
@@ -270,9 +271,7 @@ public class GameScreen extends AbstractScreen{
     }
 
 
-    private void targetPlayer(Body body, float speed) { 
-        body.applyLinearImpulse((genuini.getPosition().x-body.getPosition().x)*speed/PPM, (genuini.getPosition().y-body.getPosition().y)*speed/PPM, 0, 0, true);
-    }
+    
 
     
     public void handleInput() {
@@ -339,6 +338,8 @@ public class GameScreen extends AbstractScreen{
                     arduinoInstance.write("book;");
             }
         }
+        
+        
         if(contactManager.hasWon()){
             prefs.reset();
             prefs.save();
@@ -351,14 +352,20 @@ public class GameScreen extends AbstractScreen{
     }
     
     public void handleArea(){
-        if(contactManager.isBouncy()){
-            for(Sprites sprite : worldManager.getSprites()){
-                if((getDistanceFromPlayer(sprite)<0.8f)&&(sprite instanceof Spring)){
-                   ((Spring)sprite).activate();    
-                }
+        for(final Sprites sprite : worldManager.getSprites()){
+            if(contactManager.isBouncy()&&(getDistanceFromPlayer(sprite)<0.8f)&&(sprite instanceof Spring)){
+               ((Spring)sprite).activate();    
             }
-        
+            if(sprite instanceof Turret){
+                if(getDistanceFromPlayer(sprite)<5f){
+                   ((Turret)sprite).activate();    
+                }else{
+                   ((Turret)sprite).deactivate();    
+                }
+               
+            }
         }
+        
         /*
         for(Turret turret : turrets){      
             if(!turret.hasFireball() && turret.isActive()){   
@@ -383,15 +390,6 @@ public class GameScreen extends AbstractScreen{
 
     
 
-    private void destroyBodies() {
-        Array<Body> bodiesToDestroy = contactManager.getBodies();
-        for(int i = 0; i < bodiesToDestroy.size; i++) {
-            Body b = bodiesToDestroy.get(i);
-            bodiesToDestroy.removeIndex(i);
-            world.destroyBody(b);
-        }
-        bodiesToDestroy.clear();
-    }
 
     
     public TiledMap getMap(){
@@ -430,6 +428,10 @@ public class GameScreen extends AbstractScreen{
     public float getDistanceFromPlayer(Sprites sprite){
         return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x+sprite.getSprite().getWidth()/2/PPM-genuini.getPosition().x,2) + (Math.pow(sprite.getBody().getPosition().y+sprite.getSprite().getHeight()/2/PPM-genuini.getPosition().y,2))));
         
+    }
+    
+    public Genuini getGenuini(){
+        return genuini;
     }
     
 }

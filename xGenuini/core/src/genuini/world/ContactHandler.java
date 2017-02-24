@@ -5,14 +5,11 @@
  */
 package genuini.world;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.utils.Array;
-import genuini.screens.GameScreen;
 
 /**
  *
@@ -21,16 +18,16 @@ import genuini.screens.GameScreen;
 public class ContactHandler implements ContactListener{
     
     private int numFootContacts;
-    private Array<Body> bodiesToRemove;
+
     private boolean bounce;
     private boolean dangerous;
     private boolean bookActive;
     private boolean victory=false;
     private boolean playerHurt;
+    private boolean fireball;
     
     public ContactHandler(){
         super();
-        bodiesToRemove = new Array<Body>();
     }
     //Called when 2 fixtures collide
     @Override
@@ -63,16 +60,19 @@ public class ContactHandler implements ContactListener{
         
         if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
-                dangerous=true;
+                dangerous=true;     
                 playerHurt();
             }
+            fireball=true;
         }
         
         if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
-                dangerous=true;
+                dangerous=true;  
                 playerHurt();
             }
+
+            fireball=true;
         }
         
         if((fa.getUserData() != null && fa.getUserData().equals("challengeBox")) || (fb.getUserData() != null && fb.getUserData().equals("challengeBox"))){
@@ -111,16 +111,16 @@ public class ContactHandler implements ContactListener{
 
         if(fa.getUserData() != null && fa.getUserData().equals("fireball")){
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
-                dangerous=false;
+                dangerous=false;       
             }
-            bodiesToRemove.add(fa.getBody());
+            fireball=false;
         }
         
         if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=false;
             }
-            bodiesToRemove.add(fb.getBody());
+            fireball=false;
         }
     }
     
@@ -149,14 +149,17 @@ public class ContactHandler implements ContactListener{
                 950
         );
     }
-
     public boolean isPlayerHurt() {return playerHurt;}
     public boolean playerCanJump() { return numFootContacts > 0; }
-    public Array<Body> getBodies() { return bodiesToRemove; }
     public boolean isBouncy() { return bounce; }
     public boolean isDangerous() { return dangerous; }
     public boolean bookActive(){return bookActive;}
     public boolean hasWon(){return victory;}
+
+    public boolean isFireball() {
+        
+        return fireball;
+    }
 
     
 }

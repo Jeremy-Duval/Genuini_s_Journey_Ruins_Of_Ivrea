@@ -35,6 +35,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
+import genuini.entities.Turret;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
@@ -288,7 +289,12 @@ public class WorldManager {
     
     private void createObject(MapObject object,Body body){
         if(object.getProperties().containsKey("turret")){
-            
+            Filter filter = new Filter();
+            filter.categoryBits = BIT_TURRET;
+            filter.maskBits = BIT_PLAYER;
+            body.getFixtureList().first().setFilterData(filter);
+            body.getFixtureList().first().setUserData("turret");
+            sprites.add(new Turret(screen,body));
         }else if(object.getProperties().containsKey("spring")){
             Filter filter = new Filter();
             filter.categoryBits = BIT_TERRAIN;

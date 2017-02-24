@@ -38,7 +38,6 @@ public class Spring extends Sprites{
     public void update(float dt){
         Vector2 pos = new Vector2(body.getPosition().x * PPM , body.getPosition().y * PPM);
         sprite.setPosition(pos.x,pos.y);
-
     }
     
     public void activate(){
