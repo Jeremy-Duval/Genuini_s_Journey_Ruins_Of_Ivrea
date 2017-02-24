@@ -47,10 +47,12 @@ public class ContactHandler implements ContactListener{
                 numFootContacts++;
         }
         
-        if((fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("bounce"))
-                || (fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
+        if((fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spring"))
+                || (fa.getUserData() != null && fa.getUserData().equals("spring") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
             bounce=true;
         }
+      
+        
         if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
                 || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
             bounce=true;    
@@ -97,8 +99,8 @@ public class ContactHandler implements ContactListener{
                 numFootContacts--;
         }
         
-        if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("bounce")
-                || fa.getUserData() != null && fa.getUserData().equals("bounce") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
+        if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spring")
+                || fa.getUserData() != null && fa.getUserData().equals("spring") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 bounce=false;
         }
         if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")

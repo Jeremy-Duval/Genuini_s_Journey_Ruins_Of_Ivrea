@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import genuini.screens.GameScreen;
+import static genuini.world.PhysicsVariables.PPM;
 
 /**
  *
@@ -31,6 +32,11 @@ public abstract class Sprites{
     
     
     public Body getBody() { return body; }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+    
     public Vector2 getPosition() { return body.getPosition();}
     
     
@@ -38,6 +44,7 @@ public abstract class Sprites{
             sprite.draw(spriteBatch);
     }
 
+    public abstract void update(float delta);
 
     
 

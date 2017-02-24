@@ -26,21 +26,9 @@ public class MainGame extends Game implements ApplicationListener {
         
         contentManager.loadTexture("img/bg_shroom.png","background");
         contentManager.loadTexture("img/fireball.png","fireball");
-        
-        /*load player textures
-        for(int i=1;i<12;i++){
-            String index=Integer.toString(i);
-            if(i<10){
-               contentManager.loadTexture("img/Player/p1/left/p1_walk0"+index+".png","p1_left_"+index);
-               contentManager.loadTexture("img/Player/p1/right/p1_walk0"+index+".png","p1_right_"+index);
-            }else{
-                contentManager.loadTexture("img/Player/p1/left/p1_walk"+index+".png","p1_left_"+index);
-                contentManager.loadTexture("img/Player/p1/right/p1_walk"+index+".png","p1_right_"+index); 
-            } 
-        }
-        contentManager.loadTexture("img/Player/p1/left/p1_jump.png","p1_left_jump");
-        contentManager.loadTexture("img/Player/p1/right/p1_jump.png","p1_right_jump");
-        */
+        contentManager.loadTexture("img/items/springboardDown.png","springboardDown");
+        contentManager.loadTexture("img/items/springboardUp.png","springboardUp");
+
         
         contentManager.loadMusic("sounds/Death.mp3","deathMusic");
         contentManager.getMusic("deathMusic").setLooping(true);

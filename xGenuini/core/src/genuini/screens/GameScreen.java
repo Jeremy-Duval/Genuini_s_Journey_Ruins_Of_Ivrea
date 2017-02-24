@@ -7,6 +7,7 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -20,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.Genuini;
+import genuini.entities.Spring;
+import genuini.entities.Sprites;
 import genuini.game.BoundedCamera;
 import genuini.game.PreferencesManager;
 import genuini.world.ContactHandler;
@@ -80,7 +83,6 @@ public class GameScreen extends AbstractScreen{
         
         
         worldManager = new WorldManager(this);
-
 
 
         
@@ -175,19 +177,19 @@ public class GameScreen extends AbstractScreen{
         table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
     }
-    
-    
-    
-    
-    
+
     public void update(float delta){
         world.step(MainGame.STEP, 8, 3);
         if(!world.isLocked()){
         handleInput();
         handleContact();
-        //handleArea();
+        handleArea();
         
         genuini.update(delta);
+        for(Sprites sprite : worldManager.getSprites()){
+            sprite.update(delta);
+        }
+        
         }
         
         float player_pos_x=prefs.getPositionX();
@@ -225,7 +227,10 @@ public class GameScreen extends AbstractScreen{
         batch.begin();
         //draw player
         genuini.draw(batch);
-        
+
+        for(Sprites sprite : worldManager.getSprites()){
+            sprite.draw(batch);
+        }
         /*draw fireballs
         if(fireballs.size>0){
             for(Fireball f: fireballs){
@@ -248,22 +253,6 @@ public class GameScreen extends AbstractScreen{
 
 
 
-    /**
-     * Apply upward force to player body.
-     */
-    private void playerJump() {
-        genuini.getBody().applyLinearImpulse(0, 160 / PPM, 0, 0, true);
-        /*genuini.updateTexture(true);
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-            @Override
-            public void run() {
-                genuini.updateTexture(false);
-            }
-        },
-                600
-        );*/
-    }
 
     public void playerBounce(float impulse) {
         genuini.getBody().applyLinearImpulse(0, impulse / PPM, 0, 0, true);
@@ -331,7 +320,7 @@ public class GameScreen extends AbstractScreen{
         if (contactManager.isBouncy() && contactManager.isDangerous()) {
             playerBounce(150f);
         } else if (contactManager.isBouncy()) {
-            playerBounce(420f);
+            playerBounce(300f);
         }
         if (contactManager.isDangerous()) {
             genuini.changeLife(-5);
@@ -361,7 +350,16 @@ public class GameScreen extends AbstractScreen{
         }
     }
     
-    /*public void handleArea(){
+    public void handleArea(){
+        if(contactManager.isBouncy()){
+            for(Sprites sprite : worldManager.getSprites()){
+                if((getDistanceFromPlayer(sprite)<0.8f)&&(sprite instanceof Spring)){
+                   ((Spring)sprite).activate();    
+                }
+            }
+        
+        }
+        /*
         for(Turret turret : turrets){      
             if(!turret.hasFireball() && turret.isActive()){   
                 float distance_player_turret =(float) Math.sqrt(Math.pow(genuini.getPosition().x-turret.getPos().x,2) + (Math.pow(genuini.getPosition().y-turret.getPos().y,2)));
@@ -372,9 +370,9 @@ public class GameScreen extends AbstractScreen{
                     targetPlayer(fireball.getBody(), 20);
                 }
             }    
-        }
+        }*/
         
-    }*/
+    }
 
     @Override
     public void dispose() {
@@ -386,13 +384,13 @@ public class GameScreen extends AbstractScreen{
     
 
     private void destroyBodies() {
-        Array<Body> bodies = contactManager.getBodies();
-        for(int i = 0; i < bodies.size; i++) {
-            Body b = bodies.get(i);
-            bodies.removeIndex(i);
+        Array<Body> bodiesToDestroy = contactManager.getBodies();
+        for(int i = 0; i < bodiesToDestroy.size; i++) {
+            Body b = bodiesToDestroy.get(i);
+            bodiesToDestroy.removeIndex(i);
             world.destroyBody(b);
         }
-        bodies.clear();
+        bodiesToDestroy.clear();
     }
 
     
@@ -423,4 +421,15 @@ public class GameScreen extends AbstractScreen{
     public ContactHandler getContactManager(){
         return contactManager;
     }
+    
+    public float getDistanceFromPlayer(Body body){
+        //return (float) (Math.sqrt(Math.pow(body.getPosition().x+,2) + (Math.pow(genuini.getBody().getWorldCenter().y-body.getWorldCenter().y,2))));
+        return 1f;
+    }
+    
+    public float getDistanceFromPlayer(Sprites sprite){
+        return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x+sprite.getSprite().getWidth()/2/PPM-genuini.getPosition().x,2) + (Math.pow(sprite.getBody().getPosition().y+sprite.getSprite().getHeight()/2/PPM-genuini.getPosition().y,2))));
+        
+    }
+    
 }
