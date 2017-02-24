@@ -54,8 +54,6 @@ public class ScreenManager {
         AbstractScreen newScreen = screenEnum.getScreen(params);
         newScreen.buildStage();
         game.setScreen(newScreen);
- 
-        
     }
     
     

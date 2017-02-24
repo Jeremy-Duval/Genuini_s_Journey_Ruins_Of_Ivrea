@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -53,7 +54,6 @@ public class SpellBookScreen extends AbstractScreen {
     private final int areaWidth;
     private final int areaHeight;
     BitmapFont bookFont;
-    Skin bookSkin;
 
 
     /**
@@ -67,11 +67,9 @@ public class SpellBookScreen extends AbstractScreen {
         super();
         buttonWidth = V_WIDTH / 15;
         buttonHeight = V_HEIGHT / 20;
-        super.createButtonSkin(buttonWidth, buttonHeight);
         areaWidth = V_WIDTH / 6;
         areaHeight = V_HEIGHT / 10;
         bookFont = new BitmapFont();
-        createBookSkin(areaWidth, areaHeight);
         background = new Texture("img/book/book.png");
 
 
@@ -150,22 +148,26 @@ public class SpellBookScreen extends AbstractScreen {
      */
     @Override
     public void buildStage() {
-        codeArea = new TextField("What is the initialization method of an Arduino program ?", bookSkin);
+        super.buildStage();
+        Skin skin = skinManager.whiteTextSkin(areaWidth, areaHeight);
+        codeArea = new TextField("What is the initialization method of an Arduino program ?", skin);
         codeArea.setX(V_WIDTH / 3 - 100);
         codeArea.setY(V_HEIGHT - 200);
         codeArea.setWidth(800);
         codeArea.setHeight(100);
         
-        response = new TextField("", bookSkin);
+        response = new TextField("", skin);
         response.setX(V_WIDTH/2 - 140);
         response.setY(V_HEIGHT-400);
         response.setWidth(600);
         
+        Skin skin2=skinManager.createButtonSkin(buttonWidth, buttonHeight);
         
-        initBox = new TextButton("void init()", skin);
-        setupBox = new TextButton("void setup()", skin);
-        configureBox = new TextButton("void config()", skin);
-        intsetupBox = new TextButton("int setup()", skin);
+        
+        initBox = new TextButton("void init()", skin2);
+        setupBox = new TextButton("void setup()", skin2);
+        configureBox = new TextButton("void config()", skin2);
+        intsetupBox = new TextButton("int setup()", skin2);
         
         initBox.setPosition(V_WIDTH / 3 + 40, V_HEIGHT - 250);
         setupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 250);
@@ -173,7 +175,7 @@ public class SpellBookScreen extends AbstractScreen {
         intsetupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 300);
         
         
-        
+        skin = skinManager.whiteTextSkin(areaWidth, areaHeight);
 
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
         menuButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);
@@ -262,35 +264,8 @@ public class SpellBookScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        bookFont.dispose();
     }
 
-    /**
-     * Create a skin for the spell book in the background.
-     *
-     * @since 01/12/2016
-     * @author jeremy
-     */
-    void createBookSkin(float width, float height) {
-        //Create a font
-        bookSkin = new Skin();
-        bookSkin.add("default", font);
 
-        //Create a texture
-        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        bookSkin.add("background", new Texture(pixmap));
-
-        //Create a button style
-        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.fontColor = Color.GOLDENROD;
-        textFieldStyle.background = bookSkin.newDrawable("background", Color.CLEAR);
-        textFieldStyle.focusedBackground = bookSkin.newDrawable("background", Color.CLEAR);
-        textFieldStyle.cursor = bookSkin.newDrawable("background", Color.DARK_GRAY);
-        textFieldStyle.cursor.setMinWidth(1f);
-        textFieldStyle.font = bookSkin.getFont("default");
-        bookSkin.add("default", textFieldStyle);
-    }
 
 }

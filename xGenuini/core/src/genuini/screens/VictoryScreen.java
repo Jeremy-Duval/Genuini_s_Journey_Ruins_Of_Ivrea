@@ -39,23 +39,20 @@ public class VictoryScreen extends AbstractScreen{
     private final int areaWidth;
     private final int areaHeight;
     private TextField gameOver;
-    private Skin bookSkin;
     
     public VictoryScreen(){
         super();
         buttonWidth=V_WIDTH/15;
         buttonHeight=V_HEIGHT/20;
-        super.createButtonSkin(buttonWidth,buttonHeight);
         areaWidth = V_WIDTH / 6;
         areaHeight = V_HEIGHT / 10;
-        createBookSkin(areaWidth, areaHeight);
         contentManager.getMusic("deathMusic").play();
 
     }
     
     @Override
     public void buildStage() {
-        menuButton=new TextButton("Menu", skin);
+        menuButton=new TextButton("Menu", skinManager.createButtonSkin(buttonWidth,buttonHeight));
         menuButton.setPosition((V_WIDTH-buttonWidth)/2-40, (V_HEIGHT-buttonHeight)/2 - 50);
         
 
@@ -63,7 +60,7 @@ public class VictoryScreen extends AbstractScreen{
         stage.addActor(menuButton);
 
         
-        gameOver = new TextField("Congratulation, Demo finished !", bookSkin);
+        gameOver = new TextField("Congratulation, Demo finished !", skinManager.whiteTextSkin(buttonWidth,buttonHeight));
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
         table.add(gameOver).width(600);
@@ -105,25 +102,4 @@ public class VictoryScreen extends AbstractScreen{
        super.dispose();
     }
     
-    void createBookSkin(float width, float height) {
-        //Create a font
-        bookSkin = new Skin();
-        bookSkin.add("default", font2);
-
-        //Create a texture
-        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        bookSkin.add("background", new Texture(pixmap));
-
-        //Create a button style
-        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.fontColor = Color.WHITE;
-        textFieldStyle.background = bookSkin.newDrawable("background", Color.CLEAR);
-        textFieldStyle.focusedBackground = bookSkin.newDrawable("background", Color.CLEAR);
-        textFieldStyle.cursor = bookSkin.newDrawable("background", Color.DARK_GRAY);
-        textFieldStyle.cursor.setMinWidth(1f);
-        textFieldStyle.font = bookSkin.getFont("default");
-        bookSkin.add("default", textFieldStyle);
-    }
 }

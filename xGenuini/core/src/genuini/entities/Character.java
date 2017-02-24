@@ -5,13 +5,8 @@
  */
 package genuini.entities;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import genuini.main.MainGame;
 import genuini.screens.GameScreen;
-import genuini.world.PhysicsVariables;
 
 /**
  *

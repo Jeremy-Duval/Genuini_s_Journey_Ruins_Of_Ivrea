@@ -37,7 +37,6 @@ public class MainMenuScreen extends AbstractScreen {
         background = new Texture("img/menu/bg_arduini1.jpg");
         buttonWidth = V_WIDTH / 3;
         buttonHeight = V_HEIGHT / 10;
-        super.createButtonSkin(buttonWidth, buttonHeight);
 
        
         MainGame.contentManager.getMusic("menuMusic").play();
@@ -46,9 +45,9 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void buildStage() {
-        batch = new SpriteBatch();
-        newGameButton = new TextButton("Jouer", skin); // Use the initialized skin
-        quitButton = new TextButton("Quitter", skin);
+        super.buildStage();
+        newGameButton = new TextButton("Jouer", skinManager.createButtonSkin(buttonWidth, buttonHeight)); // Use the initialized skin
+        quitButton = new TextButton("Quitter", skinManager.createButtonSkin(buttonWidth, buttonHeight));
 
 
         newGameButton.setPosition((V_WIDTH - buttonWidth) / 4 - 35, (V_HEIGHT + buttonHeight) / 3 + 80);

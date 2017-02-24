@@ -224,13 +224,6 @@ public class Genuini extends Character{
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
     
-    public void draw(SpriteBatch spriteBatch,float dt) {
-            sprite.draw(spriteBatch);
-            /*
-            spriteBatch.begin();
-            spriteBatch.draw(getFrame(dt), (int) (body.getPosition().x * PhysicsVariables.PPM - sprite.getWidth() / 2), (int) (body.getPosition().y * PhysicsVariables.PPM - sprite.getHeight() / 2));
-            spriteBatch.end();*/
-//super.draw(spriteBatch);
-    }
+    
 
 }

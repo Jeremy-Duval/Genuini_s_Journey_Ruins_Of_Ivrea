@@ -63,7 +63,7 @@ public class GameScreen extends AbstractScreen{
     public GameScreen() {
         super();
         if(!MainGame.contentManager.getMusic("gameMusic").isPlaying()){
-            MainGame.contentManager.getMusic("gameMusic").play();
+            //MainGame.contentManager.getMusic("gameMusic").play();
         }
 
         
@@ -82,9 +82,7 @@ public class GameScreen extends AbstractScreen{
         worldManager = new WorldManager(this);
 
 
-        super.createButtonSkin(worldManager.getTileSize() * 1.6f, worldManager.getTileSize() / 2);
-        super.createBookButtonSkin(worldManager.getTileSize() * 1.6f, worldManager.getTileSize() / 2);
-        super.createTextSkin();
+
         
         
         /* DEBUG */
@@ -145,10 +143,11 @@ public class GameScreen extends AbstractScreen{
 
     @Override
     public void buildStage() {
-        menuButton = new TextButton("Menu", skin);
+        super.buildStage();
+        menuButton = new TextButton("Menu", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int)worldManager.getTileSize() / 2));
         menuButton.setPosition(V_WIDTH - worldManager.getTileSize() * 1.6f, worldManager.getTileSize() * 3);
 
-        spellBookScreenButton = new TextButton("Spellbook", bookButtonSkin);
+        spellBookScreenButton = new TextButton("Spellbook", skinManager.createBookButtonSkin((int)(worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2));
         spellBookScreenButton.setPosition(V_WIDTH - worldManager.getTileSize() - 20 * 1f, worldManager.getTileSize() * 1.8f);
         spellBookScreenButton.setSize(worldManager.getTileSize(), worldManager.getTileSize());
         
@@ -170,19 +169,26 @@ public class GameScreen extends AbstractScreen{
             table.debug();// Enables debug lines for tables.
         }
 
-        Label lifeLabel = new Label("Life :", bookButtonSkin, "default", Color.WHITE);
+        Label lifeLabel = new Label("Life :", skinManager.whiteTextSkin((int)(worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
         table.add(lifeLabel).width(70);
-        lifePointsLabel = new Label(String.valueOf(genuini.getLife()), bookButtonSkin, "default", Color.WHITE);
+        lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.whiteTextSkin((int)(worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
         table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
     }
+    
+    
+    
+    
+    
     public void update(float delta){
+        world.step(MainGame.STEP, 8, 3);
+        if(!world.isLocked()){
         handleInput();
         handleContact();
         //handleArea();
-        world.step(delta, 7, 3);
-        genuini.update(delta);
         
+        genuini.update(delta);
+        }
         
         float player_pos_x=prefs.getPositionX();
         float player_pos_y=prefs.getPositionY();
@@ -214,9 +220,11 @@ public class GameScreen extends AbstractScreen{
         //draw tiled map
         tmr.setView(cam);
         tmr.render();
+        
+        
         batch.begin();
         //draw player
-        genuini.draw(batch, delta);
+        genuini.draw(batch);
         
         /*draw fireballs
         if(fireballs.size>0){
