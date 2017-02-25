@@ -7,7 +7,6 @@ package genuini.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import genuini.entities.Genuini;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
@@ -41,7 +39,7 @@ import genuini.world.WorldManager;
 public class GameScreen extends AbstractScreen{
 
     
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -362,7 +360,6 @@ public class GameScreen extends AbstractScreen{
                 }else{
                    ((Turret)sprite).deactivate();    
                 }
-               
             }
         }
         

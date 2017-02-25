@@ -27,11 +27,13 @@ public class Fireball extends Sprites{
 
     private final Texture fireballTexture;
     private boolean setToDestroy;
-    private boolean detroyed;
+    private boolean destroyed;
     private int stateTime;
+    private final Vector2 offset;
     
-    public Fireball(GameScreen screen, Vector2 position) {
+    public Fireball(GameScreen screen, Vector2 position, Vector2 offset) {
         super(screen);
+        this.offset=offset;
         createBody(position);
         fireballTexture = MainGame.contentManager.getTexture("fireball");
         sprite = new Sprite(fireballTexture);
@@ -39,27 +41,33 @@ public class Fireball extends Sprites{
 
     @Override
     public void update(float delta) {
-        Vector2 pos = new Vector2(body.getPosition().x * PPM, body.getPosition().y * PPM);
+        Vector2 pos = new Vector2((body.getPosition().x * PPM)-offset.x, (body.getWorldCenter().y * PPM)-offset.y);
         sprite.setPosition(pos.x,pos.y);
         sprite.rotate(45);
         stateTime+=delta;
-        if((stateTime>3 || setToDestroy)&&!detroyed){
+        if((stateTime>3 || setToDestroy)&&!destroyed){
             screen.getWorld().destroyBody(body);
-            detroyed=true;
+            destroyed=true;
+        }else if(body.getFixtureList().size>0&&!destroyed){
+            if(body.getFixtureList().first().getUserData().equals("toDestroy")&&!destroyed){
+                setToDestroy();
+            }
+            
         }
     }
     
     private void createBody(Vector2 position){
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(position.x,position.y);
+        bdef.bullet=true;
+        bdef.position.set((position.x+offset.x)/PPM,(position.y+offset.y)/PPM);
         body = screen.getWorld().createBody(bdef);
         CircleShape circle = new CircleShape();
         circle.setRadius(0.15f);
         FixtureDef fd = new FixtureDef();
         fd.shape=circle;
-        fd.density=1f;
-        fd.friction=1.4f;
+        fd.density=2.5f;
+        fd.friction=1f;
         fd.restitution=0.6f;
         fd.filter.categoryBits = BIT_FIREBALL;
         fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER;
@@ -67,11 +75,11 @@ public class Fireball extends Sprites{
     }
     
     public void targetBody(Body targetBody, float speed) { 
-        body.applyLinearImpulse((targetBody.getPosition().x-body.getPosition().x)*speed/PPM, (targetBody.getPosition().y-body.getPosition().y)*speed/PPM, 0, 0, true);
+        body.applyLinearImpulse((targetBody.getPosition().x-body.getPosition().x)*speed/PPM, (targetBody.getPosition().y-body.getPosition().y-body.getLocalCenter().y)*speed/PPM, 0, 0, true);
     }
 
     public boolean isDestroyed() {
-        return detroyed;
+        return destroyed;
     }
     
     public void setToDestroy(){

@@ -24,7 +24,6 @@ public class ContactHandler implements ContactListener{
     private boolean bookActive;
     private boolean victory=false;
     private boolean playerHurt;
-    private boolean fireball;
     
     public ContactHandler(){
         super();
@@ -63,7 +62,6 @@ public class ContactHandler implements ContactListener{
                 dangerous=true;     
                 playerHurt();
             }
-            fireball=true;
         }
         
         if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
@@ -71,8 +69,6 @@ public class ContactHandler implements ContactListener{
                 dangerous=true;  
                 playerHurt();
             }
-
-            fireball=true;
         }
         
         if((fa.getUserData() != null && fa.getUserData().equals("challengeBox")) || (fb.getUserData() != null && fb.getUserData().equals("challengeBox"))){
@@ -113,14 +109,14 @@ public class ContactHandler implements ContactListener{
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=false;       
             }
-            fireball=false;
+            fa.setUserData("toDestroy");
         }
         
         if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=false;
             }
-            fireball=false;
+            fb.setUserData("toDestroy");
         }
     }
     
@@ -156,10 +152,6 @@ public class ContactHandler implements ContactListener{
     public boolean bookActive(){return bookActive;}
     public boolean hasWon(){return victory;}
 
-    public boolean isFireball() {
-        
-        return fireball;
-    }
 
     
 }

@@ -294,7 +294,7 @@ public class WorldManager {
             filter.maskBits = BIT_PLAYER;
             body.getFixtureList().first().setFilterData(filter);
             body.getFixtureList().first().setUserData("turret");
-            sprites.add(new Turret(screen,body));
+            sprites.add(new Turret(screen,body,object.getProperties().containsKey("firewall")));
         }else if(object.getProperties().containsKey("spring")){
             Filter filter = new Filter();
             filter.categoryBits = BIT_TERRAIN;
