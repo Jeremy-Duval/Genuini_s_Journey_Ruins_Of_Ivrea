@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import genuini.entities.Button;
 import genuini.entities.Genuini;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
@@ -34,6 +35,7 @@ import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
+import static genuini.world.PhysicsVariables.GRAVITY;
 import genuini.world.WorldManager;
 
 public class GameScreen extends AbstractScreen{
@@ -69,7 +71,7 @@ public class GameScreen extends AbstractScreen{
         }
         //prefs.reset();
         
-        world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
+        world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
 
@@ -82,8 +84,10 @@ public class GameScreen extends AbstractScreen{
         
         
         worldManager = new WorldManager(this);
-
-
+        for(Turret turret : worldManager.getTurrets()){
+            System.err.println(turret.getFireballSpeed());
+        }
+        
         
         
         /* DEBUG */
@@ -178,19 +182,25 @@ public class GameScreen extends AbstractScreen{
     }
 
     public void update(float delta){
+        
+        //World step
         world.step(MainGame.STEP, 8, 3);
+        
+        //Check if world is not stepping
         if(!world.isLocked()){
-        handleInput();
-        handleContact();
-        handleArea();
-        
-        genuini.update(delta);
-        for(Sprites sprite : worldManager.getSprites()){
-            sprite.update(delta);
+            handleInput();
+            handleContact();
+            handleArea();
+            
+            //Update player & sprites
+            genuini.update(delta);
+            for(Sprites sprite : worldManager.getSprites()){
+                sprite.update(delta);
+            }
         }
         
-        }
         
+        //Get player position for camera
         float player_pos_x=prefs.getPositionX();
         float player_pos_y=prefs.getPositionY();
         if(genuini.getState()!=Genuini.State.DEAD){
@@ -198,12 +208,12 @@ public class GameScreen extends AbstractScreen{
             player_pos_y = genuini.getPosition().y;
         }
         
-        // camera follow player
+        //Camera follows player
         cam.setPosition(player_pos_x * PPM + MainGame.V_WIDTH / 4, player_pos_y * PPM);
         cam.update();
         
         
-        //To write on screen
+        //Update of box2d debug camera
         if (debug) {
             b2dCam.setPosition(player_pos_x + MainGame.V_WIDTH / 4 / PPM, player_pos_y);
             b2dCam.update();
@@ -214,29 +224,31 @@ public class GameScreen extends AbstractScreen{
         super.render(delta);
         update(delta);
         batch.setProjectionMatrix(cam.combined);
-        
-        
-        
 
-        //draw tiled map
+        //Render tiled map
         tmr.setView(cam);
         tmr.render();
         
-        
+        /**** Beggining of drawing area ****/
         batch.begin();
+        
         //draw player
         genuini.draw(batch);
-
+        
+        //draw sprites
         for(Sprites sprite : worldManager.getSprites()){
             sprite.draw(batch);
         }
+        
         batch.end();
-        //genuini.draw(batch,delta);
-        //To write on screen
+        /**** End of drawing area ****/
+        
+        //Box2d debug rendering
         if (debug) {
             b2dr.render(world, b2dCam.combined);
         }
-
+        
+        //Stage rendering
         stage.act(delta);
         stage.draw();
         
@@ -273,9 +285,9 @@ public class GameScreen extends AbstractScreen{
                     arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
                 }
                if(world.getGravity().y<0){
-                  world.setGravity(new Vector2(0,9.81f));
+                  world.setGravity(new Vector2(0,-GRAVITY));
                 }else{
-                  world.setGravity(new Vector2(0,-9.81f));
+                  world.setGravity(new Vector2(0,GRAVITY));
                 } 
             }  
         }
@@ -289,6 +301,8 @@ public class GameScreen extends AbstractScreen{
         } else if (contactManager.isBouncy()) {
             genuini.jump(300f);
         }
+        
+        
         if (contactManager.isDangerous()) {
             genuini.changeLife(-5);
             contactManager.setDangerous(false);
@@ -300,7 +314,7 @@ public class GameScreen extends AbstractScreen{
                 genuini.die();
             }
         }
-        if(contactManager.bookActive() && !spellBookScreenButton.isVisible()){
+        if(contactManager.isbookActive() && !spellBookScreenButton.isVisible()){
             spellBookScreenButton.setVisible(true);
             prefs.setBook(true);
             if(connected){
@@ -326,13 +340,30 @@ public class GameScreen extends AbstractScreen{
         }
         
         for(Turret turret : worldManager.getTurrets()){
-           if(getDistanceFromPlayer(turret)<5f){
+            if(getDistanceFromPlayer(turret)<turret.getActivationDistance()){
                turret.activate(false);    
             }else{
                turret.deactivate(false);    
             }
-            //System.err.println(turret.getID());
-        }  
+        }
+        
+        
+        for(Button button : worldManager.getButtons()){
+            if (contactManager.isButton()&&getDistanceFromPlayer(button)<0.7f&&!button.isPressed()) {
+                genuini.jump(150f);
+                button.press();
+                int linkedObjectID = button.getLinkedObjectID();
+                if(button.getLinkedObjectType().equals("turret")){
+                    for(Turret turret : worldManager.getTurrets()){
+                        if(turret.getID()==linkedObjectID){
+                            turret.deactivate(true);    
+                        }
+                    }  
+                }
+                
+            }
+        }
+        
                 
     }
 
@@ -343,10 +374,6 @@ public class GameScreen extends AbstractScreen{
         map.dispose();
     }
 
-    
-
-
-    
     public TiledMap getMap(){
         return map;
     }

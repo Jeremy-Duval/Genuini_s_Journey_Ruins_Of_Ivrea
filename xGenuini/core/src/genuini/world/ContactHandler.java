@@ -24,10 +24,13 @@ public class ContactHandler implements ContactListener{
     private boolean bookActive;
     private boolean victory=false;
     private boolean playerHurt;
+    private boolean button;
     
     public ContactHandler(){
         super();
     }
+    
+    
     //Called when 2 fixtures collide
     @Override
     public void beginContact(Contact contact) {
@@ -46,6 +49,11 @@ public class ContactHandler implements ContactListener{
         if((fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spring"))
                 || (fa.getUserData() != null && fa.getUserData().equals("spring") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
             bounce=true;
+        }
+        
+        if((fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("button"))
+                || (fa.getUserData() != null && fa.getUserData().equals("button") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
+            button=true;
         }
       
         
@@ -99,6 +107,13 @@ public class ContactHandler implements ContactListener{
                 || fa.getUserData() != null && fa.getUserData().equals("spring") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 bounce=false;
         }
+        
+        if((fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("button"))
+                || (fa.getUserData() != null && fa.getUserData().equals("button") && fb.getUserData() != null && fb.getUserData().equals("foot"))) {
+            button=false;
+        }
+        
+        
         if(fa.getUserData() != null && fa.getUserData().equals("foot") && fb.getUserData() != null && fb.getUserData().equals("spike")
                 || fa.getUserData() != null && fa.getUserData().equals("spike") && fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 bounce=false;
@@ -126,7 +141,6 @@ public class ContactHandler implements ContactListener{
        
     }
     
-    
     //After collision handling
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse){
@@ -148,12 +162,13 @@ public class ContactHandler implements ContactListener{
     public boolean isPlayerHurt() {return playerHurt;}
     public boolean playerCanJump() { return numFootContacts > 0; }
     public boolean isBouncy() { return bounce; }
+    public boolean isButton() { return button; }
     public boolean isDangerous() { return dangerous; }
-    public boolean bookActive(){return bookActive;}
+    public boolean isbookActive(){return bookActive;}
     public boolean hasWon(){return victory;}
 
-    public void setDangerous(boolean b) {
-        dangerous =b;
+    public void setDangerous(boolean dangerous) {
+        this.dangerous = dangerous;
     }
 
 

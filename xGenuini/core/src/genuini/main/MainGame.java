@@ -30,6 +30,8 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadTexture("img/items/springboardUp.png","springboardUp");
         contentManager.loadTexture("img/tiles/lock_red.png","turretActive");
         contentManager.loadTexture("img/tiles/lock_yellow.png","turret");
+        contentManager.loadTexture("img/items/buttonRed.png","buttonRed");
+        contentManager.loadTexture("img/items/buttonRed_pressed.png","buttonRed_pressed");
 
         
         contentManager.loadMusic("sounds/Death.mp3","deathMusic");

@@ -12,9 +12,9 @@ import genuini.screens.GameScreen;
  *
  * @author Adrien
  */
-public abstract class Character extends Sprites{
+public abstract class Characters extends Sprites{
     TextureAtlas atlas;
-    public Character(GameScreen screen) {
+    public Characters(GameScreen screen) {
         super(screen);
         
     }

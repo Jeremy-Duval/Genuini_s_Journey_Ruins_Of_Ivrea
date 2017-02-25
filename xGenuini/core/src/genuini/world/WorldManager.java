@@ -5,6 +5,7 @@
  */
 package genuini.world;
 
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -33,11 +34,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import genuini.entities.Button;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
+import static genuini.world.PhysicsVariables.BIT_OBJECT;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 import static genuini.world.PhysicsVariables.BIT_TURRET;
@@ -56,8 +59,10 @@ public class WorldManager {
     Array<Sprites> sprites;
     Array<Turret> turrets;
     Array<Spring> springs;
+    Array<Button> buttons;
     MapLayer objectLayer;
     GameScreen screen;
+    
 
     public WorldManager(GameScreen screen) {
         this.screen = screen;
@@ -239,6 +244,7 @@ public class WorldManager {
         sprites = new Array<Sprites>();
         turrets = new Array<Turret>();
         springs = new Array<Spring>();
+        buttons = new Array<Button>();
 
         for (MapObject object : objects) {
 
@@ -275,23 +281,17 @@ public class WorldManager {
 
     private void createObject(MapObject object, Body body) {
         if (object.getProperties().containsKey("turret")) {
-            Filter filter = new Filter();
-            filter.categoryBits = BIT_TURRET;
-            filter.maskBits = BIT_PLAYER;
-            body.getFixtureList().first().setFilterData(filter);
-            body.getFixtureList().first().setUserData("turret");
-            Turret t = new Turret(screen, body, Integer.valueOf(object.getProperties().get("id").toString()), object.getProperties().containsKey("firewall"));
+            Turret t = new Turret(screen, body, Integer.valueOf(object.getProperties().get("id").toString()), object.getProperties().get("turret").toString());
             sprites.add(t);
             turrets.add(t);
         } else if (object.getProperties().containsKey("spring")) {
-            Filter filter = new Filter();
-            filter.categoryBits = BIT_TERRAIN;
-            filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
-            body.getFixtureList().first().setFilterData(filter);
-            body.getFixtureList().first().setUserData("spring");
-            Spring s = new Spring(screen, body);
+            Spring s = new Spring(screen, body, Integer.valueOf(object.getProperties().get("id").toString()));
             sprites.add(s);
             springs.add(s);
+        } else if (object.getProperties().containsKey("button")) {   
+            Button b = new Button(screen, body, Integer.valueOf(object.getProperties().get("id").toString()),Integer.valueOf(object.getProperties().get("linkedObjectID").toString()),object.getProperties().get("button").toString());         
+            sprites.add(b);
+            buttons.add(b);
         }
     }
 
@@ -356,6 +356,10 @@ public class WorldManager {
 
     public Array<Spring> getSprings() {
         return springs;
+    }
+    
+    public Array<Button> getButtons() {
+        return buttons;
     }
 
 }

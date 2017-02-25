@@ -13,56 +13,84 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
-import static genuini.world.PhysicsVariables.PPM;
+import static genuini.world.PhysicsVariables.BIT_PLAYER;
+import static genuini.world.PhysicsVariables.BIT_TURRET;
+import static java.lang.Math.random;
 
 /**
  *
  * @author Adrien
  */
-public class Turret extends Sprites{
-    private final int ID;
+public class Turret extends StaticElements{
     private final Texture turretTexture;
     private final Array<Fireball> fireballs;
     private boolean active;
     private final Texture turretActiveTexture;
-    private final boolean isFirewall;
     private float stateTime;
     private boolean isLocked;
+    private float activationDistance;
+    private final TurretType type;
+    private float delayFireball;
+    private float fireballSpeed;
+
+    public enum TurretType {FIREWALL, BOMBER, SNIPER}
     
     
-    public Turret(GameScreen screen, Body body, int id, boolean isFirewall) {
-        super(screen);
-        this.body=body; 
-        this.ID=id;
-        turretActiveTexture = MainGame.contentManager.getTexture("turretActive");
+    
+    public Turret(GameScreen screen, Body body, int ID, String type) {
+        super(screen,body,ID);
+        if(type.equals("firewall")){
+            this.type=TurretType.FIREWALL;
+        }else if(type.equals("sniper")){
+            this.type=TurretType.SNIPER;
+        }else if(type.equals("bomber")){
+            this.type=TurretType.BOMBER;
+        }else{
+            this.type=TurretType.SNIPER;
+        }
+        
+        
         turretTexture = MainGame.contentManager.getTexture("turret");
+        turretActiveTexture = MainGame.contentManager.getTexture("turretActive");
+        
+        
         sprite= new Sprite(turretTexture);
+        
+        sprite.setPosition(position.x,position.y);
+        
+        defineType();
+        createFilter();
+        
         fireballs=new Array<Fireball>();
-        this.isFirewall=isFirewall;
+
     }
     
     @Override
     public void update(float dt){
-        Vector2 pos = new Vector2(body.getPosition().x * PPM , body.getPosition().y * PPM);
-        sprite.setPosition(pos.x,pos.y);
-        for(Fireball fireball : fireballs){    
-            if(fireball.isDestroyed()){
-                fireballs.removeValue(fireball, true);
-            }else{
-               fireball.update(dt);
+        if(!screen.getWorld().isLocked()){
+            if(type==TurretType.BOMBER){
+                delayFireball=(float) random()*2+2;
+            }
+            for(Fireball fireball : fireballs){    
+                if(fireball.isDestroyed()){
+                    fireballs.removeValue(fireball, true);
+                }else{
+                   fireball.update(dt);
+                }
+            }
+            stateTime+=dt;
+            if(active && stateTime>delayFireball){
+                Vector2 offset = new Vector2(sprite.getWidth()/2,sprite.getHeight()/2);
+                Fireball f = new Fireball(screen, position, offset);
+                fireballs.add(f);
+                if(type==TurretType.SNIPER){
+                    System.err.println(fireballSpeed);
+                }
+                f.targetBody(screen.getGenuini().getBody(), fireballSpeed);
+                stateTime=0;
             }
         }
-        stateTime+=dt;
-        float delayFireball = isFirewall ? 0.1f : 1f;
-        if(active && stateTime>delayFireball){
-            Vector2 offset = new Vector2(sprite.getWidth()/2,sprite.getHeight()/2);
-            Fireball f = new Fireball(screen, pos, offset);
-            fireballs.add(f);
-            if(!isFirewall){
-                f.targetBody(screen.getGenuini().getBody(), 50f);
-            }
-            stateTime=0;
-        }
+        
     }
     
     public void activate(boolean unlock){
@@ -92,14 +120,56 @@ public class Turret extends Sprites{
    
     @Override
     public void draw(SpriteBatch spriteBatch){
-        super.draw(spriteBatch);
+        if(type!=TurretType.BOMBER){
+            super.draw(spriteBatch);
+        }
         for(Fireball fireball : fireballs){
             fireball.draw(spriteBatch);
         }
     }
 
-    public int getID() {
-        return ID;
+    @Override
+    public final void createFilter() {
+        filter.categoryBits = BIT_TURRET;
+        filter.maskBits = BIT_PLAYER;
+        body.getFixtureList().first().setFilterData(filter);
+        body.getFixtureList().first().setUserData("turret");
+    }
+
+    
+    private void defineType(){
+        switch (type){
+            case FIREWALL:
+                activationDistance=screen.getWidth();
+                delayFireball=0.1f;
+                fireballSpeed=0f;
+                break;
+            case SNIPER:
+                activationDistance=5f;
+                delayFireball=1f;
+                fireballSpeed=50f;
+                break;
+            case BOMBER:
+                activationDistance=body.getPosition().y-13;
+                delayFireball=3f;
+                fireballSpeed=5f;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public TurretType getType() {
+        return type;
+    }
+
+    public float getActivationDistance() {
+        return activationDistance;
+    }
+    
+    
+    public float getFireballSpeed() {
+        return fireballSpeed;
     }
     
 }

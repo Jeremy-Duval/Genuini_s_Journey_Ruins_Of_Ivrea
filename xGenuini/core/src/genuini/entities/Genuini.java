@@ -30,7 +30,7 @@ import static genuini.world.PhysicsVariables.PPM;
  *
  * @author Adrien
  */
-public class Genuini extends Character{
+public class Genuini extends Characters{
     private int life;
     
     private final float bodyWidth = 22f/PPM;

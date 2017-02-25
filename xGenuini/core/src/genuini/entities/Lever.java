@@ -12,16 +12,20 @@ import genuini.screens.GameScreen;
  *
  * @author Adrien
  */
-public class Lever extends Sprites{
+public class Lever extends StaticElements{
 
-    public Lever(GameScreen screen, Body body) {
-        super(screen);
-        this.body=body;
+    public Lever(GameScreen screen, Body body,int ID) {
+        super(screen,body,ID);
         
     }
 
     @Override
     public void update(float delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void createFilter() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
