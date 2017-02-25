@@ -1,25 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import genuini.screens.GameScreen;
 
 /**
+ * The parent class to all moving NPCs
  *
- * @author Adrien
+ * @author Adrien Techer
  */
-public abstract class Characters extends Sprites{
+public abstract class Characters extends Sprites {
+
+    //The texture atlas to create textures and animations from
     TextureAtlas atlas;
+
+    /**
+     * 
+     * @param screen the screen to which the sprite belongs
+     */
     public Characters(GameScreen screen) {
         super(screen);
-        
     }
-    
-    
-    
-    
+
 }

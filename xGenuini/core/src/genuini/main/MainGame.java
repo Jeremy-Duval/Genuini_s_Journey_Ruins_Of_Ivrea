@@ -9,6 +9,10 @@ import genuini.game.ScreenManager;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 
+/**
+ * Game initialization class, called by the launcher. Loads all the ressources, renders the screens, defines the viewport's dimension etc...
+ * @author Adrien Techer
+ */
 public class MainGame extends Game implements ApplicationListener {
     public static final String TITLE = "Genuini";
     public static final int V_WIDTH = 1280;
@@ -17,7 +21,6 @@ public class MainGame extends Game implements ApplicationListener {
     public static final float STEP = 1 / 60f;
 
     public static Content contentManager;
-    //Texture img;
 	
     @Override
     public void create () {

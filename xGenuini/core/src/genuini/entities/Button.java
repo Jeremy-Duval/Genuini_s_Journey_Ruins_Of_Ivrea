@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.entities;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -15,10 +10,11 @@ import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 
 /**
+ * Class used to create a button
  *
- * @author Adrien
+ * @author Adrien Techer
  */
-public class Button extends StaticElements{
+public class Button extends StaticElements {
 
     private final Texture buttonTexture;
     private final Texture buttonPressedTexture;
@@ -26,26 +22,40 @@ public class Button extends StaticElements{
     private final String linkedObjectType;
     private final int linkedObjectID;
 
-    public Button(GameScreen screen,Body body,int ID, int linkedObjectID, String linkedObjectType) {
-        super(screen,body,ID);
+    /**
+     * Button class constructor
+     *
+     * @param screen the screen to which the sprite belongs
+     * @param body the sprite's body
+     * @param ID the ID of the map object
+     * @param linkedObjectID the ID of the linked map object
+     * @param linkedObjectType the object type/class of the linked map object
+     */
+    public Button(GameScreen screen, Body body, int ID, int linkedObjectID, String linkedObjectType) {
+        super(screen, body, ID);
         this.linkedObjectType = linkedObjectType;
         buttonTexture = MainGame.contentManager.getTexture("buttonRed");
         buttonPressedTexture = MainGame.contentManager.getTexture("buttonRed_pressed");
-        
-        sprite= new Sprite(buttonTexture);
-        sprite.setPosition(position.x,position.y);
-        this.linkedObjectID=linkedObjectID;
-        pressed=false;
+
+        sprite = new Sprite(buttonTexture);
+        sprite.setPosition(position.x, position.y);
+        this.linkedObjectID = linkedObjectID;
+        pressed = false;
         createFilter();
     }
 
-    
-    public void press(){
+    /**
+     * Changes the sprite's texture and the button's status to pressed
+     */
+    public void press() {
         sprite.setRegion(buttonPressedTexture);
-        pressed=true;
+        pressed = true;
     }
 
     @Override
+    /**
+     * @inheritDoc
+     */
     public final void createFilter() {
         filter.categoryBits = BIT_TERRAIN;
         filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
@@ -53,18 +63,28 @@ public class Button extends StaticElements{
         body.getFixtureList().first().setUserData("button");
     }
 
+    /**
+     *
+     * @return true if button is pressed, false otherwise
+     */
     public boolean isPressed() {
         return pressed;
     }
 
+    /**
+     *
+     * @return the linked object type
+     */
     public String getLinkedObjectType() {
         return linkedObjectType;
     }
-    
+
+    /**
+     *
+     * @return the linked object ID
+     */
     public int getLinkedObjectID() {
         return linkedObjectID;
     }
-    
-    
-    
+
 }

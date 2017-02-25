@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,11 +6,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import genuini.screens.GameScreen;
-import static genuini.world.PhysicsVariables.PPM;
 
 /**
- *
- * @author Adrien
+ *The parent class of all sprites : Characters and StaticElements
+ * 
+ * @author Adrien Techer
  */ 
 public abstract class Sprites{
     protected Body body;
@@ -23,11 +18,13 @@ public abstract class Sprites{
     protected World world;
     protected Sprite sprite;
 
-	
+    /**
+     * 
+     * @param screen the screen to which the sprite belongs
+     */
     public Sprites(GameScreen screen) {
             this.screen=screen;
-            this.world=screen.getWorld();
-            
+            this.world=screen.getWorld();     
     }
     
     

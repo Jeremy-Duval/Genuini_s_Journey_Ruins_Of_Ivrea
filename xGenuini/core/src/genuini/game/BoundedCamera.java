@@ -28,7 +28,10 @@ public class BoundedCamera extends OrthographicCamera {
 
     public BoundedCamera(float xmin, float xmax, float ymin, float ymax) {
             super();
-            setBounds(xmin, xmax, ymin, ymax);
+            this.xmin = xmin;
+            this.xmax = xmax;
+            this.ymin = ymin;
+            this.ymax = ymax;
     }
 
     public void setBounds(float xmin, float xmax, float ymin, float ymax) {

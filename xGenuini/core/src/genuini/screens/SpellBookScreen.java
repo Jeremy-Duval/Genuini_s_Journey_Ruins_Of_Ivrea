@@ -190,13 +190,6 @@ public class SpellBookScreen extends AbstractScreen {
         stage.addActor(gameButton);
     }
 
-    /**
-     * Render of the screen. Override of AbstractScreen.
-     *
-     * @param delta
-     * @since 01/12/2016
-     * @author jeremy
-     */
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -209,55 +202,23 @@ public class SpellBookScreen extends AbstractScreen {
 
     }
 
-    /**
-     * Unmodify overrided function. Override of AbstractScreen.
-     *
-     * @param width
-     * @param height
-     * @since 01/12/2016
-     * @author jeremy
-     */
     @Override
     public void resize(int width, int height) {
 
     }
 
-    /**
-     * Unmodify overrided function. Override of AbstractScreen.
-     *
-     * @since 01/12/2016
-     * @author jeremy
-     */
     @Override
     public void pause() {
     }
 
-    /**
-     * Unmodify overrided function. Override of AbstractScreen.
-     *
-     * @since 01/12/2016
-     * @author jeremy
-     */
     @Override
     public void resume() {
     }
 
-    /**
-     * Unmodify overrided function. Override of AbstractScreen.
-     *
-     * @since 01/12/2016
-     * @author jeremy
-     */
     @Override
     public void hide() {
     }
 
-    /**
-     * Unmodify overrided function. Override of AbstractScreen.
-     *
-     * @since 01/12/2016
-     * @author jeremy
-     */
     @Override
     public void dispose() {
         super.dispose();

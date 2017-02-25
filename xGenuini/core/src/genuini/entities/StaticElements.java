@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.entities;
 
 import com.badlogic.gdx.math.Vector2;
@@ -12,14 +7,21 @@ import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.PPM;
 
 /**
- *
- * @author Adrien
+ *The parent class to all static environment components
+ * @author Adrien Techer
  */
+
 public abstract class StaticElements extends Sprites{
     private final int ID;
     final Vector2 position; 
     final Filter filter;
     
+    /**
+     * 
+     * @param screen the screen to which the sprite belongs
+     * @param body the sprite's body
+     * @param ID the ID of the map object
+     */
     public StaticElements(GameScreen screen, Body body, int ID) {
         super(screen);
         this.body=body;
@@ -31,6 +33,9 @@ public abstract class StaticElements extends Sprites{
     @Override
     public void update(float delta){};
     
+    /**
+     * Creates the filter for the sprite's body
+     */
     public abstract void createFilter();
     
     public int getID() {

@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -27,41 +21,55 @@ import static genuini.world.PhysicsVariables.BIT_TURRET;
 import static genuini.world.PhysicsVariables.PPM;
 
 /**
+ * Class used to create the player
  *
- * @author Adrien
+ * @author Adrien Techer
  */
-public class Genuini extends Characters{
+public class Genuini extends Characters {
+
     private int life;
-    
-    private final float bodyWidth = 22f/PPM;
-    private final float bodyHeight = 44f/PPM;
-    private final float feetWidth = 14f/PPM;
-    private final float feetHeight = 14f/PPM;
-    
-    
+
+    private final float bodyWidth = 22f / PPM;
+    private final float bodyHeight = 44f / PPM;
+    private final float feetWidth = 14f / PPM;
+    private final float feetHeight = 14f / PPM;
+
     private boolean dead;
     private State currentState;
     private State previousState;
+    /**
+     * Elapsed time since previous animation
+     */
     private float stateTimer;
+
     private final Animation genuiniWalking;
     private final TextureAtlas.AtlasRegion genuiniJumping;
     private final TextureAtlas.AtlasRegion genuiniHurt;
+    private final TextureAtlas.AtlasRegion genuiniStanding;
+
     private Direction direction;
 
-    
-    public enum State {STANDING,WALKING,DEAD, JUMPING, HURT};
-    public enum Direction {LEFT,RIGHT};
-    private final TextureRegion genuiniStanding;
+    public enum State {
+        STANDING, WALKING, DEAD, JUMPING, HURT
+    };
 
+    public enum Direction {
+        LEFT, RIGHT
+    };
+
+    /**
+     *
+     * @param screen the screen to which the sprite belongs
+     */
     public Genuini(GameScreen screen) {
         super(screen);
-        
-        life=screen.getPreferences().getLife();
-        dead=false;
+
+        life = screen.getPreferences().getLife();
+        dead = false;
         createBody();
         currentState = State.STANDING;
         previousState = State.STANDING;
-        direction=Direction.RIGHT;
+        direction = Direction.RIGHT;
         stateTimer = 0;
         atlas = new TextureAtlas(Gdx.files.internal("img/packed/player_output/player.atlas"));
         sprite = atlas.createSprite("front");
@@ -71,6 +79,9 @@ public class Genuini extends Characters{
         genuiniHurt = atlas.findRegion("hurt");
     }
 
+    /**
+     * Creates the genuini's body
+     */
     private void createBody() {
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -79,7 +90,7 @@ public class Genuini extends Characters{
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.linearDamping = 1f;
         body = world.createBody(bdef);
-        fdef.friction=0.1f;
+        fdef.friction = 0.1f;
         fdef.shape = shape;
         fdef.filter.categoryBits = BIT_PLAYER;
         fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL;
@@ -93,7 +104,6 @@ public class Genuini extends Characters{
         playerShapeVertices[4] = new Vector2(-bodyWidth, bodyHeight);
         playerShapeVertices[5] = new Vector2(-bodyWidth, -bodyHeight + feetHeight);
         shape.set(playerShapeVertices);
-        //shape.setAsBox(bodyWidth, bodyHeight);
         body.createFixture(fdef).setUserData("player");
 
         //create foot sensor
@@ -101,26 +111,30 @@ public class Genuini extends Characters{
         fdef.isSensor = true;
         body.createFixture(fdef).setUserData("foot");
 
-        
-    }
-    
-    
-    @Override
-    public void update(float dt){
-        Vector2 pos = new Vector2(body.getPosition().x * PPM  - sprite.getWidth() / 2, body.getPosition().y * PPM - sprite.getHeight() / 2);
-        sprite.setRegion(getFrame(dt));
-        sprite.setPosition(pos.x,pos.y);
     }
 
-    
-    public TextureRegion getFrame(float dt){
-        //get marios current state. ie. jumping, running, standing...
+    @Override
+    public void update(float dt) {
+        Vector2 pos = new Vector2(body.getPosition().x * PPM - sprite.getWidth() / 2, body.getPosition().y * PPM - sprite.getHeight() / 2);
+        sprite.setRegion(getFrame(dt));
+        sprite.setPosition(pos.x, pos.y);
+    }
+
+    /**
+     * Special thanks to Brent Aureli from whom the code is inspire
+     *
+     * @see <a href="https://github.com/BrentAureli/SuperMario">Brent Aureli's Github - SuperMario</a>
+     * @param delta time elapsed since previous update
+     * @return the texture region of the atlas depending on the state
+     */
+    public TextureRegion getFrame(float delta) {
+        //get's genuini's current state
         currentState = getState();
 
         TextureRegion region;
 
-        //depending on the state, get corresponding animation keyFrame.
-        switch(currentState){
+        //depending on the state, get corresponding texture region or animation frame.
+        switch (currentState) {
             case WALKING:
                 region = genuiniWalking.getKeyFrame(stateTimer, true);
                 break;
@@ -135,80 +149,95 @@ public class Genuini extends Characters{
                 break;
         }
 
-        //if mario is running left and the texture isnt facing left... flip it.
-        if((body.getLinearVelocity().x < 0 || direction==Direction.LEFT) && !region.isFlipX()){
+        //flips the region if player walking left and the region is not towards left
+        if ((body.getLinearVelocity().x < 0 || direction == Direction.LEFT) && !region.isFlipX()) {
             region.flip(true, false);
-            direction=Direction.LEFT;
-        }
-
-        //if mario is running right and the texture isnt facing right... flip it.
-        else if((body.getLinearVelocity().x > 0 || direction==Direction.RIGHT) && region.isFlipX()){
+            direction = Direction.LEFT;
+        } //flips the region if player walking right and the region is not towards right
+        else if ((body.getLinearVelocity().x > 0 || direction == Direction.RIGHT) && region.isFlipX()) {
             region.flip(true, false);
-            direction=Direction.RIGHT;
+            direction = Direction.RIGHT;
         }
 
         //if the current state is the same as the previous state increase the state timer.
         //otherwise the state has changed and we need to reset timer.
-        stateTimer = currentState == previousState ? stateTimer + dt : 0;
-        
+        stateTimer = currentState == previousState ? stateTimer + delta : 0;
 
         //update previous state
         previousState = currentState;
-        //return our final adjusted frame
+
         return region;
 
     }
-    
+
     public void setLife(int life) {
-       this.life=life;
+        this.life = life;
     }
 
     public int getLife() {
         return life;
     }
 
-
-    public void changeLife(int i) {
-        life+=i;
+    /**
+     *
+     * @param deltaLife the life to add, if life is lost this value should be
+     * negative
+     */
+    public void changeLife(int deltaLife) {
+        life += deltaLife;
     }
-    
-    public State getState(){
-        //System.out.println(body.getLinearVelocity().y);
-        if(dead){
+
+    /**
+     *
+     * @return genuini's current state
+     */
+    public State getState() {
+        if (dead) {
             return State.DEAD;
-        }else if(screen.getContactManager().isPlayerHurt()){
+        } else if (screen.getContactManager().isPlayerHurt()) {
             return State.HURT;
-        }else if(!screen.getContactManager().playerCanJump()){
+        } else if (!screen.getContactManager().playerCanJump()) {
             return State.JUMPING;
-        }else if(Math.abs(body.getLinearVelocity().x) > 0.1f){
+        } else if (Math.abs(body.getLinearVelocity().x) > 0.1f) {
             return State.WALKING;
-        }else{
+        } else {
             return State.STANDING;
         }
     }
-    
-    public Direction getDirection(){
+
+    public Direction getDirection() {
         return direction;
     }
-    
-    public void walk(Direction direction){
-        if(direction==Direction.LEFT){
+
+    /**
+     * Makes Genuini's body move along the X-Axis
+     *
+     * @param direction the direction towards which genuini should move
+     */
+    public void walk(Direction direction) {
+        if (direction == Direction.LEFT) {
             body.applyLinearImpulse(-5 / PPM, 0, 0, 0, true);
-        }else{
+        } else {
             body.applyLinearImpulse(5 / PPM, 0, 0, 0, true);
         }
-        
+
     }
-    
-    
-    
+
+    /**
+     * Makes Genuini's body move along the Y-Axis
+     *
+     * @param impulse the intensity of the impulse
+     */
     public void jump(float impulse) {
         body.applyLinearImpulse(0, impulse / PPM, 0, 0, true);
     }
-    
-    public void die(){
-        if(!dead){
-            dead=true;
+
+    /**
+     * Makes Genuini die : stops music, chang's screen
+     */
+    public void die() {
+        if (!dead) {
+            dead = true;
         }
         screen.getPreferences().reset();
         screen.getPreferences().save();
@@ -226,7 +255,5 @@ public class Genuini extends Characters{
     public float getBodyHeight() {
         return bodyHeight;
     }
-    
-    
 
 }

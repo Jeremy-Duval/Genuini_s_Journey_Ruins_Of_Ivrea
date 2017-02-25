@@ -84,9 +84,7 @@ public class GameScreen extends AbstractScreen{
         
         
         worldManager = new WorldManager(this);
-        for(Turret turret : worldManager.getTurrets()){
-            System.err.println(turret.getFireballSpeed());
-        }
+
         
         
         

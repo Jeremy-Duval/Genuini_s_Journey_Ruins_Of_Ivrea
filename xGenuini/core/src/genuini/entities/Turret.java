@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.entities;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -18,25 +13,44 @@ import static genuini.world.PhysicsVariables.BIT_TURRET;
 import static java.lang.Math.random;
 
 /**
- *
- * @author Adrien
+ * Class used to create a turret
+ * @author Adrien Techer
  */
 public class Turret extends StaticElements{
+    
     private final Texture turretTexture;
+    private final Texture turretActiveTexture;
+    
     private final Array<Fireball> fireballs;
     private boolean active;
-    private final Texture turretActiveTexture;
-    private float stateTime;
+    
+    /**
+     * Is it possible to actvate/deactivate th e turret
+     */
     private boolean isLocked;
+    
+    /**
+     * Elapsed time since last fireball creation
+     */
+    private float stateTime;
+    /**
+     * Delay before new fireball creation
+     */
+    private float delayFireball;
     private float activationDistance;
     private final TurretType type;
-    private float delayFireball;
     private float fireballSpeed;
 
     public enum TurretType {FIREWALL, BOMBER, SNIPER}
     
     
-    
+    /**
+     * 
+     * @param screen the screen to which the sprite belongs
+     * @param body the sprite's body
+     * @param ID the ID of the map object
+     * @param type the turret's type
+     */
     public Turret(GameScreen screen, Body body, int ID, String type) {
         super(screen,body,ID);
         if(type.equals("firewall")){
@@ -83,9 +97,6 @@ public class Turret extends StaticElements{
                 Vector2 offset = new Vector2(sprite.getWidth()/2,sprite.getHeight()/2);
                 Fireball f = new Fireball(screen, position, offset);
                 fireballs.add(f);
-                if(type==TurretType.SNIPER){
-                    System.err.println(fireballSpeed);
-                }
                 f.targetBody(screen.getGenuini().getBody(), fireballSpeed);
                 stateTime=0;
             }
@@ -93,6 +104,10 @@ public class Turret extends StaticElements{
         
     }
     
+    /**
+     * Activates the turret : it starts shooting fireballs
+     * @param unlock true if the activation procedure should be unlocked, false otherwise
+     */
     public void activate(boolean unlock){
         if(!active&&!isLocked){
             active=true;
@@ -103,6 +118,10 @@ public class Turret extends StaticElements{
         }
     }
     
+    /**
+     * DeActivates the turret : it starts shooting fireballs
+     * @param lock true if the activation procedure should be locked, false otherwise
+     */
     public void deactivate(boolean lock){
         if(active){
             active=false;
@@ -129,6 +148,9 @@ public class Turret extends StaticElements{
     }
 
     @Override
+    /**
+     * @inheritDoc
+     */
     public final void createFilter() {
         filter.categoryBits = BIT_TURRET;
         filter.maskBits = BIT_PLAYER;
@@ -136,7 +158,9 @@ public class Turret extends StaticElements{
         body.getFixtureList().first().setUserData("turret");
     }
 
-    
+    /**
+     * Sets each parameter that depends on the turret's type
+     */
     private void defineType(){
         switch (type){
             case FIREWALL:
