@@ -152,6 +152,10 @@ public class ContactHandler implements ContactListener{
     public boolean bookActive(){return bookActive;}
     public boolean hasWon(){return victory;}
 
+    public void setDangerous(boolean b) {
+        dangerous =b;
+    }
+
 
     
 }

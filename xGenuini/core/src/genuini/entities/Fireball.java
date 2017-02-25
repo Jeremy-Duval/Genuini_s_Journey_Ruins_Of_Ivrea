@@ -45,7 +45,7 @@ public class Fireball extends Sprites{
         sprite.setPosition(pos.x,pos.y);
         sprite.rotate(45);
         stateTime+=delta;
-        if((stateTime>3 || setToDestroy)&&!destroyed){
+        if((stateTime>3 || setToDestroy)&&!destroyed&&!screen.getWorld().isLocked()){
             screen.getWorld().destroyBody(body);
             destroyed=true;
         }else if(body.getFixtureList().size>0&&!destroyed){

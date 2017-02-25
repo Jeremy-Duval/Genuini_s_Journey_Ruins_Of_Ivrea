@@ -42,7 +42,6 @@ import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 import static genuini.world.PhysicsVariables.BIT_TURRET;
 import static genuini.world.PhysicsVariables.PPM;
-import java.util.Iterator;
 
 /**
  *
@@ -55,15 +54,17 @@ public class WorldManager {
     private int tileSize;
     TiledMapTileLayer terrainLayer;
     Array<Sprites> sprites;
+    Array<Turret> turrets;
+    Array<Spring> springs;
     MapLayer objectLayer;
     GameScreen screen;
 
     public WorldManager(GameScreen screen) {
-        this.screen=screen;
+        this.screen = screen;
         loadMap(screen);
         createTerrainLayers(screen.getWorld());
         createObjectsLayer(screen.getWorld());
-        
+
     }
 
     private void loadMap(GameScreen screen) {
@@ -181,23 +182,6 @@ public class WorldManager {
                     fd.filter.categoryBits = BIT_TERRAIN;
                     fd.filter.maskBits = BIT_PLAYER;
                     world.createBody(bdef).createFixture(fd).setUserData("spike");
-                } else if (cell.getTile().getProperties().get("fire_turret") != null) {
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor = false;
-                    fd.filter.categoryBits = BIT_TURRET;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN;
-                    world.createBody(bdef).createFixture(fd).setUserData("fire_turret");
-                    Vector2 turret_pos = new Vector2((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM);
-                    //createFireTurret(turret_pos);
                 } else if (cell.getTile().getProperties().get("challengeBox") != null) {
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
@@ -253,6 +237,8 @@ public class WorldManager {
         MapObjects objects = objectLayer.getObjects();
 
         sprites = new Array<Sprites>();
+        turrets = new Array<Turret>();
+        springs = new Array<Spring>();
 
         for (MapObject object : objects) {
 
@@ -277,32 +263,36 @@ public class WorldManager {
             float y = new Float(object.getProperties().get("y").toString());
             BodyDef bd = new BodyDef();
             bd.type = BodyType.StaticBody;
-            bd.position.x=x/PPM;
-            bd.position.y=y/PPM;
+            bd.position.x = x / PPM;
+            bd.position.y = y / PPM;
             Body body = world.createBody(bd);
-            body.createFixture(shape, 1);         
+            body.createFixture(shape, 1);
             shape.dispose();
-            createObject(object,body);
+            createObject(object, body);
         }
 
     }
-    
-    private void createObject(MapObject object,Body body){
-        if(object.getProperties().containsKey("turret")){
+
+    private void createObject(MapObject object, Body body) {
+        if (object.getProperties().containsKey("turret")) {
             Filter filter = new Filter();
             filter.categoryBits = BIT_TURRET;
             filter.maskBits = BIT_PLAYER;
             body.getFixtureList().first().setFilterData(filter);
             body.getFixtureList().first().setUserData("turret");
-            sprites.add(new Turret(screen,body,object.getProperties().containsKey("firewall")));
-        }else if(object.getProperties().containsKey("spring")){
+            Turret t = new Turret(screen, body, Integer.valueOf(object.getProperties().get("id").toString()), object.getProperties().containsKey("firewall"));
+            sprites.add(t);
+            turrets.add(t);
+        } else if (object.getProperties().containsKey("spring")) {
             Filter filter = new Filter();
             filter.categoryBits = BIT_TERRAIN;
             filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
             body.getFixtureList().first().setFilterData(filter);
             body.getFixtureList().first().setUserData("spring");
-            sprites.add(new Spring(screen,body));
-        }         
+            Spring s = new Spring(screen, body);
+            sprites.add(s);
+            springs.add(s);
+        }
     }
 
     private PolygonShape getRectangle(RectangleMapObject rectangleObject) {
@@ -358,6 +348,14 @@ public class WorldManager {
 
     public Array<Sprites> getSprites() {
         return sprites;
+    }
+
+    public Array<Turret> getTurrets() {
+        return turrets;
+    }
+
+    public Array<Spring> getSprings() {
+        return springs;
     }
 
 }

@@ -47,6 +47,8 @@ public class Genuini extends Character{
     private final TextureAtlas.AtlasRegion genuiniJumping;
     private final TextureAtlas.AtlasRegion genuiniHurt;
     private Direction direction;
+
+    
     public enum State {STANDING,WALKING,DEAD, JUMPING, HURT};
     public enum Direction {LEFT,RIGHT};
     private final TextureRegion genuiniStanding;
@@ -199,10 +201,10 @@ public class Genuini extends Character{
     }
     
     
-    public void jump(){
-        body.applyLinearImpulse(0, 160 / PPM, 0, 0, true);
-    }
     
+    public void jump(float impulse) {
+        body.applyLinearImpulse(0, impulse / PPM, 0, 0, true);
+    }
     
     public void die(){
         if(!dead){

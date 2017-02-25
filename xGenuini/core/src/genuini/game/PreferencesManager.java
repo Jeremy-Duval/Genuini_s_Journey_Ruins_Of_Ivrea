@@ -15,8 +15,8 @@ import com.badlogic.gdx.Preferences;
 public class PreferencesManager {
     Preferences data = Gdx.app.getPreferences("game_data");
     
-    Float init_x = 30f;
-    Float init_y = 19f;
+    Float init_x = 30f; //10 : yellow house door
+    Float init_y = 18f; //16 : gound level
     
     public PreferencesManager(){}
 

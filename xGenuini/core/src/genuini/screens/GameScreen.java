@@ -67,7 +67,7 @@ public class GameScreen extends AbstractScreen{
         if(!MainGame.contentManager.getMusic("gameMusic").isPlaying()){
             //MainGame.contentManager.getMusic("gameMusic").play();
         }
-
+        //prefs.reset();
         
         world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
@@ -230,13 +230,6 @@ public class GameScreen extends AbstractScreen{
         for(Sprites sprite : worldManager.getSprites()){
             sprite.draw(batch);
         }
-        /*draw fireballs
-        if(fireballs.size>0){
-            for(Fireball f: fireballs){
-                f.render(batch);
-            }
-        }*/
-        
         batch.end();
         //genuini.draw(batch,delta);
         //To write on screen
@@ -250,27 +243,6 @@ public class GameScreen extends AbstractScreen{
         
     }
 
-
-
-
-    public void playerBounce(float impulse) {
-        genuini.getBody().applyLinearImpulse(0, impulse / PPM, 0, 0, true);
-        /*
-        genuini.updateTexture(true);
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-            @Override
-            public void run() {
-                genuini.updateTexture(false);
-            }
-        },
-                800
-        );*/
-    }
-
-
-    
-
     
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
@@ -282,20 +254,18 @@ public class GameScreen extends AbstractScreen{
         }
 
         if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
-            genuini.jump();
+            genuini.jump(160f);
         }
         
-        /*
-        if ((Gdx.input.isKeyPressed(Keys.F))) {
-            for(Turret turret : turrets){
+       if ((Gdx.input.isKeyJustPressed(Keys.F))) {
+            for(Turret turret : worldManager.getTurrets()){
                 if(turret.isActive()){
-                  turret.deactivate();
+                  turret.deactivate(true);
                 }else{
-                    turret.activate();
+                  turret.activate(true);
                 }
-               
             }
-        }*/
+        }
         
         if ((Gdx.input.isKeyJustPressed(Keys.G))) {
             if(prefs.getChallenge()){
@@ -315,12 +285,13 @@ public class GameScreen extends AbstractScreen{
     public void handleContact() {
 
         if (contactManager.isBouncy() && contactManager.isDangerous()) {
-            playerBounce(150f);
+            genuini.jump(150f);
         } else if (contactManager.isBouncy()) {
-            playerBounce(300f);
+            genuini.jump(300f);
         }
         if (contactManager.isDangerous()) {
             genuini.changeLife(-5);
+            contactManager.setDangerous(false);
             if (connected) {
                 arduinoInstance.write("game;" + String.valueOf(genuini.getLife())); //quand vie change
             }
@@ -336,8 +307,6 @@ public class GameScreen extends AbstractScreen{
                     arduinoInstance.write("book;");
             }
         }
-        
-        
         if(contactManager.hasWon()){
             prefs.reset();
             prefs.save();
@@ -350,32 +319,21 @@ public class GameScreen extends AbstractScreen{
     }
     
     public void handleArea(){
-        for(final Sprites sprite : worldManager.getSprites()){
-            if(contactManager.isBouncy()&&(getDistanceFromPlayer(sprite)<0.8f)&&(sprite instanceof Spring)){
-               ((Spring)sprite).activate();    
-            }
-            if(sprite instanceof Turret){
-                if(getDistanceFromPlayer(sprite)<5f){
-                   ((Turret)sprite).activate();    
-                }else{
-                   ((Turret)sprite).deactivate();    
-                }
-            }
+        for(Spring spring : worldManager.getSprings()){
+           if(contactManager.isBouncy()&&(getDistanceFromPlayer(spring)<0.8f)){
+               spring.activate();    
+            } 
         }
         
-        /*
-        for(Turret turret : turrets){      
-            if(!turret.hasFireball() && turret.isActive()){   
-                float distance_player_turret =(float) Math.sqrt(Math.pow(genuini.getPosition().x-turret.getPos().x,2) + (Math.pow(genuini.getPosition().y-turret.getPos().y,2)));
-                if(distance_player_turret < 5){
-                    Fireball fireball = createFireball(turret);
-                    fireballs.add(fireball);
-                    turret.setFireball(fireball);
-                    targetPlayer(fireball.getBody(), 20);
-                }
-            }    
-        }*/
-        
+        for(Turret turret : worldManager.getTurrets()){
+           if(getDistanceFromPlayer(turret)<5f){
+               turret.activate(false);    
+            }else{
+               turret.deactivate(false);    
+            }
+            //System.err.println(turret.getID());
+        }  
+                
     }
 
     @Override

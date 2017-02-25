@@ -20,18 +20,20 @@ import static genuini.world.PhysicsVariables.PPM;
  * @author Adrien
  */
 public class Turret extends Sprites{
-
+    private final int ID;
     private final Texture turretTexture;
     private final Array<Fireball> fireballs;
     private boolean active;
     private final Texture turretActiveTexture;
-    private boolean isFirewall;
+    private final boolean isFirewall;
     private float stateTime;
+    private boolean isLocked;
     
     
-    public Turret(GameScreen screen, Body body, boolean isFirewall) {
+    public Turret(GameScreen screen, Body body, int id, boolean isFirewall) {
         super(screen);
-        this.body=body;   
+        this.body=body; 
+        this.ID=id;
         turretActiveTexture = MainGame.contentManager.getTexture("turretActive");
         turretTexture = MainGame.contentManager.getTexture("turret");
         sprite= new Sprite(turretTexture);
@@ -63,17 +65,23 @@ public class Turret extends Sprites{
         }
     }
     
-    public void activate(){
-        if(!active){
+    public void activate(boolean unlock){
+        if(!active&&!isLocked){
             active=true;
             sprite.setRegion(turretActiveTexture);
         }
+        if(unlock){
+            isLocked=false;
+        }
     }
     
-    public void deactivate(){
+    public void deactivate(boolean lock){
         if(active){
             active=false;
             sprite.setRegion(turretTexture);
+        }
+        if(lock){
+            isLocked=true;
         }
     }
 
@@ -89,7 +97,9 @@ public class Turret extends Sprites{
             fireball.draw(spriteBatch);
         }
     }
-    
-    
+
+    public int getID() {
+        return ID;
+    }
     
 }
