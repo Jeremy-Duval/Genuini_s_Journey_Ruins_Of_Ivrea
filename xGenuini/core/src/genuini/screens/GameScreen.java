@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import genuini.entities.AccessPoint;
 import genuini.entities.Button;
 import genuini.entities.Genuini;
 import genuini.entities.Spring;
@@ -41,7 +42,7 @@ import genuini.world.WorldManager;
 public class GameScreen extends AbstractScreen{
 
     
-    private final boolean debug = false;
+    private final boolean debug = true;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -63,14 +64,16 @@ public class GameScreen extends AbstractScreen{
     private Label lifePointsLabel;
     
     private final WorldManager worldManager;
+    private final String mapName;
     
     public GameScreen() {
         super();
         if(!MainGame.contentManager.getMusic("gameMusic").isPlaying()){
             //MainGame.contentManager.getMusic("gameMusic").play();
         }
-        //prefs.reset();
         
+        this.mapName=prefs.getMapName();
+        //this.mapName="house_1";
         world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
@@ -81,11 +84,17 @@ public class GameScreen extends AbstractScreen{
         
         //set the Text batch
         TextManager.SetSpriteBatch(batch);
+       
+        worldManager = new WorldManager(this, mapName);
+        for(AccessPoint accessPoint : worldManager.getAccessPoints()){
+            if(accessPoint.getName().equals(prefs.getSpawnName())){
+                prefs.setInitialPosition(accessPoint.getPosition());
+                break;
+            }
+            //System.err.println(accessPoint.getName()+" --- spawn : "+accessPoint.isSpawn()+" --- active: "+accessPoint.isActive());
+        }
         
-        
-        worldManager = new WorldManager(this);
-
-        
+        //prefs.reset();
         
         
         /* DEBUG */
@@ -362,6 +371,13 @@ public class GameScreen extends AbstractScreen{
             }
         }
         
+        for(AccessPoint accessPoint : worldManager.getAccessPoints()){
+            if(getDistanceFromPlayer(accessPoint)<0.5f&&accessPoint.isActive()&&!accessPoint.isSpawn()&&!world.isLocked()){
+                prefs.setMapName(accessPoint.getLinkedMapName());
+                prefs.setSpawnName(accessPoint.getLinkedAccessPointName());
+                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+            }
+        }
                 
     }
 
@@ -387,6 +403,8 @@ public class GameScreen extends AbstractScreen{
     public void setMap(TiledMap map) {
         this.map = map ;
     }
+    
+
 
     public void setTMR(OrthogonalTiledMapRenderer orthogonalTiledMapRenderer) {
         this.tmr=orthogonalTiledMapRenderer;
@@ -407,11 +425,15 @@ public class GameScreen extends AbstractScreen{
     
     public float getDistanceFromPlayer(Sprites sprite){
         return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x+sprite.getSprite().getWidth()/2/PPM-genuini.getPosition().x,2) + (Math.pow(sprite.getBody().getPosition().y+sprite.getSprite().getHeight()/2/PPM-genuini.getPosition().y,2))));
-        
     }
     
     public Genuini getGenuini(){
         return genuini;
     }
     
+    public String getMapName(){
+        return mapName;
+    }
+
+
 }

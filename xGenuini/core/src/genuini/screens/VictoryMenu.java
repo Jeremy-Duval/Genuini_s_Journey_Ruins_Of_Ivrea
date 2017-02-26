@@ -6,7 +6,12 @@
 package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -24,7 +29,7 @@ import static genuini.main.MainGame.contentManager;
  *
  * @author Adrien
  */
-public class DeathScreen extends AbstractScreen{
+public class VictoryMenu extends AbstractScreen{
     private TextButton menuButton;
     private Table table;
     private final boolean debug=false;
@@ -35,7 +40,7 @@ public class DeathScreen extends AbstractScreen{
     private final int areaHeight;
     private TextField gameOver;
     
-    public DeathScreen(){
+    public VictoryMenu(){
         super();
         buttonWidth=V_WIDTH/15;
         buttonHeight=V_HEIGHT/20;
@@ -55,10 +60,10 @@ public class DeathScreen extends AbstractScreen{
         stage.addActor(menuButton);
 
         
-        gameOver = new TextField("Game Over", skinManager.whiteTextSkin(areaWidth, areaHeight));
+        gameOver = new TextField("Congratulation, Demo finished !", skinManager.whiteTextSkin(buttonWidth,buttonHeight));
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
-        table.add(gameOver).width(200);
+        table.add(gameOver).width(600);
         table.setPosition(1, V_HEIGHT/2);
         table.center();
         // table.align(Align.right | Align.bottom);
@@ -96,6 +101,5 @@ public class DeathScreen extends AbstractScreen{
     public void dispose() {
        super.dispose();
     }
-    
     
 }

@@ -1,20 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.game;
-
-/**
- *
- * @author Adrien
- */
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 /**
  * OrthographicCamera that cannot go beyond specified rectangle.
  */
+
 public class BoundedCamera extends OrthographicCamera {
 	
     private float xmin;
@@ -49,7 +40,10 @@ public class BoundedCamera extends OrthographicCamera {
             position.set(x, y, z);
             fixBounds();
     }
-
+    
+    /**
+     * Corrects camera bounds depending on viewport
+     */
     private void fixBounds() {
             if(position.x < xmin + viewportWidth / 2) {
                     position.x = xmin + viewportWidth / 2;

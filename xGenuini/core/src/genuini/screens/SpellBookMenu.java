@@ -26,7 +26,7 @@ import static genuini.main.MainGame.contentManager;
  * @since 01/12/2016
  * @author jeremy
  */
-public class SpellBookScreen extends AbstractScreen {
+public class SpellBookMenu extends AbstractScreen {
     Texture background;
     /**
      * ************************Button*****************************************
@@ -60,7 +60,7 @@ public class SpellBookScreen extends AbstractScreen {
      * @since 01/12/2016
      * @author jeremy
      */
-    public SpellBookScreen() {
+    public SpellBookMenu() {
         super();
         buttonWidth = V_WIDTH / 15;
         buttonHeight = V_HEIGHT / 20;

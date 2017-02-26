@@ -1,0 +1,29 @@
+Pure GAME (adrien)
+
+	- Handle level selection + change of level
+		Add a choice level screen
+		Add an abstract Game Screen
+		Storing of prefs for the level and position in level
+	- Creating NPCs
+		Move animation functions and body creation to Characters class
+		Create behaviours
+	- Add sound effects
+	- Add the possibility of getting mushrooms/coins (optional)
+
+
+Arduino (valentin & jeremy)
+	- 
+
+Content Creation (jeremy)
+	- Creating challenges in spellBook
+	- Creating Basic instructions and hints
+
+Graphical Components 
+	- Creating Screens background and design : Victory, Death, Level selection (URGENT !!!) etc...(fanny)
+	- Placing components (valentin)
+	- In-game components design : spellbook button (fanny)
+
+Report and Presentation
+	- Writing Report (all members)
+	- Convert to LAtex (Adrien)	
+	- Create Demo videos

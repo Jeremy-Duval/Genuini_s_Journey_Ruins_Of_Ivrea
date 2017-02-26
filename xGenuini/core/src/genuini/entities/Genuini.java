@@ -14,6 +14,8 @@ import genuini.main.MainGame;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import genuini.screens.GameScreen;
+import genuini.world.PhysicsVariables;
+import static genuini.world.PhysicsVariables.BIT_ACCESSPOINT;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
@@ -93,7 +95,7 @@ public class Genuini extends Characters {
         fdef.friction = 0.1f;
         fdef.shape = shape;
         fdef.filter.categoryBits = BIT_PLAYER;
-        fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL;
+        fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL ;
 
         //Create player shape
         Vector2[] playerShapeVertices = new Vector2[6];

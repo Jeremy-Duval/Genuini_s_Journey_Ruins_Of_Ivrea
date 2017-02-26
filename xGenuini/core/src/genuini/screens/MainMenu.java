@@ -21,7 +21,7 @@ import static genuini.main.MainGame.V_WIDTH;
  *
  * @author Adrien
  */
-public class MainMenuScreen extends AbstractScreen {
+public class MainMenu extends AbstractScreen {
     private Texture background;
     private TextButton newGameButton;
     private TextButton quitButton;
@@ -32,7 +32,7 @@ public class MainMenuScreen extends AbstractScreen {
     private final int buttonWidth;
     private final int buttonHeight;
 
-    public MainMenuScreen() {
+    public MainMenu() {
         super();
         background = new Texture("img/menu/bg_arduini1.jpg");
         buttonWidth = V_WIDTH / 3;

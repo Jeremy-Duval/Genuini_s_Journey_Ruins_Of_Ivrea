@@ -5,7 +5,6 @@
  */
 package genuini.world;
 
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -34,17 +33,21 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import genuini.entities.AccessPoint;
 import genuini.entities.Button;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
 import genuini.screens.GameScreen;
+import static genuini.world.PhysicsVariables.BIT_ACCESSPOINT;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
-import static genuini.world.PhysicsVariables.BIT_OBJECT;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 import static genuini.world.PhysicsVariables.BIT_TURRET;
 import static genuini.world.PhysicsVariables.PPM;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  *
@@ -60,26 +63,28 @@ public class WorldManager {
     Array<Turret> turrets;
     Array<Spring> springs;
     Array<Button> buttons;
+    Array<AccessPoint> accessPoints;
     MapLayer objectLayer;
     GameScreen screen;
-    
+    private MapLayer accessPointsLayer;
 
-    public WorldManager(GameScreen screen) {
+    public WorldManager(GameScreen screen, String mapName) {
         this.screen = screen;
-        loadMap(screen);
+        loadMap(screen, mapName);
         createTerrainLayers(screen.getWorld());
         createObjectsLayer(screen.getWorld());
-
+        createAccessPoints();
     }
 
-    private void loadMap(GameScreen screen) {
+    private void loadMap(GameScreen screen, String mapName) {
         // TmxMapLoader.Parameters
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.textureMinFilter = Texture.TextureFilter.Linear;
         params.textureMagFilter = Texture.TextureFilter.Nearest;
 
         //Load map
-        TiledMap map = new TmxMapLoader().load("maps/test.tmx", params);
+        String mapPath = "maps/" + mapName + ".tmx";
+        TiledMap map = new TmxMapLoader().load(mapPath, params);
         screen.setMap(map);
         // Retrieve map properties
         MapProperties properties = map.getProperties();
@@ -88,6 +93,7 @@ public class WorldManager {
 
         terrainLayer = (TiledMapTileLayer) map.getLayers().get("terrain");
         objectLayer = map.getLayers().get("objects");
+        accessPointsLayer = map.getLayers().get("accessPoints");
         tileMapWidth = properties.get("width", Integer.class);
         tileMapHeight = properties.get("height", Integer.class);
         tileSize = (int) terrainLayer.getTileHeight();
@@ -288,8 +294,8 @@ public class WorldManager {
             Spring s = new Spring(screen, body, Integer.valueOf(object.getProperties().get("id").toString()));
             sprites.add(s);
             springs.add(s);
-        } else if (object.getProperties().containsKey("button")) {   
-            Button b = new Button(screen, body, Integer.valueOf(object.getProperties().get("id").toString()),Integer.valueOf(object.getProperties().get("linkedObjectID").toString()),object.getProperties().get("button").toString());         
+        } else if (object.getProperties().containsKey("button")) {
+            Button b = new Button(screen, body, Integer.valueOf(object.getProperties().get("id").toString()), Integer.valueOf(object.getProperties().get("linkedObjectID").toString()), object.getProperties().get("button").toString());
             sprites.add(b);
             buttons.add(b);
         }
@@ -346,6 +352,38 @@ public class WorldManager {
         return chain;
     }
 
+    private void createAccessPoints() {
+
+        accessPoints = new Array<AccessPoint>();
+
+        MapObjects accessPointsObjects = accessPointsLayer.getObjects();
+        for (MapObject accessPoint : accessPointsObjects) {
+            if (accessPoint instanceof TextureMapObject) {
+                continue;
+            }
+
+            //Vector2 position = new Vector2(new Float(accessPoint.getProperties().get("x").toString())/PPM,new Float(accessPoint.getProperties().get("y").toString())/PPM);
+            Shape shape = getRectangle((RectangleMapObject) accessPoint);
+            float x = new Float(accessPoint.getProperties().get("x").toString());
+            float y = new Float(accessPoint.getProperties().get("y").toString());
+            BodyDef bd = new BodyDef();
+            bd.type = BodyType.StaticBody;
+            bd.position.x = x / PPM;
+            bd.position.y = y / PPM;
+            Body body = screen.getWorld().createBody(bd);
+            body.createFixture(shape, 1);
+            shape.dispose();
+
+            boolean isSpawn = false;
+            String name = accessPoint.getProperties().get("name").toString();
+            if (name.equals("spawn")) {
+                isSpawn = true;
+            }
+            AccessPoint ac = new AccessPoint(screen, body, Integer.valueOf(accessPoint.getProperties().get("id").toString()), isSpawn, name, accessPoint.getProperties().get("linkedMapName").toString(), accessPoint.getProperties().get("linkedAccessPointName").toString());
+            accessPoints.add(ac);
+        }
+    }
+
     public Array<Sprites> getSprites() {
         return sprites;
     }
@@ -357,9 +395,13 @@ public class WorldManager {
     public Array<Spring> getSprings() {
         return springs;
     }
-    
+
     public Array<Button> getButtons() {
         return buttons;
+    }
+
+    public Array<AccessPoint> getAccessPoints() {
+        return accessPoints;
     }
 
 }

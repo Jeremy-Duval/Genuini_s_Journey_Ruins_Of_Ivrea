@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package genuini.game;
 
 import com.badlogic.gdx.Gdx;
@@ -12,8 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;
 
 /**
- *
- * @author Adrien
+ *Contains all the content loading functions
+ * @author Foreign Guy Mike
+ * @see 
  */
 public class Content {
     private HashMap<String, Texture> textures;

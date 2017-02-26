@@ -7,27 +7,27 @@ package genuini.game;
 
 import genuini.screens.AbstractScreen;
 import genuini.screens.GameScreen;
-import genuini.screens.DeathScreen;
-import genuini.screens.MainMenuScreen;
-import genuini.screens.SpellBookScreen;
-import genuini.screens.VictoryScreen;
+import genuini.screens.DeathMenu;
+import genuini.screens.MainMenu;
+import genuini.screens.SpellBookMenu;
+import genuini.screens.VictoryMenu;
 
 /**
  *
- * @author Adrien
+ * @author Adrien Techer
  */
 public enum ScreenEnum {
  
     MAIN_MENU {
         @Override
         public AbstractScreen getScreen(Object... params) {
-            return new MainMenuScreen();
+            return new MainMenu();
         }
     },
     
     GAME {
         @Override
-        public AbstractScreen getScreen(Object... params) {
+        public GameScreen getScreen(Object... params) {
             return new GameScreen() {};
         }
     },
@@ -35,21 +35,21 @@ public enum ScreenEnum {
     SPELLBOOK {
         @Override
         public AbstractScreen getScreen(Object... params) {
-            return new SpellBookScreen() {};
+            return new SpellBookMenu() {};
         }
     },
     
     DEATH {
         @Override
         public AbstractScreen getScreen(Object... params) {
-            return new DeathScreen() {};
+            return new DeathMenu() {};
         }
     },
     
     VICTORY {
         @Override
         public AbstractScreen getScreen(Object... params) {
-            return new VictoryScreen() {};
+            return new VictoryMenu() {};
         }
     };
  
