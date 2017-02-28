@@ -14,8 +14,6 @@ import genuini.main.MainGame;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import genuini.screens.GameScreen;
-import genuini.world.PhysicsVariables;
-import static genuini.world.PhysicsVariables.BIT_ACCESSPOINT;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
@@ -242,7 +240,6 @@ public class Genuini extends Characters {
             dead = true;
         }
         screen.getPreferences().reset();
-        screen.getPreferences().save();
         if (connected) {
             arduinoInstance.write("death;");
         }

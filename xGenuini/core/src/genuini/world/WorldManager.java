@@ -27,7 +27,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -35,19 +34,16 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.AccessPoint;
 import genuini.entities.Button;
+import genuini.entities.Fireball;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
 import genuini.screens.GameScreen;
-import static genuini.world.PhysicsVariables.BIT_ACCESSPOINT;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
-import static genuini.world.PhysicsVariables.BIT_TURRET;
 import static genuini.world.PhysicsVariables.PPM;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  *
@@ -374,12 +370,9 @@ public class WorldManager {
             body.createFixture(shape, 1);
             shape.dispose();
 
-            boolean isSpawn = false;
             String name = accessPoint.getProperties().get("name").toString();
-            if (name.equals("spawn")) {
-                isSpawn = true;
-            }
-            AccessPoint ac = new AccessPoint(screen, body, Integer.valueOf(accessPoint.getProperties().get("id").toString()), isSpawn, name, accessPoint.getProperties().get("linkedMapName").toString(), accessPoint.getProperties().get("linkedAccessPointName").toString());
+            String type = accessPoint.getProperties().get("type").toString();
+            AccessPoint ac = new AccessPoint(screen, body, Integer.valueOf(accessPoint.getProperties().get("id").toString()), type, name, accessPoint.getProperties().get("linkedMapName").toString(), accessPoint.getProperties().get("linkedAccessPointName").toString());
             accessPoints.add(ac);
         }
     }
@@ -403,5 +396,33 @@ public class WorldManager {
     public Array<AccessPoint> getAccessPoints() {
         return accessPoints;
     }
+    
+    
+    public void destroyBodies() {
+      Array<Body> bodies = new Array<Body>();
+      screen.getWorld().getBodies(bodies);
+      for (Body body : bodies) {
+          if (body != null) {
+              if (body.getFixtureList().first().getUserData() != null) {
+                  if (body.getFixtureList().first().getUserData().equals("toDestroy")) {
+                      screen.getWorld().destroyBody(body);
+                      body.setUserData(null);
+                      body = null;
+                  }
+              }
 
+          }
+      }
+    }
+    /*
+    public void destroyFireballs() {
+        for(Turret turret :turrets){
+            for(Fireball fireball : turret.){
+          
+      }
+        }
+      
+    }*/
+    
+    
 }

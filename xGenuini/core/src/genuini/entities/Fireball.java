@@ -23,12 +23,9 @@ import static genuini.world.PhysicsVariables.PPM;
 public class Fireball extends Sprites {
 
     private final Texture fireballTexture;
-    private boolean setToDestroy;
     private boolean destroyed;
-    /**
-     * Elapsed time since creation of fireball
-     */
-    private int stateTime;
+    
+    
     /**
      * Correction to have same position for body and sprite
      */
@@ -53,17 +50,10 @@ public class Fireball extends Sprites {
     public void update(float delta) {
         Vector2 pos = new Vector2((body.getPosition().x * PPM) - offset.x, (body.getWorldCenter().y * PPM) - offset.y);
         sprite.setPosition(pos.x, pos.y);
-        sprite.rotate(45);
-        stateTime += delta;
-        if ((stateTime > 3 || setToDestroy) && !destroyed && !screen.getWorld().isLocked()) {
-            screen.getWorld().destroyBody(body);
-            destroyed = true;
-        } else if (body.getFixtureList().size > 0 && !destroyed) {
-            if (body.getFixtureList().first().getUserData().equals("toDestroy") && !destroyed) {
-                setToDestroy();
-            }
-
-        }
+        sprite.rotate(-45);
+        /*if (body.getFixtureList().first().getUserData().equals("toDestroy") && !destroyed) {
+            destroyed=true;
+        }*/
     }
 
     /**
@@ -104,13 +94,6 @@ public class Fireball extends Sprites {
      */
     public boolean isDestroyed() {
         return destroyed;
-    }
-
-    /**
-     * Marks the fireball to be destroyed
-     */
-    public void setToDestroy() {
-        setToDestroy = true;
     }
 
 }

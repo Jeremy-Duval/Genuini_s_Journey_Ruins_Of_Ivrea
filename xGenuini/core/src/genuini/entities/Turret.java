@@ -11,6 +11,7 @@ import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TURRET;
 import static java.lang.Math.random;
+import java.util.Iterator;
 
 /**
  * Class used to create a turret
@@ -25,7 +26,7 @@ public class Turret extends StaticElements{
     private boolean active;
     
     /**
-     * Is it possible to actvate/deactivate th e turret
+     * Is it possible to actvate/deactivate the turret
      */
     private boolean isLocked;
     
@@ -85,11 +86,13 @@ public class Turret extends StaticElements{
             if(type==TurretType.BOMBER){
                 delayFireball=(float) random()*2+2;
             }
-            for(Fireball fireball : fireballs){    
-                if(fireball.isDestroyed()){
+            for (Fireball fireball : fireballs) {
+                if(fireball.getBody()==null){
+                    fireballs.removeValue(fireball, true);
+                }else if (!fireball.getBody().isActive()){
                     fireballs.removeValue(fireball, true);
                 }else{
-                   fireball.update(dt);
+                    fireball.update(dt);
                 }
             }
             stateTime+=dt;

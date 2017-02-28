@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="128" height="72" tilewidth="70" tileheight="70" nextobjectid="53">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="128" height="72" tilewidth="70" tileheight="70" nextobjectid="55">
  <tileset firstgid="1" name="Base_Terrain" tilewidth="70" tileheight="146" tilecount="172" columns="0">
   <tile id="0">
    <image width="70" height="70" source="Platformer Art Complete Pack/Base pack/Tiles/box.png"/>
@@ -1397,18 +1397,36 @@
   </object>
  </objectgroup>
  <objectgroup name="accessPoints">
-  <object id="47" name="spawn" x="1974.36" y="2814.36" width="26.6667" height="30.6667">
+  <object id="47" name="test_spawn" x="1974.36" y="2814.36" width="26.6667" height="30.6667">
    <properties>
     <property name="linkedAccessPointName" value="this"/>
     <property name="linkedMapName" value="this"/>
-    <property name="name" value="spawn"/>
+    <property name="name" value="test_spawn"/>
+    <property name="type" value="spawn"/>
    </properties>
   </object>
-  <object id="52" name="house_1" x="1848.81" y="3173.54" width="13.6667" height="12.6667">
+  <object id="52" name="house_1_entry" x="1846.81" y="3177.54" width="13.6667" height="12.6667">
    <properties>
     <property name="linkedAccessPointName" value="spawn"/>
     <property name="linkedMapName" value="house_1"/>
-    <property name="name" value="house_1"/>
+    <property name="name" value="house_1_entry"/>
+    <property name="type" value="entry"/>
+   </properties>
+  </object>
+  <object id="53" name="house_1_exit" x="1850.81" y="3289.54" width="13.6667" height="12.6667">
+   <properties>
+    <property name="linkedAccessPointName" value="spawn"/>
+    <property name="linkedMapName" value="house_1"/>
+    <property name="name" value="house_1_exit"/>
+    <property name="type" value="exit"/>
+   </properties>
+  </object>
+  <object id="54" name="initial_spawn" x="996.36" y="3438.36" width="26.6667" height="30.6667">
+   <properties>
+    <property name="linkedAccessPointName" value="this"/>
+    <property name="linkedMapName" value="this"/>
+    <property name="name" value="initial_spawn"/>
+    <property name="type" value="spawn"/>
    </properties>
   </object>
  </objectgroup>

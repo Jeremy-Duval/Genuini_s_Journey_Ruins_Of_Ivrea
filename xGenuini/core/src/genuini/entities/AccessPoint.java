@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_ACCESSPOINT;
-import static genuini.world.PhysicsVariables.BIT_PLAYER;
 
 /**
  *
@@ -17,16 +16,16 @@ import static genuini.world.PhysicsVariables.BIT_PLAYER;
  */
 public class AccessPoint extends StaticElements{
     private boolean active;
-    private final boolean spawn;
+    private final String type;
     private final String name;
     private final String linkedMapName;
     private final String linkedAccessPointName;
     
     
-    public AccessPoint(GameScreen screen, Body body, int ID, boolean spawn, String name, String linkedMapName, String linkedAccessPointName) {
+    public AccessPoint(GameScreen screen, Body body, int ID, String type, String name,  String linkedMapName, String linkedAccessPointName) {
         super(screen, body, ID);
         active=true;
-        this.spawn=spawn;
+        this.type=type;
         this.name=name;
         createFilter();
         this.linkedMapName=linkedMapName;
@@ -41,7 +40,7 @@ public class AccessPoint extends StaticElements{
     public final void createFilter() {
         filter.categoryBits = BIT_ACCESSPOINT;
         body.getFixtureList().first().setFilterData(filter);
-        if(!spawn){
+        if(type.equals("entry")){
             body.getFixtureList().first().setUserData("accessPoint"); 
         }
         
@@ -59,8 +58,8 @@ public class AccessPoint extends StaticElements{
         return active;
     }
     
-    public boolean isSpawn(){
-        return spawn;
+    public String getType() {
+        return type;
     }
     
     public String getName() {

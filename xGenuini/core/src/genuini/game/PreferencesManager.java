@@ -11,20 +11,23 @@ import com.badlogic.gdx.math.Vector2;
 public class PreferencesManager {
     Preferences data = Gdx.app.getPreferences("game_data");
     
-    private Vector2 initialPosition;
+    private final Vector2 initialPosition;
     
-    public PreferencesManager(){}
+    public PreferencesManager(){
+        initialPosition=new Vector2(10f,16f);
+    }
 
+    /*
     public void setInitialPosition(Vector2 initialPosition){
         this.initialPosition=initialPosition;
-    }
+    }*/
     
     public void setPositionX(float posX){
         data.putFloat("player_xPosition", posX);
     }
      
     public float getPositionX(){
-        return data.getFloat("player_xPosition", initialPosition.x);
+        return data.getFloat("player_xPosition", initialPosition.x);    
     }
     
     public void setPositionY(float posY){
@@ -59,12 +62,20 @@ public class PreferencesManager {
         return data.getInteger("life",100);
     }
     
-    public void setMapName(String mapName){
-        data.putString("mapName", mapName);
+    public void setPreviousMapName(String previousMapName){
+        data.putString("previousMapName", previousMapName);
     }
     
-    public String getMapName(){
-        return data.getString("mapName", "village");
+    public String getPreviousMapName(){
+        return data.getString("previousMapName", "village");
+    }
+    
+    public void setCurrentMapName(String currentMapName){
+        data.putString("currentMapName", currentMapName);
+    }
+    
+    public String getCurrentMapName(){
+        return data.getString("currentMapName", "village");
     }
     
     public void setSpawnName(String spawnName){
@@ -72,23 +83,35 @@ public class PreferencesManager {
     }
     
     public String getSpawnName(){
-        return data.getString("spawnName", "spawn");
+        return data.getString("spawnName", "initial_spawn");
     }
     
-    public void save() {
+    
+    
+    public void save(){
         data.flush();
     }
     
+    public void save(float posX, float posY, int life) {
+        data.putFloat("player_xPosition", posX);
+        data.putFloat("player_YPosition", posY);
+        data.putInteger("life", life);
+        data.putString("previousMapName", data.getString("currentMapName"));
+        data.flush();
+    }
     
     public void reset(){
         data.putFloat("player_xPosition", initialPosition.x);
         data.putFloat("player_YPosition", initialPosition.y);
-        data.putString("mapName", "village");
-        data.putString("spawnName", "spawn");
+        data.putString("previousMapName", "village");
+        data.putString("currentMapName", "village");
+        data.putString("spawnName", "initial_spawn");
         data.putBoolean("book_activated", false);
         data.putBoolean("challengeValid", false);
         data.putInteger("life", 100);
+        data.flush();
     }
-
+    
+    
     
 }

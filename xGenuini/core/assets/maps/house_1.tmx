@@ -554,18 +554,20 @@
  </layer>
  <objectgroup name="objects"/>
  <objectgroup name="accessPoints">
-  <object id="1" x="724" y="1546" width="24" height="24">
+  <object id="1" x="720" y="1462" width="24" height="24">
    <properties>
     <property name="linkedAccessPointName" value="this"/>
     <property name="linkedMapName" value="this"/>
     <property name="name" value="spawn"/>
+    <property name="type" value="spawn"/>
    </properties>
   </object>
   <object id="2" x="986" y="1552" width="24" height="24">
    <properties>
-    <property name="linkedAccessPointName" value="house_1"/>
+    <property name="linkedAccessPointName" value="house_1_exit"/>
     <property name="linkedMapName" value="village"/>
     <property name="name" value="village_house_1"/>
+    <property name="type" value="entry"/>
    </properties>
   </object>
  </objectgroup>

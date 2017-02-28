@@ -38,11 +38,11 @@ import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import static genuini.world.PhysicsVariables.GRAVITY;
 import genuini.world.WorldManager;
+import java.util.Iterator;
 
-public class GameScreen extends AbstractScreen{
+public class GameScreen extends AbstractScreen {
 
-    
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -59,20 +59,20 @@ public class GameScreen extends AbstractScreen{
 
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
-    
+
     private Table table;
     private Label lifePointsLabel;
-    
+
     private final WorldManager worldManager;
-    private final String mapName;
-    
+    //private final String mapName;
+
     public GameScreen() {
         super();
-        if(!MainGame.contentManager.getMusic("gameMusic").isPlaying()){
+        if (!MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
             //MainGame.contentManager.getMusic("gameMusic").play();
         }
-        
-        this.mapName=prefs.getMapName();
+        //prefs.reset();
+
         //this.mapName="house_1";
         world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
@@ -81,22 +81,26 @@ public class GameScreen extends AbstractScreen{
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 
-        
         //set the Text batch
         TextManager.SetSpriteBatch(batch);
-       
-        worldManager = new WorldManager(this, mapName);
-        for(AccessPoint accessPoint : worldManager.getAccessPoints()){
-            if(accessPoint.getName().equals(prefs.getSpawnName())){
-                prefs.setInitialPosition(accessPoint.getPosition());
-                break;
+
+        worldManager = new WorldManager(this, prefs.getCurrentMapName());
+        
+                //prefs.setInitialPosition(accessPoint.getPosition());
+        if (prefs.getPreviousMapName().equals(prefs.getCurrentMapName())) {
+            prefs.setPositionX(prefs.getPositionX());
+            prefs.setPositionY(prefs.getPositionY());
+        } else {
+            for (AccessPoint accessPoint : worldManager.getAccessPoints()) {
+                if (accessPoint.getName().equals(prefs.getSpawnName())) {
+                    prefs.setPositionX(accessPoint.getPosition().x);
+                    prefs.setPositionY(accessPoint.getPosition().y);
+                    break;
+                }
             }
-            //System.err.println(accessPoint.getName()+" --- spawn : "+accessPoint.isSpawn()+" --- active: "+accessPoint.isActive());
         }
-        
-        //prefs.reset();
-        
-        
+       
+
         /* DEBUG */
         if (debug) {
             b2dr = new Box2DDebugRenderer();
@@ -109,12 +113,9 @@ public class GameScreen extends AbstractScreen{
         //create player
         genuini = new Genuini(this);
         genuini.setLife(prefs.getLife());
-        
-        
-        
-        
+
         cam.setBounds(0, worldManager.getTileMapWidth() * worldManager.getTileSize(), 0, worldManager.getTileMapHeight() * worldManager.getTileSize());
-        
+
         if (connected) {
             arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
         }
@@ -127,11 +128,8 @@ public class GameScreen extends AbstractScreen{
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                prefs.setPositionX(genuini.getPosition().x);
-                prefs.setPositionY(genuini.getPosition().y);
-                prefs.setLife(genuini.getLife());
-                prefs.save();
-                
+                prefs.save(genuini.getPosition().x, genuini.getPosition().y, genuini.getLife());
+
                 MainGame.contentManager.getMusic("gameMusic").pause();
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
@@ -140,13 +138,10 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(connected){
+                if (connected) {
                     arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
                 }
-                prefs.setPositionX(genuini.getPosition().x);
-                prefs.setPositionY(genuini.getPosition().y);
-                prefs.setLife(genuini.getLife());
-                prefs.save();
+                prefs.save(genuini.getPosition().x, genuini.getPosition().y, genuini.getLife());
                 ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
             }
         });
@@ -156,15 +151,14 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void buildStage() {
         super.buildStage();
-        menuButton = new TextButton("Menu", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int)worldManager.getTileSize() / 2));
+        menuButton = new TextButton("Menu", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int) worldManager.getTileSize() / 2));
         menuButton.setPosition(V_WIDTH - worldManager.getTileSize() * 1.6f, worldManager.getTileSize() * 3);
 
-        spellBookScreenButton = new TextButton("Spellbook", skinManager.createBookButtonSkin((int)(worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2));
+        spellBookScreenButton = new TextButton("Spellbook", skinManager.createBookButtonSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2));
         spellBookScreenButton.setPosition(V_WIDTH - worldManager.getTileSize() - 20 * 1f, worldManager.getTileSize() * 1.8f);
         spellBookScreenButton.setSize(worldManager.getTileSize(), worldManager.getTileSize());
-        
 
-        if(!prefs.getBook()){
+        if (!prefs.getBook()) {
             spellBookScreenButton.setVisible(false);
         }
         stage.addActor(menuButton);
@@ -181,51 +175,50 @@ public class GameScreen extends AbstractScreen{
             table.debug();// Enables debug lines for tables.
         }
 
-        Label lifeLabel = new Label("Life :", skinManager.whiteTextSkin((int)(worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
+        Label lifeLabel = new Label("Life :", skinManager.whiteTextSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
         table.add(lifeLabel).width(70);
-        lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.whiteTextSkin((int)(worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
+        lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.whiteTextSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
         table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
     }
 
-    public void update(float delta){
-        
+    public void update(float delta) {
+
         //World step
         world.step(MainGame.STEP, 8, 3);
-        
+
         //Check if world is not stepping
-        if(!world.isLocked()){
+        if (!world.isLocked()) {
             handleInput();
             handleContact();
             handleArea();
-            
+
             //Update player & sprites
             genuini.update(delta);
-            for(Sprites sprite : worldManager.getSprites()){
+            for (Sprites sprite : worldManager.getSprites()) {
                 sprite.update(delta);
             }
         }
-        
-        
+        worldManager.destroyBodies();
         //Get player position for camera
-        float player_pos_x=prefs.getPositionX();
-        float player_pos_y=prefs.getPositionY();
-        if(genuini.getState()!=Genuini.State.DEAD){
+        float player_pos_x = prefs.getPositionX();
+        float player_pos_y = prefs.getPositionY();
+        if (genuini.getState() != Genuini.State.DEAD) {
             player_pos_x = genuini.getPosition().x;
             player_pos_y = genuini.getPosition().y;
         }
-        
+
         //Camera follows player
         cam.setPosition(player_pos_x * PPM + MainGame.V_WIDTH / 4, player_pos_y * PPM);
         cam.update();
-        
-        
+
         //Update of box2d debug camera
         if (debug) {
             b2dCam.setPosition(player_pos_x + MainGame.V_WIDTH / 4 / PPM, player_pos_y);
             b2dCam.update();
         }
     }
+
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -235,34 +228,36 @@ public class GameScreen extends AbstractScreen{
         //Render tiled map
         tmr.setView(cam);
         tmr.render();
-        
-        /**** Beggining of drawing area ****/
+
+        /**
+         * ** Beggining of drawing area ***
+         */
         batch.begin();
-        
+
         //draw player
         genuini.draw(batch);
-        
+
         //draw sprites
-        for(Sprites sprite : worldManager.getSprites()){
+        for (Sprites sprite : worldManager.getSprites()) {
             sprite.draw(batch);
         }
-        
+
         batch.end();
-        /**** End of drawing area ****/
-        
+        /**
+         * ** End of drawing area ***
+         */
+
         //Box2d debug rendering
         if (debug) {
             b2dr.render(world, b2dCam.combined);
         }
-        
+
         //Stage rendering
         stage.act(delta);
         stage.draw();
-        
-        
+
     }
 
-    
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
             genuini.walk(Genuini.Direction.LEFT);
@@ -275,28 +270,28 @@ public class GameScreen extends AbstractScreen{
         if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
             genuini.jump(160f);
         }
-        
-       if ((Gdx.input.isKeyJustPressed(Keys.F))) {
-            for(Turret turret : worldManager.getTurrets()){
-                if(turret.isActive()){
-                  turret.deactivate(true);
-                }else{
-                  turret.activate(true);
+
+        if ((Gdx.input.isKeyJustPressed(Keys.F))) {
+            for (Turret turret : worldManager.getTurrets()) {
+                if (turret.isActive()) {
+                    turret.deactivate(true);
+                } else {
+                    turret.activate(true);
                 }
             }
         }
-        
+
         if ((Gdx.input.isKeyJustPressed(Keys.G))) {
-            if(prefs.getChallenge()){
-                if(connected){
+            if (prefs.getChallenge()) {
+                if (connected) {
                     arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
                 }
-               if(world.getGravity().y<0){
-                  world.setGravity(new Vector2(0,-GRAVITY));
-                }else{
-                  world.setGravity(new Vector2(0,GRAVITY));
-                } 
-            }  
+                if (world.getGravity().y < 0) {
+                    world.setGravity(new Vector2(0, -GRAVITY));
+                } else {
+                    world.setGravity(new Vector2(0, GRAVITY));
+                }
+            }
         }
 
     }
@@ -308,8 +303,7 @@ public class GameScreen extends AbstractScreen{
         } else if (contactManager.isBouncy()) {
             genuini.jump(300f);
         }
-        
-        
+
         if (contactManager.isDangerous()) {
             genuini.changeLife(-5);
             contactManager.setDangerous(false);
@@ -317,68 +311,73 @@ public class GameScreen extends AbstractScreen{
                 arduinoInstance.write("game;" + String.valueOf(genuini.getLife())); //quand vie change
             }
             lifePointsLabel.setText(String.valueOf(genuini.getLife()));
-            if (genuini.getLife() <= 0 && genuini.getState()!=Genuini.State.DEAD) {
+            if (genuini.getLife() <= 0 && genuini.getState() != Genuini.State.DEAD) {
                 genuini.die();
             }
         }
-        if(contactManager.isbookActive() && !spellBookScreenButton.isVisible()){
+        if (contactManager.isbookActive() && !spellBookScreenButton.isVisible()) {
             spellBookScreenButton.setVisible(true);
             prefs.setBook(true);
-            if(connected){
-                    arduinoInstance.write("book;");
+            if (connected) {
+                arduinoInstance.write("book;");
             }
         }
-        if(contactManager.hasWon()){
+        if (contactManager.hasWon()) {
             prefs.reset();
-            prefs.save();
-            if(connected){
+            if (connected) {
                 arduinoInstance.write("victory;");
             }
             MainGame.contentManager.getMusic("gameMusic").pause();
             ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
         }
     }
-    
-    public void handleArea(){
-        for(Spring spring : worldManager.getSprings()){
-           if(contactManager.isBouncy()&&(getDistanceFromPlayer(spring)<0.8f)){
-               spring.activate();    
-            } 
-        }
-        
-        for(Turret turret : worldManager.getTurrets()){
-            if(getDistanceFromPlayer(turret)<turret.getActivationDistance()){
-               turret.activate(false);    
-            }else{
-               turret.deactivate(false);    
+
+    public void handleArea() {
+        boolean changeScreen = false;
+        for (Spring spring : worldManager.getSprings()) {
+            if (contactManager.isBouncy() && (getDistanceFromPlayer(spring) < 0.8f)) {
+                spring.activate();
             }
         }
-        
-        
-        for(Button button : worldManager.getButtons()){
-            if (contactManager.isButton()&&getDistanceFromPlayer(button)<0.7f&&!button.isPressed()) {
+
+        for (Turret turret : worldManager.getTurrets()) {
+            if (getDistanceFromPlayer(turret) < turret.getActivationDistance()) {
+                turret.activate(false);
+            } else {
+                turret.deactivate(false);
+            }
+        }
+
+        for (Button button : worldManager.getButtons()) {
+            if (contactManager.isButton() && getDistanceFromPlayer(button) < 0.7f && !button.isPressed()) {
                 genuini.jump(150f);
                 button.press();
                 int linkedObjectID = button.getLinkedObjectID();
-                if(button.getLinkedObjectType().equals("turret")){
-                    for(Turret turret : worldManager.getTurrets()){
-                        if(turret.getID()==linkedObjectID){
-                            turret.deactivate(true);    
+                if (button.getLinkedObjectType().equals("turret")) {
+                    for (Turret turret : worldManager.getTurrets()) {
+                        if (turret.getID() == linkedObjectID) {
+                            turret.deactivate(true);
                         }
-                    }  
+                    }
                 }
-                
+
             }
         }
-        
-        for(AccessPoint accessPoint : worldManager.getAccessPoints()){
-            if(getDistanceFromPlayer(accessPoint)<0.5f&&accessPoint.isActive()&&!accessPoint.isSpawn()&&!world.isLocked()){
-                prefs.setMapName(accessPoint.getLinkedMapName());
+
+        for (AccessPoint accessPoint : worldManager.getAccessPoints()) {
+            if (getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !world.isLocked()) {
+                prefs.setPreviousMapName(prefs.getCurrentMapName());
+                prefs.setCurrentMapName(accessPoint.getLinkedMapName());
                 prefs.setSpawnName(accessPoint.getLinkedAccessPointName());
-                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+                changeScreen = true;
+                break;
             }
         }
-                
+
+        if (changeScreen && !world.isLocked()) {
+            ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+        }
+
     }
 
     @Override
@@ -388,11 +387,11 @@ public class GameScreen extends AbstractScreen{
         map.dispose();
     }
 
-    public TiledMap getMap(){
+    public TiledMap getMap() {
         return map;
     }
-    
-    public World getWorld(){
+
+    public World getWorld() {
         return world;
     }
 
@@ -401,39 +400,35 @@ public class GameScreen extends AbstractScreen{
     }
 
     public void setMap(TiledMap map) {
-        this.map = map ;
+        this.map = map;
     }
-    
-
 
     public void setTMR(OrthogonalTiledMapRenderer orthogonalTiledMapRenderer) {
-        this.tmr=orthogonalTiledMapRenderer;
+        this.tmr = orthogonalTiledMapRenderer;
     }
-    
-    public PreferencesManager getPreferences(){
+
+    public PreferencesManager getPreferences() {
         return prefs;
     }
-    
-    public ContactHandler getContactManager(){
+
+    public ContactHandler getContactManager() {
         return contactManager;
     }
-    
-    public float getDistanceFromPlayer(Body body){
+
+    public float getDistanceFromPlayer(Body body) {
         //return (float) (Math.sqrt(Math.pow(body.getPosition().x+,2) + (Math.pow(genuini.getBody().getWorldCenter().y-body.getWorldCenter().y,2))));
         return 1f;
     }
-    
-    public float getDistanceFromPlayer(Sprites sprite){
-        return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x+sprite.getSprite().getWidth()/2/PPM-genuini.getPosition().x,2) + (Math.pow(sprite.getBody().getPosition().y+sprite.getSprite().getHeight()/2/PPM-genuini.getPosition().y,2))));
+
+    public float getDistanceFromPlayer(Sprites sprite) {
+        return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x + sprite.getSprite().getWidth() / 2 / PPM - genuini.getPosition().x, 2) + (Math.pow(sprite.getBody().getPosition().y + sprite.getSprite().getHeight() / 2 / PPM - genuini.getPosition().y, 2))));
     }
-    
-    public Genuini getGenuini(){
+
+    public Genuini getGenuini() {
         return genuini;
     }
     
-    public String getMapName(){
-        return mapName;
-    }
-
+    
+    
 
 }
