@@ -13,7 +13,7 @@ import genuini.screens.AbstractScreen;
  *
  * @author Adrien
  */
-public class ScreenManager {
+public class ScreenManager{
  
     // Singleton: unique instance
     private static ScreenManager instance;
@@ -24,7 +24,6 @@ public class ScreenManager {
  
     // Singleton: private constructor
     private ScreenManager() {
-        super();
     }
  
     // Singleton: retrieve instance
@@ -55,6 +54,7 @@ public class ScreenManager {
         newScreen.buildStage();
         game.setScreen(newScreen);
     }
+
     
     
 

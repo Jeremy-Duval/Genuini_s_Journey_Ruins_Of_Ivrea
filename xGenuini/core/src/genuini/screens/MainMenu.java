@@ -69,7 +69,7 @@ public class MainMenu extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 MainGame.contentManager.getMusic("menuMusic").pause();
-                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+                ScreenManager.getInstance().showScreen(ScreenEnum.LOAD);
             }
         });
 

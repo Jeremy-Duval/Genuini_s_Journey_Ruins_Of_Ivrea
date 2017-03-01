@@ -38,7 +38,6 @@ import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import static genuini.world.PhysicsVariables.GRAVITY;
 import genuini.world.WorldManager;
-import java.util.Iterator;
 
 public class GameScreen extends AbstractScreen {
 
@@ -65,6 +64,7 @@ public class GameScreen extends AbstractScreen {
 
     private final WorldManager worldManager;
     //private final String mapName;
+    private boolean changeScreen;
 
     public GameScreen() {
         super();
@@ -119,7 +119,8 @@ public class GameScreen extends AbstractScreen {
         if (connected) {
             arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
         }
-
+        
+        changeScreen=false;
     }
 
     @Override
@@ -200,6 +201,7 @@ public class GameScreen extends AbstractScreen {
             }
         }
         worldManager.destroyBodies();
+
         //Get player position for camera
         float player_pos_x = prefs.getPositionX();
         float player_pos_y = prefs.getPositionY();
@@ -216,6 +218,10 @@ public class GameScreen extends AbstractScreen {
         if (debug) {
             b2dCam.setPosition(player_pos_x + MainGame.V_WIDTH / 4 / PPM, player_pos_y);
             b2dCam.update();
+        }
+        
+        if (changeScreen) {
+            ScreenManager.getInstance().showScreen(ScreenEnum.LOAD);
         }
     }
 
@@ -333,7 +339,6 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void handleArea() {
-        boolean changeScreen = false;
         for (Spring spring : worldManager.getSprings()) {
             if (contactManager.isBouncy() && (getDistanceFromPlayer(spring) < 0.8f)) {
                 spring.activate();
@@ -373,11 +378,7 @@ public class GameScreen extends AbstractScreen {
                 break;
             }
         }
-
-        if (changeScreen && !world.isLocked()) {
-            ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
-        }
-
+  
     }
 
     @Override

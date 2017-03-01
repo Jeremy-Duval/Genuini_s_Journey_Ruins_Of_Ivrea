@@ -26,7 +26,7 @@ import static genuini.world.PhysicsVariables.PPM;
  * @author Adrien Techer
  */
 public class Genuini extends Characters {
-
+    private boolean inAnotherDimension;
     private int life;
 
     private final float bodyWidth = 22f / PPM;
@@ -77,6 +77,7 @@ public class Genuini extends Characters {
         genuiniStanding = atlas.findRegion("stand");
         genuiniJumping = atlas.findRegion("jump");
         genuiniHurt = atlas.findRegion("hurt");
+        
     }
 
     /**

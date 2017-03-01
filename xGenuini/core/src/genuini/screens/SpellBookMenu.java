@@ -92,7 +92,7 @@ public class SpellBookMenu extends AbstractScreen {
         gameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+                ScreenManager.getInstance().showScreen(ScreenEnum.LOAD);
             }
         });
         
@@ -117,7 +117,7 @@ public class SpellBookMenu extends AbstractScreen {
                 if(connected){
                     arduinoInstance.write("gravity;");
                 }
-                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+                ScreenManager.getInstance().showScreen(ScreenEnum.LOAD);
             }
         });
         

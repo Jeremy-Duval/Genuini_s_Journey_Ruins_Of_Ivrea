@@ -36,16 +36,13 @@ public class VictoryMenu extends AbstractScreen{
     private final int buttonWidth;
     private final int buttonHeight;
 
-    private final int areaWidth;
-    private final int areaHeight;
+
     private TextField gameOver;
     
     public VictoryMenu(){
         super();
         buttonWidth=V_WIDTH/15;
         buttonHeight=V_HEIGHT/20;
-        areaWidth = V_WIDTH / 6;
-        areaHeight = V_HEIGHT / 10;
         contentManager.getMusic("deathMusic").play();
 
     }
@@ -96,10 +93,5 @@ public class VictoryMenu extends AbstractScreen{
         stage.draw();  
     }
     
-    
-    @Override
-    public void dispose() {
-       super.dispose();
-    }
     
 }

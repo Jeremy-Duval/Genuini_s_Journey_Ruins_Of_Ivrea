@@ -41,7 +41,7 @@ public class Fireball extends Sprites {
     public Fireball(GameScreen screen, Vector2 position, Vector2 offset) {
         super(screen);
         this.offset = offset;
-        createBody(position);
+        createBody(position);     
         fireballTexture = MainGame.contentManager.getTexture("fireball");
         sprite = new Sprite(fireballTexture);
     }
@@ -51,9 +51,6 @@ public class Fireball extends Sprites {
         Vector2 pos = new Vector2((body.getPosition().x * PPM) - offset.x, (body.getWorldCenter().y * PPM) - offset.y);
         sprite.setPosition(pos.x, pos.y);
         sprite.rotate(-45);
-        /*if (body.getFixtureList().first().getUserData().equals("toDestroy") && !destroyed) {
-            destroyed=true;
-        }*/
     }
 
     /**
@@ -77,6 +74,7 @@ public class Fireball extends Sprites {
         fd.filter.categoryBits = BIT_FIREBALL;
         fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER | BIT_OBJECT;
         body.createFixture(fd).setUserData("fireball");
+        circle.dispose();
     }
 
     /**
