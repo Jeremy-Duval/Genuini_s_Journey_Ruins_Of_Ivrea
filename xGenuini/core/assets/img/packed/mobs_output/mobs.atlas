@@ -1,0 +1,132 @@
+
+mobs.png
+size: 128,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blockerBody
+  rotate: false
+  xy: 52, 326
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+blockerMad
+  rotate: false
+  xy: 52, 273
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+blockerSad
+  rotate: false
+  xy: 52, 220
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+fishDead
+  rotate: false
+  xy: 52, 468
+  size: 66, 42
+  orig: 66, 42
+  offset: 0, 0
+  index: -1
+fishSwim
+  rotate: false
+  xy: 52, 424
+  size: 66, 42
+  orig: 66, 42
+  offset: 0, 0
+  index: 1
+fishSwim
+  rotate: false
+  xy: 52, 379
+  size: 62, 43
+  orig: 62, 43
+  offset: 0, 0
+  index: 2
+flyDead
+  rotate: false
+  xy: 2, 110
+  size: 59, 33
+  orig: 59, 33
+  offset: 0, 0
+  index: -1
+flyFly
+  rotate: false
+  xy: 2, 178
+  size: 72, 36
+  orig: 72, 36
+  offset: 0, 0
+  index: 1
+flyFly
+  rotate: false
+  xy: 2, 145
+  size: 75, 31
+  orig: 75, 31
+  offset: 0, 0
+  index: 2
+pokerMad
+  rotate: false
+  xy: 2, 364
+  size: 48, 146
+  orig: 48, 146
+  offset: 0, 0
+  index: -1
+pokerSad
+  rotate: false
+  xy: 2, 216
+  size: 48, 146
+  orig: 48, 146
+  offset: 0, 0
+  index: -1
+slimeDead
+  rotate: false
+  xy: 2, 2
+  size: 59, 12
+  orig: 59, 12
+  offset: 0, 0
+  index: -1
+slimeWalk
+  rotate: false
+  xy: 76, 190
+  size: 50, 28
+  orig: 50, 28
+  offset: 0, 0
+  index: 1
+slimeWalk
+  rotate: false
+  xy: 2, 16
+  size: 51, 26
+  orig: 51, 26
+  offset: 0, 0
+  index: 2
+snailShell
+  rotate: false
+  xy: 79, 158
+  size: 44, 30
+  orig: 44, 30
+  offset: 0, 0
+  index: -1
+snailShell_upsidedown
+  rotate: false
+  xy: 79, 126
+  size: 44, 30
+  orig: 44, 30
+  offset: 0, 0
+  index: -1
+snailWalk
+  rotate: false
+  xy: 2, 77
+  size: 57, 31
+  orig: 57, 31
+  offset: 0, 0
+  index: 2
+snailWalk
+  rotate: false
+  xy: 2, 44
+  size: 54, 31
+  orig: 54, 31
+  offset: 0, 0
+  index: 1

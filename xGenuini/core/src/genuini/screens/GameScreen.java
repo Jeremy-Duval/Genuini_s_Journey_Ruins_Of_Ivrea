@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.entities.AccessPoint;
 import genuini.entities.Button;
 import genuini.entities.Genuini;
+import genuini.entities.LivingBeings;
+import genuini.entities.Slime;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
@@ -41,7 +43,7 @@ import genuini.world.WorldManager;
 
 public class GameScreen extends AbstractScreen {
 
-    private final boolean debug = false;
+    private final boolean debug = true;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -65,6 +67,8 @@ public class GameScreen extends AbstractScreen {
     private final WorldManager worldManager;
     //private final String mapName;
     private boolean changeScreen;
+    
+    private final Slime slimy;
 
     public GameScreen() {
         super();
@@ -113,6 +117,8 @@ public class GameScreen extends AbstractScreen {
         //create player
         genuini = new Genuini(this);
         genuini.setLife(prefs.getLife());
+        
+        slimy = new Slime(this);
 
         cam.setBounds(0, worldManager.getTileMapWidth() * worldManager.getTileSize(), 0, worldManager.getTileMapHeight() * worldManager.getTileSize());
 
@@ -193,19 +199,20 @@ public class GameScreen extends AbstractScreen {
             handleInput();
             handleContact();
             handleArea();
-
             //Update player & sprites
             genuini.update(delta);
+            slimy.update(delta);
             for (Sprites sprite : worldManager.getSprites()) {
                 sprite.update(delta);
             }
         }
         worldManager.destroyBodies();
-
+        
+        
         //Get player position for camera
         float player_pos_x = prefs.getPositionX();
         float player_pos_y = prefs.getPositionY();
-        if (genuini.getState() != Genuini.State.DEAD) {
+        if (genuini.getState() != LivingBeings.State.DEAD) {
             player_pos_x = genuini.getPosition().x;
             player_pos_y = genuini.getPosition().y;
         }
@@ -242,6 +249,7 @@ public class GameScreen extends AbstractScreen {
 
         //draw player
         genuini.draw(batch);
+        slimy.draw(batch);
 
         //draw sprites
         for (Sprites sprite : worldManager.getSprites()) {
@@ -317,7 +325,7 @@ public class GameScreen extends AbstractScreen {
                 arduinoInstance.write("game;" + String.valueOf(genuini.getLife())); //quand vie change
             }
             lifePointsLabel.setText(String.valueOf(genuini.getLife()));
-            if (genuini.getLife() <= 0 && genuini.getState() != Genuini.State.DEAD) {
+            if (genuini.getLife() <= 0 && genuini.getState() != LivingBeings.State.DEAD) {
                 genuini.die();
             }
         }

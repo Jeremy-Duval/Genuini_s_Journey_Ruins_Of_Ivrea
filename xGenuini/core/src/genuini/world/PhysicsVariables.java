@@ -18,4 +18,5 @@ public class PhysicsVariables {
     public static final short BIT_FIREBALL = 16;
     public static final short BIT_TURRET = 32;
     public static final short BIT_ACCESSPOINT = 64;
+    public static final short BIT_MOB = 128;
 }

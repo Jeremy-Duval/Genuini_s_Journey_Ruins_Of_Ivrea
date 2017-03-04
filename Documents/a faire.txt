@@ -1,9 +1,4 @@
 Pure GAME (adrien)
-
-	- Handle level selection + change of level
-		Add a choice level screen
-		Add an abstract Game Screen
-		Storing of prefs for the level and position in level
 	- Creating NPCs
 		Move animation functions and body creation to Characters class
 		Create behaviours

@@ -17,7 +17,10 @@ public abstract class Sprites{
     protected GameScreen screen;
     protected World world;
     protected Sprite sprite;
-
+    public enum Direction {
+        LEFT, RIGHT
+    };
+    
     /**
      * 
      * @param screen the screen to which the sprite belongs
@@ -42,7 +45,7 @@ public abstract class Sprites{
     }
 
     public abstract void update(float delta);
-
+    
     
 
 }

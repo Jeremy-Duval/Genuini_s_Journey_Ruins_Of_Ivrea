@@ -34,16 +34,15 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.AccessPoint;
 import genuini.entities.Button;
-import genuini.entities.Fireball;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
+import static genuini.world.PhysicsVariables.BIT_MOB;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 import static genuini.world.PhysicsVariables.PPM;
-import java.util.Iterator;
 
 /**
  *
@@ -63,6 +62,7 @@ public class WorldManager {
     MapLayer objectLayer;
     GameScreen screen;
     private MapLayer accessPointsLayer;
+    Array<Body> bodies;
 
     public WorldManager(GameScreen screen, String mapName) {
         this.screen = screen;
@@ -142,7 +142,7 @@ public class WorldManager {
                     fd.shape = cs;
                     fd.isSensor = false;
                     fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
                     world.createBody(bdef).createFixture(fd);
                 } else if (cell.getTile().getProperties().get("slide_right") != null) {
                     //to link the cell edges
@@ -157,7 +157,7 @@ public class WorldManager {
                     fd.isSensor = false;
                     fd.isSensor = false;
                     fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
                     world.createBody(bdef).createFixture(fd);
                 } else if (cell.getTile().getProperties().get("bounce") != null) {
                     //to link the cell edges
@@ -172,7 +172,7 @@ public class WorldManager {
                     fd.shape = cs;
                     fd.isSensor = false;
                     fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_MOB;
                     world.createBody(bdef).createFixture(fd).setUserData("bounce");
                 } else if (cell.getTile().getProperties().get("spike") != null) {
                     //to link the cell edges
@@ -187,7 +187,7 @@ public class WorldManager {
                     fd.shape = cs;
                     fd.isSensor = false;
                     fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_MOB;
                     world.createBody(bdef).createFixture(fd).setUserData("spike");
                 } else if (cell.getTile().getProperties().get("challengeBox") != null) {
                     //to link the cell edges
@@ -202,7 +202,7 @@ public class WorldManager {
                     fd.shape = cs;
                     fd.isSensor = false;
                     fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
                     world.createBody(bdef).createFixture(fd).setUserData("challengeBox");
                 } else if (cell.getTile().getProperties().get("victory") != null) {
                     //to link the cell edges
@@ -217,7 +217,7 @@ public class WorldManager {
                     fd.shape = cs;
                     fd.isSensor = false;
                     fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
                     world.createBody(bdef).createFixture(fd).setUserData("victory");
                 } else {
                     //to link the cell edges
@@ -232,7 +232,7 @@ public class WorldManager {
                     fd.shape = cs;
                     fd.isSensor = false;
                     fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
                     world.createBody(bdef).createFixture(fd);
                 }
                 cs.dispose();
@@ -399,30 +399,20 @@ public class WorldManager {
     
     
     public void destroyBodies() {
-      Array<Body> bodies = new Array<Body>();
-      screen.getWorld().getBodies(bodies);
-      for (Body body : bodies) {
-          if (body != null) {
-              if (body.getFixtureList().first().getUserData() != null) {
-                  if (body.getFixtureList().first().getUserData().equals("toDestroy")) {
-                      screen.getWorld().destroyBody(body);
-                      body.setUserData(null);
-                      body = null;
-                  }
-              }
-
-          }
-      }
-    }
-    /*
-    public void destroyFireballs() {
-        for(Turret turret :turrets){
-            for(Fireball fireball : turret.){
-          
-      }
+        bodies = new Array<Body>();
+        screen.getWorld().getBodies(bodies);
+        for (Body body : bodies) {
+            if (body != null) {
+                if (body.getFixtureList().first().getUserData() != null) {
+                    if (body.getFixtureList().first().getUserData().equals("toDestroy")) {
+                        screen.getWorld().destroyBody(body);
+                        body.setUserData(null);
+                        body = null;
+                        bodies.removeValue(body, true);
+                    }
+                }
+            }
         }
-      
-    }*/
-    
+    }
     
 }
