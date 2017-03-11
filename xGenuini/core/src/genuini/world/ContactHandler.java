@@ -141,12 +141,18 @@ public class ContactHandler implements ContactListener{
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=false;       
             }
+            if(fb.getUserData() != null && fb.getUserData().equals("slime")){
+                fb.setUserData("setToDestroy");
+            }
             fa.setUserData("toDestroy");
         }
         
         if(fb.getUserData() != null && fb.getUserData().equals("fireball")){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=false;
+            }
+            if(fa.getUserData() != null && fa.getUserData().equals("slime")){
+                fa.setUserData("setToDestroy");
             }
             fb.setUserData("toDestroy");
         }

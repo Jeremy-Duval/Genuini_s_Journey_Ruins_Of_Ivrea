@@ -49,7 +49,7 @@ public class Fireball extends Sprites {
 
     @Override
     public void update(float delta) {
-        Vector2 pos = new Vector2((body.getPosition().x * PPM) - offset.x, (body.getWorldCenter().y * PPM) - offset.y);
+        Vector2 pos = new Vector2((body.getPosition().x * PPM) - offset.x, (body.getPosition().y * PPM) - offset.y);
         sprite.setPosition(pos.x, pos.y);
         sprite.rotate(-45);
     }

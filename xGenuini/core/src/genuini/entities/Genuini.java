@@ -16,6 +16,7 @@ import static genuini.world.PhysicsVariables.BIT_MOB;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 import static genuini.world.PhysicsVariables.BIT_TURRET;
+import static genuini.world.PhysicsVariables.PPM;
 
 /**
  * Class used to create the player
@@ -24,6 +25,7 @@ import static genuini.world.PhysicsVariables.BIT_TURRET;
  */
 public class Genuini extends Characters {
     private Fireball fireball;
+    private boolean hasFireball;
 
     /**
      *
@@ -33,6 +35,7 @@ public class Genuini extends Characters {
         super(screen,"player");
 
         life = screen.getPreferences().getLife();
+        hasFireball=false;
         createBody();
     }
 
@@ -88,28 +91,61 @@ public class Genuini extends Characters {
     }
     
     public void throwFireball(){
-        if(fireball==null || (fireball!=null && fireball.getBody()==null) ){
-                float impulse=30f;
-                Vector2 offset;
-
-                if(direction==Direction.RIGHT){
-                    offset=new Vector2(5f,2f);
-                }else{
-                   offset=new Vector2(-5f,2f); 
-                   impulse*=-1;
-                }
-                Fireball f = new Fireball(screen, body.getPosition(), offset);
-                fireball=f;
-
-                f.getBody().applyLinearImpulse(impulse, 20f, 0, 0, true);
+        if(!hasFireball){
+            float impulse=2f;
+            if(direction==Direction.LEFT){
+                impulse*=-1;
+            }
+            
+            float offsetX = impulse<0 ? -sprite.getWidth()*1.2f : sprite.getWidth()/4;
+            float posX = body.getPosition().x*PPM+offsetX;
+            
+            float offsetY = -sprite.getHeight()/2;
+            float posY = body.getPosition().y*PPM+offsetY;
+            
+            Fireball f = new Fireball(screen, new Vector2(posX,posY), new Vector2(35f,35f));
+            fireball=f;
+            fireball.getBody().applyLinearImpulse(impulse, 0.1f, 0, 0, true);
+            firing=true;
+            new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        firing=false;
+                    }
+                },
+                500
+            );
+            hasFireball=true;
         }
     }
+    
+    
+    @Override
+    public void update(float delta){
+        super.update(delta);
+        if(fireball!=null){
+            if(fireball.getBody()!=null){
+                fireball.update(delta);
+            }else{
+                fireball=null;
+                hasFireball=false;
+            }
+            if(!fireball.getBody().isActive()){
+                fireball=null;
+                hasFireball=false;
+            }
+        }
+    }
+    
     
     @Override
     public void draw(SpriteBatch spriteBatch){
         super.draw(spriteBatch);
         if(fireball!=null){
-            fireball.draw(spriteBatch);
+            if(fireball.getBody()!=null){
+                fireball.draw(spriteBatch);
+            }
         }
     }
 

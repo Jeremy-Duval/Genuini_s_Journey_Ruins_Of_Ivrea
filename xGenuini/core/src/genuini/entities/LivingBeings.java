@@ -33,7 +33,7 @@ public abstract class LivingBeings extends Sprites {
     State previousState;
 
     public enum State {
-        STANDING, WALKING, DEAD, JUMPING, HURT
+        STANDING, WALKING, DEAD, JUMPING, HURT, FIRING
     };
 
     public LivingBeings(GameScreen screen) {

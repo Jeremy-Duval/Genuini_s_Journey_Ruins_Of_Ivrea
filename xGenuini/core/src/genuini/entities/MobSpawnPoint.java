@@ -76,7 +76,7 @@ public class MobSpawnPoint extends StaticElements{
                     spawnPosition.x+=3;
                 }
                 
-                if(active && mobs.size<maxMobs && stateTime<2f){
+                if(active && mobs.size<maxMobs && stateTime>10f){
                     Slime slimy = new Slime(this.screen, spawnPosition, direction);
                     mobs.add(slimy);
                     stateTime=0;

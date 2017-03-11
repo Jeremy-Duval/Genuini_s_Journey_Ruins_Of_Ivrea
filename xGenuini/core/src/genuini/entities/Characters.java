@@ -27,6 +27,7 @@ public abstract class Characters extends LivingBeings {
     final float bodyHeight = 44f / PPM;
     final float feetWidth = 14f / PPM;
     final float feetHeight = 14f / PPM;
+    boolean firing;
 
 
     /**
@@ -41,7 +42,7 @@ public abstract class Characters extends LivingBeings {
         dead = false;
         direction = Direction.RIGHT;
         stateTimer = 0;
-        
+        firing=false;
         
         //Retrieving and setting textures
         atlas = new TextureAtlas(Gdx.files.internal("img/packed/"+characterName+"_output/"+characterName+".atlas"));
@@ -57,12 +58,14 @@ public abstract class Characters extends LivingBeings {
         //depending on the state, get corresponding texture region or animation frame.
         //depending on the state, get corresponding texture region or animation frame.
         switch (currentState) {
-            case WALKING:
-                return walkingAnimation.getKeyFrame(stateTimer, true);
-            case JUMPING:
-                return jumpingTexture;
             case HURT:
                 return hurtTexture;
+            case JUMPING:
+                return jumpingTexture;
+            case FIRING:
+                return jumpingTexture;
+            case WALKING:
+                return walkingAnimation.getKeyFrame(stateTimer, true);
             default:
                 return standingTexture;
         }
@@ -90,6 +93,8 @@ public abstract class Characters extends LivingBeings {
             return State.HURT;
         } else if (!screen.getContactManager().playerCanJump()) {
             return State.JUMPING;
+        }  else if(firing){
+            return State.FIRING;
         } else if (Math.abs(body.getLinearVelocity().x) > 0.1f) {
             return State.WALKING;
         } else {
