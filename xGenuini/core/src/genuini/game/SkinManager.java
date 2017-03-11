@@ -27,7 +27,7 @@ public class SkinManager {
     private Texture textureButton;
 
     public SkinManager() {
-        
+
         //define the font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/grundchift.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -43,9 +43,10 @@ public class SkinManager {
         skin = new Skin();
         skin.add("default", fontBlack);
     }
-    
+
     /**
      * Create a white button by default
+     *
      * @param width : text's width
      * @param height : text's height
      * @return skin : the button's skin
@@ -64,9 +65,10 @@ public class SkinManager {
         skin.add("default", textButtonStyle);
         return skin;
     }
-    
+
     /**
-     * Create a button with parameters and the dark backgroud by default 
+     * Create a button with parameters and the dark backgroud by default
+     *
      * @param width : text's width
      * @param height : text's height
      * @param color : text's color
@@ -87,9 +89,10 @@ public class SkinManager {
         skin.add("default", textButtonStyle);
         return skin;
     }
-    
+
     /**
-     * Create a button with parameters 
+     * Create a button with parameters
+     *
      * @param width : text's width
      * @param height : text's height
      * @param text_color : text's color
@@ -115,9 +118,10 @@ public class SkinManager {
         skin.add("default", textButtonStyle);
         return skin;
     }
-    
+
     /**
-     * Create a button with parameters 
+     * Create a button with parameters
+     *
      * @param width : text's width
      * @param height : text's height
      * @param text_color : text's color
@@ -131,15 +135,15 @@ public class SkinManager {
      */
     public Skin createButtonSkin(int width, int height, Color text_color, boolean dark,
             Color up_color, Color down_color, Color checked_color, Color over_color, String pathTexture) {
-        
+
         //create the texture
         textureButton = new Texture(pathTexture);
-        
+
         //text's creation 
         this.textSkin(text_color, dark, width, height, textureButton);
-        
+
         skin.add("textureButton", textureButton);
-        
+
         //Create a button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.newDrawable("textureButton", up_color);
@@ -150,27 +154,6 @@ public class SkinManager {
         skin.add("default", textButtonStyle);
         return skin;
     }
-    
-    /**
-     * Create a text with parameters 
-     * @param text_color : text's color
-     * @param width : text's width
-     * @param height : text's height 
-     * @param dark : 1 if the color is dark ; 0 if it's light
-     * @param background_color : the button's backgroud color
-     * @param focusedBackground_color : the button's focused backgroud color
-     * @param cursor_color : the button's cursor color
-     * @param cursor_width : : the button's cursor width color
-     * @return 
-     */
-     /*public Skin ButtonSkin(Color text_color, boolean dark, float width, float height, 
-             Color background_color, Color focusedBackground_color, Color cursor_color, float cursor_width){
-         
-     //text's creation 
-        this.textSkin(text_color, dark, width, height);
-        
-     return skin;
-     }*/
 
     /**
      * Create a skin whith the parameter color
@@ -195,7 +178,7 @@ public class SkinManager {
 
         return skin;
     }
-    
+
     /**
      * Create a skin whith the parameter color
      *
@@ -212,7 +195,7 @@ public class SkinManager {
         } else {
             skin.add("default", fontWhite);
         }
-        
+
         Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
         pixmap.setColor(color);
         pixmap.fill();
@@ -221,29 +204,34 @@ public class SkinManager {
         return skin;
     }
 
-    
-     
-     
-     
-    public Skin whiteTextSkin(float width, float height) {
-        //Create a font
-        skin.add("default", fontWhite);
+    /**
+     * Create a text with parameters
+     *
+     * @param width : text's width
+     * @param height : text's height
+     * @param text_color : text's color
+     * @param dark : 1 if the color is dark ; 0 if it's light
+     * @param background_color : the button's backgroud color
+     * @param focusedBackground_color : the button's focused backgroud color
+     * @param cursor_color : the button's cursor color
+     * @param cursor_width : : the button's cursor width color
+     * @return skin : a Skin type
+     */
+    public Skin textFieldSkin(float width, float height, Color text_color, boolean dark,
+            Color background_color, Color focusedBackground_color, Color cursor_color, float cursor_width) {
 
-        //Create a texture
-        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("background", new Texture(pixmap));
-
-        //Create a button style
+        //text's creation 
+        this.textSkin(text_color, dark, width, height);
+        
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.fontColor = Color.WHITE;
-        textFieldStyle.background = skin.newDrawable("background", Color.CLEAR);
-        textFieldStyle.focusedBackground = skin.newDrawable("background", Color.CLEAR);
-        textFieldStyle.cursor = skin.newDrawable("background", Color.DARK_GRAY);
-        textFieldStyle.cursor.setMinWidth(1f);
+        textFieldStyle.background = skin.newDrawable("background",background_color);
+        textFieldStyle.focusedBackground = skin.newDrawable("background", focusedBackground_color);
+        textFieldStyle.cursor = skin.newDrawable("background", cursor_color);
+        textFieldStyle.cursor.setMinWidth(cursor_width);
         textFieldStyle.font = skin.getFont("default");
         skin.add("default", textFieldStyle);
+        
         return skin;
     }
 

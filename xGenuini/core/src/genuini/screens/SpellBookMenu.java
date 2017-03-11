@@ -6,6 +6,7 @@
 package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -146,7 +147,7 @@ public class SpellBookMenu extends AbstractScreen {
     @Override
     public void buildStage() {
         super.buildStage();
-        Skin skin = skinManager.whiteTextSkin(areaWidth, areaHeight);
+        Skin skin = skinManager.textFieldSkin(areaWidth, areaHeight, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f);
         codeArea = new TextField("What is the initialization method of an Arduino program ?", skin);
         codeArea.setX(V_WIDTH / 3 - 100);
         codeArea.setY(V_HEIGHT - 200);
@@ -158,21 +159,20 @@ public class SpellBookMenu extends AbstractScreen {
         response.setY(V_HEIGHT-400);
         response.setWidth(600);
         
-        Skin skin2=skinManager.createButtonSkin(buttonWidth, buttonHeight);
-        
+        Skin skin2 = skinManager.createButtonSkin(buttonWidth, buttonHeight);
         
         initBox = new TextButton("void init()", skin2);
         setupBox = new TextButton("void setup()", skin2);
         configureBox = new TextButton("void config()", skin2);
         intsetupBox = new TextButton("int setup()", skin2);
         
-        initBox.setPosition(V_WIDTH / 3 + 40, V_HEIGHT - 250);
-        setupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 250);
-        configureBox.setPosition(V_WIDTH / 3 + 350, V_HEIGHT - 250);
-        intsetupBox.setPosition(V_WIDTH / 3 + 180, V_HEIGHT - 300);
+        initBox.setPosition(V_WIDTH / 2 - buttonWidth/2 - buttonWidth*3, V_HEIGHT - 250);
+        setupBox.setPosition(V_WIDTH / 2 - buttonWidth/2, V_HEIGHT - 250);
+        configureBox.setPosition(V_WIDTH / 2 - buttonWidth/2 + buttonWidth*3, V_HEIGHT - 250);
+        intsetupBox.setPosition(V_WIDTH / 2 - buttonWidth/2, (float) (V_HEIGHT - 250 - buttonHeight*2.5));
         
         
-        skin = skinManager.whiteTextSkin(areaWidth, areaHeight);
+        skin = skinManager.textFieldSkin(areaWidth, areaHeight, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f);
 
         menuButton = new TextButton("Menu", skin); // Use the initialized skin
         menuButton.setPosition(buttonWidth / 2, V_HEIGHT - 2 * buttonHeight);

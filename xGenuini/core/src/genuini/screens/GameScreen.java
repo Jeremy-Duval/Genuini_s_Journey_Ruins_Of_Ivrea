@@ -182,9 +182,9 @@ public class GameScreen extends AbstractScreen {
             table.debug();// Enables debug lines for tables.
         }
 
-        Label lifeLabel = new Label("Life :", skinManager.whiteTextSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
+        Label lifeLabel = new Label("Life :", skinManager.textFieldSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f), "default", Color.WHITE);
         table.add(lifeLabel).width(70);
-        lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.whiteTextSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2), "default", Color.WHITE);
+        lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.textFieldSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f), "default", Color.WHITE);
         table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
     }

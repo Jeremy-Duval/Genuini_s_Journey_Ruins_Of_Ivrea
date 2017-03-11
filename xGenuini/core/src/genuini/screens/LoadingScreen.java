@@ -5,6 +5,7 @@
  */
 package genuini.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -51,7 +52,7 @@ public class LoadingScreen extends AbstractScreen{
     }
     @Override
     public void buildStage() {
-        loadingText= new TextField("Loading", skinManager.whiteTextSkin(buttonWidth,buttonHeight));
+        loadingText= new TextField("Loading", skinManager.textFieldSkin(buttonWidth, buttonHeight, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f));
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
         table.add(loadingText).width(150);
