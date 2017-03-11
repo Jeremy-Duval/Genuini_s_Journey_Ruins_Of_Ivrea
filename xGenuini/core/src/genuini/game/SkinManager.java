@@ -25,8 +25,8 @@ public class SkinManager {
     private final BitmapFont fontBlack;
     private final BitmapFont fontWhite;
     private final Texture textureBookButton;
-    
-    public SkinManager(){
+
+    public SkinManager() {
         textureBookButton = new Texture("img/book/redbook.png");
         //define the font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/grundchift.otf"));
@@ -35,17 +35,15 @@ public class SkinManager {
         parameter.color = Color.BLACK; //set the color size
         fontBlack = generator.generateFont(parameter); //set the font size: 12px
         parameter.size = 24;
-        parameter.color = Color.WHITE;       
+        parameter.color = Color.WHITE;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 2;
         fontWhite = generator.generateFont(parameter);
         generator.dispose(); // free memory space
         skin = new Skin();
-        skin.add("default",fontBlack);
+        skin.add("default", fontBlack);
     }
-    
-    
-    
+
     public Skin createBookButtonSkin(int width, int height) {
         //Create a font
 
@@ -63,8 +61,8 @@ public class SkinManager {
         skin.add("default", textButtonStyle);
         return skin;
     }
-    
-        public Skin createButtonSkin(int width, int height) {
+
+    public Skin createButtonSkin(int width, int height) {
         //text's creation 
         this.textSkin(Color.WHITE, false, width, height);
 
@@ -78,36 +76,55 @@ public class SkinManager {
         skin.add("default", textButtonStyle);
         return skin;
     }
-        
+
     /**
      * Create a skin whith the parameter color
+     *
      * @param color : text's color
-     * @param dark  : 1 if the color is dark ; 0 if it's light
-     * @param width : text's width 
+     * @param dark : 1 if the color is dark ; 0 if it's light
+     * @param width : text's width
      * @param height : text's height
      * @return skin : a Skin type
      */
-    public Skin textSkin(Color color, boolean dark, float width, float height){
-        if(dark){
+    public Skin textSkin(Color color, boolean dark, float width, float height) {
+        if (dark) {
             skin.add("default", fontBlack);
         } else {
             skin.add("default", fontWhite);
         }
-        
+
         Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
+        pixmap.setColor(color);
         pixmap.fill();
         skin.add("background", new Texture(pixmap));
-        
+
         return skin;
     }
 
-    public Skin blackTextSkin() {
-        //Create a font
-        skin.add("default", fontBlack);
-        return skin;
-    }
-    
+    /**
+     * Create a skin whith more parameter
+     *
+     * @param color : text's color
+     * @param dark : 1 if the color is dark ; 0 if it's light
+     * @param width : text's width
+     * @param height : text's height
+     * @return skin : a Skin type
+     */
+    /*
+     public Skin textSkin(Color color, boolean dark, float width, float height){
+     if(dark){
+     skin.add("default", fontBlack);
+     } else {
+     skin.add("default", fontWhite);
+     }
+        
+     Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
+     pixmap.setColor(Color.WHITE);
+     pixmap.fill();
+     skin.add("background", new Texture(pixmap));
+        
+     return skin;
+     }*/
     public Skin whiteTextSkin(float width, float height) {
         //Create a font
         skin.add("default", fontWhite);
@@ -129,8 +146,8 @@ public class SkinManager {
         skin.add("default", textFieldStyle);
         return skin;
     }
-    
-    public void dispose(){
+
+    public void dispose() {
         skin.dispose();
     }
 }
