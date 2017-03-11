@@ -24,10 +24,10 @@ public class SkinManager {
     private Skin skin;
     private final BitmapFont fontBlack;
     private final BitmapFont fontWhite;
-    private final Texture textureBookButton;
+    private Texture textureButton;
 
     public SkinManager() {
-        textureBookButton = new Texture("img/book/redbook.png");
+        
         //define the font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/grundchift.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -48,7 +48,7 @@ public class SkinManager {
      * Create a white button by default
      * @param width : text's width
      * @param height : text's height
-     * @return 
+     * @return skin : the button's skin
      */
     public Skin createButtonSkin(int width, int height) {
         //text's creation 
@@ -71,7 +71,7 @@ public class SkinManager {
      * @param height : text's height
      * @param color : text's color
      * @param dark : 1 if the color is dark ; 0 if it's light
-     * @return 
+     * @return skin : the button's skin
      */
     public Skin createButtonSkin(int width, int height, Color color, boolean dark) {
         //text's creation 
@@ -98,7 +98,7 @@ public class SkinManager {
      * @param down_color : button's color when it is down
      * @param checked_color : button's color when it is checked
      * @param over_color : button's color when it is over
-     * @return 
+     * @return skin : the button's skin
      */
     public Skin createButtonSkin(int width, int height, Color text_color, boolean dark,
             Color up_color, Color down_color, Color checked_color, Color over_color) {
@@ -111,6 +111,41 @@ public class SkinManager {
         textButtonStyle.down = skin.newDrawable("background", down_color);
         textButtonStyle.checked = skin.newDrawable("background", checked_color);
         textButtonStyle.over = skin.newDrawable("background", over_color);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+        return skin;
+    }
+    
+    /**
+     * Create a button with parameters 
+     * @param width : text's width
+     * @param height : text's height
+     * @param text_color : text's color
+     * @param dark : 1 if the color is dark ; 0 if it's light
+     * @param up_color : button's color when it is up
+     * @param down_color : button's color when it is down
+     * @param checked_color : button's color when it is checked
+     * @param over_color : button's color when it is over
+     * @param pathTexture : String with the path of the special texture
+     * @return skin : the button's skin
+     */
+    public Skin createButtonSkin(int width, int height, Color text_color, boolean dark,
+            Color up_color, Color down_color, Color checked_color, Color over_color, String pathTexture) {
+        
+        //create the texture
+        textureButton = new Texture(pathTexture);
+        
+        //text's creation 
+        this.textSkin(text_color, dark, width, height, textureButton);
+        
+        skin.add("textureButton", textureButton);
+        
+        //Create a button style
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("textureButton", up_color);
+        textButtonStyle.down = skin.newDrawable("textureButton", down_color);
+        textButtonStyle.checked = skin.newDrawable("textureButton", checked_color);
+        textButtonStyle.over = skin.newDrawable("textureButton", over_color);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
         return skin;
@@ -157,6 +192,31 @@ public class SkinManager {
         pixmap.setColor(color);
         pixmap.fill();
         skin.add("background", new Texture(pixmap));
+
+        return skin;
+    }
+    
+    /**
+     * Create a skin whith the parameter color
+     *
+     * @param color : text's color
+     * @param dark : 1 if the color is dark ; 0 if it's light
+     * @param width : text's width
+     * @param height : text's height
+     * @param texture : a special texture for the skin
+     * @return skin : a Skin type
+     */
+    public Skin textSkin(Color color, boolean dark, float width, float height, Texture texture) {
+        if (dark) {
+            skin.add("default", fontBlack);
+        } else {
+            skin.add("default", fontWhite);
+        }
+        
+        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
+        pixmap.setColor(color);
+        pixmap.fill();
+        skin.add(texture.toString(), new Texture(pixmap));
 
         return skin;
     }
