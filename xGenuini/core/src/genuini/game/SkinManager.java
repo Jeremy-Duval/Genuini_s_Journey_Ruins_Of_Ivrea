@@ -65,15 +65,8 @@ public class SkinManager {
     }
     
         public Skin createButtonSkin(int width, int height) {
-        //Create a font
-
-        skin.add("default", fontBlack);
-
-        //Create a texture
-        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("background", new Texture(pixmap));
+        //text's creation 
+        this.textSkin(Color.WHITE, false, width, height);
 
         //Create a button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
@@ -85,8 +78,29 @@ public class SkinManager {
         skin.add("default", textButtonStyle);
         return skin;
     }
-
-    
+        
+    /**
+     * Create a skin whith the parameter color
+     * @param color : text's color
+     * @param dark  : 1 if the color is dark ; 0 if it's light
+     * @param width : text's width 
+     * @param height : text's height
+     * @return skin : a Skin type
+     */
+    public Skin textSkin(Color color, boolean dark, float width, float height){
+        if(dark){
+            skin.add("default", fontBlack);
+        } else {
+            skin.add("default", fontWhite);
+        }
+        
+        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGB888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("background", new Texture(pixmap));
+        
+        return skin;
+    }
 
     public Skin blackTextSkin() {
         //Create a font
