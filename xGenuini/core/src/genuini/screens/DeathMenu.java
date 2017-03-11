@@ -6,6 +6,7 @@
 package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -55,7 +56,7 @@ public class DeathMenu extends AbstractScreen{
         stage.addActor(menuButton);
 
         
-        gameOver = new TextField("Game Over", skinManager.whiteTextSkin(areaWidth, areaHeight));
+        gameOver = new TextField("Game Over", skinManager.textFieldSkin(areaWidth, areaHeight, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f));
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
         table.add(gameOver).width(200);
