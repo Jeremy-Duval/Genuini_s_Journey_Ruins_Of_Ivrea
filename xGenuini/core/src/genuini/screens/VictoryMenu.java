@@ -57,7 +57,7 @@ public class VictoryMenu extends AbstractScreen{
         stage.addActor(menuButton);
 
         
-        gameOver = new TextField("Congratulation, Demo finished !", skinManager.whiteTextSkin(buttonWidth,buttonHeight));
+        gameOver = new TextField("Congratulation, Demo finished !", skinManager.textFieldSkin(buttonWidth, buttonHeight, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f));
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
         table.add(gameOver).width(600);
