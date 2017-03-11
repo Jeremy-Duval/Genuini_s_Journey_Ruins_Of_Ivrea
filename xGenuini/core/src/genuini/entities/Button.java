@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
+import static genuini.world.PhysicsVariables.BIT_MOB;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 
@@ -58,7 +59,7 @@ public class Button extends StaticElements {
      */
     public final void createFilter() {
         filter.categoryBits = BIT_TERRAIN;
-        filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
+        filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
         body.getFixtureList().first().setFilterData(filter);
         body.getFixtureList().first().setUserData("button");
     }

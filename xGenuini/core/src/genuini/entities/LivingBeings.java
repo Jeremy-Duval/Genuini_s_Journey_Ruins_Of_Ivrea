@@ -43,6 +43,7 @@ public abstract class LivingBeings extends Sprites {
     /**
      * Special thanks to Brent Aureli from whom the code is inspired
      *
+     * @param atlasTowardsRight
      * @see <a href="https://github.com/BrentAureli/SuperMario">Brent Aureli's
      * Github - SuperMario</a>
      * @param delta time elapsed since previous update

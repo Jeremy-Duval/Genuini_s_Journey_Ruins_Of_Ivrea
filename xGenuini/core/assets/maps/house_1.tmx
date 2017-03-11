@@ -571,4 +571,5 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="mobSpawnPoints"/>
 </map>

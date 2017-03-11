@@ -5,6 +5,7 @@
  */
 package genuini.world;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -79,6 +80,22 @@ public class ContactHandler implements ContactListener{
             }
         }
         
+        if(fa.getUserData() != null && fa.getUserData().equals("slime")){
+            if(fb.getUserData() != null && fb.getUserData().equals("player")){
+                dangerous=true;
+                fb.getBody().applyLinearImpulse(0, 8f, 0, 0, true);
+                playerHurt();
+            }
+        }
+        
+        if(fb.getUserData() != null && fb.getUserData().equals("slime")){
+            if(fa.getUserData() != null && fa.getUserData().equals("player")){
+                dangerous=true;
+                fa.getBody().applyLinearImpulse(0, 8f, 0, 0, true);
+                playerHurt();
+            }
+        }
+        
         if((fa.getUserData() != null && fa.getUserData().equals("challengeBox")) || (fb.getUserData() != null && fb.getUserData().equals("challengeBox"))){
             bookActive=true;                
         }
@@ -132,6 +149,20 @@ public class ContactHandler implements ContactListener{
                 dangerous=false;
             }
             fb.setUserData("toDestroy");
+        }
+        
+        if(fa.getUserData() != null && fa.getUserData().equals("slime")){
+            if(fb.getUserData() != null && fb.getUserData().equals("player")){
+                dangerous=false;
+                fa.setUserData("setToDestroy");
+            }   
+        }
+        
+        if(fb.getUserData() != null && fb.getUserData().equals("slime")){
+            if(fa.getUserData() != null && fa.getUserData().equals("player")){
+                dangerous=false;
+                fb.setUserData("setToDestroy");
+            }   
         }
     }
     

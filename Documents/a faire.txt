@@ -2,6 +2,7 @@ Pure GAME (adrien)
 	- Creating NPCs
 		Move animation functions and body creation to Characters class
 		Create behaviours
+
 	- Add sound effects
 	- Add the possibility of getting mushrooms/coins (optional)
 
@@ -14,7 +15,7 @@ Content Creation (jeremy)
 	- Creating Basic instructions and hints
 
 Graphical Components 
-	- Creating Screens background and design : Victory, Death, Level selection (URGENT !!!) etc...(fanny)
+	- Creating Screens background and design : Victory, Death (fanny)
 	- Placing components (valentin)
 	- In-game components design : spellbook button (fanny)
 

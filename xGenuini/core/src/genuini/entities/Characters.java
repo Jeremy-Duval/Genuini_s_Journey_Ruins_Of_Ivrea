@@ -112,7 +112,6 @@ public abstract class Characters extends LivingBeings {
         } else {
             body.applyLinearImpulse(5 / PPM, 0, 0, 0, true);
         }
-
     }
 
     /**

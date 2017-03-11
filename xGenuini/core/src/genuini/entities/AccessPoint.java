@@ -8,7 +8,7 @@ package genuini.entities;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import genuini.screens.GameScreen;
-import static genuini.world.PhysicsVariables.BIT_ACCESSPOINT;
+import static genuini.world.PhysicsVariables.BIT_POI;
 
 /**
  *
@@ -38,7 +38,7 @@ public class AccessPoint extends StaticElements{
     
     @Override
     public final void createFilter() {
-        filter.categoryBits = BIT_ACCESSPOINT;
+        filter.categoryBits = BIT_POI;
         body.getFixtureList().first().setFilterData(filter);
         if(type.equals("entry")){
             body.getFixtureList().first().setUserData("accessPoint"); 

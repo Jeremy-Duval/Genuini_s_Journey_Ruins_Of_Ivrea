@@ -8,12 +8,14 @@ package genuini.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_MOB;
+import static genuini.world.PhysicsVariables.BIT_OBJECT;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
 import static genuini.world.PhysicsVariables.BIT_TURRET;
@@ -26,26 +28,29 @@ import static genuini.world.PhysicsVariables.PPM;
 public class Slime extends Mobs{
     private final Animation walkingAnimation;
     private final TextureAtlas.AtlasRegion deadTexture;
+    private float walkTimer;
 
-    public Slime(GameScreen screen) {
-        super(screen);
+    public Slime(GameScreen screen, Vector2 initalPosition, Direction direction) {
+        super(screen, initalPosition, direction);
         //Retrieving and setting textures
-        
         sprite = atlas.createSprite("slimeWalk",1);
-        walkingAnimation = new Animation(0.1f, atlas.findRegions("slimeWalk"));
+        walkingAnimation = new Animation(0.5f, atlas.findRegions("slimeWalk"));
         deadTexture = atlas.findRegion("slimeDead");
+        walkTimer=0;
+        speed=40f;
+        
         createBody();
     }
     
     
     /**
-     * Creates the genuini's body
+     * Creates the slime's body
      */
     private void createBody() {
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
-        bdef.position.set(15f, 16f);
+        bdef.position.set(initialPosition.x, initialPosition.y);
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.linearDamping = 1f;
         body = world.createBody(bdef);
@@ -53,7 +58,7 @@ public class Slime extends Mobs{
         shape.setAsBox(sprite.getWidth()/2/PPM, sprite.getHeight()/2/PPM);
         fdef.shape = shape;
         fdef.filter.categoryBits = BIT_MOB;
-        fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL | BIT_PLAYER;
+        fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL | BIT_PLAYER | BIT_OBJECT;
         
         body.createFixture(fdef).setUserData("slime");
     }
@@ -89,8 +94,44 @@ public class Slime extends Mobs{
 
     @Override
     public void die() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dead=true;
+        new java.util.Timer().schedule(
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    body.getFixtureList().first().setUserData("toDestroy");
+                }
+            },
+            800
+        );
     }
+    
+    
+    @Override
+    public void update(float delta){
+        super.update(delta);
+        if(getState().equals(State.WALKING)){
+            if(walkTimer>1f){
+                walk();
+                walkTimer=0;
+            }else{
+                walkTimer+=delta;
+            }
+        }
+
+        //Handles death
+        if(body!=null){
+            if(body.getFixtureList()!=null){
+                if(body.getFixtureList().size>0){
+                    if(body.getFixtureList().first().getUserData().equals("setToDestroy") && !dead){
+                        die();
+                    }
+                } 
+            }
+        }
+    }
+    
+    
     
     
     

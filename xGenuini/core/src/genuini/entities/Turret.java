@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
+import static genuini.world.PhysicsVariables.BIT_MOB;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TURRET;
 import static java.lang.Math.random;
@@ -103,8 +104,7 @@ public class Turret extends StaticElements{
                 f.targetBody(screen.getGenuini().getBody(), fireballSpeed);
                 stateTime=0;
             }
-        }
-        
+        }     
     }
     
     /**
@@ -156,7 +156,7 @@ public class Turret extends StaticElements{
      */
     public final void createFilter() {
         filter.categoryBits = BIT_TURRET;
-        filter.maskBits = BIT_PLAYER;
+        filter.maskBits = BIT_PLAYER | BIT_MOB;
         body.getFixtureList().first().setFilterData(filter);
         body.getFixtureList().first().setUserData("turret");
     }

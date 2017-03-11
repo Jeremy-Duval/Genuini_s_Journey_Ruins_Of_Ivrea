@@ -1,5 +1,6 @@
 package genuini.entities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -22,7 +23,7 @@ import static genuini.world.PhysicsVariables.BIT_TURRET;
  * @author Adrien Techer
  */
 public class Genuini extends Characters {
-    
+    private Fireball fireball;
 
     /**
      *
@@ -32,7 +33,6 @@ public class Genuini extends Characters {
         super(screen,"player");
 
         life = screen.getPreferences().getLife();
-       
         createBody();
     }
 
@@ -87,5 +87,30 @@ public class Genuini extends Characters {
         ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
     }
     
+    public void throwFireball(){
+        if(fireball==null || (fireball!=null && fireball.getBody()==null) ){
+                float impulse=30f;
+                Vector2 offset;
+
+                if(direction==Direction.RIGHT){
+                    offset=new Vector2(5f,2f);
+                }else{
+                   offset=new Vector2(-5f,2f); 
+                   impulse*=-1;
+                }
+                Fireball f = new Fireball(screen, body.getPosition(), offset);
+                fireball=f;
+
+                f.getBody().applyLinearImpulse(impulse, 20f, 0, 0, true);
+        }
+    }
+    
+    @Override
+    public void draw(SpriteBatch spriteBatch){
+        super.draw(spriteBatch);
+        if(fireball!=null){
+            fireball.draw(spriteBatch);
+        }
+    }
 
 }

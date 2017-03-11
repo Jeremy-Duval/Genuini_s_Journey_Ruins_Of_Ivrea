@@ -34,6 +34,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.AccessPoint;
 import genuini.entities.Button;
+import genuini.entities.MobSpawnPoint;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
@@ -53,16 +54,21 @@ public class WorldManager {
     private int tileMapWidth;
     private int tileMapHeight;
     private int tileSize;
-    TiledMapTileLayer terrainLayer;
-    Array<Sprites> sprites;
-    Array<Turret> turrets;
-    Array<Spring> springs;
-    Array<Button> buttons;
-    Array<AccessPoint> accessPoints;
-    MapLayer objectLayer;
-    GameScreen screen;
+    
+    
+    private TiledMapTileLayer terrainLayer;
+    private Array<Sprites> sprites;
+    private Array<Turret> turrets;
+    private Array<Spring> springs;
+    private Array<Button> buttons;
+    private Array<AccessPoint> accessPoints;
+    private Array<MobSpawnPoint> mobSpawnPoints;
+    private MapLayer objectLayer;
+    private final GameScreen screen;
     private MapLayer accessPointsLayer;
-    Array<Body> bodies;
+    private Array<Body> bodies;
+    
+    private MapLayer mobSpawnPointsLayer;
 
     public WorldManager(GameScreen screen, String mapName) {
         this.screen = screen;
@@ -70,6 +76,7 @@ public class WorldManager {
         createTerrainLayers(screen.getWorld());
         createObjectsLayer(screen.getWorld());
         createAccessPoints();
+        createMobSpawnPoints();
     }
 
     private void loadMap(GameScreen screen, String mapName) {
@@ -82,6 +89,7 @@ public class WorldManager {
         String mapPath = "maps/" + mapName + ".tmx";
         TiledMap map = new TmxMapLoader().load(mapPath, params);
         screen.setMap(map);
+        
         // Retrieve map properties
         MapProperties properties = map.getProperties();
 
@@ -90,6 +98,7 @@ public class WorldManager {
         terrainLayer = (TiledMapTileLayer) map.getLayers().get("terrain");
         objectLayer = map.getLayers().get("objects");
         accessPointsLayer = map.getLayers().get("accessPoints");
+        mobSpawnPointsLayer = map.getLayers().get("mobSpawnPoints");
         tileMapWidth = properties.get("width", Integer.class);
         tileMapHeight = properties.get("height", Integer.class);
         tileSize = (int) terrainLayer.getTileHeight();
@@ -376,6 +385,36 @@ public class WorldManager {
             accessPoints.add(ac);
         }
     }
+    
+    private void createMobSpawnPoints() {
+
+        mobSpawnPoints = new Array<MobSpawnPoint>();
+
+        MapObjects mobSpawnPointsObjects = mobSpawnPointsLayer.getObjects();
+        for (MapObject mobSpawnPoint : mobSpawnPointsObjects) {
+            if (mobSpawnPoint instanceof TextureMapObject) {
+                continue;
+            }
+
+            //Vector2 position = new Vector2(new Float(mobSpawnPoint.getProperties().get("x").toString())/PPM,new Float(mobSpawnPoint.getProperties().get("y").toString())/PPM);
+            Shape shape = getRectangle((RectangleMapObject) mobSpawnPoint);
+            float x = new Float(mobSpawnPoint.getProperties().get("x").toString());
+            float y = new Float(mobSpawnPoint.getProperties().get("y").toString());
+            BodyDef bd = new BodyDef();
+            bd.type = BodyType.StaticBody;
+            bd.position.x = x / PPM;
+            bd.position.y = y / PPM;
+            Body body = screen.getWorld().createBody(bd);
+            body.createFixture(shape, 1);
+            shape.dispose();
+
+            String mobType = mobSpawnPoint.getProperties().get("mobType").toString();
+            float area = Float.valueOf(mobSpawnPoint.getProperties().get("area").toString());
+            int maxMobs = Integer.valueOf(mobSpawnPoint.getProperties().get("maxMobs").toString());
+            MobSpawnPoint msp = new MobSpawnPoint(screen, body, Integer.valueOf(mobSpawnPoint.getProperties().get("id").toString()), mobType, area, maxMobs);
+            mobSpawnPoints.add(msp);
+        }
+    }
 
     public Array<Sprites> getSprites() {
         return sprites;
@@ -392,7 +431,11 @@ public class WorldManager {
     public Array<Button> getButtons() {
         return buttons;
     }
-
+    
+    public Array<MobSpawnPoint> getMobSpawnPoints() {
+        return mobSpawnPoints;
+    }
+    
     public Array<AccessPoint> getAccessPoints() {
         return accessPoints;
     }
@@ -414,5 +457,4 @@ public class WorldManager {
             }
         }
     }
-    
 }

@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
  *
- * @author Adrien
+ * @author Adrien Techer
  */
 public class SkinManager {
 

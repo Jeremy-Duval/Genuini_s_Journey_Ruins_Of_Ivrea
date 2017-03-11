@@ -22,7 +22,7 @@ import genuini.entities.AccessPoint;
 import genuini.entities.Button;
 import genuini.entities.Genuini;
 import genuini.entities.LivingBeings;
-import genuini.entities.Slime;
+import genuini.entities.MobSpawnPoint;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
@@ -43,7 +43,7 @@ import genuini.world.WorldManager;
 
 public class GameScreen extends AbstractScreen {
 
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -68,7 +68,6 @@ public class GameScreen extends AbstractScreen {
     //private final String mapName;
     private boolean changeScreen;
     
-    private final Slime slimy;
 
     public GameScreen() {
         super();
@@ -118,7 +117,6 @@ public class GameScreen extends AbstractScreen {
         genuini = new Genuini(this);
         genuini.setLife(prefs.getLife());
         
-        slimy = new Slime(this);
 
         cam.setBounds(0, worldManager.getTileMapWidth() * worldManager.getTileSize(), 0, worldManager.getTileMapHeight() * worldManager.getTileSize());
 
@@ -201,9 +199,11 @@ public class GameScreen extends AbstractScreen {
             handleArea();
             //Update player & sprites
             genuini.update(delta);
-            slimy.update(delta);
             for (Sprites sprite : worldManager.getSprites()) {
                 sprite.update(delta);
+            }
+            for(MobSpawnPoint mobSpawnPoint : worldManager.getMobSpawnPoints()){
+                mobSpawnPoint.update(delta);
             }
         }
         worldManager.destroyBodies();
@@ -249,11 +249,15 @@ public class GameScreen extends AbstractScreen {
 
         //draw player
         genuini.draw(batch);
-        slimy.draw(batch);
 
         //draw sprites
         for (Sprites sprite : worldManager.getSprites()) {
             sprite.draw(batch);
+        }
+        
+        //draw mobs
+        for(MobSpawnPoint mobSpawnPoint : worldManager.getMobSpawnPoints()){
+                mobSpawnPoint.draw(batch);
         }
 
         batch.end();
@@ -285,6 +289,7 @@ public class GameScreen extends AbstractScreen {
             genuini.jump(160f);
         }
 
+        /*
         if ((Gdx.input.isKeyJustPressed(Keys.F))) {
             for (Turret turret : worldManager.getTurrets()) {
                 if (turret.isActive()) {
@@ -293,7 +298,7 @@ public class GameScreen extends AbstractScreen {
                     turret.activate(true);
                 }
             }
-        }
+        }*/
 
         if ((Gdx.input.isKeyJustPressed(Keys.G))) {
             if (prefs.getChallenge()) {
@@ -306,6 +311,10 @@ public class GameScreen extends AbstractScreen {
                     world.setGravity(new Vector2(0, GRAVITY));
                 }
             }
+        }
+        
+        if ((Gdx.input.isKeyJustPressed(Keys.SPACE))) {
+            genuini.throwFireball();
         }
 
     }
@@ -382,6 +391,7 @@ public class GameScreen extends AbstractScreen {
                 prefs.setPreviousMapName(prefs.getCurrentMapName());
                 prefs.setCurrentMapName(accessPoint.getLinkedMapName());
                 prefs.setSpawnName(accessPoint.getLinkedAccessPointName());
+                prefs.setLife(genuini.getLife());
                 changeScreen = true;
                 break;
             }

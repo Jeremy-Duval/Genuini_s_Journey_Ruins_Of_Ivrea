@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
+import static genuini.world.PhysicsVariables.BIT_MOB;
 import static genuini.world.PhysicsVariables.BIT_OBJECT;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
@@ -72,7 +73,7 @@ public class Fireball extends Sprites {
         fd.friction = 1f;
         fd.restitution = 0.6f;
         fd.filter.categoryBits = BIT_FIREBALL;
-        fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER | BIT_OBJECT;
+        fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER | BIT_OBJECT | BIT_MOB;
         body.createFixture(fd).setUserData("fireball");
         circle.dispose();
     }
