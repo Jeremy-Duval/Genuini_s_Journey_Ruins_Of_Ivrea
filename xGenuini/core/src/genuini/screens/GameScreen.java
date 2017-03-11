@@ -40,10 +40,13 @@ import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import static genuini.world.PhysicsVariables.GRAVITY;
 import genuini.world.WorldManager;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameScreen extends AbstractScreen {
 
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
@@ -69,6 +72,11 @@ public class GameScreen extends AbstractScreen {
     private boolean changeScreen;
     
     private final Slime slimy;
+    
+    //all the texts for the tutorial
+    private ArrayList<String> tuto;
+    private TextManager text;
+    private int textIndex = 0;
 
     public GameScreen() {
         super();
@@ -84,9 +92,6 @@ public class GameScreen extends AbstractScreen {
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-
-        //set the Text batch
-        TextManager.SetSpriteBatch(batch);
 
         worldManager = new WorldManager(this, prefs.getCurrentMapName());
         
@@ -127,6 +132,30 @@ public class GameScreen extends AbstractScreen {
         }
         
         changeScreen=false;
+        
+        //adding the texts
+        tuto = new ArrayList<String>();
+        tuto.add("Welcome, I am Genuini");
+        tuto.add("In our world, you're going to discover many new interactions");
+        tuto.add("Do you know Arduino ?");
+        tuto.add("Let's learn it together");
+        tuto.add("Check this image to move ;) ");
+        tuto.add("Here we go");
+    //    TextManager.textToDisplay(tuto);
+        text = new TextManager();
+        text.setSize(30);
+        text.setColor(Color.BLACK);
+        
+     /*   Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+              textIndex ++;
+              System.err.println(tuto.get(textIndex));
+            }
+          }, 2000, 4000); */
+        
+        
     }
 
     @Override
@@ -255,7 +284,13 @@ public class GameScreen extends AbstractScreen {
         for (Sprites sprite : worldManager.getSprites()) {
             sprite.draw(batch);
         }
-
+        
+        
+        text.setPosition(new Vector2(genuini.getPosition().x,genuini.getPosition().y+genuini.getBodyHeight()*2));
+        if(textIndex <= tuto.size()){
+            text.setText(tuto.get(textIndex));
+            text.draw(batch); 
+        }
         batch.end();
         /**
          * ** End of drawing area ***
@@ -275,17 +310,21 @@ public class GameScreen extends AbstractScreen {
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
             genuini.walk(Genuini.Direction.LEFT);
+            textIndex ++;
         }
 
         if (Gdx.input.isKeyPressed(Keys.D) || (Gdx.input.isKeyPressed(Keys.RIGHT))) {
             genuini.walk(Genuini.Direction.RIGHT);
+            textIndex ++;
         }
 
         if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
             genuini.jump(160f);
+            textIndex ++;
         }
 
         if ((Gdx.input.isKeyJustPressed(Keys.F))) {
+            textIndex ++;
             for (Turret turret : worldManager.getTurrets()) {
                 if (turret.isActive()) {
                     turret.deactivate(true);
@@ -296,6 +335,7 @@ public class GameScreen extends AbstractScreen {
         }
 
         if ((Gdx.input.isKeyJustPressed(Keys.G))) {
+            textIndex ++;
             if (prefs.getChallenge()) {
                 if (connected) {
                     arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));

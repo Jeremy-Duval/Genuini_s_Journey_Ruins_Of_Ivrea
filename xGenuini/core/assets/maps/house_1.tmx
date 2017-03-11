@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="20" height="30" tilewidth="70" tileheight="70" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="20" height="30" tilewidth="70" tileheight="70" nextobjectid="4">
  <tileset firstgid="1" name="base_tiles" tilewidth="70" tileheight="146" tilecount="172" columns="0">
   <tile id="0">
    <image width="70" height="70" source="Platformer Art Complete Pack/Base pack/Tiles/box.png"/>

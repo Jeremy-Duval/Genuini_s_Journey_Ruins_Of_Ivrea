@@ -5,8 +5,8 @@
  */
 package genuini.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import genuini.game.ScreenEnum;
 import genuini.game.ScreenManager;
@@ -25,6 +25,7 @@ public class LoadingScreen extends AbstractScreen{
     private TextField loadingText;
     private final boolean debug=false;
     private float stateTime;
+
     
     public LoadingScreen(){
         super();
@@ -35,8 +36,21 @@ public class LoadingScreen extends AbstractScreen{
     
     public void update(float delta){
         if(stateTime>3f){
-            ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+            stateTime=0;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // post a Runnable to the rendering thread that processes the result
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+                        }
+                    });
+                }
+            }).start();
         }else if(stateTime>2.4f){
+            
             loadingText.setText("Loading...");
             stateTime+=delta;
         }else if(stateTime>1.6f){

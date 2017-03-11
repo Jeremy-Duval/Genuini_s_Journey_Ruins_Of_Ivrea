@@ -29,7 +29,7 @@ public class SkinManager {
     public SkinManager(){
         textureBookButton = new Texture("img/book/redbook.png");
         //define the font
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/grundchift.otf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/lobster-two/LobsterTwo-Regular.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 30; //set the font size: 12px
         parameter.color = Color.BLACK; //set the color size

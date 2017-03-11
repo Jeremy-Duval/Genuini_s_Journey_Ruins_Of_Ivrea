@@ -51,7 +51,7 @@ public class MainGame extends Game implements ApplicationListener {
         
 
         ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+        ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
     }
 
     @Override
