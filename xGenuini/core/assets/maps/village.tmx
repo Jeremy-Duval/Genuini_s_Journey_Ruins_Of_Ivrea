@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="128" height="72" tilewidth="70" tileheight="70" nextobjectid="57">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="128" height="72" tilewidth="70" tileheight="70" nextobjectid="58">
  <tileset firstgid="1" name="Base_Terrain" tilewidth="70" tileheight="146" tilecount="172" columns="0">
   <tile id="0">
    <image width="70" height="70" source="Platformer Art Complete Pack/Base pack/Tiles/box.png"/>
@@ -1026,7 +1026,7 @@
    <image width="70" height="70" source="Platformer Art Complete Pack/Buildings expansion/Tiles/windowOpen.png"/>
   </tile>
  </tileset>
- <imagelayer name="back_image">
+ <imagelayer name="back_image" offsetx="-4" offsety="0">
   <image source="../img/blue_bg.jpg" width="8960" height="5180"/>
  </imagelayer>
  <layer name="background" width="128" height="72">
@@ -1431,11 +1431,18 @@
   </object>
  </objectgroup>
  <objectgroup name="mobSpawnPoints">
-  <object id="55" name="Slime Spawner" x="1410" y="3440" width="44" height="34">
+  <object id="55" name="Slime Spawner" x="2766" y="3396" width="44" height="34">
    <properties>
     <property name="area" type="float" value="3.0999999999999996"/>
     <property name="maxMobs" type="int" value="2"/>
     <property name="mobType" value="slime"/>
+   </properties>
+  </object>
+  <object id="57" name="SnailSpawner" x="594" y="3380" width="44" height="34">
+   <properties>
+    <property name="area" type="float" value="3.0999999999999996"/>
+    <property name="maxMobs" type="int" value="2"/>
+    <property name="mobType" value="snail"/>
    </properties>
   </object>
  </objectgroup>

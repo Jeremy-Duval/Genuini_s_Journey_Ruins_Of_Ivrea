@@ -80,7 +80,7 @@ public class ContactHandler implements ContactListener{
             }
         }
         
-        if(fa.getUserData() != null && fa.getUserData().equals("slime")){
+        if(fa.getUserData() != null && (fa.getUserData().equals("slime") || fa.getUserData().equals("snail"))){
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=true;
                 fb.getBody().applyLinearImpulse(0, 8f, 0, 0, true);
@@ -88,7 +88,7 @@ public class ContactHandler implements ContactListener{
             }
         }
         
-        if(fb.getUserData() != null && fb.getUserData().equals("slime")){
+        if(fb.getUserData() != null && (fb.getUserData().equals("slime") || fb.getUserData().equals("snail"))){
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=true;
                 fa.getBody().applyLinearImpulse(0, 8f, 0, 0, true);
@@ -141,7 +141,7 @@ public class ContactHandler implements ContactListener{
             if(fb.getUserData() != null && fb.getUserData().equals("player")){
                 dangerous=false;       
             }
-            if(fb.getUserData() != null && fb.getUserData().equals("slime")){
+            if(fb.getUserData() != null && (fb.getUserData().equals("slime") || fb.getUserData().equals("snail"))){
                 fb.setUserData("setToDestroy");
             }
             fa.setUserData("toDestroy");
@@ -151,7 +151,7 @@ public class ContactHandler implements ContactListener{
             if(fa.getUserData() != null && fa.getUserData().equals("player")){
                 dangerous=false;
             }
-            if(fa.getUserData() != null && fa.getUserData().equals("slime")){
+            if(fa.getUserData() != null && (fa.getUserData().equals("slime") || fa.getUserData().equals("snail"))){
                 fa.setUserData("setToDestroy");
             }
             fb.setUserData("toDestroy");

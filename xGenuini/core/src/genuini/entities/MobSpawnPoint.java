@@ -22,12 +22,12 @@ import static java.lang.Math.random;
 public class MobSpawnPoint extends StaticElements{
     private boolean active;
     private final MobType mobType;
-    private float area;
+    private final float area;
     private final Array<Mobs> mobs;
     private float stateTime;
     private final int maxMobs;
     
-    public enum MobType {SLIME}
+    public enum MobType {SLIME, SNAIL}
     
     public MobSpawnPoint(GameScreen screen, Body body, int ID, String mobType, float area, int maxMobs) {
         super(screen, body, ID);
@@ -39,8 +39,10 @@ public class MobSpawnPoint extends StaticElements{
         
         if(mobType.equals("slime")){
             this.mobType=MobType.SLIME;
+        }else if(mobType.equals("snail")){
+            this.mobType=MobType.SNAIL;
         }else{
-            this.mobType=MobType.SLIME;
+            this.mobType=MobType.SNAIL;
         }
         
         this.area=area;
@@ -62,41 +64,46 @@ public class MobSpawnPoint extends StaticElements{
                     mob.update(delta);
                 }
             }
-            stateTime+=delta;
             
-            if(mobType==MobType.SLIME){
-                Vector2 spawnPosition = new Vector2(body.getPosition().x+((float) random()*area),body.getPosition().y);
-                Direction direction = Direction.RIGHT;
-                if(random()>0.5){
-                    spawnPosition = new Vector2(body.getPosition().x+((float) random()*-area),body.getPosition().y);
-                    direction = Direction.LEFT;
-                }
-                
-                if(screen.getDistanceFromPlayer(this)<0.5){
-                    spawnPosition.x+=3;
-                }
-                
-                if(active && mobs.size<maxMobs && stateTime>10f){
+            
+            
+            Vector2 spawnPosition = new Vector2(body.getPosition().x+((float) random()*area),body.getPosition().y);
+            Direction direction = Direction.RIGHT;
+            if(random()>0.5){
+                spawnPosition = new Vector2(body.getPosition().x+((float) random()*-area),body.getPosition().y);
+                direction = Direction.LEFT;
+            }
+
+            if(screen.getDistanceFromPlayer(this)<0.5){
+                spawnPosition.x+=3;
+            }
+
+            if(active && mobs.size<maxMobs && stateTime>10f){
+                if(mobType==MobType.SLIME){
                     Slime slimy = new Slime(this.screen, spawnPosition, direction);
                     mobs.add(slimy);
-                    stateTime=0;
+                }else if(mobType==MobType.SNAIL){
+                    Snail snail = new Snail(this.screen, spawnPosition, direction);
+                    mobs.add(snail);
                 }
-                
-                for (Mobs mob : mobs) {
-                    if((Math.abs(mob.getInitialPosition().x-mob.getPosition().x)>area) && !mob.isComingHome()){
-                        mob.comeHome();
-                    }else if((Math.abs(mob.getInitialPosition().x-mob.getPosition().x)<=area) && mob.isComingHome()){
-                        mob.isHome();
-                    }
-                    
-                    if(screen.getDistanceFromPlayer(mob)<2f){
-                        mob.changeAttitude(Attitude.HOSTILE);
-                    }else{
-                        mob.changeAttitude(Attitude.NEUTRAL);
-                    }
+                stateTime=0;
+            }
+
+            for (Mobs mob : mobs) {
+                if((Math.abs(mob.getInitialPosition().x-mob.getPosition().x)>area) && !mob.isComingHome()){
+                    mob.comeHome();
+                }else if((Math.abs(mob.getInitialPosition().x-mob.getPosition().x)<=area) && mob.isComingHome()){
+                    mob.isHome();
+                }
+
+                if(screen.getDistanceFromPlayer(mob)<2f){
+                    mob.changeAttitude(Attitude.HOSTILE);
+                }else{
+                    mob.changeAttitude(Attitude.NEUTRAL);
                 }
             }
             
+            stateTime+=delta;
         }     
     }
     

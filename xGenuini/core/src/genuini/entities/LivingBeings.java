@@ -33,7 +33,7 @@ public abstract class LivingBeings extends Sprites {
     State previousState;
 
     public enum State {
-        STANDING, WALKING, DEAD, JUMPING, HURT, FIRING
+        STANDING, WALKING, DEAD, JUMPING, HURT, FIRING, SLEEPING
     };
 
     public LivingBeings(GameScreen screen) {
@@ -52,7 +52,7 @@ public abstract class LivingBeings extends Sprites {
     public TextureRegion getFrame(float delta, boolean atlasTowardsRight) {
         //get's genuini's current state
         currentState = getState();
-
+ 
         TextureRegion region = flipRegion(setRegion(),atlasTowardsRight);
 
         //if the current state is the same as the previous state increase the state timer.

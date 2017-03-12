@@ -25,18 +25,22 @@ import static genuini.world.PhysicsVariables.PPM;
  *
  * @author Adrien
  */
-public class Slime extends Mobs{
+public class Snail extends Mobs{
     private final Animation walkingAnimation;
     private final TextureAtlas.AtlasRegion deadTexture;
+    private final TextureAtlas.AtlasRegion sleepingTexture;
+    private float sleepTimer;
 
-    public Slime(GameScreen screen, Vector2 initalPosition, Direction direction) {
+    public Snail(GameScreen screen, Vector2 initalPosition, Direction direction) {
         super(screen, initalPosition, direction);
         //Retrieving and setting textures
-        sprite = atlas.createSprite("slimeWalk",1);
-        walkingAnimation = new Animation(0.5f, atlas.findRegions("slimeWalk"));
-        deadTexture = atlas.findRegion("slimeDead");
+        sprite = atlas.createSprite("snailShell");
+        walkingAnimation = new Animation(0.5f, atlas.findRegions("snailWalk"));
+        sleepingTexture= atlas.findRegion("snailShell");
+        deadTexture = atlas.findRegion("snailShell_upsidedown");
         speed=40f;
         offsetY=-2f;
+        sleepTimer=0;
         createBody();
     }
     
@@ -58,7 +62,7 @@ public class Slime extends Mobs{
         fdef.filter.categoryBits = BIT_MOB;
         fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL | BIT_PLAYER | BIT_OBJECT;
         
-        body.createFixture(fdef).setUserData("slime");
+        body.createFixture(fdef).setUserData("snail");
     }
     
     
@@ -70,10 +74,10 @@ public class Slime extends Mobs{
     public State getState() {
         if (dead) {
             return State.DEAD;
-        } else if (Math.abs(body.getLinearVelocity().x) > 0.1f) {
+        } else if (Math.abs(body.getLinearVelocity().x) > 0.1f  || attitude==Attitude.HOSTILE || sleepTimer<10f) {
             return State.WALKING;
-        } else {
-            return State.WALKING;
+        }else{
+            return State.SLEEPING;
         }
     }
     
@@ -84,11 +88,20 @@ public class Slime extends Mobs{
             case WALKING:
                 return walkingAnimation.getKeyFrame(stateTimer, true);
             case DEAD:
-                offsetY=-8f;
-                sprite.setScale(1, 0.6f);
                 return deadTexture;
+            case SLEEPING:
+                return sleepingTexture;
             default:
-                return walkingAnimation.getKeyFrame(stateTimer, true);
+                return sleepingTexture;
         }
-    }   
+    }
+    
+    @Override
+    public void update(float delta){
+        super.update(delta);
+        if(attitude==Attitude.HOSTILE){
+            sleepTimer=0;
+        }
+        sleepTimer+=delta;
+    }
 }

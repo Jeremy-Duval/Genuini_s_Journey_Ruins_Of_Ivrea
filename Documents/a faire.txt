@@ -14,7 +14,7 @@ Content Creation (jeremy)
 	- Creating challenges in spellBook
 	- Creating Basic instructions and hints
 
-Graphical Components 
+Graphical Components
 	- Creating Screens background and design : Victory, Death (fanny)
 	- Placing components (valentin)
 	- In-game components design : spellbook button (fanny)
