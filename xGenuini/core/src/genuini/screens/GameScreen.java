@@ -22,7 +22,6 @@ import genuini.entities.AccessPoint;
 import genuini.entities.Button;
 import genuini.entities.Genuini;
 import genuini.entities.LivingBeings;
-import genuini.entities.Slime;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
@@ -40,7 +39,6 @@ import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import static genuini.world.PhysicsVariables.GRAVITY;
 import genuini.world.WorldManager;
-import java.util.ArrayList;
 
 public class GameScreen extends AbstractScreen {
 
@@ -69,10 +67,6 @@ public class GameScreen extends AbstractScreen {
     //private final String mapName;
     private boolean changeScreen;
     
-    private final Slime slimy;
-    
-    //all the texts for the tutorial
-    private ArrayList<String> tuto;
     private final TextManager textManager;
 
     public GameScreen() {
@@ -119,8 +113,6 @@ public class GameScreen extends AbstractScreen {
         //create player
         genuini = new Genuini(this);
         genuini.setLife(prefs.getLife());
-        
-        slimy = new Slime(this);
 
         cam.setBounds(0, worldManager.getTileMapWidth() * worldManager.getTileSize(), 0, worldManager.getTileMapHeight() * worldManager.getTileSize());
 
@@ -132,15 +124,15 @@ public class GameScreen extends AbstractScreen {
         
         textManager = new TextManager(this);
         textManager.setSize(30);
-        textManager.setColor(Color.BLACK);
-        //textManager.activate();
-        //textManager.setText("Oooooojgciufciytcuyciulfctyciyciytxcycyc ufiu");
-        /*if(prefs.getNewGame()){
-            System.err.println("load tuto");
-            textManager.playTutorial();
-        }*/
+        textManager.setColor(Color.FIREBRICK);
         
-        textManager.playTutorial();
+        if(prefs.getNewGame()){
+            textManager.playTutorial();
+        }
+        if(prefs.getChallenge()){
+            textManager.displayText("Press G to change the direction of the gravitional field",5000);
+        }
+        //textManager.playTutorial();
         
     }
 
@@ -214,7 +206,6 @@ public class GameScreen extends AbstractScreen {
             
             //Update player & sprites
             genuini.update(delta);
-            slimy.update(delta);
             for (Sprites sprite : worldManager.getSprites()) {
                 sprite.update(delta);
             }
@@ -270,7 +261,6 @@ public class GameScreen extends AbstractScreen {
 
         //draw player
         genuini.draw(batch);
-        slimy.draw(batch);
 
         //draw sprites
         for (Sprites sprite : worldManager.getSprites()) {

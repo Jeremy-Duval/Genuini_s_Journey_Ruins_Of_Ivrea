@@ -34,6 +34,7 @@ public class TextManager {
     private float stateTimer;
     private final GameScreen screen;
     private boolean playTutorial;
+    private boolean centered;
         
     
     
@@ -51,6 +52,7 @@ public class TextManager {
         textToDisplay="";
         createTutorial();
         active=false;
+        centered=true;
     }
 
     public void setSize(int size){
@@ -94,7 +96,10 @@ public class TextManager {
         if(textToDisplay.contains("\n")){
             offset/=2;
         }
-        setPosition(new Vector2(screen.getGenuini().getPosition().x+2.7f+offset,screen.getGenuini().getPosition().y+3.3f));
+        
+        if(centered){
+            setPosition(new Vector2(screen.getGenuini().getPosition().x+2.7f+offset,screen.getGenuini().getPosition().y+3.3f));
+        }        
         stateTimer+=delta;
     }
 
@@ -126,5 +131,36 @@ public class TextManager {
     public void stopTutorial() {
         playTutorial=false;
         deactivate();
+    }
+
+    public void displayText(String string, int time) {
+        activate();
+        centered=true;
+        setText(string);
+        new java.util.Timer().schedule( 
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        deactivate();
+                    }
+                }, 
+                time
+        );
+    }
+    
+    public void displayText(String string, int time, Vector2 position) {
+        activate();
+        setText(string);
+        setPosition(position);
+        centered=false;
+        new java.util.Timer().schedule( 
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        deactivate();
+                    }
+                }, 
+                time
+        );
     }
 }
