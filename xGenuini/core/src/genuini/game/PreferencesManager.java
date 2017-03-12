@@ -87,6 +87,15 @@ public class PreferencesManager {
     }
     
     
+    public void setNewGame(boolean newGame){
+        data.putBoolean("newGame", newGame);
+    }
+    
+    public boolean getNewGame(){
+        return data.getBoolean("newGame", true);
+    }
+    
+    
     
     public void save(){
         data.flush();
@@ -97,6 +106,7 @@ public class PreferencesManager {
         data.putFloat("player_YPosition", posY);
         data.putInteger("life", life);
         data.putString("previousMapName", data.getString("currentMapName"));
+        data.putBoolean("newGame", false);
         data.flush();
     }
     
@@ -109,6 +119,7 @@ public class PreferencesManager {
         data.putBoolean("book_activated", false);
         data.putBoolean("challengeValid", false);
         data.putInteger("life", 100);
+        data.putBoolean("newGame", true);
         data.flush();
     }
     

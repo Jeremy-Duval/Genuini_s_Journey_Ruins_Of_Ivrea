@@ -41,8 +41,6 @@ import static genuini.screens.AbstractScreen.connected;
 import static genuini.world.PhysicsVariables.GRAVITY;
 import genuini.world.WorldManager;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameScreen extends AbstractScreen {
 
@@ -75,17 +73,16 @@ public class GameScreen extends AbstractScreen {
     
     //all the texts for the tutorial
     private ArrayList<String> tuto;
-    private TextManager text;
-    private int textIndex = 0;
+    private final TextManager textManager;
 
     public GameScreen() {
         super();
         if (!MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
             //MainGame.contentManager.getMusic("gameMusic").play();
         }
-        //prefs.reset();
-
-        //this.mapName="house_1";
+        
+        
+        
         world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
@@ -133,28 +130,17 @@ public class GameScreen extends AbstractScreen {
         
         changeScreen=false;
         
-        //adding the texts
-        tuto = new ArrayList<String>();
-        tuto.add("Welcome, I am Genuini");
-        tuto.add("In our world, you're going to discover many new interactions");
-        tuto.add("Do you know Arduino ?");
-        tuto.add("Let's learn it together");
-        tuto.add("Check this image to move ;) ");
-        tuto.add("Here we go");
-    //    TextManager.textToDisplay(tuto);
-        text = new TextManager();
-        text.setSize(30);
-        text.setColor(Color.BLACK);
+        textManager = new TextManager(this);
+        textManager.setSize(30);
+        textManager.setColor(Color.BLACK);
+        //textManager.activate();
+        //textManager.setText("Oooooojgciufciytcuyciulfctyciyciytxcycyc ufiu");
+        /*if(prefs.getNewGame()){
+            System.err.println("load tuto");
+            textManager.playTutorial();
+        }*/
         
-     /*   Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-              textIndex ++;
-              System.err.println(tuto.get(textIndex));
-            }
-          }, 2000, 4000); */
-        
+        textManager.playTutorial();
         
     }
 
@@ -225,15 +211,21 @@ public class GameScreen extends AbstractScreen {
 
         //Check if world is not stepping
         if (!world.isLocked()) {
-            handleInput();
-            handleContact();
-            handleArea();
+            
             //Update player & sprites
             genuini.update(delta);
             slimy.update(delta);
             for (Sprites sprite : worldManager.getSprites()) {
                 sprite.update(delta);
             }
+            if(textManager.isActive()){
+                textManager.update(delta);
+            }
+            
+            handleInput();
+            handleContact();
+            handleArea();
+            
         }
         worldManager.destroyBodies();
         
@@ -284,13 +276,10 @@ public class GameScreen extends AbstractScreen {
         for (Sprites sprite : worldManager.getSprites()) {
             sprite.draw(batch);
         }
-        
-        
-        text.setPosition(new Vector2(genuini.getPosition().x,genuini.getPosition().y+genuini.getBodyHeight()*2));
-        if(textIndex <= tuto.size()){
-            text.setText(tuto.get(textIndex));
-            text.draw(batch); 
+        if(textManager.isActive()){
+          textManager.draw(batch);       
         }
+        
         batch.end();
         /**
          * ** End of drawing area ***
@@ -310,21 +299,17 @@ public class GameScreen extends AbstractScreen {
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
             genuini.walk(Genuini.Direction.LEFT);
-            textIndex ++;
         }
 
         if (Gdx.input.isKeyPressed(Keys.D) || (Gdx.input.isKeyPressed(Keys.RIGHT))) {
             genuini.walk(Genuini.Direction.RIGHT);
-            textIndex ++;
         }
 
         if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
             genuini.jump(160f);
-            textIndex ++;
         }
 
         if ((Gdx.input.isKeyJustPressed(Keys.F))) {
-            textIndex ++;
             for (Turret turret : worldManager.getTurrets()) {
                 if (turret.isActive()) {
                     turret.deactivate(true);
@@ -335,7 +320,6 @@ public class GameScreen extends AbstractScreen {
         }
 
         if ((Gdx.input.isKeyJustPressed(Keys.G))) {
-            textIndex ++;
             if (prefs.getChallenge()) {
                 if (connected) {
                     arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
@@ -418,7 +402,8 @@ public class GameScreen extends AbstractScreen {
         }
 
         for (AccessPoint accessPoint : worldManager.getAccessPoints()) {
-            if (getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !world.isLocked()) {
+            if (getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !world.isLocked() && genuini.getLife()>0) {
+                prefs.save(genuini.getPosition().x,genuini.getPosition().y, genuini.getLife());
                 prefs.setPreviousMapName(prefs.getCurrentMapName());
                 prefs.setCurrentMapName(accessPoint.getLinkedMapName());
                 prefs.setSpawnName(accessPoint.getLinkedAccessPointName());
@@ -470,7 +455,11 @@ public class GameScreen extends AbstractScreen {
     }
 
     public float getDistanceFromPlayer(Sprites sprite) {
-        return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x + sprite.getSprite().getWidth() / 2 / PPM - genuini.getPosition().x, 2) + (Math.pow(sprite.getBody().getPosition().y + sprite.getSprite().getHeight() / 2 / PPM - genuini.getPosition().y, 2))));
+        if(genuini.getLife()>0){
+            return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x + sprite.getSprite().getWidth() / 2 / PPM - genuini.getPosition().x, 2) + (Math.pow(sprite.getBody().getPosition().y + sprite.getSprite().getHeight() / 2 / PPM - genuini.getPosition().y, 2))));
+        }else{
+            return 0;
+        }  
     }
 
     public Genuini getGenuini() {
