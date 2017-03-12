@@ -69,23 +69,22 @@ public class GameScreen extends AbstractScreen {
     private boolean changeScreen;
     
 
+    private final TextManager textManager;
+
     public GameScreen() {
         super();
         if (!MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
             //MainGame.contentManager.getMusic("gameMusic").play();
         }
-        //prefs.reset();
-
-        //this.mapName="house_1";
+        
+        
+        
         world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-
-        //set the Text batch
-        TextManager.SetSpriteBatch(batch);
 
         worldManager = new WorldManager(this, prefs.getCurrentMapName());
         
@@ -116,7 +115,6 @@ public class GameScreen extends AbstractScreen {
         //create player
         genuini = new Genuini(this);
         genuini.setLife(prefs.getLife());
-        
 
         cam.setBounds(0, worldManager.getTileMapWidth() * worldManager.getTileSize(), 0, worldManager.getTileMapHeight() * worldManager.getTileSize());
 
@@ -125,6 +123,19 @@ public class GameScreen extends AbstractScreen {
         }
         
         changeScreen=false;
+        
+        textManager = new TextManager(this);
+        textManager.setSize(30);
+        textManager.setColor(Color.FIREBRICK);
+        
+        if(prefs.getNewGame()){
+            textManager.playTutorial();
+        }
+        if(prefs.getChallenge()){
+            textManager.displayText("Press G to change the direction of the gravitional field",5000);
+        }
+        //textManager.playTutorial();
+        
     }
 
     @Override
@@ -194,9 +205,7 @@ public class GameScreen extends AbstractScreen {
 
         //Check if world is not stepping
         if (!world.isLocked()) {
-            handleInput();
-            handleContact();
-            handleArea();
+            
             //Update player & sprites
             genuini.update(delta);
             for (Sprites sprite : worldManager.getSprites()) {
@@ -205,6 +214,14 @@ public class GameScreen extends AbstractScreen {
             for(MobSpawnPoint mobSpawnPoint : worldManager.getMobSpawnPoints()){
                 mobSpawnPoint.update(delta);
             }
+            if(textManager.isActive()){
+                textManager.update(delta);
+            }
+            
+            handleInput();
+            handleContact();
+            handleArea();
+            
         }
         worldManager.destroyBodies();
         
@@ -259,7 +276,11 @@ public class GameScreen extends AbstractScreen {
         for(MobSpawnPoint mobSpawnPoint : worldManager.getMobSpawnPoints()){
                 mobSpawnPoint.draw(batch);
         }
-
+        
+        if(textManager.isActive()){
+          textManager.draw(batch);       
+        }
+        
         batch.end();
         /**
          * ** End of drawing area ***
@@ -387,7 +408,8 @@ public class GameScreen extends AbstractScreen {
         }
 
         for (AccessPoint accessPoint : worldManager.getAccessPoints()) {
-            if (getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !world.isLocked()) {
+            if (getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !world.isLocked() && genuini.getLife()>0) {
+                prefs.save(genuini.getPosition().x,genuini.getPosition().y, genuini.getLife());
                 prefs.setPreviousMapName(prefs.getCurrentMapName());
                 prefs.setCurrentMapName(accessPoint.getLinkedMapName());
                 prefs.setSpawnName(accessPoint.getLinkedAccessPointName());
@@ -440,7 +462,11 @@ public class GameScreen extends AbstractScreen {
     }
 
     public float getDistanceFromPlayer(Sprites sprite) {
-        return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x + sprite.getSprite().getWidth() / 2 / PPM - genuini.getPosition().x, 2) + (Math.pow(sprite.getBody().getPosition().y + sprite.getSprite().getHeight() / 2 / PPM - genuini.getPosition().y, 2))));
+        if(genuini.getLife()>0){
+            return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x + sprite.getSprite().getWidth() / 2 / PPM - genuini.getPosition().x, 2) + (Math.pow(sprite.getBody().getPosition().y + sprite.getSprite().getHeight() / 2 / PPM - genuini.getPosition().y, 2))));
+        }else{
+            return 0;
+        }  
     }
 
     public Genuini getGenuini() {
