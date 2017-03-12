@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.PPM;
 
@@ -91,7 +92,7 @@ public abstract class Characters extends LivingBeings {
             return State.DEAD;
         } else if (screen.getContactManager().isPlayerHurt()) {
             return State.HURT;
-        } else if (!screen.getContactManager().playerCanJump()) {
+        } else if (!screen.getContactManager().playerCanJump() && screen.getWorld().getGravity().y<0) {
             return State.JUMPING;
         }  else if(firing){
             return State.FIRING;
@@ -125,6 +126,7 @@ public abstract class Characters extends LivingBeings {
      * @param impulse the intensity of the impulse
      */
     public void jump(float impulse) {
+        impulse = screen.getWorld().getGravity().y<0 ? impulse : -impulse;
         body.applyLinearImpulse(0, impulse / PPM, 0, 0, true);
     }
     

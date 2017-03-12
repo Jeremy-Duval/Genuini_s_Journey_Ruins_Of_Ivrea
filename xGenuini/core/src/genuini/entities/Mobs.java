@@ -1,8 +1,10 @@
 package genuini.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.PPM;
 
@@ -17,6 +19,12 @@ public abstract class Mobs extends LivingBeings{
     float speed;
     float offsetY;
     private float walkTimer;
+    Sound walkSound;
+    Sound deathSound;
+    Sound attackSound;
+
+    
+
    
     public enum Attitude{NEUTRAL, HOSTILE, FRIENDLY};
         
@@ -105,15 +113,37 @@ public abstract class Mobs extends LivingBeings{
         float impulse=speed;
         if(attitude==Attitude.HOSTILE){
             impulse+=100f;
+            
         }
         impulse = (screen.getGenuini().getPosition().x-body.getPosition().x)<0 ? -impulse : impulse;
         
         body.applyLinearImpulse(impulse / PPM, 0, 0, 0, true);
+        playWalkSound();
     }
+    
+    private void playWalkSound() {
+       if(walkSound!=null){
+           float distance =screen.getDistanceFromPlayer(this);
+           if(distance<10f){
+              walkSound.play(0.2f/(4*distance)); 
+           }  
+       }
+    }
+    
+    private void playDeathSound() {
+       if(deathSound!=null && screen.getDistanceFromPlayer(this)<5f){
+           float distance =screen.getDistanceFromPlayer(this);
+           if(distance<10f){
+              deathSound.play(0.8f/(4*distance)); 
+           }  
+       }
+    }
+    
     
     @Override
     public void die() {
         dead=true;
+        playDeathSound();
         new java.util.Timer().schedule(
             new java.util.TimerTask() {
                 @Override
@@ -123,5 +153,9 @@ public abstract class Mobs extends LivingBeings{
             },
             800
         );
-    } 
+    }
+    
+    Sound getAttackSound() {
+        return attackSound;
+    }
 }

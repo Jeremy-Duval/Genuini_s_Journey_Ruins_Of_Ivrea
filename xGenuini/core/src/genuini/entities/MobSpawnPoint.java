@@ -96,13 +96,17 @@ public class MobSpawnPoint extends StaticElements{
                     mob.isHome();
                 }
 
-                if(screen.getDistanceFromPlayer(mob)<2f){
+                if(screen.getDistanceFromPlayer(mob)<2f){ 
+                    if(mob.attitude!=Attitude.HOSTILE){
+                        if(mob.getAttackSound()!=null){
+                            mob.getAttackSound().play();
+                        }
+                    }
                     mob.changeAttitude(Attitude.HOSTILE);
                 }else{
                     mob.changeAttitude(Attitude.NEUTRAL);
                 }
             }
-            
             stateTime+=delta;
         }     
     }

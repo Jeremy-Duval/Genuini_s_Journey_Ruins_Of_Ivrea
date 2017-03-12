@@ -6,6 +6,7 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -135,6 +136,7 @@ public class GameScreen extends AbstractScreen {
             textManager.displayText("Press G to change the direction of the gravitional field",5000);
         }
         //textManager.playTutorial();
+        
         
     }
 
@@ -328,8 +330,10 @@ public class GameScreen extends AbstractScreen {
                 }
                 if (world.getGravity().y < 0) {
                     world.setGravity(new Vector2(0, -GRAVITY));
+                    genuini.getBody().setTransform(genuini.getPosition(), (float) Math.PI);
                 } else {
                     world.setGravity(new Vector2(0, GRAVITY));
+                    genuini.getBody().setTransform(genuini.getPosition(),0f);
                 }
             }
         }

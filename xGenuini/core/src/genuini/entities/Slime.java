@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_MOB;
@@ -38,6 +39,8 @@ public class Slime extends Mobs{
         speed=40f;
         offsetY=-2f;
         createBody();
+        walkSound = MainGame.contentManager.getSound("slimeWalk");
+        deathSound = MainGame.contentManager.getSound("slimeDeath");
     }
     
     

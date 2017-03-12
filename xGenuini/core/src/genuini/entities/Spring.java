@@ -46,6 +46,7 @@ public class Spring extends StaticElements{
         if(!active){
             active=true;
             sprite.setRegion(springboardUp);
+            MainGame.contentManager.getSound("spring").play();
             new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override

@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_MOB;
@@ -42,6 +43,8 @@ public class Snail extends Mobs{
         offsetY=-2f;
         sleepTimer=0;
         createBody();
+        walkSound=MainGame.contentManager.getSound("snailWalk");
+        attackSound=MainGame.contentManager.getSound("snailAttack");
     }
     
     

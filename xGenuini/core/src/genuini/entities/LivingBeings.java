@@ -7,9 +7,7 @@ package genuini.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import genuini.screens.GameScreen;
-import static genuini.world.PhysicsVariables.PPM;
 
 /**
  *
@@ -54,6 +52,8 @@ public abstract class LivingBeings extends Sprites {
         currentState = getState();
  
         TextureRegion region = flipRegion(setRegion(),atlasTowardsRight);
+        
+       
 
         //if the current state is the same as the previous state increase the state timer.
         //otherwise the state has changed and we need to reset timer.
@@ -66,28 +66,32 @@ public abstract class LivingBeings extends Sprites {
     }
 
     private TextureRegion flipRegion(TextureRegion region, boolean atlasTowardsRight) {
+        //boolean flipY = (body.getTransform().getRotation()!=0);
+        boolean flipX=false;
+        boolean flipY=false;
         if (atlasTowardsRight) {
             //flips the region if player walking left and the region is not towards left
             if ((body.getLinearVelocity().x < 0 || direction == Direction.LEFT) && !region.isFlipX()) {
-                region.flip(true, false);
+                flipX = true;
                 direction = Direction.LEFT;
             } //flips the region if player walking right and the region is not towards right
             else if ((body.getLinearVelocity().x > 0 || direction == Direction.RIGHT) && region.isFlipX()) {
-                region.flip(true, false);
+                flipX = true;
                 direction = Direction.RIGHT;
             }
         }else{
             //flips the region if player walking left and the region is not towards left
             if ((body.getLinearVelocity().x < 0 || direction == Direction.LEFT) && region.isFlipX()) {
-                region.flip(true, false);
+                flipX = true;
                 direction = Direction.LEFT;
             } //flips the region if player walking right and the region is not towards right
             else if ((body.getLinearVelocity().x > 0 || direction == Direction.RIGHT) && !region.isFlipX()) {
-                region.flip(true, false);
+                flipX = true;
                 direction = Direction.RIGHT;
             }
         }
-        
+        region.flip(flipX, flipY);
+       
         return region;
     }
 

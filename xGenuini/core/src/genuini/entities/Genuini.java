@@ -106,6 +106,8 @@ public class Genuini extends Characters {
             Fireball f = new Fireball(screen, new Vector2(posX,posY), new Vector2(35f,35f));
             fireball=f;
             fireball.getBody().applyLinearImpulse(impulse, 0.1f, 0, 0, true);
+            MainGame.contentManager.getSound("fireball").play();
+            
             firing=true;
             new java.util.Timer().schedule(
                 new java.util.TimerTask() {

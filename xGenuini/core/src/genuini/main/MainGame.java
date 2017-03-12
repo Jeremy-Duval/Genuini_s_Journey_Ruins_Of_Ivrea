@@ -14,7 +14,7 @@ import static genuini.screens.AbstractScreen.connected;
  * @author Adrien Techer
  */
 public class MainGame extends Game implements ApplicationListener {
-    public static final String TITLE = "Genuini";
+    public static final String TITLE = "Genuini's Journey : Ruins of Ivrea";
     public static final int V_WIDTH = 1280;
     public static final int V_HEIGHT = 720;
     public static final int SCALE = 1;
@@ -49,7 +49,16 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.getMusic("gameMusic").setLooping(true);
         contentManager.getMusic("gameMusic").setVolume(1f);
         
-
+        contentManager.loadSound("sounds/slimeWalk.wav", "slimeWalk");
+        contentManager.loadSound("sounds/slimeDeath.wav", "slimeDeath");
+        contentManager.loadSound("sounds/snailWalk.wav", "snailWalk");
+        
+        contentManager.loadSound("sounds/fireball.wav", "fireball");
+        contentManager.loadSound("sounds/spring.wav", "spring");
+        contentManager.loadSound("sounds/snailAttack.wav", "snailAttack");
+        
+        contentManager.loadSound("sounds/jump.wav", "jump");
+        
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
     }
