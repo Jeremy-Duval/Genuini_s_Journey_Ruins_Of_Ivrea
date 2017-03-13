@@ -137,7 +137,6 @@ public class GameScreen extends AbstractScreen {
         }
         //textManager.playTutorial();
         
-        
     }
 
     @Override
