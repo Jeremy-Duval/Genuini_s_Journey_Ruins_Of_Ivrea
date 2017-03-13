@@ -7,21 +7,14 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.game.ScreenEnum;
 import genuini.game.ScreenManager;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
-import static genuini.main.MainGame.contentManager;
-import static genuini.screens.AbstractScreen.arduinoInstance;
-import static genuini.screens.AbstractScreen.connected;
 
 /**
  * Defined the spell book screen
@@ -37,6 +30,8 @@ public class LessonsScreen extends AbstractScreen {
     private final int buttonWidth;
     private final int buttonHeight;
    
+    /*********************************Lessons*********************************/
+    //BufferedInputStream lesson_file;
 
 
     /**
@@ -50,6 +45,16 @@ public class LessonsScreen extends AbstractScreen {
         super();
         buttonWidth = V_WIDTH / 15;
         buttonHeight = V_HEIGHT / 20;
+        /*
+        try {
+            BufferedInputStream  lesson_file = new BufferedInputStream(
+                    new DataInputStream(
+                            new FileInputStream(
+                                    new File("cours/test.txt"))));
+            
+        } catch (FileNotFoundException ex) {
+            System.out.println("Oppening error");
+        }*/
 
 
     }
@@ -97,6 +102,13 @@ public class LessonsScreen extends AbstractScreen {
         super.render(delta);
         /*draw*/
         batch.begin();
+        
+        /*try {
+            System.out.println(lesson_file);
+        } catch (IOException ex) {
+            System.out.println("Reading error");
+        }*/
+        
         batch.end();
         stage.act(delta);
         stage.draw();
