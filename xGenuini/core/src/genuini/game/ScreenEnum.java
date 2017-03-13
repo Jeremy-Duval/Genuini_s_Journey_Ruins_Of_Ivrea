@@ -8,6 +8,7 @@ package genuini.game;
 import genuini.screens.AbstractScreen;
 import genuini.screens.GameScreen;
 import genuini.screens.DeathMenu;
+import genuini.screens.LessonsScreen;
 import genuini.screens.LoadingScreen;
 import genuini.screens.MainMenu;
 import genuini.screens.SpellBookMenu;
@@ -58,6 +59,13 @@ public enum ScreenEnum {
         @Override
         public AbstractScreen getScreen(Object... params) {
             return new LoadingScreen() {};
+        }
+    },
+    
+    LESSONS {
+        @Override
+        public AbstractScreen getScreen(Object... params) {
+            return new LessonsScreen() {};
         }
     };
 
