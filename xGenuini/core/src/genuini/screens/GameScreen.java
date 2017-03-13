@@ -73,8 +73,9 @@ public class GameScreen extends AbstractScreen {
 
     public GameScreen() {
         super();
+        
         if (!MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
-            //MainGame.contentManager.getMusic("gameMusic").play();
+            MainGame.contentManager.getMusic("gameMusic").play();
         }
         
         
@@ -99,8 +100,8 @@ public class GameScreen extends AbstractScreen {
                     prefs.setPositionY(accessPoint.getPosition().y);
                     break;
                 }
-            }
-        }
+            } 
+        } 
        
 
         /* DEBUG */
