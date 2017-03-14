@@ -23,3 +23,9 @@ Report and Presentation
 	- Writing Report (all members)
 	- Convert to LAtex (Adrien)	
 	- Create Demo videos
+
+
+/********************************bug************************************/
+-Après la mort, le grimoire est toujours débloqué alors qu'il devrait retourné à 0 (pareil pour 'G')
+-On commence dans le 'Game' et non 'Menu' 
+-Refactor -> rename -> "Content" en "ContentManager"
