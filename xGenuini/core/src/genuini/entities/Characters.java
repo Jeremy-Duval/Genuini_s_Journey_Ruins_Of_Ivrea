@@ -57,7 +57,6 @@ public abstract class Characters extends LivingBeings {
     @Override
     public TextureRegion setRegion(){
         //depending on the state, get corresponding texture region or animation frame.
-        //depending on the state, get corresponding texture region or animation frame.
         switch (currentState) {
             case HURT:
                 return hurtTexture;

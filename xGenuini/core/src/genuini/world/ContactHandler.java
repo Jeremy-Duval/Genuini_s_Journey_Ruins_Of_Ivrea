@@ -43,6 +43,7 @@ public class ContactHandler implements ContactListener{
         if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
                 numFootContacts++;
         }
+        
         if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
                 numFootContacts++;
         }
@@ -99,6 +100,7 @@ public class ContactHandler implements ContactListener{
         if((fa.getUserData() != null && fa.getUserData().equals("challengeBox")) || (fb.getUserData() != null && fb.getUserData().equals("challengeBox"))){
             bookActive=true;                
         }
+        
         if((fa.getUserData() != null && fa.getUserData().equals("victory")) || (fb.getUserData() != null && fb.getUserData().equals("victory"))){
             victory=true;                
         }
