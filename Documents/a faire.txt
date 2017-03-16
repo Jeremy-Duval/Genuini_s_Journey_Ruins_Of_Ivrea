@@ -1,28 +1,18 @@
-Pure GAME (adrien)
-	- Creating NPCs
-		Move animation functions and body creation to Characters class
-		Create behaviours
+Rapport
 
-	- Add sound effects
-	- Add the possibility of getting mushrooms/coins (optional)
-
-
-Arduino (valentin & jeremy)
-	- 
-
-Content Creation (jeremy)
-	- Creating challenges in spellBook
-	- Creating Basic instructions and hints
-
-Graphical Components
-	- Creating Screens background and design : Victory, Death (fanny)
-	- Placing components (valentin)
-	- In-game components design : spellbook button (fanny)
-
-Report and Presentation
-	- Writing Report (all members)
-	- Convert to LAtex (Adrien)	
-	- Create Demo videos
+- Préconception
+- Futur dev : Objectifs
+- Futur dev : Univers
+- Conclusion
+- Bilan Général
+- Remerciements
+- Glossaire
+- Images + légendes
+- Liens et Renvoi
+- Reprendre futur dev : idées
+- Relire x8
+- Mise en page
+- Rajouter les diagrammes UML en annexe
 
 
 /********************************bug************************************/
