@@ -9,11 +9,14 @@ import com.badlogic.gdx.math.Vector2;
  * @author Adrien Techer
  */
 public class PreferencesManager {
+    
     Preferences data = Gdx.app.getPreferences("game_data");
     
     private final Vector2 initialPosition;
     
     public PreferencesManager(){
+        
+        
         initialPosition=new Vector2(10f,16f);
     }
 
@@ -38,20 +41,13 @@ public class PreferencesManager {
         return data.getFloat("player_YPosition", initialPosition.y);
     }
     
-    public void setBook(boolean active){
-        data.putBoolean("book_activated", active);
-    }
-     
-    public boolean getBook(){
-        return data.getBoolean("book_activated", false);
+    public void setProgression(int milestoneNum) {
+        data.putInteger("progression",  milestoneNum);
     }
     
-    public void setChallenge(boolean valid) {
-        data.putBoolean("challengeValid", valid);
-    }
     
-    public boolean getChallenge(){
-        return data.getBoolean("challengeValid", false);
+    public int getProgression(){
+        return data.getInteger("progression", 0);
     }
     
     public void setLife(int life){
@@ -86,7 +82,6 @@ public class PreferencesManager {
         return data.getString("spawnName", "initial_spawn");
     }
     
-    
     public void setNewGame(boolean newGame){
         data.putBoolean("newGame", newGame);
     }
@@ -94,8 +89,6 @@ public class PreferencesManager {
     public boolean getNewGame(){
         return data.getBoolean("newGame", true);
     }
-    
-    
     
     public void save(){
         data.flush();
@@ -116,8 +109,7 @@ public class PreferencesManager {
         data.putString("previousMapName", "village");
         data.putString("currentMapName", "village");
         data.putString("spawnName", "initial_spawn");
-        data.putBoolean("book_activated", false);
-        data.putBoolean("challengeValid", false);
+        data.putInteger("progression", 0);
         data.putInteger("life", 100);
         data.putBoolean("newGame", true);
         data.flush();

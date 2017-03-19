@@ -50,6 +50,7 @@ void setup() {
 
    // Configure the button's pin for input signals.
     pinMode(pinButton, INPUT);
+    int i=0;
 }
 
 
@@ -66,13 +67,18 @@ void loop() {
     
     Serial.write(stateButton);
     delay(100);  */
+  
 
+  
   
   String rec;
 
   // put your main code here, to run repeatedly:
-
   if (Serial.available() > 0) {
+      if(i<5){
+    Serial.write("iugv");
+    i++;
+  }
 
     rec = Serial.readStringUntil('\n');
 

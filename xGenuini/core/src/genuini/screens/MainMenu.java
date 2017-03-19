@@ -38,7 +38,7 @@ public class MainMenu extends AbstractScreen {
         buttonWidth = V_WIDTH / 3;
         buttonHeight = V_HEIGHT / 10;
 
-       
+        prefs.reset();
         MainGame.contentManager.getMusic("menuMusic").play();
         
     }

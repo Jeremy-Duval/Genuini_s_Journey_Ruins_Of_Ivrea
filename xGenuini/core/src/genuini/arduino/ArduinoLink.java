@@ -109,7 +109,7 @@ public class ArduinoLink implements SerialPortEventListener {
 	 */
         @Override
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
-	/*	if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				String inputLine=input.readLine();
 				System.out.println(inputLine);
@@ -117,20 +117,21 @@ public class ArduinoLink implements SerialPortEventListener {
 				System.err.println(e.toString());
 			}
 		}
-		// Ignore all the other eventTypes, but you should consider the other ones. */
+		// Ignore all the other eventTypes, but you should consider the other ones. 
 	} 
         
-        public synchronized String serialEventString(SerialPortEvent oEvent) {
+   /*     public synchronized String serialEventString(SerialPortEvent oEvent) {
             String inputLine=null;
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
+                                System.out.println("rc");
 				inputLine=input.readLine();
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}
 		}
 		return inputLine;
-	}
+	} */
         
         public synchronized String read(){
             String receive = null;
