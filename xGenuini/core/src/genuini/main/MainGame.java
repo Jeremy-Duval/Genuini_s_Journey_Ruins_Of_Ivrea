@@ -37,6 +37,8 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadTexture("img/items/buttonRed_pressed.png","buttonRed_pressed");
 
         
+        
+        
         contentManager.loadMusic("sounds/Death.mp3","deathMusic");
         contentManager.getMusic("deathMusic").setLooping(true);
         contentManager.getMusic("deathMusic").setVolume(1f);
@@ -47,7 +49,7 @@ public class MainGame extends Game implements ApplicationListener {
         
         contentManager.loadMusic("sounds/Land_of_Ivrea.mp3","gameMusic");
         contentManager.getMusic("gameMusic").setLooping(true);
-        contentManager.getMusic("gameMusic").setVolume(1f);
+        contentManager.getMusic("gameMusic").setVolume(0.04f);
         
         contentManager.loadSound("sounds/slimeWalk.wav", "slimeWalk");
         contentManager.loadSound("sounds/slimeDeath.wav", "slimeDeath");
@@ -60,7 +62,7 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadSound("sounds/jump.wav", "jump");
         
         ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+        ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
     }
 
     @Override
