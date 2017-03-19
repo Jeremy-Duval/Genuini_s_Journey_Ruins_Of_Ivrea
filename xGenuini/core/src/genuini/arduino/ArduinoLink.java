@@ -105,7 +105,7 @@ public class ArduinoLink implements SerialPortEventListener {
 
 	/**
 	 * Handle an event on the serial port. Read the data and print it.
-     * @param oEvent
+         * @param oEvent the event caught by the port listener
 	 */
         @Override
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
