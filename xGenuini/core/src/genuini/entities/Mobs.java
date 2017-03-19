@@ -112,7 +112,7 @@ public abstract class Mobs extends LivingBeings{
     public void walk(){
         float impulse=speed;
         if(attitude==Attitude.HOSTILE){
-            impulse+=100f;
+            impulse+=200f;
             
         }
         impulse = (screen.getGenuini().getPosition().x-body.getPosition().x)<0 ? -impulse : impulse;
@@ -134,7 +134,7 @@ public abstract class Mobs extends LivingBeings{
        if(deathSound!=null && screen.getDistanceFromPlayer(this)<5f){
            float distance =screen.getDistanceFromPlayer(this);
            if(distance<10f){
-              deathSound.play(0.8f/(4*distance)); 
+              deathSound.play(1f/(4*distance)); 
            }  
        }
     }

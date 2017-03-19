@@ -75,7 +75,7 @@ public class GameScreen extends AbstractScreen {
         }
         
         
-        
+        //prefs.setCurrentMapName("cave");
         world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
@@ -158,7 +158,7 @@ public class GameScreen extends AbstractScreen {
         super.buildStage();
         menuButton = new TextButton("Menu", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int) worldManager.getTileSize() / 2));
         menuButton.setPosition(V_WIDTH - worldManager.getTileSize() * 1.6f, worldManager.getTileSize() * 3);
-
+        
         /* HUD creation */
         table = new Table();
         stage.addActor(table);
@@ -175,6 +175,8 @@ public class GameScreen extends AbstractScreen {
         lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.textFieldSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f), "default", Color.WHITE);
         table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
+        
+        stage.addActor(menuButton);
     }
 
     public void update(float delta) {

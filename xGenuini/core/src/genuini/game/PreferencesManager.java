@@ -15,9 +15,7 @@ public class PreferencesManager {
     private final Vector2 initialPosition;
     
     public PreferencesManager(){
-        
-        
-        initialPosition=new Vector2(10f,16f);
+        initialPosition=new Vector2(10f,5f);
     }
 
     /*

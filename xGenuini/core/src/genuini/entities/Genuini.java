@@ -26,6 +26,7 @@ import static genuini.world.PhysicsVariables.PPM;
 public class Genuini extends Characters {
     private Fireball fireball;
     private boolean hasFireball;
+    private boolean rejump;
 
     /**
      *
@@ -37,6 +38,7 @@ public class Genuini extends Characters {
         life = screen.getPreferences().getLife();
         hasFireball=false;
         createBody();
+        rejump=false;
     }
 
     /**
@@ -149,6 +151,14 @@ public class Genuini extends Characters {
                 fireball.draw(spriteBatch);
             }
         }
+    }
+    
+    public boolean canReJump(){
+        return rejump;
+    }
+
+    public void setReJump(boolean canJumpAgain) {
+        rejump=canJumpAgain;
     }
 
 }

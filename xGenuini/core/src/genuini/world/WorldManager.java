@@ -461,9 +461,20 @@ public class WorldManager {
         if (Gdx.input.isKeyPressed(Input.Keys.D) || (Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
             screen.getGenuini().walk(Genuini.Direction.RIGHT);
         }
-
-        if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP))) && screen.getContactManager().playerCanJump()) {
-            screen.getGenuini().jump(160f);
+        
+        
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP)))){
+            if (!screen.getContactManager().playerCanJump() && screen.getGenuini().canReJump()){
+                screen.getGenuini().jump(500f);
+                screen.getGenuini().setReJump(false);
+            }
+        }
+        
+        if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP)))){
+            if(screen.getContactManager().playerCanJump()){
+                screen.getGenuini().jump(160f);
+                screen.getGenuini().setReJump(true);
+            }
         }
 
         /*
@@ -476,7 +487,7 @@ public class WorldManager {
                 }
             }
         }*/
-
+        
         if ((Gdx.input.isKeyJustPressed(Input.Keys.G))) {
             if (screen.getPreferences().getProgression()>=ScenarioVariables.GRAVITY) {
                 if (connected) {
@@ -494,6 +505,10 @@ public class WorldManager {
         
         if ((Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
             screen.getGenuini().throwFireball();
+        }
+        
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.O))) {
+            screen.getGenuini().die();
         }
     }
     
@@ -559,14 +574,22 @@ public class WorldManager {
         }
 
         for (AccessPoint accessPoint : accessPoints) {
-            if (screen.getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0) {
-                screen.getPreferences().save(screen.getGenuini().getPosition().x,screen.getGenuini().getPosition().y, screen.getGenuini().getLife());
-                screen.getPreferences().setPreviousMapName(screen.getPreferences().getCurrentMapName());
-                screen.getPreferences().setCurrentMapName(accessPoint.getLinkedMapName());
-                screen.getPreferences().setSpawnName(accessPoint.getLinkedAccessPointName());
-                screen.getPreferences().setLife(screen.getGenuini().getLife());
-                screen.changeScreen();
-                break;
+            if (screen.getDistanceFromPlayer(accessPoint) < 0.5f && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0) {
+                if(accessPoint.getType().equals("entry")){
+                    screen.getPreferences().save(screen.getGenuini().getPosition().x,screen.getGenuini().getPosition().y, screen.getGenuini().getLife());
+                    screen.getPreferences().setPreviousMapName(screen.getPreferences().getCurrentMapName());
+                    screen.getPreferences().setCurrentMapName(accessPoint.getLinkedMapName());
+                    screen.getPreferences().setSpawnName(accessPoint.getLinkedAccessPointName());
+                    screen.getPreferences().setLife(screen.getGenuini().getLife());
+                    screen.changeScreen();
+                    break;
+                }else if(accessPoint.getType().equals("death_zone")){
+                    screen.getGenuini().die();
+                }
+                
+            }
+            if(accessPoint.getType().equals("death_zone") && accessPoint.getPosition().y>screen.getGenuini().getPosition().y && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0){
+                    screen.getGenuini().die();
             }
         }
   
