@@ -5,6 +5,8 @@
  */
 package genuini.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -34,15 +36,23 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import genuini.entities.AccessPoint;
 import genuini.entities.Button;
+import genuini.entities.Genuini;
+import genuini.entities.LivingBeings;
 import genuini.entities.MobSpawnPoint;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
+import genuini.game.ScreenEnum;
+import genuini.game.ScreenManager;
+import genuini.main.MainGame;
+import static genuini.screens.AbstractScreen.arduinoInstance;
+import static genuini.screens.AbstractScreen.connected;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
 import static genuini.world.PhysicsVariables.BIT_MOB;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
+import static genuini.world.PhysicsVariables.GRAVITY;
 import static genuini.world.PhysicsVariables.PPM;
 
 /**
@@ -198,21 +208,6 @@ public class WorldManager {
                     fd.filter.categoryBits = BIT_TERRAIN;
                     fd.filter.maskBits = BIT_PLAYER | BIT_MOB;
                     world.createBody(bdef).createFixture(fd).setUserData("spike");
-                } else if (cell.getTile().getProperties().get("challengeBox") != null) {
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor = false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
-                    world.createBody(bdef).createFixture(fd).setUserData("challengeBox");
                 } else if (cell.getTile().getProperties().get("victory") != null) {
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
@@ -456,5 +451,124 @@ public class WorldManager {
                 }
             }
         }
+    }
+    
+    public void handleInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.Q) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            screen.getGenuini().walk(Genuini.Direction.LEFT);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || (Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
+            screen.getGenuini().walk(Genuini.Direction.RIGHT);
+        }
+
+        if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP))) && screen.getContactManager().playerCanJump()) {
+            screen.getGenuini().jump(160f);
+        }
+
+        /*
+        if ((Gdx.input.isKeyJustPressed(Keys.F))) {
+            for (Turret turret : screen.getWorldManager().getTurrets()) {
+                if (turret.isActive()) {
+                    turret.deactivate(true);
+                } else {
+                    turret.activate(true);
+                }
+            }
+        }*/
+
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.G))) {
+            if (screen.getPreferences().getProgression()>=ScenarioVariables.GRAVITY) {
+                if (connected) {
+                    arduinoInstance.write("game;" + String.valueOf(screen.getGenuini().getLife()));
+                }
+                if (screen.getWorld().getGravity().y < 0) {
+                    screen.getWorld().setGravity(new Vector2(0, -GRAVITY));
+                    screen.getGenuini().getBody().setTransform(screen.getGenuini().getPosition(), (float) Math.PI);
+                } else {
+                    screen.getWorld().setGravity(new Vector2(0, GRAVITY));
+                    screen.getGenuini().getBody().setTransform(screen.getGenuini().getPosition(),0f);
+                }
+            }
+        }
+        
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
+            screen.getGenuini().throwFireball();
+        }
+    }
+    
+    public void handleContact() {
+
+        if (screen.getContactManager().isBouncy() && screen.getContactManager().isDangerous()) {
+            screen.getGenuini().jump(150f);
+        } else if (screen.getContactManager().isBouncy()) {
+            screen.getGenuini().jump(300f);
+        }
+
+        if (screen.getContactManager().isDangerous()) {
+            screen.getGenuini().changeLife(-5);
+            screen.getContactManager().setDangerous(false);
+            if (connected) {
+                arduinoInstance.write("game;" + String.valueOf(screen.getGenuini().getLife())); //quand vie change
+            }
+            screen.setLifeText();
+            if (screen.getGenuini().getLife() <= 0 && screen.getGenuini().getState() != LivingBeings.State.DEAD) {
+                screen.getGenuini().die();
+            }
+        }
+        if (screen.getContactManager().hasWon()) {
+            screen.getPreferences().reset();
+            if (connected) {
+                arduinoInstance.write("victory;");
+            }
+            MainGame.contentManager.getMusic("gameMusic").pause();
+            ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
+        }
+    }
+    
+    
+    public void handleArea() {
+        for (Spring spring : springs) {
+            if (screen.getContactManager().isBouncy() && (screen.getDistanceFromPlayer(spring) < 0.8f)) {
+                spring.activate();
+            }
+        }
+
+        for (Turret turret : turrets) {
+            if (screen.getDistanceFromPlayer(turret) < turret.getActivationDistance()) {
+                turret.activate(false);
+            } else {
+                turret.deactivate(false);
+            }
+        }
+
+        for (Button button : buttons) {
+            if (screen.getContactManager().isButton() && screen.getDistanceFromPlayer(button) < 0.7f && !button.isPressed()) {
+                screen.getGenuini().jump(150f);
+                button.press();
+                int linkedObjectID = button.getLinkedObjectID();
+                if (button.getLinkedObjectType().equals("turret")) {
+                    for (Turret turret : turrets) {
+                        if (turret.getID() == linkedObjectID) {
+                            turret.deactivate(true);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        for (AccessPoint accessPoint : accessPoints) {
+            if (screen.getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0) {
+                screen.getPreferences().save(screen.getGenuini().getPosition().x,screen.getGenuini().getPosition().y, screen.getGenuini().getLife());
+                screen.getPreferences().setPreviousMapName(screen.getPreferences().getCurrentMapName());
+                screen.getPreferences().setCurrentMapName(accessPoint.getLinkedMapName());
+                screen.getPreferences().setSpawnName(accessPoint.getLinkedAccessPointName());
+                screen.getPreferences().setLife(screen.getGenuini().getLife());
+                screen.changeScreen();
+                break;
+            }
+        }
+  
     }
 }
