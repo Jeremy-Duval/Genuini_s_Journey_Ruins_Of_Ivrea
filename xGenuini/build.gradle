@@ -6,6 +6,10 @@ buildscript {
         jcenter()
     }
     dependencies {
+	compile group: 'io.netty', name: 'netty-all', version: '4.1.5.Final'
+  	compile group: 'io.netty', name: 'netty-transport-rxtx', version: '4.1.5.Final'
+  	compile group: 'org.bidib.jbidib', name: 'jbidibc-rxtx-2.2', version: '1.6.0'
+	compile group: 'org.bidib.jbidib', name: 'bidib-rxtx-binaries', version: '2.2'
     }
 }
 
