@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="128" height="39" tilewidth="70" tileheight="70" nextobjectid="70">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="128" height="39" tilewidth="70" tileheight="70" nextobjectid="72">
  <tileset firstgid="1" name="Base_Terrain" tilewidth="70" tileheight="146" tilecount="172" columns="0">
   <tile id="0">
    <image width="70" height="70" source="Platformer Art Complete Pack/Base pack/Tiles/box.png"/>
@@ -1158,6 +1158,28 @@
 20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20
 </data>
  </layer>
+ <objectgroup name="objects">
+  <object id="58" name="Spring" x="5952" y="2272" width="66" height="36">
+   <properties>
+    <property name="spring" value=""/>
+   </properties>
+  </object>
+  <object id="61" name="Spring" x="6161" y="2067" width="66" height="32">
+   <properties>
+    <property name="spring" value=""/>
+   </properties>
+  </object>
+  <object id="62" name="Spring" x="6302" y="1857" width="66" height="34">
+   <properties>
+    <property name="spring" value=""/>
+   </properties>
+  </object>
+  <object id="70" name="Question Box" x="1469.45" y="2241.88" width="68.0909" height="67.9697">
+   <properties>
+    <property name="questionBox" value="gravity"/>
+   </properties>
+  </object>
+ </objectgroup>
  <layer name="foreground 2" width="128" height="39">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -1201,23 +1223,6 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="objects">
-  <object id="58" name="Spring" x="5952" y="2272" width="66" height="36">
-   <properties>
-    <property name="spring" value=""/>
-   </properties>
-  </object>
-  <object id="61" name="Spring" x="6161" y="2067" width="66" height="32">
-   <properties>
-    <property name="spring" value=""/>
-   </properties>
-  </object>
-  <object id="62" name="Spring" x="6302" y="1857" width="66" height="34">
-   <properties>
-    <property name="spring" value=""/>
-   </properties>
-  </object>
- </objectgroup>
  <objectgroup name="accessPoints">
   <object id="52" name="house_1_entry" x="1846.81" y="1987.54" width="13.6667" height="12.6667">
    <properties>
