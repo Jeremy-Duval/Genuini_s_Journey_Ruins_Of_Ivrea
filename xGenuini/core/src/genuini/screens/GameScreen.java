@@ -21,6 +21,7 @@ import genuini.entities.AccessPoint;
 import genuini.entities.Genuini;
 import genuini.entities.LivingBeings;
 import genuini.entities.MobSpawnPoint;
+import genuini.entities.QuestionBox;
 import genuini.entities.Sprites;
 import genuini.game.BoundedCamera;
 import genuini.game.PreferencesManager;
@@ -128,7 +129,14 @@ public class GameScreen extends AbstractScreen {
         if(prefs.getNewGame()){
             textManager.playTutorial();
         }
-        if(prefs.getProgression()==ScenarioVariables.GRAVITY){
+        
+        int prog = prefs.getProgression();
+        for(QuestionBox qb : worldManager.getQuestionBoxes()){
+            if(qb.getQuestionNumber()<prog){
+                qb.disable();
+            }
+        }
+        if(prog==ScenarioVariables.GRAVITY){
             textManager.displayText("Press G to change the direction of the gravitional field",5000);
         }
         //textManager.playTutorial();
@@ -338,5 +346,9 @@ public class GameScreen extends AbstractScreen {
         changeScreen=true;
     }
     
+    
+    public void displayText(String text, int time){
+        textManager.displayText(text, time);
+    }
 
 }

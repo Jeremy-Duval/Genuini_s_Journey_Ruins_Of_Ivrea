@@ -5,6 +5,7 @@
  */
 package genuini.arduino;
 
+import genuini.game.PreferencesManager;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -113,6 +114,7 @@ public class ArduinoLink implements SerialPortEventListener {
 			try {
 				String inputLine=input.readLine();
 				System.out.println(inputLine);
+                                //PreferencesManager.stepProgression();
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}

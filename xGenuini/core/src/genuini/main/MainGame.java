@@ -35,8 +35,8 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadTexture("img/tiles/lock_yellow.png","turret");
         contentManager.loadTexture("img/items/buttonRed.png","buttonRed");
         contentManager.loadTexture("img/items/buttonRed_pressed.png","buttonRed_pressed");
-
-        
+        contentManager.loadTexture("img/tiles/boxItem.png","questionBox");
+        contentManager.loadTexture("img/tiles/boxItem_disabled.png","questionBoxDisabled");
         
         
         contentManager.loadMusic("sounds/Death.mp3","deathMusic");

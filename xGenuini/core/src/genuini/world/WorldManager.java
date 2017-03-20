@@ -39,6 +39,7 @@ import genuini.entities.Button;
 import genuini.entities.Genuini;
 import genuini.entities.LivingBeings;
 import genuini.entities.MobSpawnPoint;
+import genuini.entities.QuestionBox;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
@@ -79,6 +80,7 @@ public class WorldManager {
     private Array<Body> bodies;
     
     private MapLayer mobSpawnPointsLayer;
+    private Array<QuestionBox> questionBoxes;
 
     public WorldManager(GameScreen screen, String mapName) {
         this.screen = screen;
@@ -251,6 +253,7 @@ public class WorldManager {
         turrets = new Array<Turret>();
         springs = new Array<Spring>();
         buttons = new Array<Button>();
+        questionBoxes = new Array<QuestionBox>();
 
         for (MapObject object : objects) {
 
@@ -298,6 +301,10 @@ public class WorldManager {
             Button b = new Button(screen, body, Integer.valueOf(object.getProperties().get("id").toString()), Integer.valueOf(object.getProperties().get("linkedObjectID").toString()), object.getProperties().get("button").toString());
             sprites.add(b);
             buttons.add(b);
+        }else if (object.getProperties().containsKey("questionBox")) {
+            QuestionBox qb = new QuestionBox(screen, body, Integer.valueOf(object.getProperties().get("id").toString()),object.getProperties().get("questionBox").toString());
+            sprites.add(qb);
+            questionBoxes.add(qb);
         }
     }
 
@@ -426,6 +433,12 @@ public class WorldManager {
     public Array<Button> getButtons() {
         return buttons;
     }
+    
+    
+    public Array<QuestionBox> getQuestionBoxes() {
+        return questionBoxes;
+    }
+    
     
     public Array<MobSpawnPoint> getMobSpawnPoints() {
         return mobSpawnPoints;

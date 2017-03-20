@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
  * @author Adrien Techer
  */
 public class PreferencesManager {
+
+    private static int progression;
     
     Preferences data = Gdx.app.getPreferences("game_data");
     
@@ -16,6 +18,7 @@ public class PreferencesManager {
     
     public PreferencesManager(){
         initialPosition=new Vector2(10f,5f);
+        progression=data.getInteger("progression", 0);
     }
 
     /*
@@ -98,6 +101,7 @@ public class PreferencesManager {
         data.putInteger("life", life);
         data.putString("previousMapName", data.getString("currentMapName"));
         data.putBoolean("newGame", false);
+        data.putInteger("progression", progression);
         data.flush();
     }
     
@@ -113,6 +117,8 @@ public class PreferencesManager {
         data.flush();
     }
     
-    
+    public static void stepProgression(){
+        progression++;
+    }
     
 }
