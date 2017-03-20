@@ -6,62 +6,51 @@ package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader.Parameters;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
-import genuini.entities.Fireball;
-import genuini.entities.Player;
+import genuini.entities.AccessPoint;
+import genuini.entities.Button;
+import genuini.entities.Genuini;
+import genuini.entities.LivingBeings;
+import genuini.entities.MobSpawnPoint;
+import genuini.entities.Spring;
+import genuini.entities.Sprites;
 import genuini.entities.Turret;
-import genuini.handlers.BoundedCamera;
-import genuini.handlers.ContactHandler;
-import static genuini.handlers.PhysicsVariables.PPM;
-import static genuini.handlers.PhysicsVariables.BIT_PLAYER;
-import static genuini.handlers.PhysicsVariables.BIT_FIREBALL;
-import static genuini.handlers.PhysicsVariables.BIT_TERRAIN;
-import static genuini.handlers.PhysicsVariables.BIT_TURRET;
-
-import genuini.handlers.ScreenEnum;
-import genuini.handlers.ScreenManager;
-import genuini.handlers.TextManager;
+import genuini.game.BoundedCamera;
+import genuini.game.PreferencesManager;
+import genuini.world.ContactHandler;
+import static genuini.world.PhysicsVariables.PPM;
+import genuini.game.ScreenEnum;
+import genuini.game.ScreenManager;
+import genuini.game.TextManager;
 import genuini.main.MainGame;
 import static genuini.main.MainGame.V_HEIGHT;
 import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
+import static genuini.world.PhysicsVariables.GRAVITY;
+import genuini.world.WorldManager;
 
-public class GameScreen extends AbstractScreen{
+public class GameScreen extends AbstractScreen {
 
-    
     private final boolean debug = false;
 
     private BoundedCamera b2dCam;
     private Box2DDebugRenderer b2dr;
-
     private final BoundedCamera cam;
 
-    private Player player;
+    private final Genuini genuini;
 
     private final World world;
 
@@ -69,67 +58,85 @@ public class GameScreen extends AbstractScreen{
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer tmr;
-    private int tileMapWidth;
-    private int tileMapHeight;
-    private float tileSize;
 
     private TextButton spellBookScreenButton;
     private TextButton menuButton;
 
-
     private Table table;
     private Label lifePointsLabel;
-    
-    //Fire turret
-    private Array<Turret> turrets;
-    private Array<Fireball> fireballs;
 
+    private final WorldManager worldManager;
+    //private final String mapName;
+    private boolean changeScreen;
     
+
+    private final TextManager textManager;
 
     public GameScreen() {
         super();
-        if(!MainGame.contentManager.getMusic("gameMusic").isPlaying()){
-            MainGame.contentManager.getMusic("gameMusic").play();
+        if (!MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
+            //MainGame.contentManager.getMusic("gameMusic").play();
         }
         
-        world = new World(new Vector2(0, -9.81f), true); //Create world, any inactive bodies are asleep (not calculated)
+        
+        
+        world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
 
         cam = new BoundedCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-        
-        //set the Text batch
-        TextManager.SetSpriteBatch(batch);
-        
-        //turrets
-        turrets = new Array<Turret>();
-        fireballs = new Array<Fireball>();
-        
-        //create tiles
-        createTiles();
 
-        super.createButtonSkin(tileSize * 1.6f, tileSize / 2);
-        super.createBookButtonSkin(tileSize * 1.6f, tileSize / 2);
-        super.createTextSkin();
+        worldManager = new WorldManager(this, prefs.getCurrentMapName());
         
+                //prefs.setInitialPosition(accessPoint.getPosition());
+        if (prefs.getPreviousMapName().equals(prefs.getCurrentMapName())) {
+            prefs.setPositionX(prefs.getPositionX());
+            prefs.setPositionY(prefs.getPositionY());
+        } else {
+            for (AccessPoint accessPoint : worldManager.getAccessPoints()) {
+                if (accessPoint.getName().equals(prefs.getSpawnName())) {
+                    prefs.setPositionX(accessPoint.getPosition().x);
+                    prefs.setPositionY(accessPoint.getPosition().y);
+                    break;
+                }
+            }
+        }
+       
+
         /* DEBUG */
         if (debug) {
             b2dr = new Box2DDebugRenderer();
             // set up box2d cam
             b2dCam = new BoundedCamera();
             b2dCam.setToOrtho(false, MainGame.V_WIDTH / PPM, MainGame.V_HEIGHT / PPM);
-            b2dCam.setBounds(0, (tileMapWidth * tileSize) / PPM, 0, (tileMapHeight * tileSize) / PPM);
+            b2dCam.setBounds(0, (worldManager.getTileMapWidth() * worldManager.getTileSize()) / PPM, 0, (worldManager.getTileMapHeight() * worldManager.getTileSize()) / PPM);
         }
 
         //create player
-        createPlayer();
-        cam.setBounds(0, tileMapWidth * tileSize, 0, tileMapHeight * tileSize);
-        
-        if (connected) {
-            arduinoInstance.write("game;" + String.valueOf(player.getLife()));
-        }
+        genuini = new Genuini(this);
+        genuini.setLife(prefs.getLife());
 
+        cam.setBounds(0, worldManager.getTileMapWidth() * worldManager.getTileSize(), 0, worldManager.getTileMapHeight() * worldManager.getTileSize());
+
+        if (connected) {
+            arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
+        }
+        
+        changeScreen=false;
+        
+        textManager = new TextManager(this);
+        textManager.setSize(30);
+        textManager.setColor(Color.FIREBRICK);
+        
+        if(prefs.getNewGame()){
+            textManager.playTutorial();
+        }
+        if(prefs.getChallenge()){
+            textManager.displayText("Press G to change the direction of the gravitional field",5000);
+        }
+        //textManager.playTutorial();
+        
     }
 
     @Override
@@ -138,11 +145,8 @@ public class GameScreen extends AbstractScreen{
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                prefs.setPositionX(player.getPosition().x);
-                prefs.setPositionY(player.getPosition().y);
-                prefs.setLife(player.getLife());
-                prefs.save();
-                
+                prefs.save(genuini.getPosition().x, genuini.getPosition().y, genuini.getLife());
+
                 MainGame.contentManager.getMusic("gameMusic").pause();
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
@@ -151,13 +155,10 @@ public class GameScreen extends AbstractScreen{
         spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(connected){
-                    arduinoInstance.write("game;" + String.valueOf(player.getLife()));
+                if (connected) {
+                    arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
                 }
-                prefs.setPositionX(player.getPosition().x);
-                prefs.setPositionY(player.getPosition().y);
-                prefs.setLife(player.getLife());
-                prefs.save();
+                prefs.save(genuini.getPosition().x, genuini.getPosition().y, genuini.getLife());
                 ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
             }
         });
@@ -166,15 +167,15 @@ public class GameScreen extends AbstractScreen{
 
     @Override
     public void buildStage() {
-        menuButton = new TextButton("Menu", skin);
-        menuButton.setPosition(V_WIDTH - tileSize * 1.6f, tileSize * 3);
+        super.buildStage();
+        menuButton = new TextButton("Menu", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int) worldManager.getTileSize() / 2));
+        menuButton.setPosition(V_WIDTH - worldManager.getTileSize() * 1.6f, worldManager.getTileSize() * 3);
+        spellBookScreenButton = new TextButton("Spellbook", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.LIGHT_GRAY, "img/book/redbook.png"));
+        //spellBookScreenButton = new TextButton("Spellbook", skinManager.createBookButtonSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2));
+        spellBookScreenButton.setPosition(V_WIDTH - worldManager.getTileSize() - 20 * 1f, worldManager.getTileSize() * 1.8f);
+        spellBookScreenButton.setSize(worldManager.getTileSize(), worldManager.getTileSize());
 
-        spellBookScreenButton = new TextButton("Spellbook", bookButtonSkin);
-        spellBookScreenButton.setPosition(V_WIDTH - tileSize - 20 * 1f, tileSize * 1.8f);
-        spellBookScreenButton.setSize(tileSize, tileSize);
-        
-
-        if(!prefs.getBook()){
+        if (!prefs.getBook()) {
             spellBookScreenButton.setVisible(false);
         }
         stage.addActor(menuButton);
@@ -191,160 +192,153 @@ public class GameScreen extends AbstractScreen{
             table.debug();// Enables debug lines for tables.
         }
 
-        Label lifeLabel = new Label("Life :", bookButtonSkin, "default", Color.WHITE);
+        Label lifeLabel = new Label("Life :", skinManager.textFieldSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f), "default", Color.WHITE);
         table.add(lifeLabel).width(70);
-        lifePointsLabel = new Label(String.valueOf(player.getLife()), bookButtonSkin, "default", Color.WHITE);
+        lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.textFieldSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f), "default", Color.WHITE);
         table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
+    }
+
+    public void update(float delta) {
+
+        //World step
+        world.step(MainGame.STEP, 8, 3);
+
+        //Check if world is not stepping
+        if (!world.isLocked()) {
+            
+            //Update player & sprites
+            genuini.update(delta);
+            for (Sprites sprite : worldManager.getSprites()) {
+                sprite.update(delta);
+            }
+            for(MobSpawnPoint mobSpawnPoint : worldManager.getMobSpawnPoints()){
+                mobSpawnPoint.update(delta);
+            }
+            if(textManager.isActive()){
+                textManager.update(delta);
+            }
+            
+            handleInput();
+            handleContact();
+            handleArea();
+            
+        }
+        worldManager.destroyBodies();
+        
+        
+        //Get player position for camera
+        float player_pos_x = prefs.getPositionX();
+        float player_pos_y = prefs.getPositionY();
+        if (genuini.getState() != LivingBeings.State.DEAD) {
+            player_pos_x = genuini.getPosition().x;
+            player_pos_y = genuini.getPosition().y;
+        }
+
+        //Camera follows player
+        cam.setPosition(player_pos_x * PPM + MainGame.V_WIDTH / 4, player_pos_y * PPM);
+        cam.update();
+
+        //Update of box2d debug camera
+        if (debug) {
+            b2dCam.setPosition(player_pos_x + MainGame.V_WIDTH / 4 / PPM, player_pos_y);
+            b2dCam.update();
+        }
+        
+        if (changeScreen) {
+            ScreenManager.getInstance().showScreen(ScreenEnum.LOAD);
+        }
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-
+        update(delta);
         batch.setProjectionMatrix(cam.combined);
-        world.step(delta, 7, 3);
-        
-        destroyBodies();
-              
-        
-        handleInput();
-        handleContact();
-        handleArea();
-        float player_pos_x=prefs.getPositionX();
-        float player_pos_y=prefs.getPositionY();
-        if(player.getStatus()!=0){
-            player_pos_x = player.getPosition().x;
-            player_pos_y = player.getPosition().y;
-        }
-         
 
-        // camera follow player
-        cam.setPosition(player_pos_x * PPM + MainGame.V_WIDTH / 4, player_pos_y * PPM);
-        cam.update();
-
-        //draw tiled map
+        //Render tiled map
         tmr.setView(cam);
         tmr.render();
 
+        /**
+         * ** Beggining of drawing area ***
+         */
+        batch.begin();
+
         //draw player
-        player.render(batch);
-        
-        //draw fireballs
-        if(fireballs.size>0){
-            for(Fireball f: fireballs){
-                f.render(batch);
-            }
+        genuini.draw(batch);
+
+        //draw sprites
+        for (Sprites sprite : worldManager.getSprites()) {
+            sprite.draw(batch);
         }
         
+        //draw mobs
+        for(MobSpawnPoint mobSpawnPoint : worldManager.getMobSpawnPoints()){
+                mobSpawnPoint.draw(batch);
+        }
         
-        //To write on screen
+        if(textManager.isActive()){
+          textManager.draw(batch);       
+        }
+        
+        batch.end();
+        /**
+         * ** End of drawing area ***
+         */
+
+        //Box2d debug rendering
         if (debug) {
-            b2dCam.setPosition(player_pos_x + MainGame.V_WIDTH / 4 / PPM, player_pos_y);
-            b2dCam.update();
             b2dr.render(world, b2dCam.combined);
         }
 
+        //Stage rendering
         stage.act(delta);
         stage.draw();
-        
-        
+
     }
 
-    private void playerDeath() {
-        player.setStatus(0);
-        prefs.reset();
-        prefs.save();
-        if (connected) {
-            arduinoInstance.write("death;");
-        }
-        MainGame.contentManager.getMusic("gameMusic").stop();
-        ScreenManager.getInstance().showScreen(ScreenEnum.DEATH);
-    }
-
-    /**
-     * Apply upward force to player body.
-     */
-    private void playerJump() {
-        player.getBody().applyLinearImpulse(0, 160 / PPM, 0, 0, true);
-        player.updateTexture(true);
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-            @Override
-            public void run() {
-                player.updateTexture(false);
-            }
-        },
-                600
-        );
-    }
-
-    public void playerBounce(float impulse) {
-        player.getBody().applyLinearImpulse(0, impulse / PPM, 0, 0, true);
-
-        player.updateTexture(true);
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-            @Override
-            public void run() {
-                player.updateTexture(false);
-            }
-        },
-                800
-        );
-    }
-
-    private void playerMoveLeft() {
-        player.getBody().applyLinearImpulse(-5 / PPM, 0, 0, 0, true);
-        player.walkLeft();
-    }
-
-    private void playerMoveRight() {
-        player.getBody().applyLinearImpulse(5 / PPM, 0, 0, 0, true);
-        player.walkRight();
-    }
-    
-    private void targetPlayer(Body body, float speed) { 
-        body.applyLinearImpulse((player.getPosition().x-body.getPosition().x)*speed/PPM, (player.getPosition().y-body.getPosition().y)*speed/PPM, 0, 0, true);
-    }
-
-    
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
-            playerMoveLeft();
+            genuini.walk(Genuini.Direction.LEFT);
         }
 
         if (Gdx.input.isKeyPressed(Keys.D) || (Gdx.input.isKeyPressed(Keys.RIGHT))) {
-            playerMoveRight();
+            genuini.walk(Genuini.Direction.RIGHT);
         }
 
         if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
-                playerJump();
+            genuini.jump(160f);
         }
-        
+
         /*
-        if ((Gdx.input.isKeyPressed(Keys.F))) {
-            for(Turret turret : turrets){
-                if(turret.isActive()){
-                  turret.deactivate();
-                }else{
-                    turret.activate();
+        if ((Gdx.input.isKeyJustPressed(Keys.F))) {
+            for (Turret turret : worldManager.getTurrets()) {
+                if (turret.isActive()) {
+                    turret.deactivate(true);
+                } else {
+                    turret.activate(true);
                 }
-               
             }
         }*/
-        
+
         if ((Gdx.input.isKeyJustPressed(Keys.G))) {
-            if(prefs.getChallenge()){
-                if(connected){
-                    arduinoInstance.write("game;" + String.valueOf(player.getLife()));
+            if (prefs.getChallenge()) {
+                if (connected) {
+                    arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
                 }
-               if(world.getGravity().y<0){
-                  world.setGravity(new Vector2(0,9.81f));
-                }else{
-                  world.setGravity(new Vector2(0,-9.81f));
-                } 
-            }  
+                if (world.getGravity().y < 0) {
+                    world.setGravity(new Vector2(0, -GRAVITY));
+                    genuini.getBody().setTransform(genuini.getPosition(), (float) Math.PI);
+                } else {
+                    world.setGravity(new Vector2(0, GRAVITY));
+                    genuini.getBody().setTransform(genuini.getPosition(),0f);
+                }
+            }
+        }
+        
+        if ((Gdx.input.isKeyJustPressed(Keys.SPACE))) {
+            genuini.throwFireball();
         }
 
     }
@@ -352,311 +346,137 @@ public class GameScreen extends AbstractScreen{
     public void handleContact() {
 
         if (contactManager.isBouncy() && contactManager.isDangerous()) {
-            playerBounce(200f);
+            genuini.jump(150f);
         } else if (contactManager.isBouncy()) {
-            playerBounce(480f);
+            genuini.jump(300f);
         }
+
         if (contactManager.isDangerous()) {
-            player.changeLife(-5);
+            genuini.changeLife(-5);
+            contactManager.setDangerous(false);
             if (connected) {
-                arduinoInstance.write("game;" + String.valueOf(player.getLife())); //quand vie change
+                arduinoInstance.write("game;" + String.valueOf(genuini.getLife())); //quand vie change
             }
-            lifePointsLabel.setText(String.valueOf(player.getLife()));
-            if (player.getLife() <= 0 && player.getStatus() != 0) {
-                playerDeath();
+            lifePointsLabel.setText(String.valueOf(genuini.getLife()));
+            if (genuini.getLife() <= 0 && genuini.getState() != LivingBeings.State.DEAD) {
+                genuini.die();
             }
         }
-        if(contactManager.bookActive() && !spellBookScreenButton.isVisible()){
+        if (contactManager.isbookActive() && !spellBookScreenButton.isVisible()) {
             spellBookScreenButton.setVisible(true);
             prefs.setBook(true);
-            if(connected){
-                    arduinoInstance.write("book;");
+            if (connected) {
+                arduinoInstance.write("book;");
             }
         }
-        if(contactManager.hasWon()){
+        if (contactManager.hasWon()) {
             prefs.reset();
-            prefs.save();
-            if(connected){
+            if (connected) {
                 arduinoInstance.write("victory;");
             }
             MainGame.contentManager.getMusic("gameMusic").pause();
             ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
         }
     }
-    
-    public void handleArea(){
-        for(Turret turret : turrets){      
-            if(!turret.hasFireball() && turret.isActive()){   
-                float distance_player_turret =(float) Math.sqrt(Math.pow(player.getPosition().x-turret.getPos().x,2) + (Math.pow(player.getPosition().y-turret.getPos().y,2)));
-                if(distance_player_turret < 5){
-                    Fireball fireball = createFireball(turret);
-                    fireballs.add(fireball);
-                    turret.setFireball(fireball);
-                    targetPlayer(fireball.getBody(), 20);
-                }
-            }    
+
+    public void handleArea() {
+        for (Spring spring : worldManager.getSprings()) {
+            if (contactManager.isBouncy() && (getDistanceFromPlayer(spring) < 0.8f)) {
+                spring.activate();
+            }
         }
-        
+
+        for (Turret turret : worldManager.getTurrets()) {
+            if (getDistanceFromPlayer(turret) < turret.getActivationDistance()) {
+                turret.activate(false);
+            } else {
+                turret.deactivate(false);
+            }
+        }
+
+        for (Button button : worldManager.getButtons()) {
+            if (contactManager.isButton() && getDistanceFromPlayer(button) < 0.7f && !button.isPressed()) {
+                genuini.jump(150f);
+                button.press();
+                int linkedObjectID = button.getLinkedObjectID();
+                if (button.getLinkedObjectType().equals("turret")) {
+                    for (Turret turret : worldManager.getTurrets()) {
+                        if (turret.getID() == linkedObjectID) {
+                            turret.deactivate(true);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        for (AccessPoint accessPoint : worldManager.getAccessPoints()) {
+            if (getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !world.isLocked() && genuini.getLife()>0) {
+                prefs.save(genuini.getPosition().x,genuini.getPosition().y, genuini.getLife());
+                prefs.setPreviousMapName(prefs.getCurrentMapName());
+                prefs.setCurrentMapName(accessPoint.getLinkedMapName());
+                prefs.setSpawnName(accessPoint.getLinkedAccessPointName());
+                prefs.setLife(genuini.getLife());
+                changeScreen = true;
+                break;
+            }
+        }
+  
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        //font.dispose();
         world.dispose();
         map.dispose();
     }
 
-    private void createPlayer() {
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
+    public TiledMap getMap() {
+        return map;
+    }
 
-        bdef.position.set(prefs.getPositionX(), prefs.getPositionY());
-        bdef.type = BodyType.DynamicBody;
-        bdef.linearDamping = 1f;
-        Body body = world.createBody(bdef);
-        fdef.friction=2f;
-        fdef.shape = shape;
-        fdef.filter.categoryBits = BIT_PLAYER;
-        fdef.filter.maskBits = BIT_TERRAIN | BIT_TURRET | BIT_FIREBALL;
-        float bodyWidth = 22f/PPM;
-        float bodyHeight = 44f/PPM;
-        float feetWidth = 14f/PPM;
-        float feetHeight = 14f/PPM;
-        
-        
-        //Create player shape
-        Vector2[] playerShapeVertices = new Vector2[6];
-        playerShapeVertices[0] = new Vector2(-feetWidth, -bodyHeight);
-        playerShapeVertices[1] = new Vector2(feetWidth, -bodyHeight);
-        playerShapeVertices[2] = new Vector2(bodyWidth, -bodyHeight + feetHeight);
-        playerShapeVertices[3] = new Vector2(bodyWidth, bodyHeight);
-        playerShapeVertices[4] = new Vector2(-bodyWidth, bodyHeight);
-        playerShapeVertices[5] = new Vector2(-bodyWidth, -bodyHeight + feetHeight);
-        shape.set(playerShapeVertices);
-        //shape.setAsBox(bodyWidth, bodyHeight);
-        body.createFixture(fdef).setUserData("player");
+    public World getWorld() {
+        return world;
+    }
 
-        //create foot sensor
-        shape.setAsBox(feetWidth, feetHeight / 2, new Vector2(0, -bodyHeight), 0);
-        fdef.isSensor = true;
-        body.createFixture(fdef).setUserData("foot");
+    public OrthogonalTiledMapRenderer getTMR() {
+        return tmr;
+    }
 
-        //Create player entity
-        player = new Player(body);
-        player.setLife(prefs.getLife());
+    public void setMap(TiledMap map) {
+        this.map = map;
+    }
+
+    public void setTMR(OrthogonalTiledMapRenderer orthogonalTiledMapRenderer) {
+        this.tmr = orthogonalTiledMapRenderer;
+    }
+
+    public PreferencesManager getPreferences() {
+        return prefs;
+    }
+
+    public ContactHandler getContactManager() {
+        return contactManager;
+    }
+
+    public float getDistanceFromPlayer(Body body) {
+        //return (float) (Math.sqrt(Math.pow(body.getPosition().x+,2) + (Math.pow(genuini.getBody().getWorldCenter().y-body.getWorldCenter().y,2))));
+        return 1f;
+    }
+
+    public float getDistanceFromPlayer(Sprites sprite) {
+        if(genuini.getLife()>0){
+            return (float) (Math.sqrt(Math.pow(sprite.getBody().getPosition().x + sprite.getSprite().getWidth() / 2 / PPM - genuini.getPosition().x, 2) + (Math.pow(sprite.getBody().getPosition().y + sprite.getSprite().getHeight() / 2 / PPM - genuini.getPosition().y, 2))));
+        }else{
+            return 0;
+        }  
+    }
+
+    public Genuini getGenuini() {
+        return genuini;
     }
     
-    public Fireball createFireball(Turret turret){
-        BodyDef bdef = new BodyDef();
-        bdef.type = BodyType.DynamicBody;
-        bdef.position.set(turret.getPos().x,turret.getPos().y);
-        
-        Body body = world.createBody(bdef);
-        
-        CircleShape circle = new CircleShape();
-        circle.setRadius(0.15f);
-        FixtureDef fd = new FixtureDef();
-        fd.shape = circle;
-        fd.density = 1f; 
-        fd.friction = 1.4f;
-        fd.restitution = 0.6f; // Make it bounce a little bit
-        fd.filter.categoryBits = BIT_FIREBALL;
-        fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN | BIT_PLAYER;
-        body.createFixture(fd).setUserData("fireball");
-        return new Fireball(body,turret);
-    }
-
-
-    private void createTiles() {
-
-        // TmxMapLoader.Parameters
-        Parameters params = new Parameters();
-        params.textureMinFilter = TextureFilter.Linear;
-        params.textureMagFilter = TextureFilter.Nearest;
-
-        //Load map
-        map = new TmxMapLoader().load("maps/test.tmx", params);
-        // Retrieve map properties
-        MapProperties properties = map.getProperties();
-
-        tmr = new OrthogonalTiledMapRenderer(map);
-
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("terrain");
-        BodyDef bdef = new BodyDef();
-        tileMapWidth = properties.get("width", Integer.class);
-        tileMapHeight = properties.get("height", Integer.class);
-        tileSize = layer.getTileHeight();
-        //go through all the cells in layer
-        for (int row = 0; row < layer.getHeight(); row++) {
-            for (int col = 0; col < layer.getWidth(); col++) {
-                // get cell
-                Cell cell = layer.getCell(col, row);
-
-                // check that there is a cell
-                if (cell == null) {
-                    continue;
-                }
-                if (cell.getTile() == null) {
-                    continue;
-                }
-                // create body from cell
-                bdef.type = BodyType.StaticBody;
-                bdef.position.set((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM); //centered at center
-
-                ChainShape cs = new ChainShape();
-                FixtureDef fd = new FixtureDef();
-
-                float box2dTileSize = tileSize / PPM;
-                if (cell.getTile().getProperties().get("slide_left") != null) {
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[4];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
-                    v[2] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[3] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0.8f;
-                    fd.shape = cs;
-                    fd.isSensor=false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
-                    world.createBody(bdef).createFixture(fd);
-                } else if (cell.getTile().getProperties().get("slide_right") != null) {
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[4];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[3] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0.8f;
-                    fd.shape = cs;
-                    fd.isSensor = false;
-                    fd.isSensor=false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
-                    world.createBody(bdef).createFixture(fd);
-                } else if (cell.getTile().getProperties().get("bounce") != null) {
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 9);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 9);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor=false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER;
-                    world.createBody(bdef).createFixture(fd).setUserData("bounce");
-                } else if (cell.getTile().getProperties().get("spike") != null) {
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, -0.1f);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, -0.1f);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor = false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER;
-                    world.createBody(bdef).createFixture(fd).setUserData("spike");
-                }else if(cell.getTile().getProperties().get("fire_turret")!=null){
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize/2, box2dTileSize/2);//top left corner
-                    v[2] = new Vector2(box2dTileSize/2, box2dTileSize/2);//top right corner
-                    v[3] = new Vector2(box2dTileSize/2 , -box2dTileSize/2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize/2, -box2dTileSize/2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor=false;
-                    fd.filter.categoryBits = BIT_TURRET;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_TERRAIN;
-                    world.createBody(bdef).createFixture(fd).setUserData("fire_turret");
-                    Vector2 turret_pos= new Vector2((col + 0.5f) * tileSize / PPM, (row + 0.5f) * tileSize / PPM);
-                    createFireTurret(turret_pos);
-                }else if(cell.getTile().getProperties().get("challengeBox")!=null){
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor=false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
-                    world.createBody(bdef).createFixture(fd).setUserData("challengeBox");
-                }else if(cell.getTile().getProperties().get("victory")!=null){
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor=false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
-                    world.createBody(bdef).createFixture(fd).setUserData("victory");
-                }else{
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor=false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL;
-                    world.createBody(bdef).createFixture(fd);
-                }
-                cs.dispose();
-            }
-        }
-    }
-
-    private void destroyBodies() {
-        Array<Body> bodies = contactManager.getBodies();
-        for(int i = 0; i < bodies.size; i++) {
-            Body b = bodies.get(i);
-            bodies.removeIndex(i);
-            world.destroyBody(b);
-        }
-        bodies.clear();
-       if(fireballs.size>0){
-            for(Fireball f : fireballs){
-                if(!f.getBody().isActive()){
-                    fireballs.removeValue(f, false);
-                    f.getTurret().destroyFireball();
-                }
-            }
-        }
-    }
-
-    private void createFireTurret(Vector2 turret_pos) {
-        Turret turret = new Turret(turret_pos);
-        turrets.add(turret);
-    }
     
+    
+
 }
