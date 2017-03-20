@@ -10,17 +10,16 @@ branches:
     - Création_de_la_base
 
 before_install:
-  - sudo apt-get install librxtx-java netty
+  - sudo apt-get install librxtx-java
   - sudo cp /usr/lib/jni/librxtxSerial.so /usr/lib/jvm/java-7-oracle/jre/lib/amd64/librxtxSerial.so
   - sudo cp /usr/lib/jni/librxtxParallel.so /usr/lib/jvm/java-7-oracle/jre/lib/amd64/librxtxParallel.so
-  - sudo ldconfig /usr/lib/jni
   - sudo ldconfig
   - cd xGenuini
   - chmod +x gradlew
 
 install:
   - ./gradlew assemble
-  - ./gradlew clean compile
+  - ./gradlew clean compileJava
 
 notifications:
   email: false
