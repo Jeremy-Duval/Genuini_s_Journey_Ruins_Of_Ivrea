@@ -6,6 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+
     }
 }
 
@@ -41,6 +42,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
     }
 }
 
@@ -53,6 +55,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"  
         compile files('assets/libs/RXTXComm.jar')
+        compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+        compile files('assets/libs/tween-engine-api.jar')
     }
 }
 

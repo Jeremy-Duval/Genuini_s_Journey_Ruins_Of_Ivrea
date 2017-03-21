@@ -1,0 +1,21 @@
+Rapport
+
+- Préconception
+- Futur dev : Objectifs
+- Futur dev : Univers
+- Conclusion
+- Bilan Général
+- Remerciements
+- Glossaire
+- Images + légendes
+- Liens et Renvoi
+- Reprendre futur dev : idées
+- Relire x8
+- Mise en page
+- Rajouter les diagrammes UML en annexe
+
+
+/********************************bug************************************/
+-Après la mort, le grimoire est toujours débloqué alors qu'il devrait retourné à 0 (pareil pour 'G')
+-On commence dans le 'Game' et non 'Menu' 
+-Refactor -> rename -> "Content" en "ContentManager"
