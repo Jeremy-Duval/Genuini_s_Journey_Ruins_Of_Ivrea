@@ -3,6 +3,7 @@ package genuini.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import genuini.game.PreferencesManager;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_FIREBALL;
@@ -47,10 +48,14 @@ public class Button extends StaticElements {
 
     /**
      * Changes the sprite's texture and the button's status to pressed
+     * @param firstTime
      */
-    public void press() {
+    public void press(boolean firstTime) {
         sprite.setRegion(buttonPressedTexture);
         pressed = true;
+        if(firstTime){
+            PreferencesManager.stepProgression();
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ package genuini.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import genuini.game.PreferencesManager;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_MOB;
@@ -51,7 +52,11 @@ public class QuestionBox extends StaticElements{
     }
     
     public final void setQuestionNumber(String question) {
-        if(question.equals("gravity")){
+        if(question.equals("doubleJump")){
+            questionNumber=ScenarioVariables.DOUBLE_JUMP;
+        }else if(question.equals("fireball")){
+            questionNumber=ScenarioVariables.FIREBALL;
+        }else if(question.equals("gravity")){
             questionNumber=ScenarioVariables.GRAVITY;
         }else{
             questionNumber=0;
@@ -63,6 +68,8 @@ public class QuestionBox extends StaticElements{
     public void update(float delta){
         if(body.getFixtureList().first().getUserData().equals("questionBoxDisabled") && active){
             screen.displayText("Look at your spellbook, you have a new challenge !", 5000);
+            PreferencesManager.stepProgression();
+            screen.getPreferences().updateProg();
             disable();
         }
     }

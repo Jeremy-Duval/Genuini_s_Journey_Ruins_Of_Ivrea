@@ -117,6 +117,10 @@ public class PreferencesManager {
         data.flush();
     }
     
+    public void updateProg(){
+        setProgression(progression);
+    }
+    
     public static void stepProgression(){
         progression++;
     }

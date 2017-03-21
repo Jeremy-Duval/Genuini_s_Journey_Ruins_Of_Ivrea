@@ -18,11 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import genuini.entities.AccessPoint;
+import genuini.entities.Button;
 import genuini.entities.Genuini;
 import genuini.entities.LivingBeings;
 import genuini.entities.MobSpawnPoint;
 import genuini.entities.QuestionBox;
 import genuini.entities.Sprites;
+import genuini.entities.Turret;
 import genuini.game.BoundedCamera;
 import genuini.game.PreferencesManager;
 import genuini.world.ContactHandler;
@@ -68,6 +70,7 @@ public class GameScreen extends AbstractScreen {
     
 
     private final TextManager textManager;
+    private boolean hasWon;
 
     public GameScreen() {
         super();
@@ -126,19 +129,30 @@ public class GameScreen extends AbstractScreen {
         textManager.setSize(30);
         textManager.setColor(Color.FIREBRICK);
         
-        if(prefs.getNewGame()){
+        if(prefs.getNewGame() && prefs.getProgression()==0){
             textManager.playTutorial();
+        }else{
+            displayHint();
         }
         
-        int prog = prefs.getProgression();
+        
         for(QuestionBox qb : worldManager.getQuestionBoxes()){
-            if(qb.getQuestionNumber()<prog){
+            if(qb.getQuestionNumber()<prefs.getProgression()){
                 qb.disable();
             }
         }
-        if(prog==ScenarioVariables.GRAVITY){
-            textManager.displayText("Press G to change the direction of the gravitional field",5000);
+        if(prefs.getCurrentMapName().equals("forest") && prefs.getProgression()>=ScenarioVariables.TURRET){
+            for(Turret t : worldManager.getTurrets()){
+                t.deactivate(debug);
+            }
+            for(Button b: worldManager.getButtons()){
+                b.press(false);
+            }
         }
+        
+        
+        
+        hasWon=false;
         //textManager.playTutorial();
         
         //arduinoInstance.serialEventString(new SerialPortEvent());
@@ -252,8 +266,7 @@ public class GameScreen extends AbstractScreen {
          */
         batch.begin();
 
-        //draw player
-        genuini.draw(batch);
+        
 
         //draw sprites
         for (Sprites sprite : worldManager.getSprites()) {
@@ -265,11 +278,17 @@ public class GameScreen extends AbstractScreen {
                 mobSpawnPoint.draw(batch);
         }
         
-        if(textManager.isActive()){
-          textManager.draw(batch);       
-        }
         
+        
+        //draw player
+        genuini.draw(batch);
         batch.end();
+        
+        hudBatch.begin();
+            if(textManager.isActive()){
+              textManager.draw(hudBatch);       
+            }
+        hudBatch.end();
         /**
          * ** End of drawing area ***
          */
@@ -338,6 +357,10 @@ public class GameScreen extends AbstractScreen {
         return genuini;
     }
     
+    public TextManager getTextManager() {
+        return textManager;
+    }
+    
     public void setLifeText(){
         lifePointsLabel.setText(String.valueOf(genuini.getLife()));
     }
@@ -349,6 +372,34 @@ public class GameScreen extends AbstractScreen {
     
     public void displayText(String text, int time){
         textManager.displayText(text, time);
+    }
+    
+    private void displayHint(){
+        int prog = prefs.getProgression();
+        switch(prog){
+            case ScenarioVariables.DOUBLE_JUMP:
+                textManager.displayText("You can now jump twice",5000);
+                break;
+            case ScenarioVariables.FIREBALL:
+                textManager.displayText("Press SPACE to throw fireballs",5000);
+                break;
+            case ScenarioVariables.GRAVITY:
+                textManager.displayText("Press G to change the direction of the gravitional field",5000);
+                break;
+        }
+    }
+    
+    public void win(){
+        if(!hasWon){
+           prefs.reset();
+            if (connected) {
+                arduinoInstance.write("victory;");
+            }
+            MainGame.contentManager.getMusic("gameMusic").pause();
+            ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
+            hasWon=true;
+        }
+        
     }
 
 }
