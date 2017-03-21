@@ -78,7 +78,6 @@ public class GameScreen extends AbstractScreen {
             //MainGame.contentManager.getMusic("gameMusic").play();
         }
         
-        
         //prefs.setCurrentMapName("cave");
         world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
@@ -129,29 +128,30 @@ public class GameScreen extends AbstractScreen {
         textManager.setSize(30);
         textManager.setColor(Color.FIREBRICK);
         
-        if(prefs.getNewGame() && prefs.getProgression()==0){
+        if(prefs.getNewGame()){
             textManager.playTutorial();
         }else{
-            displayHint();
+            //displayHint();
         }
         
         
         for(QuestionBox qb : worldManager.getQuestionBoxes()){
-            if(qb.getQuestionNumber()<prefs.getProgression()){
+            if(prefs.hasSkill(qb.getSkill())){
                 qb.disable();
             }
         }
-        if(prefs.getCurrentMapName().equals("forest") && prefs.getProgression()>=ScenarioVariables.TURRET){
-            for(Turret t : worldManager.getTurrets()){
-                t.deactivate(debug);
-            }
-            for(Button b: worldManager.getButtons()){
-                b.press(false);
+        
+        for(Turret t : worldManager.getTurrets()){
+            if(!prefs.isTurretActive(t.getID())){
+                t.deactivate(true);
             }
         }
         
-        
-        
+        for(Button b: worldManager.getButtons()){
+            if(!prefs.isTurretActive(b.getLinkedObjectID())){
+                b.press(false);
+            }
+        }
         hasWon=false;
         //textManager.playTutorial();
         
@@ -374,6 +374,7 @@ public class GameScreen extends AbstractScreen {
         textManager.displayText(text, time);
     }
     
+    /*
     private void displayHint(){
         int prog = prefs.getProgression();
         switch(prog){
@@ -387,7 +388,7 @@ public class GameScreen extends AbstractScreen {
                 textManager.displayText("Press G to change the direction of the gravitional field",5000);
                 break;
         }
-    }
+    }*/
     
     public void win(){
         if(!hasWon){

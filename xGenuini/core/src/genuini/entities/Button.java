@@ -54,7 +54,7 @@ public class Button extends StaticElements {
         sprite.setRegion(buttonPressedTexture);
         pressed = true;
         if(firstTime){
-            PreferencesManager.stepProgression();
+            screen.getPreferences().deactivateTurret(linkedObjectID);
         }
     }
 

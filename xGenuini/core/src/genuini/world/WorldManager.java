@@ -460,7 +460,7 @@ public class WorldManager {
         }
         
         
-        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP))) && screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP){
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP))) && screen.getPreferences().hasSkill("doubleJump")/*screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/){
             if (!screen.getContactManager().playerCanJump() && screen.getGenuini().canReJump()){
                 screen.getGenuini().jump(500f);
                 screen.getGenuini().setReJump(false);
@@ -470,7 +470,7 @@ public class WorldManager {
         if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP)))){
             if(screen.getContactManager().playerCanJump()){
                 screen.getGenuini().jump(160f);
-                if (screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP) {
+                if (/*screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/ screen.getPreferences().hasSkill("doubleJump")) {
                     screen.getGenuini().setReJump(true);
                 }
             }
@@ -488,7 +488,7 @@ public class WorldManager {
         }*/
         
         if ((Gdx.input.isKeyJustPressed(Input.Keys.G))) {
-            if (screen.getPreferences().getProgression()>=ScenarioVariables.GRAVITY) {
+            if (screen.getPreferences().hasSkill("gravity")) {
                 if (connected) {
                     arduinoInstance.write("game;" + String.valueOf(screen.getGenuini().getLife()));
                 }
@@ -503,7 +503,7 @@ public class WorldManager {
         }
         
         if ((Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
-            if (screen.getPreferences().getProgression()>=ScenarioVariables.FIREBALL) {
+            if (screen.getPreferences().hasSkill("fireball")) {
                 screen.getGenuini().throwFireball();
             } 
         }
@@ -512,8 +512,7 @@ public class WorldManager {
             screen.getGenuini().die();
         }
         if ((Gdx.input.isKeyJustPressed(Input.Keys.X))) {
-            System.err.println("WM INPUT - Progression :" + screen.getPreferences().getProgression());
-            screen.getTextManager().playTutorial();
+            screen.getPreferences().test();
         }
         
     }
@@ -589,8 +588,10 @@ public class WorldManager {
                 }
                 
             }
-            if(accessPoint.getType().equals("death_zone") && accessPoint.getPosition().y>screen.getGenuini().getPosition().y && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0){
+            if(accessPoint.getType().equals("death_zone") && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0){
+                if( accessPoint.getPosition().y>screen.getGenuini().getPosition().y){
                     screen.getGenuini().die();
+                }       
             }
         }
   

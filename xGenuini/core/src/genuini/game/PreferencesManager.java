@@ -3,126 +3,176 @@ package genuini.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Deals with setting,returning,reseting and saving the different preferences values.
  * @author Adrien Techer
  */
 public class PreferencesManager {
-
-    private static int progression;
-    
-    Preferences data = Gdx.app.getPreferences("game_data");
+   
+    Preferences gameData = Gdx.app.getPreferences("game_data");
+    Preferences playerData = Gdx.app.getPreferences("player_data");
+    Preferences turretsData = Gdx.app.getPreferences("turrets_data");
     
     private final Vector2 initialPosition;
+    private String lastSkill;
     
     public PreferencesManager(){
         initialPosition=new Vector2(10f,5f);
-        progression=data.getInteger("progression", 0);
+        lastSkill=getLastSkill();
     }
-
-    /*
-    public void setInitialPosition(Vector2 initialPosition){
-        this.initialPosition=initialPosition;
-    }*/
+    
+    
+    
+    /*Location and general data */
     
     public void setPositionX(float posX){
-        data.putFloat("player_xPosition", posX);
+        gameData.putFloat("player_xPosition", posX);
     }
      
     public float getPositionX(){
-        return data.getFloat("player_xPosition", initialPosition.x);    
+        return gameData.getFloat("player_xPosition", initialPosition.x);    
     }
     
     public void setPositionY(float posY){
-        data.putFloat("player_YPosition", posY);
+        gameData.putFloat("player_YPosition", posY);
     }
     
     public float getPositionY(){
-        return data.getFloat("player_YPosition", initialPosition.y);
-    }
-    
-    public void setProgression(int milestoneNum) {
-        data.putInteger("progression",  milestoneNum);
-    }
-    
-    
-    public int getProgression(){
-        return data.getInteger("progression", 0);
-    }
-    
-    public void setLife(int life){
-        data.putInteger("life", life);
-    }
-    
-    public int getLife(){
-        return data.getInteger("life",100);
+        return gameData.getFloat("player_YPosition", initialPosition.y);
     }
     
     public void setPreviousMapName(String previousMapName){
-        data.putString("previousMapName", previousMapName);
+        gameData.putString("previousMapName", previousMapName);
     }
     
     public String getPreviousMapName(){
-        return data.getString("previousMapName", "village");
+        return gameData.getString("previousMapName", "village");
     }
     
     public void setCurrentMapName(String currentMapName){
-        data.putString("currentMapName", currentMapName);
+        gameData.putString("currentMapName", currentMapName);
     }
     
     public String getCurrentMapName(){
-        return data.getString("currentMapName", "village");
+        return gameData.getString("currentMapName", "village");
     }
     
     public void setSpawnName(String spawnName){
-        data.putString("spawnName", spawnName);
+        gameData.putString("spawnName", spawnName);
     }
     
     public String getSpawnName(){
-        return data.getString("spawnName", "initial_spawn");
+        return gameData.getString("spawnName", "initial_spawn");
     }
     
     public void setNewGame(boolean newGame){
-        data.putBoolean("newGame", newGame);
+        gameData.putBoolean("newGame", newGame);
     }
     
     public boolean getNewGame(){
-        return data.getBoolean("newGame", true);
+        return gameData.getBoolean("newGame", true);
     }
     
+    
+    public Map<String, ?> getGameData(){
+        return gameData.get();
+    }
+    
+    
+    
+    
+    /* Life and Skills */
+    
+    
+    public void giveSkill(String skillName) {
+        playerData.putBoolean(skillName, true);
+        lastSkill=skillName;
+    }
+    
+    public boolean hasSkill(String skillName) {
+        return playerData.getBoolean(skillName, false);
+    }
+
+    public String getLastSkill(){
+        return playerData.getString("lastSkill","none");
+    }
+    
+    
+    public void setLife(int life){
+        playerData.putInteger("life", life);
+    }
+    
+    public int getLife(){
+        return playerData.getInteger("life",100);
+    }
+    
+    public Map<String, ?> getPlayerData(){
+        return playerData.get();
+    }
+    
+    /* Turrets */
+    
+    public void deactivateTurret(int id){
+        turretsData.putBoolean("turret_"+String.valueOf(id), false);
+    }
+    
+    public boolean isTurretActive(int id){
+        return turretsData.getBoolean("turret_"+String.valueOf(id),true);
+    }
+    
+    
+    
     public void save(){
-        data.flush();
+        gameData.flush();
+        playerData.flush();
+        turretsData.flush();
     }
     
     public void save(float posX, float posY, int life) {
-        data.putFloat("player_xPosition", posX);
-        data.putFloat("player_YPosition", posY);
-        data.putInteger("life", life);
-        data.putString("previousMapName", data.getString("currentMapName"));
-        data.putBoolean("newGame", false);
-        data.putInteger("progression", progression);
-        data.flush();
+        gameData.putFloat("player_xPosition", posX);
+        gameData.putFloat("player_YPosition", posY);  
+        gameData.putString("previousMapName", gameData.getString("currentMapName"));
+        gameData.putBoolean("newGame", false);
+
+        
+        playerData.putInteger("life", life);
+        playerData.putString("lastSkill", lastSkill);
+        
+        save();
     }
     
     public void reset(){
-        data.putFloat("player_xPosition", initialPosition.x);
-        data.putFloat("player_YPosition", initialPosition.y);
-        data.putString("previousMapName", "village");
-        data.putString("currentMapName", "village");
-        data.putString("spawnName", "initial_spawn");
-        data.putInteger("progression", 0);
-        data.putInteger("life", 100);
-        data.putBoolean("newGame", true);
-        data.flush();
+        gameData.putFloat("player_xPosition", initialPosition.x);
+        gameData.putFloat("player_YPosition", initialPosition.y);
+        gameData.putString("previousMapName", "village");
+        gameData.putString("currentMapName", "village");
+        gameData.putString("spawnName", "initial_spawn");
+        gameData.putBoolean("newGame", true);
+        
+        playerData.putInteger("life", 100);
+        playerData.putString("lastSkill", "none");
+        for(String s : playerData.get().keySet()){
+            if(!(s.equals("life") || s.equals("lastSkill"))){
+                playerData.putBoolean(s, false);
+            }
+            
+        }
+        
+        
+        for(String s : turretsData.get().keySet()){
+            turretsData.putBoolean(s, false);
+        }
+      
+        save();
     }
     
-    public void updateProg(){
-        setProgression(progression);
+    public void test(){
+        for(String s : playerData.get().keySet()){
+            System.err.println(s);
+        }
     }
-    
-    public static void stepProgression(){
-        progression++;
-    }
-    
+            
 }
