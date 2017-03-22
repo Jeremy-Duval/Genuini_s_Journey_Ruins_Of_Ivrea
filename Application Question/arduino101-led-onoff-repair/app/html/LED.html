@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<!--
+This is an app that demonstrates how to control an Arduino101 board
+using BLE (Bluetooth Low Energy).
+-->
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no
+		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>Genuini's Journey</title>
+
+	<style>
+		@import '../ui/css/evothings-app.css';
+		@import '../ui/css/genuini.css';
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	window.onerror = function(msg, url, line)
+	{
+		console.log(msg + ": " + url + ":" + line);
+	};
+	</script>
+
+	<script src="../cordova.js"></script>
+	<script src="../libs/jquery/jquery.js"></script>
+	<script src="../libs/evothings/evothings.js"></script>
+	<script src="../libs/evothings/ui/ui.js"></script>
+	<script src="../libs/evothings/arduinoble/arduinoble.js"></script>
+	<script language = "javascript" src = "script.js"></script>
+
+
+</head>
+
+<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+	<header>
+		<button class="back" onclick="history.back()">
+			<img src="../ui/images/arrow-left.svg" />
+		</button>
+
+		<img class="logotype" src="../ui/images/logo.png" alt="Genuini" />
+	</header>
+
+	<div id="first_del_div">
+		<h1>Digital Signal</h1>
+		<div ><img src="../assets/images/digital_signal.png" alt="digital_signal" style="width:50%;"></div>
+		<div ><p>A digital signal is a signal wich can take the value 0 or 1.</p>
+		<p>With this type of signal, you can use components whitch just can be in an 'on' or 'off' state.</p></div>
+	</div>
+	<div>
+		<h1>An exemple : the DEL !</h1>
+		<div>
+			<div ><img src="../assets/images/led.png" alt="A red DEL" style="width:10%;"></div>
+			<div ><p>The component above is a DEL (light-emitting diode).</p>
+			<p>With this type of signal, you can use components whitch just can be in an 'on' or 'off' state.</p></div>
+		</div>
+		<div>
+			<div ><img src="../assets/images/led_prgm.png" alt="digital_signal" style="width:50%;"></div>
+			<div ><p>In the code above, you begin to create a variable 'red_del' and affect it the value '2' (the pin wich is connected with the del). With this, you create a box in memory with the value '2' to remember the number of the del's pin and reuse it later.</p>
+			<p>Next, you use the 'pinMode' instruction. You give it 2 parameters : the number of the pin to initialise (your del's pin) and the state of the pin (here 'OUTPUT' because the power go to the del from the board ; 'INPUT' else).</p>
+			<p>Finally, you use the 'digitalWrite' instruction. It will send a low or high digital signal to a pin in function of parameters. The first is still the number of the pin wich you want to send the signal and the second is 'LOW' (to turn off the del) or HIGH' (to turn it on)</p></div>
+		</div>
+	</div>
+</body>
+
+<script src="../ui/js/startScreen.js"></script>
+</html>
