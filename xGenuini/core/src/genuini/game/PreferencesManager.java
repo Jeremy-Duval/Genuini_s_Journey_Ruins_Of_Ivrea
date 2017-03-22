@@ -21,7 +21,7 @@ public class PreferencesManager {
     
     public PreferencesManager(){
         initialPosition=new Vector2(10f,5f);
-        lastSkill=getLastSkill();
+        lastSkill=getLastSkillSaved();
     }
     
     
@@ -96,7 +96,7 @@ public class PreferencesManager {
         return playerData.getBoolean(skillName, false);
     }
 
-    public String getLastSkill(){
+    private String getLastSkillSaved(){
         return playerData.getString("lastSkill","none");
     }
     
@@ -157,22 +157,18 @@ public class PreferencesManager {
         for(String s : playerData.get().keySet()){
             if(!(s.equals("life") || s.equals("lastSkill"))){
                 playerData.putBoolean(s, false);
-            }
-            
+            }    
         }
         
-        
         for(String s : turretsData.get().keySet()){
-            turretsData.putBoolean(s, false);
+            turretsData.putBoolean(s, true);
         }
       
         save();
     }
     
-    public void test(){
-        for(String s : playerData.get().keySet()){
-            System.err.println(s);
-        }
+    public String getLastSkill(){
+        return lastSkill;
     }
             
 }

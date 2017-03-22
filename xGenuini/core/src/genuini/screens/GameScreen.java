@@ -38,7 +38,6 @@ import static genuini.main.MainGame.V_WIDTH;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import static genuini.world.PhysicsVariables.GRAVITY;
-import genuini.world.ScenarioVariables;
 import genuini.world.WorldManager;
 
 public class GameScreen extends AbstractScreen {
@@ -131,7 +130,7 @@ public class GameScreen extends AbstractScreen {
         if(prefs.getNewGame()){
             textManager.playTutorial();
         }else{
-            //displayHint();
+            textManager.displayText(textManager.getHint(),5);
         }
         
         
@@ -369,26 +368,8 @@ public class GameScreen extends AbstractScreen {
         changeScreen=true;
     }
     
+      
     
-    public void displayText(String text, int time){
-        textManager.displayText(text, time);
-    }
-    
-    /*
-    private void displayHint(){
-        int prog = prefs.getProgression();
-        switch(prog){
-            case ScenarioVariables.DOUBLE_JUMP:
-                textManager.displayText("You can now jump twice",5000);
-                break;
-            case ScenarioVariables.FIREBALL:
-                textManager.displayText("Press SPACE to throw fireballs",5000);
-                break;
-            case ScenarioVariables.GRAVITY:
-                textManager.displayText("Press G to change the direction of the gravitional field",5000);
-                break;
-        }
-    }*/
     
     public void win(){
         if(!hasWon){
