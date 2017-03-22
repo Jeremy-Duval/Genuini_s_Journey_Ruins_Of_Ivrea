@@ -464,9 +464,7 @@ public class WorldManager {
             if (!screen.getContactManager().playerCanJump() && screen.getGenuini().canReJump()){
                 screen.getGenuini().jump(500f);
                 screen.getGenuini().setReJump(false);
-            }
-                arduinoInstance.write("book;");
-                System.out.println("book send");
+            }              
         }
         
         if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP)))){

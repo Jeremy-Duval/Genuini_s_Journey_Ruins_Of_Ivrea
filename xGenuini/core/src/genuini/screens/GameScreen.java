@@ -230,7 +230,7 @@ public class GameScreen extends AbstractScreen {
         //Get player position for camera
         float player_pos_x = prefs.getPositionX();
         float player_pos_y = prefs.getPositionY();
-        if (genuini.getState() != LivingBeings.State.DEAD) {
+        if (genuini.getState() != LivingBeings.State.DEAD && !world.isLocked()) {
             player_pos_x = genuini.getPosition().x;
             player_pos_y = genuini.getPosition().y;
         }
