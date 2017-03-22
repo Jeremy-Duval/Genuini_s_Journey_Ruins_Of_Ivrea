@@ -49,21 +49,20 @@ using BLE (Bluetooth Low Energy).
 	<div id="first_del_div">
 		<h1>Digital Signal</h1>
 		<div ><img src="../assets/images/digital_signal.png" alt="digital_signal" style="width:50%;"></div>
-		<div ><p>A digital signal is a signal wich can take the value 0 or 1.</p>
-		<p>With this type of signal, you can use components whitch just can be in an 'on' or 'off' state.</p></div>
+		<div ><p>A digital signal is a signal which can take the value 0 or 1.</p>
+		<p>With this type of signal, you can use components which are in an 'on' or 'off' state.</p></div>
 	</div>
 	<div>
-		<h1>An exemple : the DEL !</h1>
+		<h1>An exemple : the LED !</h1>
 		<div>
-			<div ><img src="../assets/images/led.png" alt="A red DEL" style="width:10%;"></div>
-			<div ><p>The component above is a DEL (light-emitting diode).</p>
-			<p>With this type of signal, you can use components whitch just can be in an 'on' or 'off' state.</p></div>
+			<div ><img src="../assets/images/led.png" alt="A red LED" style="width:10%;"></div>
+			<div ><p>The component above is a LED (Light Emitting Diode).</p>
 		</div>
 		<div>
 			<div ><img src="../assets/images/led_prgm.png" alt="digital_signal" style="width:50%;"></div>
-			<div ><p>In the code above, you begin to create a variable 'red_del' and affect it the value '2' (the pin wich is connected with the del). With this, you create a box in memory with the value '2' to remember the number of the del's pin and reuse it later.</p>
-			<p>Next, you use the 'pinMode' instruction. You give it 2 parameters : the number of the pin to initialise (your del's pin) and the state of the pin (here 'OUTPUT' because the power go to the del from the board ; 'INPUT' else).</p>
-			<p>Finally, you use the 'digitalWrite' instruction. It will send a low or high digital signal to a pin in function of parameters. The first is still the number of the pin wich you want to send the signal and the second is 'LOW' (to turn off the del) or HIGH' (to turn it on)</p></div>
+			<div ><p>In the code above, we created a variable 'red_led' and affected it the value '2' (the pin which is connected to the LED). With this, we assign a memory segment with the value '2' to remember the number of the LED's pin and reuse it later.</p>
+			<p>Next, you use the 'pinMode' instruction. You give it 2 parameters : the number of the pin to initialise (your LED's pin) and the state of the pin (here 'OUTPUT' because the power goes from the board to the LED  ; 'INPUT' else).</p>
+			<p>Finally, you use the 'digitalWrite' instruction. It will send a low or high digital signal to a pin depending on the inputted parameters. The first parameter is still the number of the pin which you want to send the signal to and the second is 'LOW' (to turn off the LED) or HIGH' (to turn it on)</p></div>
 		</div>
 	</div>
 </body>
