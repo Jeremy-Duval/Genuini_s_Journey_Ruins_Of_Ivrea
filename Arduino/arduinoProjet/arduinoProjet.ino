@@ -2,6 +2,17 @@
 #include <Wire.h>
 #include <string.h>
 #include "rgb_lcd.h"
+#include <BLEAttribute.h>
+#include <BLECentral.h>
+#include <BLECharacteristic.h>
+#include <BLECommon.h>
+#include <BLEDescriptor.h>
+#include <BLEPeripheral.h>
+#include <BLEService.h>
+#include <BLETypedCharacteristic.h>
+#include <BLETypedCharacteristics.h>
+#include <BLEUuid.h>
+#include <CurieBLE.h>
 
 // Define the pin to which the angle sensor is connected.
 
@@ -15,7 +26,7 @@ const int colorR = 255;
 const int colorG = 0;
 const int colorB = 0;
 
-String sentence[] = {"Be Happy !", "Smile my gamer", "I love you"};
+String sentence[] = {"Be Happy", "Smile my gamer", "I love you"};
 unsigned long previousMillis = 0;
 unsigned long previousMillis2 = 0;
 boolean changeSentence = false;
@@ -38,50 +49,49 @@ enum State : uint8_t {
   Exit
 } previousState = State::None, currentState = State::None;
 
+//bluetooth settings
+BLEPeripheral blePeripheral;
+BLEService connectionService("19B10000-E8F2-537E-4F6C-D104768A1214"); 
+BLEUnsignedCharCharacteristic switchCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
+
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   bar.begin();
   bar.setBits(0x0);
   lcd.begin(16, 2);
+  
+  /*blePeripheral.setLocalName("Genuini");
+  blePeripheral.setAdvertisedServiceUuid(connectionService.uuid());
+  blePeripheral.addAttribute(connectionService);
+  blePeripheral.addAttribute(switchCharacteristic);
+  switchCharacteristic.setValue(0);
+  blePeripheral.begin(); */
 
   // Configure the angle sensor's pin for input.
   //  pinMode(potentiometer, INPUT);
 
    // Configure the button's pin for input signals.
     pinMode(pinButton, INPUT);
-    int i=0;
 }
 
 
 boolean stateButton = false;
-void loop() {
-    unsigned long currentMillis = millis() / 1000;
- /*   unsigned long currentMillis2 = millis() / 1000;
-      
-  
-  if ((unsigned long)(currentMillis2 - previousMillis2) >= 1 && digitalRead(pinButton)) { 
-       stateButton = !stateButton;
-       previousMillis2 = currentMillis2;
-    }
-    
-    Serial.write(stateButton);
-    delay(100);  */
-  
+boolean bluetoothReceive = false;
+boolean introapp = false;
 
-  
-  
+void loop() {
+  //  BLECentral central = blePeripheral.central();
+    unsigned long currentMillis = millis() / 1000;
+
+    
   String rec;
 
-  // put your main code here, to run repeatedly:
-  if (Serial.available() > 0) {
-      if(i<5){
-    Serial.write("iugv");
-    i++;
-  }
 
+    if (Serial.available() > 0) { 
+      
     rec = Serial.readStringUntil('\n');
-
     //parser avec les deux strings separes par ;
     int commaIndex = rec.indexOf(';');
     String firstValue = rec.substring(0, commaIndex);
@@ -171,7 +181,18 @@ void loop() {
         changeSentence = false;
         clearLign(0, 1);
         lcd.setCursor(0, 1);
-        lcd.print("Open Book"); 
+        lcd.print("Open SpellBook App");
+        switchCharacteristic.setValue(1);
+        if(blePeripheral.connected() && bluetoothReceive == false){
+          Serial.write("test");
+          if(switchCharacteristic.written()){
+            Serial.write("bluetooth");
+            lcd.print("bluetooth");
+            bluetoothReceive = true;
+            //Serial.end();
+          }
+          delay(500);
+        }
         break;      
       default:
         bar.setBits(0x0);
