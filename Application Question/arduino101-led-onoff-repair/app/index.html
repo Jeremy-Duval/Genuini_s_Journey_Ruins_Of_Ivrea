@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<!--
+This is an app that demonstrates how to control an Arduino101 board
+using BLE (Bluetooth Low Energy).
+-->
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no
+		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>Genuini's Journey</title>
+
+	<style>
+		@import 'ui/css/evothings-app.css';
+		@import 'ui/css/genuini.css';
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	window.onerror = function(msg, url, line)
+	{
+		console.log(msg + ": " + url + ":" + line);
+	};
+	</script>
+
+	<script src="cordova.js"></script>
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="libs/evothings/evothings.js"></script>
+	<script src="libs/evothings/ui/ui.js"></script>
+	<script src="libs/evothings/arduinoble/arduinoble.js"></script>
+
+
+</head>
+
+<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+	<header>
+		<button class="back" onclick="quitApp()">
+			QUIT
+		</button>
+
+		<img class="logotype" src="ui/images/logo.png" alt="Genuini" />
+
+		<!--<button class="menu" onclick=""><img src="ui/images/menu.svg" /></button>-->
+	</header>
+
+	<h1 id="title">Connection to the world of Genuini</h1>
+	<br />
+	<p id="info">Initializing...</p>
+	<br />
+
+	<button id="Connect" class="yellow wide" onclick="app.connect()">CONNECT</button>
+	<img id="genuini_duck" src="ui/images/p1_duck.png" alt="genuini_duck"/>
+
+	<button id="courses" class="yellow wide" onclick="app.coursScreen()">Courses</button>
+	
+	
+	<p id="br"></p>
+
+	<button id="testScreen" class="green wide big" onclick="app.screenTest()">Screen test</button>
+
+	<button id="questions" class="yellow wide" onclick="app.questionScreen()">Questions</button>
+	<img id="genuini_front" src="ui/images/p1_front.png" alt="genuini_front"/>
+	<br />
+
+	<button id="enterGame" class="red wide big" onclick="app.enterGame()">Enter the game</button>
+</body>
+
+<script src="ui/js/startScreen.js"></script>
+
+</html>

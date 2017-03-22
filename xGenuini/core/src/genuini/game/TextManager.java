@@ -12,8 +12,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
+import genuini.main.MainGame;
 import genuini.screens.GameScreen;
-import static genuini.world.PhysicsVariables.PPM;
 
 /**
  *
@@ -79,7 +81,7 @@ public class TextManager {
     }
     
     public void draw(SpriteBatch batch){
-        bmf.draw(batch, textToDisplay, position.x*PPM, position.y*PPM);      
+        bmf.draw(batch, textToDisplay, position.x, position.y);      
     }
     
     public void update(float delta){
@@ -92,13 +94,14 @@ public class TextManager {
                 stopTutorial();
             }
         }
-        float offset=-(textToDisplay.length()/2*0.09f);
+        float offset=-(textToDisplay.length()*11.5f/2);
         if(textToDisplay.contains("\n")){
             offset/=2;
         }
         
         if(centered){
-            setPosition(new Vector2(screen.getGenuini().getPosition().x+2.7f+offset,screen.getGenuini().getPosition().y+3.3f));
+            //setPosition(new Vector2(screen.getGenuini().getPosition().x+2.7f+offset,screen.getGenuini().getPosition().y+3.3f));
+            setPosition(new Vector2(MainGame.V_WIDTH/2+offset ,MainGame.V_HEIGHT-30));
         }        
         stateTimer+=delta;
     }
@@ -137,15 +140,22 @@ public class TextManager {
         activate();
         centered=true;
         setText(string);
-        new java.util.Timer().schedule( 
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        deactivate();
-                    }
-                }, 
-                time
-        );
+        Timer.schedule(new Task(){
+            @Override
+            public void run() {
+                deactivate();
+            }
+        }, time);
+    }
+    
+    public void displayText(final String string,final int time, int delay) {
+        Timer.schedule(new Task(){
+            @Override
+            public void run() {
+                displayText(string, time);
+            }
+        }, delay);
+        
     }
     
     public void displayText(String string, int time, Vector2 position) {
@@ -153,14 +163,26 @@ public class TextManager {
         setText(string);
         setPosition(position);
         centered=false;
-        new java.util.Timer().schedule( 
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        deactivate();
-                    }
-                }, 
-                time
-        );
+        Timer.schedule(new Task(){
+            @Override
+            public void run() {
+                deactivate();
+            }
+        }, time);
+    }
+    
+    public String getHint(){
+        String message;
+        String lastSkill = screen.getPreferences().getLastSkill();
+        if(lastSkill.equals("gravity")){
+            message="Press G to change the direction of the gravitional field";
+        }else if(lastSkill.equals("doubleJump")){
+            message="You can now jump twice";
+        }else if(lastSkill.equals("fireball")){
+            message="Press SPACE to throw fireballs";
+        }else{
+            message = "";
+        }
+        return message;
     }
 }

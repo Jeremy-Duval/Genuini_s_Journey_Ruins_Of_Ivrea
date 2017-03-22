@@ -10,7 +10,6 @@ import genuini.screens.GameScreen;
 import genuini.screens.DeathMenu;
 import genuini.screens.LoadingScreen;
 import genuini.screens.MainMenu;
-import genuini.screens.SpellBookMenu;
 import genuini.screens.VictoryMenu;
 
 /**
@@ -30,13 +29,6 @@ public enum ScreenEnum {
         @Override
         public AbstractScreen getScreen(Object... params) {
             return new GameScreen() {};
-        }
-    },
-    
-    SPELLBOOK {
-        @Override
-        public AbstractScreen getScreen(Object... params) {
-            return new SpellBookMenu() {};
         }
     },
     

@@ -37,8 +37,6 @@ public class MainMenu extends AbstractScreen {
         background = new Texture("img/menu/bg_arduini1.jpg");
         buttonWidth = V_WIDTH / 3;
         buttonHeight = V_HEIGHT / 10;
-
-       
         MainGame.contentManager.getMusic("menuMusic").play();
         
     }
@@ -95,7 +93,6 @@ public class MainMenu extends AbstractScreen {
         batch.end();
         stage.act(delta);
         stage.draw();
-
     }
 
     @Override

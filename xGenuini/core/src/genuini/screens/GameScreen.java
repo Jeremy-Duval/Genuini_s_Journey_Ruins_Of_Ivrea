@@ -5,8 +5,6 @@
 package genuini.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -24,7 +22,7 @@ import genuini.entities.Button;
 import genuini.entities.Genuini;
 import genuini.entities.LivingBeings;
 import genuini.entities.MobSpawnPoint;
-import genuini.entities.Spring;
+import genuini.entities.QuestionBox;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
 import genuini.game.BoundedCamera;
@@ -59,7 +57,7 @@ public class GameScreen extends AbstractScreen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer tmr;
 
-    private TextButton spellBookScreenButton;
+
     private TextButton menuButton;
 
     private Table table;
@@ -71,6 +69,7 @@ public class GameScreen extends AbstractScreen {
     
 
     private final TextManager textManager;
+    private boolean hasWon;
 
     public GameScreen() {
         super();
@@ -78,8 +77,7 @@ public class GameScreen extends AbstractScreen {
             //MainGame.contentManager.getMusic("gameMusic").play();
         }
         
-        
-        
+        //prefs.setCurrentMapName("cave");
         world = new World(new Vector2(0, GRAVITY), true); //Create world, any inactive bodies are asleep (not calculated)
         contactManager = new ContactHandler();
         world.setContactListener(contactManager);//
@@ -131,11 +129,32 @@ public class GameScreen extends AbstractScreen {
         
         if(prefs.getNewGame()){
             textManager.playTutorial();
+        }else{
+            textManager.displayText(textManager.getHint(),5);
         }
-        if(prefs.getChallenge()){
-            textManager.displayText("Press G to change the direction of the gravitional field",5000);
+        
+        
+        for(QuestionBox qb : worldManager.getQuestionBoxes()){
+            if(prefs.hasSkill(qb.getSkill())){
+                qb.disable();
+            }
         }
+        
+        for(Turret t : worldManager.getTurrets()){
+            if(!prefs.isTurretActive(t.getID())){
+                t.deactivate(true);
+            }
+        }
+        
+        for(Button b: worldManager.getButtons()){
+            if(!prefs.isTurretActive(b.getLinkedObjectID())){
+                b.press(false);
+            }
+        }
+        hasWon=false;
         //textManager.playTutorial();
+        
+        //arduinoInstance.serialEventString(new SerialPortEvent());
         
     }
 
@@ -152,16 +171,6 @@ public class GameScreen extends AbstractScreen {
             }
         });
 
-        spellBookScreenButton.addListener(new ClickListener() { //to know if there is a event on this button
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (connected) {
-                    arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
-                }
-                prefs.save(genuini.getPosition().x, genuini.getPosition().y, genuini.getLife());
-                ScreenManager.getInstance().showScreen(ScreenEnum.SPELLBOOK);
-            }
-        });
 
     }
 
@@ -170,17 +179,7 @@ public class GameScreen extends AbstractScreen {
         super.buildStage();
         menuButton = new TextButton("Menu", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int) worldManager.getTileSize() / 2));
         menuButton.setPosition(V_WIDTH - worldManager.getTileSize() * 1.6f, worldManager.getTileSize() * 3);
-        spellBookScreenButton = new TextButton("Spellbook", skinManager.createButtonSkin(((int) (worldManager.getTileSize() * 1.6f)), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.LIGHT_GRAY, "img/book/redbook.png"));
-        //spellBookScreenButton = new TextButton("Spellbook", skinManager.createBookButtonSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2));
-        spellBookScreenButton.setPosition(V_WIDTH - worldManager.getTileSize() - 20 * 1f, worldManager.getTileSize() * 1.8f);
-        spellBookScreenButton.setSize(worldManager.getTileSize(), worldManager.getTileSize());
-
-        if (!prefs.getBook()) {
-            spellBookScreenButton.setVisible(false);
-        }
-        stage.addActor(menuButton);
-        stage.addActor(spellBookScreenButton);
-
+        
         /* HUD creation */
         table = new Table();
         stage.addActor(table);
@@ -197,10 +196,11 @@ public class GameScreen extends AbstractScreen {
         lifePointsLabel = new Label(String.valueOf(genuini.getLife()), skinManager.textFieldSkin((int) (worldManager.getTileSize() * 1.6f), (int) worldManager.getTileSize() / 2, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f), "default", Color.WHITE);
         table.add(lifePointsLabel).width(80);
         // Add widgets to the table here.
+        
+        stage.addActor(menuButton);
     }
 
     public void update(float delta) {
-
         //World step
         world.step(MainGame.STEP, 8, 3);
 
@@ -219,9 +219,9 @@ public class GameScreen extends AbstractScreen {
                 textManager.update(delta);
             }
             
-            handleInput();
-            handleContact();
-            handleArea();
+            worldManager.handleInput();
+            worldManager.handleContact();
+            worldManager.handleArea();
             
         }
         worldManager.destroyBodies();
@@ -230,7 +230,7 @@ public class GameScreen extends AbstractScreen {
         //Get player position for camera
         float player_pos_x = prefs.getPositionX();
         float player_pos_y = prefs.getPositionY();
-        if (genuini.getState() != LivingBeings.State.DEAD) {
+        if (genuini.getState() != LivingBeings.State.DEAD && !world.isLocked()) {
             player_pos_x = genuini.getPosition().x;
             player_pos_y = genuini.getPosition().y;
         }
@@ -265,8 +265,7 @@ public class GameScreen extends AbstractScreen {
          */
         batch.begin();
 
-        //draw player
-        genuini.draw(batch);
+        
 
         //draw sprites
         for (Sprites sprite : worldManager.getSprites()) {
@@ -278,11 +277,17 @@ public class GameScreen extends AbstractScreen {
                 mobSpawnPoint.draw(batch);
         }
         
-        if(textManager.isActive()){
-          textManager.draw(batch);       
-        }
         
+        
+        //draw player
+        genuini.draw(batch);
         batch.end();
+        
+        hudBatch.begin();
+            if(textManager.isActive()){
+              textManager.draw(hudBatch);       
+            }
+        hudBatch.end();
         /**
          * ** End of drawing area ***
          */
@@ -298,131 +303,6 @@ public class GameScreen extends AbstractScreen {
 
     }
 
-    public void handleInput() {
-        if (Gdx.input.isKeyPressed(Keys.Q) || Gdx.input.isKeyPressed(Keys.LEFT)) {
-            genuini.walk(Genuini.Direction.LEFT);
-        }
-
-        if (Gdx.input.isKeyPressed(Keys.D) || (Gdx.input.isKeyPressed(Keys.RIGHT))) {
-            genuini.walk(Genuini.Direction.RIGHT);
-        }
-
-        if ((Gdx.input.isKeyPressed(Keys.Z) || (Gdx.input.isKeyPressed(Keys.UP))) && contactManager.playerCanJump()) {
-            genuini.jump(160f);
-        }
-
-        /*
-        if ((Gdx.input.isKeyJustPressed(Keys.F))) {
-            for (Turret turret : worldManager.getTurrets()) {
-                if (turret.isActive()) {
-                    turret.deactivate(true);
-                } else {
-                    turret.activate(true);
-                }
-            }
-        }*/
-
-        if ((Gdx.input.isKeyJustPressed(Keys.G))) {
-            if (prefs.getChallenge()) {
-                if (connected) {
-                    arduinoInstance.write("game;" + String.valueOf(genuini.getLife()));
-                }
-                if (world.getGravity().y < 0) {
-                    world.setGravity(new Vector2(0, -GRAVITY));
-                    genuini.getBody().setTransform(genuini.getPosition(), (float) Math.PI);
-                } else {
-                    world.setGravity(new Vector2(0, GRAVITY));
-                    genuini.getBody().setTransform(genuini.getPosition(),0f);
-                }
-            }
-        }
-        
-        if ((Gdx.input.isKeyJustPressed(Keys.SPACE))) {
-            genuini.throwFireball();
-        }
-
-    }
-
-    public void handleContact() {
-
-        if (contactManager.isBouncy() && contactManager.isDangerous()) {
-            genuini.jump(150f);
-        } else if (contactManager.isBouncy()) {
-            genuini.jump(300f);
-        }
-
-        if (contactManager.isDangerous()) {
-            genuini.changeLife(-5);
-            contactManager.setDangerous(false);
-            if (connected) {
-                arduinoInstance.write("game;" + String.valueOf(genuini.getLife())); //quand vie change
-            }
-            lifePointsLabel.setText(String.valueOf(genuini.getLife()));
-            if (genuini.getLife() <= 0 && genuini.getState() != LivingBeings.State.DEAD) {
-                genuini.die();
-            }
-        }
-        if (contactManager.isbookActive() && !spellBookScreenButton.isVisible()) {
-            spellBookScreenButton.setVisible(true);
-            prefs.setBook(true);
-            if (connected) {
-                arduinoInstance.write("book;");
-            }
-        }
-        if (contactManager.hasWon()) {
-            prefs.reset();
-            if (connected) {
-                arduinoInstance.write("victory;");
-            }
-            MainGame.contentManager.getMusic("gameMusic").pause();
-            ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
-        }
-    }
-
-    public void handleArea() {
-        for (Spring spring : worldManager.getSprings()) {
-            if (contactManager.isBouncy() && (getDistanceFromPlayer(spring) < 0.8f)) {
-                spring.activate();
-            }
-        }
-
-        for (Turret turret : worldManager.getTurrets()) {
-            if (getDistanceFromPlayer(turret) < turret.getActivationDistance()) {
-                turret.activate(false);
-            } else {
-                turret.deactivate(false);
-            }
-        }
-
-        for (Button button : worldManager.getButtons()) {
-            if (contactManager.isButton() && getDistanceFromPlayer(button) < 0.7f && !button.isPressed()) {
-                genuini.jump(150f);
-                button.press();
-                int linkedObjectID = button.getLinkedObjectID();
-                if (button.getLinkedObjectType().equals("turret")) {
-                    for (Turret turret : worldManager.getTurrets()) {
-                        if (turret.getID() == linkedObjectID) {
-                            turret.deactivate(true);
-                        }
-                    }
-                }
-
-            }
-        }
-
-        for (AccessPoint accessPoint : worldManager.getAccessPoints()) {
-            if (getDistanceFromPlayer(accessPoint) < 0.5f && accessPoint.getType().equals("entry") && !world.isLocked() && genuini.getLife()>0) {
-                prefs.save(genuini.getPosition().x,genuini.getPosition().y, genuini.getLife());
-                prefs.setPreviousMapName(prefs.getCurrentMapName());
-                prefs.setCurrentMapName(accessPoint.getLinkedMapName());
-                prefs.setSpawnName(accessPoint.getLinkedAccessPointName());
-                prefs.setLife(genuini.getLife());
-                changeScreen = true;
-                break;
-            }
-        }
-  
-    }
 
     @Override
     public void dispose() {
@@ -476,7 +356,32 @@ public class GameScreen extends AbstractScreen {
         return genuini;
     }
     
+    public TextManager getTextManager() {
+        return textManager;
+    }
+    
+    public void setLifeText(){
+        lifePointsLabel.setText(String.valueOf(genuini.getLife()));
+    }
+
+    public void changeScreen() {
+        changeScreen=true;
+    }
+    
+      
     
     
+    public void win(){
+        if(!hasWon){
+           prefs.reset();
+            if (connected) {
+                arduinoInstance.write("victory;");
+            }
+            MainGame.contentManager.getMusic("gameMusic").pause();
+            ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
+            hasWon=true;
+        }
+        
+    }
 
 }

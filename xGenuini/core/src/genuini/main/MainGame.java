@@ -35,7 +35,9 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadTexture("img/tiles/lock_yellow.png","turret");
         contentManager.loadTexture("img/items/buttonRed.png","buttonRed");
         contentManager.loadTexture("img/items/buttonRed_pressed.png","buttonRed_pressed");
-
+        contentManager.loadTexture("img/tiles/boxItem.png","questionBox");
+        contentManager.loadTexture("img/tiles/boxItem_disabled.png","questionBoxDisabled");
+        
         
         contentManager.loadMusic("sounds/Death.mp3","deathMusic");
         contentManager.getMusic("deathMusic").setLooping(true);
@@ -47,7 +49,14 @@ public class MainGame extends Game implements ApplicationListener {
         
         contentManager.loadMusic("sounds/Land_of_Ivrea.mp3","gameMusic");
         contentManager.getMusic("gameMusic").setLooping(true);
-        contentManager.getMusic("gameMusic").setVolume(1f);
+        contentManager.getMusic("gameMusic").setVolume(0.04f);
+        
+        /*
+        contentManager.loadMusic("sounds/Land_of_Ivrea.mp3","caveMusic");
+        contentManager.getMusic("caveMusic").setLooping(true);
+        contentManager.getMusic("caveMusic").setVolume(0.04f);
+        */
+        
         
         contentManager.loadSound("sounds/slimeWalk.wav", "slimeWalk");
         contentManager.loadSound("sounds/slimeDeath.wav", "slimeDeath");
