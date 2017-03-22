@@ -34,6 +34,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import genuini.arduino.UnobtainableComPortException;
 import genuini.entities.AccessPoint;
 import genuini.entities.Button;
 import genuini.entities.Genuini;
@@ -460,13 +461,18 @@ public class WorldManager {
         }
         
         
-        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP))) && screen.getPreferences().hasSkill("doubleJump")/*screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/){
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP))) /*&& screen.getPreferences().hasSkill("doubleJump")screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/){
             if (!screen.getContactManager().playerCanJump() && screen.getGenuini().canReJump()){
                 screen.getGenuini().jump(500f);
                 screen.getGenuini().setReJump(false);
             }
+        /*    if(connected){
                 arduinoInstance.write("book;");
                 System.out.println("book send");
+            }else{
+                arduinoInstance.write("game;10");
+                connected = true;
+            } */
         }
         
         if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP)))){

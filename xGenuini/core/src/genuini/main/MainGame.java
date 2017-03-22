@@ -62,7 +62,7 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadSound("sounds/jump.wav", "jump");
         
         ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+        ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
     }
 
     @Override

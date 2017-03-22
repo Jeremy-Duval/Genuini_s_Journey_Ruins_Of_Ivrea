@@ -62,6 +62,7 @@ public class ArduinoLink implements SerialPortEventListener {
                                 System.err.println(ex.getMessage());
                             }
                                 portId = currPortId;
+                                System.out.println("arduino connecté");
                                 break;
                         }
                     }
