@@ -1,0 +1,35 @@
+{
+  "name": "arduino101-led-onoff-repair",
+  "version": "1.0.0",
+  "title": "Arduino101 LED On/Off BLE",
+  "description": "Simple app to get started with Arduino/Genuino 101 BLE communication.",
+  "tags": [
+    {
+      "label": "arduino",
+      "type": "platform"
+    },
+    {
+      "label": "ble",
+      "type": "comm"
+    }
+  ],
+  "libraries": [
+    {
+      "name": "jquery",
+      "version": "2.1.1"
+    }
+  ],
+  "plugins": [
+    {
+      "name": "cordova-plugin-ble",
+      "version": "2.0.0"
+    }
+  ],
+  "index-file": "index.html",
+  "app-dir": "app",
+  "uuid": "e8858c4e-a50f-4abb-bed6-25741ee0435b",
+  "icon": "app-icon.png",
+  "doc-url": "http://evothings.com/2.2/doc/examples/arduino101-led-onoff.html",
+  "long-description": "Simple app to get started with the Arduino/Genuino 101 and Bluetooth Low Energy (BLE) communication.",
+  "cordova-id": "com.evothings.examples.arduino101ledonoff"
+}

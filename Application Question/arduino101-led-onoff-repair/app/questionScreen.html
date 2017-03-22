@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<!--
+This is an app that demonstrates how to control an Arduino101 board
+using BLE (Bluetooth Low Energy).
+-->
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no
+		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>Genuini's Journey</title>
+
+	<style>
+		@import 'ui/css/evothings-app.css';
+		@import 'ui/css/genuini.css';
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	window.onerror = function(msg, url, line)
+	{
+		console.log(msg + ": " + url + ":" + line);
+	};
+	</script>
+
+	<script src="cordova.js"></script>
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="libs/evothings/evothings.js"></script>
+	<script src="libs/evothings/ui/ui.js"></script>
+	<script src="libs/evothings/arduinoble/arduinoble.js"></script>
+
+
+</head>
+
+<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+	<header>
+		<button class="back" onclick="history.back()">
+			<img src="ui/images/arrow-left.svg" />
+		</button>
+
+		<img class="logotype" src="ui/images/logo.png" alt="Genuini" />
+
+	</header>
+	<!-- <div id="questionarea">
+       <div id="question1"></div>
+
+       <button id="answer1" class="green wide"></button>
+       <button id="answer2" class="green wide"></button>
+       <button id="answer3" class="green wide"></button>
+	</div>
+	<br/>
+	<br/>
+	<div id="questionarea2">
+       <div id="question2"></div>
+
+       <button id="answer4" class="green wide"></button>
+       <button id="answer5" class="green wide"></button>
+       <button id="answer6" class="green wide"></button>
+	</div>
+	<br/>
+	<br/>
+	<div id="questionarea3">
+       <div id="question3"></div>
+
+       <button id="answer7" class="green wide"></button>
+       <button id="answer8" class="green wide"></button>
+       <button id="answer9" class="green wide"></button> 
+	</div> -->
+	   <p id="info2">Link to the game...</p>
+
+
+</body>
+
+<script src="ui/js/questionScreen.js"></script>
+
+</html>

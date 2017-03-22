@@ -1,0 +1,74 @@
+body{
+    margin: 0 auto;
+    text-align: center;
+}
+
+#title{
+    text-align: center;
+}
+
+#info{
+    text-align: center;
+    font-size: 1em; 
+}
+
+#info2{
+    font-size: 1em;
+    margin-top: 30%; 
+}
+
+#questionArea{
+    border-style: solid;
+    border-width: 1px 2px 2px 2px;
+    padding: 15px;
+    margin-right: 5%;
+    margin-left: 5%;
+    font-size: 0.7em;
+    text-align: center;
+    position: relative;
+    top:25%;
+    vertical-align: middle;
+    color:#3b3b3b;
+    -moz-box-shadow: 5px 5px 5px 0px #9b9b9b;
+    -webkit-box-shadow: 5px 5px 5px 0px #9b9b9b;
+    -o-box-shadow: 5px 5px 5px 0px #9b9b9b;
+    box-shadow: 5px 5px 5px 0px #9b9b9b;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=134, Strength=5);
+
+}
+
+#question{
+    display: inline-table;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#questions,#courses{
+    display: none;
+}
+
+#genuini_duck,#genuini_front{
+    display: none;
+    }
+
+#genuini_duck{
+    margin-left: 15%;
+}
+
+#genuini_front{
+    margin-left: 75%;
+}
+
+
+#goodAnswer{
+    display: none;
+}
+
+#badAnswer1{
+    display: none;
+}
+
+#badAnswer2{
+    display: none;
+}
+

@@ -1,0 +1,28 @@
+header, div{
+  width: 100%;
+  border-style: outset;
+}
+
+header, h1{
+  text-align: center;
+}
+
+div div{
+  border-style: inset;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  width: 96%;
+}
+
+div div div, #first_del_div div, #first_skeleton_div div{
+	border-style: none;
+	display: inline-block;
+	width: 40%;
+}
+
+.back_menu{
+	text-align: center;
+}
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<!--
+This is an app that demonstrates how to control an Arduino101 board
+using BLE (Bluetooth Low Energy).
+-->
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no
+		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>Genuini's Journey</title>
+
+	<style>
+		@import '../ui/css/evothings-app.css';
+		@import '../ui/css/genuini.css';
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	window.onerror = function(msg, url, line)
+	{
+		console.log(msg + ": " + url + ":" + line);
+	};
+	</script>
+
+	<script src="../cordova.js"></script>
+	<script src="../libs/jquery/jquery.js"></script>
+	<script src="../libs/evothings/evothings.js"></script>
+	<script src="../libs/evothings/ui/ui.js"></script>
+	<script src="../libs/evothings/arduinoble/arduinoble.js"></script>
+	<script language = "javascript" src = "script.js"></script>
+
+
+</head>
+
+<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+	<header>
+		<button class="back" onclick="history.back()">
+			<img src="../ui/images/arrow-left.svg" />
+		</button>
+
+		<img class="logotype" src="../ui/images/logo.png" alt="Genuini" />
+	</header>
+
+	<div id="first_skeleton_div">
+		<h1>Arduino Skeleton</h1>
+		<div><img src="../assets/images/skeleton_arduino.png" alt="Arduino skeleton" style="width:50%;"></div>
+		<div><p><strong>1 : </strong>Place of :<ul>
+											<li>include, define... declaration</li>
+											<li>variables declaration</li></ul></p>
+		<p><strong>2 : </strong>the setup fonction is the place of :<ul>
+											<li>input and output declaration : board pin's initialisations</li>
+											<li>initialisation of communication with other elements (ex: communication with the serial port)</li>
+											</ul></p>
+		<p><strong>3 : </strong>the loop fonction is the place of :<ul>
+											<li>your code (watch out : it loop indefinitely)</li></ul></p></div>
+	</div>
+</body>
+
+<script src="../ui/js/startScreen.js"></script>
+</html>
