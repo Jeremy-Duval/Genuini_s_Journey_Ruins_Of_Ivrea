@@ -43,24 +43,24 @@ public class VictoryMenu extends AbstractScreen{
         super();
         buttonWidth=V_WIDTH/15;
         buttonHeight=V_HEIGHT/20;
-        contentManager.getMusic("deathMusic").play();
+        contentManager.getSound("victory").play();
 
     }
     
     @Override
     public void buildStage() {
         menuButton=new TextButton("Menu", skinManager.createButtonSkin(buttonWidth,buttonHeight));
-        menuButton.setPosition((V_WIDTH-buttonWidth)/2-40, (V_HEIGHT-buttonHeight)/2 - 50);
+        menuButton.setPosition((V_WIDTH-buttonWidth)/2, (V_HEIGHT-buttonHeight)/2 - 50);
         
 
         
         stage.addActor(menuButton);
 
         
-        gameOver = new TextField("Congratulation, Demo finished !", skinManager.textFieldSkin(buttonWidth, buttonHeight, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f));
+        gameOver = new TextField("Congratulations, the demonstration is finished !", skinManager.textFieldSkin(buttonWidth, buttonHeight, Color.WHITE, false, Color.CLEAR, Color.CLEAR, Color.DARK_GRAY, 1f));
         table = new Table();
         table.setSize(V_WIDTH,V_HEIGHT/8);
-        table.add(gameOver).width(600);
+        table.add(gameOver).width(550);
         table.setPosition(1, V_HEIGHT/2);
         table.center();
         // table.align(Align.right | Align.bottom);

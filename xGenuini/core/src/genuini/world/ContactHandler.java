@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import genuini.main.MainGame;
 
 /**
  *
@@ -193,6 +194,7 @@ public class ContactHandler implements ContactListener{
     
     public void playerHurt(){
         playerHurt=true;
+        MainGame.contentManager.getSound("hurt").play(0.5f);
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
             @Override

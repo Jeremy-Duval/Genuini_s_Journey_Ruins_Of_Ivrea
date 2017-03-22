@@ -73,8 +73,18 @@ public class GameScreen extends AbstractScreen {
 
     public GameScreen() {
         super();
-        if (!MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
-            //MainGame.contentManager.getMusic("gameMusic").play();
+        if(prefs.getCurrentMapName().equals("cave")){
+            if (MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
+                MainGame.contentManager.getMusic("gameMusic").stop();
+            }
+            if (!MainGame.contentManager.getMusic("caveMusic").isPlaying()) {
+                MainGame.contentManager.getMusic("caveMusic").play();
+            }
+        }else if (!MainGame.contentManager.getMusic("gameMusic").isPlaying()) {
+            if (MainGame.contentManager.getMusic("caveMusic").isPlaying()) {
+                MainGame.contentManager.getMusic("caveMusic").stop();
+            }
+            MainGame.contentManager.getMusic("gameMusic").play();
         }
         
         //prefs.setCurrentMapName("cave");

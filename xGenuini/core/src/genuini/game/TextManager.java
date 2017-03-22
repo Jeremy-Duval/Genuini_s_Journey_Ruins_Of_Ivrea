@@ -177,7 +177,7 @@ public class TextManager {
         if(lastSkill.equals("gravity")){
             message="Press G to change the direction of the gravitional field";
         }else if(lastSkill.equals("doubleJump")){
-            message="You can now jump twice";
+            message="You can now jump twice !";
         }else if(lastSkill.equals("fireball")){
             message="Press SPACE to throw fireballs";
         }else{

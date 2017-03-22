@@ -51,11 +51,12 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.getMusic("gameMusic").setLooping(true);
         contentManager.getMusic("gameMusic").setVolume(0.04f);
         
-        /*
-        contentManager.loadMusic("sounds/Land_of_Ivrea.mp3","caveMusic");
+
+        contentManager.loadMusic("sounds/caveMusic.mp3","caveMusic");
         contentManager.getMusic("caveMusic").setLooping(true);
         contentManager.getMusic("caveMusic").setVolume(0.04f);
-        */
+        
+        contentManager.loadSound("sounds/victory.wav", "victory");
         
         
         contentManager.loadSound("sounds/slimeWalk.wav", "slimeWalk");
@@ -67,6 +68,9 @@ public class MainGame extends Game implements ApplicationListener {
         contentManager.loadSound("sounds/snailAttack.wav", "snailAttack");
         
         contentManager.loadSound("sounds/jump.wav", "jump");
+        contentManager.loadSound("sounds/hurt.wav", "hurt");
+        
+        contentManager.loadSound("sounds/box.wav", "box");
         
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);

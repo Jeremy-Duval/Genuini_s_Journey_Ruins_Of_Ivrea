@@ -55,6 +55,7 @@ public class QuestionBox extends StaticElements{
             screen.getTextManager().displayText("Look at your spellbook, you have a new challenge !", 5);
             screen.getTextManager().displayText("Congratulations you have acquired a new ability!",4,6);
             screen.getTextManager().displayText(screen.getTextManager().getHint(),5,9);
+            MainGame.contentManager.getSound("box").play();
             disable();
         }
     }

@@ -86,19 +86,24 @@ public abstract class Characters extends LivingBeings {
      */
     @Override
     public State getState() {
-        if (dead) {
-            return State.DEAD;
-        } else if (screen.getContactManager().isPlayerHurt()) {
-            return State.HURT;
-        } else if (!screen.getContactManager().playerCanJump() && screen.getWorld().getGravity().y<0) {
-            return State.JUMPING;
-        }  else if(firing){
-            return State.FIRING;
-        } else if (Math.abs(body.getLinearVelocity().x) > 0.1f) {
-            return State.WALKING;
-        } else {
+        if(body!=null && !screen.getWorld().isLocked()){
+            if (dead) {
+                return State.DEAD;
+            } else if (screen.getContactManager().isPlayerHurt()) {
+                return State.HURT;
+            } else if (!screen.getContactManager().playerCanJump() && screen.getWorld().getGravity().y<0) {
+                return State.JUMPING;
+            }  else if(firing){
+                return State.FIRING;
+            } else if (Math.abs(body.getLinearVelocity().x) > 0.1f) {
+                return State.WALKING;
+            } else {
+                return State.STANDING;
+            }
+        }else{
             return State.STANDING;
         }
+        
     }
 
     public Direction getDirection() {

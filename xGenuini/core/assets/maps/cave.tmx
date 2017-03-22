@@ -101,6 +101,9 @@
    <image width="70" height="70" source="Platformer Art Complete Pack/Base pack/Tiles/castleHillLeft2.png"/>
   </tile>
   <tile id="31">
+   <properties>
+    <property name="slide_right" value=""/>
+   </properties>
    <image width="70" height="70" source="Platformer Art Complete Pack/Base pack/Tiles/castleHillRight.png"/>
   </tile>
   <tile id="32">
