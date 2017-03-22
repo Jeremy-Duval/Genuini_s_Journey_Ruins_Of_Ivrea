@@ -520,7 +520,7 @@ public class WorldManager {
             screen.getGenuini().die();
         }
         if ((Gdx.input.isKeyJustPressed(Input.Keys.X))) {
-            screen.getPreferences().test();
+            
         }
         
     }

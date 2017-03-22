@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 
@@ -138,15 +140,22 @@ public class TextManager {
         activate();
         centered=true;
         setText(string);
-        new java.util.Timer().schedule( 
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        deactivate();
-                    }
-                }, 
-                time
-        );
+        Timer.schedule(new Task(){
+            @Override
+            public void run() {
+                deactivate();
+            }
+        }, time);
+    }
+    
+    public void displayText(final String string,final int time, int delay) {
+        Timer.schedule(new Task(){
+            @Override
+            public void run() {
+                displayText(string, time);
+            }
+        }, delay);
+        
     }
     
     public void displayText(String string, int time, Vector2 position) {
@@ -154,14 +163,26 @@ public class TextManager {
         setText(string);
         setPosition(position);
         centered=false;
-        new java.util.Timer().schedule( 
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        deactivate();
-                    }
-                }, 
-                time
-        );
+        Timer.schedule(new Task(){
+            @Override
+            public void run() {
+                deactivate();
+            }
+        }, time);
+    }
+    
+    public String getHint(){
+        String message;
+        String lastSkill = screen.getPreferences().getLastSkill();
+        if(lastSkill.equals("gravity")){
+            message="Press G to change the direction of the gravitional field";
+        }else if(lastSkill.equals("doubleJump")){
+            message="You can now jump twice";
+        }else if(lastSkill.equals("fireball")){
+            message="Press SPACE to throw fireballs";
+        }else{
+            message = "";
+        }
+        return message;
     }
 }

@@ -8,14 +8,12 @@ package genuini.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
-import genuini.game.PreferencesManager;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_MOB;
 import static genuini.world.PhysicsVariables.BIT_PLAYER;
 import static genuini.world.PhysicsVariables.BIT_BOX;
 import static genuini.world.PhysicsVariables.BIT_TERRAIN;
-import genuini.world.ScenarioVariables;
 
 /**
  *
@@ -26,7 +24,7 @@ public class QuestionBox extends StaticElements{
     private final Texture questionBoxTexture;
     private final Texture questionBoxDisabledTexture;
     private boolean active;
-    private String skill;
+    private final String skill;
 
     public QuestionBox(GameScreen screen, Body body, int ID, String skill) {
         super(screen, body, ID);
@@ -53,8 +51,10 @@ public class QuestionBox extends StaticElements{
     @Override
     public void update(float delta){
         if(body.getFixtureList().first().getUserData().equals("questionBoxDisabled") && active){
-            screen.displayText("Look at your spellbook, you have a new challenge !", 5000);
             screen.getPreferences().giveSkill(skill);
+            screen.getTextManager().displayText("Look at your spellbook, you have a new challenge !", 5);
+            screen.getTextManager().displayText("Congratulations you have acquired a new ability",5,6);
+            screen.getTextManager().displayText(screen.getTextManager().getHint(),5,12);
             disable();
         }
     }
