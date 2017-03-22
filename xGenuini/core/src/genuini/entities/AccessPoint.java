@@ -72,7 +72,5 @@ public class AccessPoint extends StaticElements{
 
     public String getLinkedAccessPointName() {
         return linkedAccessPointName;
-    }
-    
-    
+    }   
 }

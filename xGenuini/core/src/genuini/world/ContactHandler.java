@@ -101,6 +101,12 @@ public class ContactHandler implements ContactListener{
         if((fa.getUserData() != null && fa.getUserData().equals("victory")) || (fb.getUserData() != null && fb.getUserData().equals("victory"))){
             victory=true;                
         }
+        
+        if(fa.getUserData() != null && fa.getUserData().equals("questionBox")){
+            fa.setUserData("questionBoxDisabled");
+        }else if(fb.getUserData() != null && fb.getUserData().equals("questionBox")){
+            fb.setUserData("questionBoxDisabled");
+        }
 
 }
     
@@ -170,11 +176,7 @@ public class ContactHandler implements ContactListener{
             }   
         }
         
-        if(fa.getUserData() != null && fa.getUserData().equals("questionBox")){
-            fa.setUserData("questionBoxDisabled");
-        }else if(fb.getUserData() != null && fb.getUserData().equals("questionBox")){
-            fb.setUserData("questionBoxDisabled");
-        }
+        
     }
     
     //Before collision handling

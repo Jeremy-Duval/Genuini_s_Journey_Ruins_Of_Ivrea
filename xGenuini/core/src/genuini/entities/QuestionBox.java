@@ -8,6 +8,7 @@ package genuini.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import genuini.game.PreferencesManager;
 import genuini.main.MainGame;
 import genuini.screens.GameScreen;
 import static genuini.world.PhysicsVariables.BIT_MOB;
@@ -25,9 +26,9 @@ public class QuestionBox extends StaticElements{
     private final Texture questionBoxTexture;
     private final Texture questionBoxDisabledTexture;
     private boolean active;
-    private int questionNumber;
+    private String skill;
 
-    public QuestionBox(GameScreen screen, Body body, int ID, String question) {
+    public QuestionBox(GameScreen screen, Body body, int ID, String skill) {
         super(screen, body, ID);
         questionBoxTexture = MainGame.contentManager.getTexture("questionBox");
         questionBoxDisabledTexture = MainGame.contentManager.getTexture("questionBoxDisabled");
@@ -36,8 +37,7 @@ public class QuestionBox extends StaticElements{
         
         sprite.setPosition(position.x,position.y);
         
-        
-        setQuestionNumber(question);
+        this.skill=skill;
         createFilter();
         active=true;
     }
@@ -48,21 +48,13 @@ public class QuestionBox extends StaticElements{
         filter.maskBits = BIT_PLAYER | BIT_MOB | BIT_TERRAIN;
         body.getFixtureList().first().setFilterData(filter);
         body.getFixtureList().first().setUserData("questionBox");
-    }
-    
-    public final void setQuestionNumber(String question) {
-        if(question.equals("gravity")){
-            questionNumber=ScenarioVariables.GRAVITY;
-        }else{
-            questionNumber=0;
-        }
-    }
-    
+    }   
     
     @Override
     public void update(float delta){
         if(body.getFixtureList().first().getUserData().equals("questionBoxDisabled") && active){
             screen.displayText("Look at your spellbook, you have a new challenge !", 5000);
+            screen.getPreferences().giveSkill(skill);
             disable();
         }
     }
@@ -75,7 +67,8 @@ public class QuestionBox extends StaticElements{
         active=false;
     }
     
-    public int getQuestionNumber(){
-        return questionNumber;
+    public String getSkill(){
+        return skill;
     }
+    
 }

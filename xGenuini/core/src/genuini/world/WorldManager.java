@@ -43,9 +43,6 @@ import genuini.entities.QuestionBox;
 import genuini.entities.Spring;
 import genuini.entities.Sprites;
 import genuini.entities.Turret;
-import genuini.game.ScreenEnum;
-import genuini.game.ScreenManager;
-import genuini.main.MainGame;
 import static genuini.screens.AbstractScreen.arduinoInstance;
 import static genuini.screens.AbstractScreen.connected;
 import genuini.screens.GameScreen;
@@ -81,6 +78,7 @@ public class WorldManager {
     
     private MapLayer mobSpawnPointsLayer;
     private Array<QuestionBox> questionBoxes;
+    private int[] deactivatedIDs;
 
     public WorldManager(GameScreen screen, String mapName) {
         this.screen = screen;
@@ -114,6 +112,7 @@ public class WorldManager {
         tileMapWidth = properties.get("width", Integer.class);
         tileMapHeight = properties.get("height", Integer.class);
         tileSize = (int) terrainLayer.getTileHeight();
+        
     }
 
     public int getTileMapWidth() {
@@ -210,21 +209,6 @@ public class WorldManager {
                     fd.filter.categoryBits = BIT_TERRAIN;
                     fd.filter.maskBits = BIT_PLAYER | BIT_MOB;
                     world.createBody(bdef).createFixture(fd).setUserData("spike");
-                } else if (cell.getTile().getProperties().get("victory") != null) {
-                    //to link the cell edges
-                    Vector2[] v = new Vector2[5];
-                    v[0] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    v[1] = new Vector2(-box2dTileSize / 2, box2dTileSize / 2);//top left corner
-                    v[2] = new Vector2(box2dTileSize / 2, box2dTileSize / 2);//top right corner
-                    v[3] = new Vector2(box2dTileSize / 2, -box2dTileSize / 2);//bottom right corner
-                    v[4] = new Vector2(-box2dTileSize / 2, -box2dTileSize / 2);//bottom left corner
-                    cs.createChain(v);
-                    fd.friction = 0;
-                    fd.shape = cs;
-                    fd.isSensor = false;
-                    fd.filter.categoryBits = BIT_TERRAIN;
-                    fd.filter.maskBits = BIT_PLAYER | BIT_FIREBALL | BIT_MOB;
-                    world.createBody(bdef).createFixture(fd).setUserData("victory");
                 } else {
                     //to link the cell edges
                     Vector2[] v = new Vector2[5];
@@ -476,7 +460,7 @@ public class WorldManager {
         }
         
         
-        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP)))){
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP))) && screen.getPreferences().hasSkill("doubleJump")/*screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/){
             if (!screen.getContactManager().playerCanJump() && screen.getGenuini().canReJump()){
                 screen.getGenuini().jump(500f);
                 screen.getGenuini().setReJump(false);
@@ -488,7 +472,9 @@ public class WorldManager {
         if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP)))){
             if(screen.getContactManager().playerCanJump()){
                 screen.getGenuini().jump(160f);
-                screen.getGenuini().setReJump(true);
+                if (/*screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/ screen.getPreferences().hasSkill("doubleJump")) {
+                    screen.getGenuini().setReJump(true);
+                }
             }
         }
 
@@ -504,7 +490,7 @@ public class WorldManager {
         }*/
         
         if ((Gdx.input.isKeyJustPressed(Input.Keys.G))) {
-            if (screen.getPreferences().getProgression()>=ScenarioVariables.GRAVITY) {
+            if (screen.getPreferences().hasSkill("gravity")) {
                 if (connected) {
                     arduinoInstance.write("game;" + String.valueOf(screen.getGenuini().getLife()));
                 }
@@ -519,12 +505,18 @@ public class WorldManager {
         }
         
         if ((Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
-            screen.getGenuini().throwFireball();
+            if (screen.getPreferences().hasSkill("fireball")) {
+                screen.getGenuini().throwFireball();
+            } 
         }
         
         if ((Gdx.input.isKeyJustPressed(Input.Keys.O))) {
             screen.getGenuini().die();
         }
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.X))) {
+            screen.getPreferences().test();
+        }
+        
     }
     
     public void handleContact() {
@@ -545,14 +537,6 @@ public class WorldManager {
             if (screen.getGenuini().getLife() <= 0 && screen.getGenuini().getState() != LivingBeings.State.DEAD) {
                 screen.getGenuini().die();
             }
-        }
-        if (screen.getContactManager().hasWon()) {
-            screen.getPreferences().reset();
-            if (connected) {
-                arduinoInstance.write("victory;");
-            }
-            MainGame.contentManager.getMusic("gameMusic").pause();
-            ScreenManager.getInstance().showScreen(ScreenEnum.VICTORY);
         }
     }
     
@@ -575,11 +559,12 @@ public class WorldManager {
         for (Button button : buttons) {
             if (screen.getContactManager().isButton() && screen.getDistanceFromPlayer(button) < 0.7f && !button.isPressed()) {
                 screen.getGenuini().jump(150f);
-                button.press();
+                button.press(true);
                 int linkedObjectID = button.getLinkedObjectID();
                 if (button.getLinkedObjectType().equals("turret")) {
                     for (Turret turret : turrets) {
                         if (turret.getID() == linkedObjectID) {
+                            
                             turret.deactivate(true);
                         }
                     }
@@ -600,11 +585,15 @@ public class WorldManager {
                     break;
                 }else if(accessPoint.getType().equals("death_zone")){
                     screen.getGenuini().die();
+                }else if(accessPoint.getType().equals("victory")){
+                    screen.win();
                 }
                 
             }
-            if(accessPoint.getType().equals("death_zone") && accessPoint.getPosition().y>screen.getGenuini().getPosition().y && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0){
+            if(accessPoint.getType().equals("death_zone") && !screen.getWorld().isLocked() && screen.getGenuini().getLife()>0){
+                if( accessPoint.getPosition().y>screen.getGenuini().getPosition().y){
                     screen.getGenuini().die();
+                }       
             }
         }
   

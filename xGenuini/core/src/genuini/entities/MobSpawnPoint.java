@@ -78,7 +78,7 @@ public class MobSpawnPoint extends StaticElements{
                 spawnPosition.x+=3;
             }
 
-            if(active && mobs.size<maxMobs && stateTime>10f){
+            if(active && mobs.size<maxMobs && stateTime>15f){
                 if(mobType==MobType.SLIME){
                     Slime slimy = new Slime(this.screen, spawnPosition, direction);
                     mobs.add(slimy);
@@ -123,9 +123,7 @@ public class MobSpawnPoint extends StaticElements{
         filter.categoryBits = BIT_POI;
         body.getFixtureList().first().setFilterData(filter);      
     }
-    
 
-    
     public void activate(){
         active=true;
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="20" height="30" tilewidth="70" tileheight="70" nextobjectid="4">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="20" height="30" tilewidth="70" tileheight="70" nextobjectid="5">
  <tileset firstgid="1" name="base_tiles" tilewidth="70" tileheight="146" tilecount="172" columns="0">
   <tile id="0">
    <image width="70" height="70" source="Platformer Art Complete Pack/Base pack/Tiles/box.png"/>
@@ -552,17 +552,23 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="objects"/>
+ <objectgroup name="objects">
+  <object id="4" name="Question Box : Fireball" x="490.909" y="1539.39" width="66.6667" height="66.6667">
+   <properties>
+    <property name="questionBox" value="fireball"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup name="accessPoints">
-  <object id="1" x="720" y="1462" width="24" height="24">
+  <object id="1" name="Village Exit" x="758.576" y="1496" width="24" height="24">
    <properties>
     <property name="linkedAccessPointName" value="this"/>
     <property name="linkedMapName" value="this"/>
-    <property name="name" value="spawn"/>
-    <property name="type" value="spawn"/>
+    <property name="name" value="village_exit"/>
+    <property name="type" value="exit"/>
    </properties>
   </object>
-  <object id="2" x="986" y="1552" width="24" height="24">
+  <object id="2" name="Village Entry" x="986" y="1552" width="24" height="24">
    <properties>
     <property name="linkedAccessPointName" value="house_1_exit"/>
     <property name="linkedMapName" value="village"/>
@@ -572,4 +578,38 @@
   </object>
  </objectgroup>
  <objectgroup name="mobSpawnPoints"/>
+ <layer name="background" width="20" height="30">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,
+0,0,0,0,0,0,170,0,0,0,0,0,0,0,169,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
 </map>

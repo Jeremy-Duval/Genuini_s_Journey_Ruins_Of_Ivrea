@@ -36,6 +36,7 @@ public class AbstractScreen extends Stage implements Screen {
     PreferencesManager prefs;
     Music music;
     SkinManager skinManager;
+    SpriteBatch hudBatch;
  
     
 
@@ -66,6 +67,7 @@ public class AbstractScreen extends Stage implements Screen {
     // Subclasses must load actors in this method
     public void buildStage() {
         batch = new SpriteBatch();
+        hudBatch = new SpriteBatch();
     }
 
     
