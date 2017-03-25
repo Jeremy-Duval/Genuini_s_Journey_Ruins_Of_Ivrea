@@ -62,12 +62,12 @@ void setup() {
   bar.setBits(0x0);
   lcd.begin(16, 2);
   
-  /*blePeripheral.setLocalName("Genuini");
+  blePeripheral.setLocalName("Genuini");
   blePeripheral.setAdvertisedServiceUuid(connectionService.uuid());
   blePeripheral.addAttribute(connectionService);
   blePeripheral.addAttribute(switchCharacteristic);
   switchCharacteristic.setValue(0);
-  blePeripheral.begin(); */
+  blePeripheral.begin(); 
 
   // Configure the angle sensor's pin for input.
   //  pinMode(potentiometer, INPUT);
@@ -82,7 +82,7 @@ boolean bluetoothReceive = false;
 boolean introapp = false;
 
 void loop() {
-  //  BLECentral central = blePeripheral.central();
+    BLECentral central = blePeripheral.central();
     unsigned long currentMillis = millis() / 1000;
 
     
