@@ -53,8 +53,8 @@ public class QuestionBox extends StaticElements{
         if(body.getFixtureList().first().getUserData().equals("questionBoxDisabled") && active){
             screen.getPreferences().giveSkill(skill);
             screen.getTextManager().displayText("Look at your spellbook, you have a new challenge !", 5);
-            screen.getTextManager().displayText("Congratulations you have acquired a new ability",5,6);
-            screen.getTextManager().displayText(screen.getTextManager().getHint(),5,12);
+            screen.getTextManager().displayText("Congratulations you have acquired a new ability!",4,6);
+            screen.getTextManager().displayText(screen.getTextManager().getHint(),5,9);
             disable();
         }
     }

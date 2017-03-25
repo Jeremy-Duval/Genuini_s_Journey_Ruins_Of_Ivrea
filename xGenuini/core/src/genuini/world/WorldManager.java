@@ -461,24 +461,19 @@ public class WorldManager {
         }
         
         
-        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP))) /*&& screen.getPreferences().hasSkill("doubleJump")screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/){
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.Z) || (Gdx.input.isKeyJustPressed(Input.Keys.UP))) ){
             if (!screen.getContactManager().playerCanJump() && screen.getGenuini().canReJump()){
                 screen.getGenuini().jump(500f);
-                screen.getGenuini().setReJump(false);
+                if (screen.getPreferences().hasSkill("doubleJump")) {
+                    screen.getGenuini().setReJump(false);
+                }
             }
-        /*    if(connected){
-                arduinoInstance.write("book;");
-                System.out.println("book send");
-            }else{
-                arduinoInstance.write("game;10");
-                connected = true;
-            } */
         }
         
         if ((Gdx.input.isKeyPressed(Input.Keys.Z) || (Gdx.input.isKeyPressed(Input.Keys.UP)))){
             if(screen.getContactManager().playerCanJump()){
                 screen.getGenuini().jump(160f);
-                if (/*screen.getPreferences().getProgression()>=ScenarioVariables.DOUBLE_JUMP*/ screen.getPreferences().hasSkill("doubleJump")) {
+                if (screen.getPreferences().hasSkill("doubleJump")) {
                     screen.getGenuini().setReJump(true);
                 }
             }

@@ -26,7 +26,7 @@ const int colorR = 255;
 const int colorG = 0;
 const int colorB = 0;
 
-String sentence[] = {"Be Happy", "Smile my gamer", "I love you"};
+String sentence[] = {"Be Happy", "Smile", "love you"};
 unsigned long previousMillis = 0;
 unsigned long previousMillis2 = 0;
 boolean changeSentence = false;
@@ -139,17 +139,17 @@ void loop() {
         lcd.setRGB(255, 255, 255);
         lcd.clear();
         lcd.setCursor(0, 0);
-        lcd.print("Genuini\001 Journey");
+        lcd.print("Genuini\001");
         lcd.setCursor(0, 1);
-        lcd.print("Main menu");
+        lcd.print("Menu");
         bar.setBits(0x3ff);
         changeSentence = false;
         break;
       case State::Game:
         clearLign(0, 0);
         lcd.setCursor(0, 0);
-        lcd.print("Life: ");
-        lcd.setCursor(6, 0);
+        lcd.print("Life:");
+        lcd.setCursor(5, 0);
         lcd.print(life);
         bar.setLevel(life / 10);
         changeSentence = true;  //changeSentence permet de bloquer le changement de texte sur la phrase en cours
@@ -162,7 +162,7 @@ void loop() {
       case State::Victory:
         lcd.clear();
         lcd.setRGB(0, 255, 0);
-        lcd.print("Congratulation !");
+        lcd.print("Congrats");
         changeSentence = false;
         break; 
       case State::Exit:
@@ -181,7 +181,7 @@ void loop() {
         changeSentence = false;
         clearLign(0, 1);
         lcd.setCursor(0, 1);
-        lcd.print("Open SpellBook App");
+        lcd.print("Book App");
         switchCharacteristic.setValue(1);
         if(blePeripheral.connected() && bluetoothReceive == false){
           Serial.write("test");
