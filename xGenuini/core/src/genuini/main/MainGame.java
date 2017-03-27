@@ -54,7 +54,7 @@ public class MainGame extends Game implements ApplicationListener {
 
         contentManager.loadMusic("sounds/caveMusic.mp3","caveMusic");
         contentManager.getMusic("caveMusic").setLooping(true);
-        contentManager.getMusic("caveMusic").setVolume(0.04f);
+        contentManager.getMusic("caveMusic").setVolume(0.08f);
         
         contentManager.loadSound("sounds/victory.wav", "victory");
         

@@ -182,7 +182,7 @@ void loop() {
         clearLign(0, 1);
         lcd.setCursor(0, 1);
         lcd.print("Book App");
-        switchCharacteristic.setValue(1);
+     /*   switchCharacteristic.setValue(1);
         if(blePeripheral.connected() && bluetoothReceive == false){
           Serial.write("test");
           if(switchCharacteristic.written()){
@@ -192,7 +192,7 @@ void loop() {
             //Serial.end();
           }
           delay(500);
-        }
+        } */
         break;      
       default:
         bar.setBits(0x0);
